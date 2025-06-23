@@ -28,8 +28,17 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Uzair',
                 'email' => 'uzair@atracconsultants.com',
-                'password' => Hash::make('12345678'), // Hashing the password
-                'role' => 0, // Assuming 0 is regular user
+                'password' => Hash::make('123audi789'), // Hashing the password
+                'role' => 1, // Assuming 0 is regular user
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Kamran',
+                'email' => 'kamran@atracconsultants.com',
+                'password' => Hash::make('123audi789'), // Hashing the password
+                'role' => 1, // Assuming 0 is regular user
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),

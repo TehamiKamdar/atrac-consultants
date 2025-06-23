@@ -18,8 +18,8 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
     <link rel="stylesheet" href="{{asset('assets/dist/css/bootstrap.css')}}">
-    <link rel="stylesheet" href="{{ asset('webassets/lib/remixicons-fonts/remixicon.css') }}">
-    <link rel="stylesheet" crossorigin href="{{asset('webassets/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('website/lib/remixicons-fonts/remixicon.css') }}">
+    <link rel="stylesheet" crossorigin href="{{asset('website/style.css')}}">
 
     <title>Atrac Consultants | @stack('title')</title>
     @yield('styles')
@@ -30,7 +30,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="/">
-                <img src="{{asset('webassets/newlogo-removebg-preview-BNhagA2w.png')}}" alt="Atrac Consultants"
+                <img src="{{asset('website/logo.png')}}" alt="Atrac Consultants"
                     class="navbar-logo">
             </a>
 
@@ -111,7 +111,7 @@
             <div class="row g-4">
                 <!-- About Column -->
                 <div class="col-lg-4 col-md-6 footer-col">
-                    <img src="{{ asset('webassets/newlogo-removebg-preview-BNhagA2w.png') }}"
+                    <img src="{{ asset('website/logo.png') }}"
                         alt="Atrac Consultants Logo" class="footer-logo">
                     {{-- <div class="brand-name">Atrac Consultants</div> --}}
                     <p class="mb-4">Providing expert consultancy services with integrity and innovation to help

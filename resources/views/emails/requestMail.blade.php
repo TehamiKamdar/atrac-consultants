@@ -122,13 +122,13 @@
 
       <div style="margin-top: 30px;">
         <h4 style="margin-bottom: 15px;">Need immediate assistance?</h4>
-        <div><span>Email Us: </span><a href="https://mail.google.com/mail/?view=cm&to=atracconsultants@gmail.com&su=University%20Inquiry&body=Hey%20there!%20I%20wanna%20know%20about%20this%20university.%20Send%20me%20details."
+        <div><span>Email: </span><a href="https://mail.google.com/mail/?view=cm&to=atracconsultants@gmail.com&su=University%20Inquiry&body=Hey%20there!%20I%20wanna%20know%20about%20this%20university.%20Send%20me%20details."
           target="_blank">
           atracconsultants@gmail.com
         </a></div>
 
-        <div><span>Call Us: </span>+92 335 3737904</div>
-        <div><span>Timings: </span>Mon-Fri: 9:00 AM - 6:00 PM</div>
+        <div><span>Phone: </span>+92 335 3737904</div>
+        <div><span>Hours: </span>Mon-Fri: 9:00 AM - 6:00 PM</div>
       </div>
 
       <div class="signature">
@@ -139,7 +139,7 @@
     </div>
 
     <div class="footer">
-      <p>&copy; {{ date('Y') }} Atrac Consultants. All rights reserved.</p>
+      <p>&copy; {{ date('Y') }} <span style="color:#2BB673;">Atrac Consultants.</span> All rights reserved.</p>
     </div>
   </div>
 </body>

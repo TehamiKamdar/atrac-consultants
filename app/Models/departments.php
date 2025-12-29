@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class departments extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['program_id', 'name', 'description'];
+
+    public function program()
+    {
+        return $this->belongsTo(programs::class, 'program_id');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(course::class, 'department_id');
+    }
 }

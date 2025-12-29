@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('country_name')->unique()->required();
-            $table->string('slug')->unique()->required();
-            $table->string('country_image')->nullable();
-            $table->string('status')->default('active');
+            $table->string('name',191)->required();
+            $table->string('currency',191)->required();
+            $table->string('iso2',191)->nullable();
+            $table->enum('status', ['active','inactive'])->default('inactive');
             $table->timestamps();
         });
     }

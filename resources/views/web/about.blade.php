@@ -1,4 +1,7 @@
 @extends('layouts.web_layout')
+@push('title')
+About Us
+@endpush
 @section('styles')
 <style>
     :root {
@@ -6,11 +9,24 @@
         --secondary-color: #1E8449;
     }
 
+    body{
+        font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif;
+    }
+    .card-title{
+        font-family: 'Bambino-Bold', sans-serif;
+    }
+
     .about-section {
         background-color: #f8fafc;
     }
 
+    .about-section p {
+        font-family: 'Bambino-Light', sans-serif;
+        background-color: #f8fafc;
+    }
+
     .text-primary {
+        font-family: 'Bambino-Regular', sans-serif;
         color: var(--primary-color) !important;
     }
 
@@ -62,6 +78,9 @@
         font-size: 1.1rem;
         line-height: 1.7;
     }
+    .h4{
+            font-family: 'Bambino-Bold', sans-serif;
+    }
 
     @media (max-width: 768px) {
         .leader-avatar {
@@ -100,7 +119,7 @@
         <!-- Value Proposition Section -->
         <div class="value-props py-5">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3">Why Choose Atrac Consultants</h2>
+                <h2 class="h4 display-5 fw-bold mb-3">Why Choose Atrac Consultants</h2>
                 <p class="lead text-muted">Our commitment to excellence sets us apart</p>
             </div>
 
@@ -167,35 +186,36 @@
             </div>
         </div>
 
-        <!-- Leadership Section -->
         <div class="leadership-section mt-5">
-            <div class="card border-0 shadow-sm">
-                <div class="row g-0">
-                    <div class="col-md-4 d-flex align-items-center justify-content-center p-4">
-                        <div class="leader-avatar">
-                            <i class="ri-user-3-line leader-icon"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body p-4 p-md-5">
-                            <h2 class="card-title fw-bold mb-3">Leadership Message</h2>
-                            <h3 class="h4 text-primary mb-4">Uzair Yameen, Founder & CEO</h3>
-                            <div class="leader-message">
-                                <p class="mb-3">
-                                    Our success stems from deep understanding of global education trends and immigration processes. We've simplified what was once complex, making international education accessible to all.
-                                </p>
-                                <p class="mb-3">
-                                    At Atrac Consultants, we've built a system that actively promotes foreign education opportunities while maintaining the highest standards of service and ethical practice.
-                                </p>
-                                <p class="mb-0 fw-bold">
-                                    I invite you to explore how we can help you achieve your international education goals.
-                                </p>
-                            </div>
-                        </div>
+    <!-- Leader's Card -->
+    <div class="card border-0 shadow-sm mb-5">
+        <div class="row g-0">
+            <div class="col-md-4 d-flex align-items-center justify-content-center p-4">
+                <div class="leader-avatar">
+                    <i class="ri-user-3-line leader-icon"></i>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="card-title fw-bold mb-3">Voice of Leader</h2>
+                    <h3 class="h4 text-primary mb-4">Founder & CEO</h3>
+                    <div class="leader-message">
+                        <p class="mb-3">
+                            Our success stems from deep understanding of global education trends and immigration processes. We've simplified what was once complex, making international education accessible to all.
+                        </p>
+                        <p class="mb-3">
+                            At Atrac Consultants, we've built a system that actively promotes foreign education opportunities while maintaining the highest standards of service and ethical practice.
+                        </p>
+                        <p class="mb-0 fw-bold" style="font-family: 'Bambino-Bold', sans-serif; font-size: 22px;">
+                            I invite you to explore how we can help you achieve your international education goals.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
     </div>
 </section>
 

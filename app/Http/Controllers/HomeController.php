@@ -14,6 +14,7 @@ use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
@@ -51,7 +52,7 @@ class HomeController extends Controller
 
         contacts::create($validated);
 
-        Mail::to(users: '')->send(new ContactEmail($validated));
+        // Mail::to(users: '')->send(new ContactEmail($validated));
 
         return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
     }
@@ -95,7 +96,7 @@ class HomeController extends Controller
         $consult->percentage = $req->percentage;
         $consult->field = $req->field;
         $consult->office_location = $req->office_location;
-        $consult->date = $req->meeting_datetime;
+        $consult->date = $req->date;
 
         if ($req->office_location == 'islamabad') {
             $data = [
@@ -135,8 +136,8 @@ class HomeController extends Controller
 
         Mail::to($adminEmail)->send(new AdminInquiryAlertMail($data));
 
-
         $consult->save();
+
         return redirect()->back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
     }
 
@@ -197,5 +198,10 @@ class HomeController extends Controller
             'state',
             'city'
         ));
+    }
+
+    public function checkEmail(Request $request){
+        $emailExists = consults::where('email', $request->email)->exists();
+        return response()->json(['exists'=>$emailExists]);
     }
 }

@@ -46,7 +46,7 @@
     <link rel="stylesheet" href="{{ asset('website/style.css') }}">
 
     <!-- jQuery (must be first) -->
-    <script src="{{ asset('website/lib/js/jquery.min.js') }}" defer></script>
+    <script src="{{ asset('website/lib/js/jquery.min.js') }}"></script>
 
     <!-- Bootstrap Bundle -->
     <script src="{{ asset('website/lib/bootstrap/bootstrap.bundle.min.js') }}" defer></script>
@@ -255,7 +255,7 @@
             </div>
         </div>
     </footer>
-    <script>
+    {{-- <script>
         // Disable right-click
         document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -268,7 +268,7 @@
                 e.preventDefault();
             }
         });
-    </script>
+    </script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof $ !== 'undefined' && typeof $.fn.owlCarousel !== 'undefined') {

@@ -22,6 +22,7 @@ $fields = \App\Models\fields::all();
                     <i class="ri-mail-line text-muted"></i>
                 </span>
                 <input type="email" class="form-control" id="email" name="email" placeholder="your@email.com" required>
+            <div class="invalid-feedback" id="emailError"></div>
             </div>
         </div>
     </div>
@@ -96,6 +97,7 @@ $fields = \App\Models\fields::all();
     <div class="mb-4">
         <label for="date" class="form-label fw-semibold">When You Can Meet<span class="text-danger">*</span></label>
         <input type="date" class="form-control" id="date" name="date" required>
+        <div class="invalid-feedback" id="dateError"></div>
     </div>
 
     <div class="mb-4">
@@ -105,7 +107,7 @@ $fields = \App\Models\fields::all();
     </div>
 
     <div class="d-grid">
-        <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+        <button type="submit" class="btn btn-primary btn-lg fw-semibold" disabled>
             <i class="ri-calendar-check-line me-2"></i> Book Free Consultation
         </button>
     </div>

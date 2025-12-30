@@ -50,3 +50,5 @@ Route::get('/explode',function(){
 
     return view('test.views', compact('exploded'));
 });
+
+Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');

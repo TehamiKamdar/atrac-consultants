@@ -18,6 +18,18 @@
             });
         </script>
     @endif
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                iziToast.error({
+                    title: 'Error!',
+                    message: '{{ session('error') }}',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        </script>
+    @endif
 
 
     {{-- Hero Section --}}
@@ -26,7 +38,7 @@
         <div class="container">
             <div class="hero-content">
                 <h2 class="hero-subtitle" id="previewShortHeading">
-                    Spring 2026 Intake Open 
+                    Spring 2026 Intake Open
                 </h2>
                 <h1 class="hero-title text-white" id="element"></h1>
                 <p class="hero-description" id="previewParagraph">

@@ -1,13 +1,21 @@
 @extends('layouts.web_layout')
 @push('title')
-    Details - {{$name}}
+    {{$details->meta_title}}
 @endpush
 
 @section('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <style>
+        body {
+            font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif;
+        }
+
         .country-details-section {
             background-color: #f8fafc;
+        }
+
+        h2 {
+            font-family: 'Bambino-Bold', sans-serif;
         }
 
         .card {
@@ -23,12 +31,14 @@
         .content-text {
             font-size: 1.05rem;
             line-height: 1.7;
+            font-family: 'Bambino-Regular', sans-serif;
             color: #495057;
         }
 
         .list-group-item {
             padding-left: 0;
             border-left: 0;
+            font-family: 'Bambino-Light', sans-serif !important;
             border-right: 0;
         }
 
@@ -99,8 +109,8 @@
             --bs-btn-active-border-color: #2BB673;
             white-space: normal;
         }
-        .swiper-container{
-        }
+
+        .swiper-container {}
 
         .swiper-button-next,
         .swiper-button-prev {
@@ -129,6 +139,135 @@
         .swiper-button-prev::after {
             font-size: 1.2rem;
         }
+
+        .insights-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .insights-message {
+            position: relative;
+            z-index: 2;
+            color: var(--primary-green);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-family: 'Bambino-Bold', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animated shapes */
+        .shape {
+            position: absolute;
+            background-color: hsl(100, 98%, 65%);
+            opacity: 0.3;
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            top: -50px;
+            left: -50px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 100px;
+            height: 100px;
+            bottom: 20px;
+            right: 50px;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            right: -20px;
+            animation: float 18s ease-in-out infinite;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            bottom: -30px;
+            left: 30%;
+            animation: float 14s ease-in-out infinite reverse;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, 20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(0, 30px) rotate(0deg);
+            }
+
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+        }
+
+        /* Blob animation */
+        .blob {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background-color: #D0F0C0;
+            opacity: 0.2;
+            border-radius: 50%;
+            filter: blur(30px);
+            animation: blob-animate 20s linear infinite;
+            z-index: 1;
+        }
+
+        .blob-1 {
+            top: 20%;
+            left: 10%;
+        }
+
+        .blob-2 {
+            bottom: 10%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        @keyframes blob-animate {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            33% {
+                transform: scale(1.1) translate(50px, 30px);
+            }
+
+            66% {
+                transform: scale(0.9) translate(-30px, 50px);
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
     </style>
 @endsection
 
@@ -151,35 +290,40 @@
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     About {{$countryName}}
                                 </a>
-                                <a href="#work-opportunity"
+                                <a href="#environment"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Part-Time & Post-Study Work Opportunities
-                                </a>
-                                <a href="#cost-of-studying"
-                                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
-                                    <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Cost of Studying for International Students
+                                    Life in {{$countryName}} (Climate & Language)
                                 </a>
                                 <a href="#requirement"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     Admission & English Proficiency Requirements
                                 </a>
-                                <a href="#environment"
+                                <a href="#cost-of-studying"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Life in {{$name}} (Climate & Language)
+                                    Cost of Studying for International Students
                                 </a>
                                 <a href="#visa-requirement"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     Student visa requirements
                                 </a>
+                                <a href="#work-opportunity"
+                                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+                                    <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
+                                    Part-Time & Post-Study Work Opportunities
+                                </a>
                                 <a href="#book-a-meeting"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     Book a Meeting with expert
+                                </a>
+                                <a href="#university"
+                                    class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
+                                    <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
+                                    Explore the range of universities in {{ $countryName }}
                                 </a>
                             </div>
                         </div>
@@ -193,6 +337,9 @@
                                 About {{$countryName}}
                             </h2>
                             <div class="content-text">
+                                {{$details->meta_description}}
+                                <br>
+                                <br>
                                 {{$details->country_description}}
                             </div>
                         </div>
@@ -235,30 +382,32 @@
                                 Admission requirements in {{$countryName}}
                             </h2>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>CV</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Passport</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Health insurance for overseas students</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>All educational documents</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Experience letter (in case of gap)</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>English language test, such as, IELTS/PTE (if any)</span>
-                                </li>
+                                @if (!empty($details->admission_requirements))
+                                    @foreach ($details->admission_requirements as $areq)
+                                        <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                            <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
+                                            <span>{{ $areq }}</span>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <div class="insights-container">
+                                        <!-- Animated background shapes -->
+                                        <div class="shape shape-1"></div>
+                                        <div class="shape shape-2"></div>
+                                        <div class="shape shape-3"></div>
+                                        <div class="shape shape-4"></div>
+
+                                        <!-- Blob effects -->
+                                        <div class="blob blob-1"></div>
+                                        <div class="blob blob-2"></div>
+
+                                        <!-- Message content -->
+                                        <div class="insights-message">
+                                            We are gathering our insights on the admission requirements based in <span
+                                                id="country-name">{{$countryName}}! Stay Tuned.</span>
+                                        </div>
+                                    </div>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -284,39 +433,32 @@
                                 Student visa requirements in {{$countryName}}
                             </h2>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>A valid passport</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Polio certificate</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Visa application fee</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Passport-sized pictures</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Proof of enrolment (your electronic confirmation of enrolment eCOE)</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>A Genuine Temporary Entrant (GTE) statement</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Details of health insurance policy (OSHC)</span>
-                                </li>
-                                <li class="list-group-item border-0 ps-0 d-flex align-items-start">
-                                    <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
-                                    <span>Financial proof that you can afford living expenses, tuition fees, return airfare,
-                                        expenses for dependents</span>
-                                </li>
+                                @if (!empty($details->visa_requirements))
+                                    @foreach ($details->visa_requirements as $vreq)
+                                        <li class="list-group-item border-0 ps-0 d-flex align-items-start">
+                                            <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
+                                            <span>{{ $vreq }}</span>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <div class="insights-container">
+                                        <!-- Animated background shapes -->
+                                        <div class="shape shape-1"></div>
+                                        <div class="shape shape-2"></div>
+                                        <div class="shape shape-3"></div>
+                                        <div class="shape shape-4"></div>
+
+                                        <!-- Blob effects -->
+                                        <div class="blob blob-1"></div>
+                                        <div class="blob blob-2"></div>
+
+                                        <!-- Message content -->
+                                        <div class="insights-message">
+                                            We are gathering our insights on the visa requirements based in <span
+                                                id="country-name">{{$countryName}}! Stay Tuned.</span>
+                                        </div>
+                                    </div>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -342,19 +484,59 @@
                                 Book a Meeting with expert
                             </h2>
                             <div class="content-text">
-                                <p>Are you interested in studying abroad but not sure where to start? Our team of experts is
-                                    here to help! By filling out our simple meeting request form, you can schedule a
-                                    one-on-one consultation to discuss your study abroad options, fees, scholarships, and
-                                    more. We offer guidance for over 60 countries, so whether you're interested in
-                                    {{$countryName}}, Asia, the Americas, or anywhere in between, we've got you covered.
+                                <p class="mt-3">
+                                    Whether you choose to study in {{ $countryName }}, our team will guide you from
+                                    selecting the right university to securing scholarships and visas, making your journey
+                                    smooth and stress-free.
                                 </p>
-                                <p class="mt-3">Our consultation service is completely free, and our team is dedicated to
-                                    helping you achieve your study abroad goals. We understand that the process can be
-                                    overwhelming, but we're here to provide personalized advice and support every step of
-                                    the way. Don't miss out on the opportunity to explore the world and broaden your
-                                    horizons through international education.</p>
-                                <p class="mt-3">Book your meeting today and let us help you make your study abroad dreams a
-                                    reality.</p>
+
+                                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+                                    data-bs-target="#applyNowModal">
+                                    Apply Now
+                                </button>
+                                <div class="modal fade" id="applyNowModal" tabindex="-1"
+                                    aria-labelledby="applyNowModalLabel" aria-hidden="true">
+                                    <div class="modal-xl modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title text-white" id="applyNowModalLabel">Apply Now</h5>
+                                                <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @include('include.form', ['layout' => 'modal'])
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Universities -->
+                    <div class="card border-0 shadow-sm mb-5" id="university">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="fw-bold mb-4 d-flex align-items-center">
+                                <i class="ri-calendar-check-line text-primary me-3" style="color: #2BB673;"></i>
+                                Explore Study Opportunities in {{ $countryName }}
+                            </h2>
+                            <div class="content-text">
+                                <p class="mt-3">
+                                    Discover the best universities and educational programs in {{ $countryName }}.
+                                    Our comprehensive guide will help you find the perfect institution that matches
+                                    your academic goals and career aspirations.
+                                </p>
+
+                                <p>
+                                    Learn about admission requirements, tuition fees, scholarships, and student life
+                                    to make an informed decision about your international education journey.
+                                </p>
+
+                                <div class="d-flex gap-3 mt-4">
+                                    <a href="{{ route('university.list', $details->slug) }}" class="btn btn-primary">
+                                        <i class="ri-building-2-line me-2"></i> Explore Universities of {{ $countryName }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -364,89 +546,14 @@
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-lg sticky-top" style="top: 120px; z-index:50;">
                         <div class="card-header bg-primary text-white py-3">
-                            <h3 class="mb-0 text-center fw-bold d-flex align-items-center justify-content-center">
+                            <h3 class="mb-0 text-center fw-bold d-flex align-items-center justify-content-center"
+                                style="font-family:'Bambino-Regular',sans-serif;">
                                 <i class="ri-calendar-check-line me-2"></i>
                                 Book Free Consultation
                             </h3>
                         </div>
                         <div class="card-body p-4">
-                            <form action="{{route('consultation')}}" method="POST">
-                                @csrf
-                                <div class="mb-3">
-                                    <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light">
-                                            <i class="ri-user-line"></i>
-                                        </span>
-                                        <input type="text" class="form-control" name="name" placeholder="John Doe" required>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light">
-                                            <i class="ri-mail-line"></i>
-                                        </span>
-                                        <input type="email" class="form-control" name="email" placeholder="your@email.com"
-                                            required>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light">
-                                            <i class="ri-phone-line"></i>
-                                        </span>
-                                        <input type="tel" class="form-control" name="phone" placeholder="+92 300 1234567"
-                                            required>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Country of Interest</label>
-                                    <input type="text" class="form-control" value="{{$countryName}}" disabled>
-                                    <input type="hidden" name="country" value="{{$details->country_id}}">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Field of Interest <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="field" required>
-                                        <option value="" selected disabled>Select field</option>
-                                        @foreach ($fields as $f)
-                                            <option value="{{$f->field}}">{{$f->field}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Qualification <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="qualification" required>
-                                        <option value="" selected disabled>Select qualification</option>
-                                        <option value="Intermediate">Intermediate</option>
-                                        <option value="Bachelors">Bachelors</option>
-                                        <option value="Masters">Masters</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label">Percentage/GPA <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light">
-                                            <i class="ri-percent-line"></i>
-                                        </span>
-                                        <input type="number" class="form-control" name="percentage" max="100"
-                                            placeholder="e.g. 85" required>
-                                    </div>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg fw-bold">
-                                        <i class="ri-send-plane-line me-2"></i> Book Now
-                                    </button>
-                                </div>
-                            </form>
+                            @include('include.form', ['layout' => 'narrow'])
                         </div>
                     </div>
                 </div>
@@ -454,41 +561,72 @@
         </div>
     </div>
 
-    <div class="universities-slider mt-5 mb-5">
+    {{-- <div class="universities-slider mt-5 mb-5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <h2 class="fw-bold mb-4">Universities in {{$countryName}}</h2>
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            @foreach ($universities as $uni)
-                                <div class="swiper-slide">
-                                    <div class="card shadow-sm border-0 h-100">
-                                        <div class="card-body text-center p-4">
-                                            <div class="university-logo mb-4">
-                                                <img src="{{$uni->logo}}" alt="{{$uni->university_name}}"
-                                                    class="img-fluid mx-auto" style="max-height: 80px; width: auto;">
+                    @if ($universities->count() > 0)
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                @foreach ($universities as $uni)
+                                    @php
+                                    $name = strtolower($uni->country_name);
+                                    @endphp
+                                    <div class="swiper-slide">
+                                        <div class="card shadow-sm border-0 h-100">
+                                            <div class="card-body text-center p-4">
+                                                <div class="university-logo mb-4">
+                                                    @if (!empty($uni->image))
+                                                        <img src="{{ $uni->image }}" alt="{{$uni->name}}"
+                                                        class="img-fluid mx-auto" style="max-height: 80px; width: auto;">
+                                                    @else
+                                                        <img src="{{ asset('website/favicon.svg')}}" alt="{{$uni->name}}"
+                                                        class="img-fluid mx-auto" style="max-height: 80px; width: auto;">
+                                                    @endif
+                                                </div>
+                                                <a href="{{route('university.details', [$name, $uni->slug])}}"
+                                                    class="btn btn-outline-primary btn-sm px-4 py-2 mt-3">
+                                                    {{$uni->name}}
+                                                </a>
                                             </div>
-                                            <a href="{{route('university.details', $uni->slug)}}"
-                                                class="btn btn-outline-primary btn-sm px-4 py-2 mt-3">
-                                                {{$uni->university_name}}
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
+
+                            <!-- Navigation buttons -->
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    @else
+                        <div class="insights-container">
+                            <!-- Animated background shapes -->
+                            <div class="shape shape-1"></div>
+                            <div class="shape shape-2"></div>
+                            <div class="shape shape-3"></div>
+                            <div class="shape shape-4"></div>
+
+                            <!-- Blob effects -->
+                            <div class="blob blob-1"></div>
+                            <div class="blob blob-2"></div>
+
+                            <!-- Message content -->
+                            <div class="insights-message">
+                                We are gathering our insights on the universities based in <span
+                                    id="country-name">{{$countryName}}! Stay Tuned.</span>
+                            </div>
                         </div>
 
-                        <!-- Navigation buttons -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 @section('scripts')
+    <script src="{{ asset('website/forms.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

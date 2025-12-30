@@ -10,7 +10,7 @@
     }
 
     body {
-        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-family: 'Bambino-Regular', sans-serif;
         background-color: #f5f7fa;
     }
 
@@ -36,17 +36,22 @@
 
     .review-text {
         color: var(--dark);
+        font-family: 'Bambino-Regular', sans-serif;
         line-height: 1.6;
         margin-bottom: 1.5rem;
+        min-height: 200px;
+        overflow-y: hidden
     }
 
     .review-author {
         font-weight: 600;
+        font-family: 'Bambino-Bold', sans-serif;
         color: var(--dark);
         margin-bottom: 0.25rem;
     }
 
     .review-date {
+        font-family: 'Bambino-Light', sans-serif;
         color: var(--gray);
         font-size: 0.85rem;
     }
@@ -89,39 +94,39 @@
         background: var(--primary);
     }
 </style>
-</head>
-
-<body>
-    <div class="container py-5 my-4">
-        <div class="text-center mb-5">
-            <h2 class="section-title d-inline-block">Customer Reviews</h2>
-            <p class="text-muted">What our customers say about us</p>
-        </div>
-
-        <!-- Swiper Container -->
-        <div class="swiper reviewSwiper">
-            <div class="swiper-wrapper" id="reviews-container">
-                <!-- Reviews will be loaded here -->
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary"></div>
-                    <p class="mt-3">Loading reviews...</p>
-                </div>
-            </div>
-
-            <!-- Navigation buttons -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-        </div>
+<div class="container py-5 my-4">
+    <div class="text-center mb-5">
+        <h2 class="section-title d-inline-block">Customer Reviews</h2>
+        <p class="text-muted">What our customers say about us</p>
     </div>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- Swiper Container -->
+    <div class="swiper reviewSwiper">
+        <div class="swiper-wrapper" id="reviews-container">
+            <!-- Reviews will be loaded here -->
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-3">Loading reviews...</p>
+            </div>
+        </div>
 
-    <script>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<!-- Swiper JS -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         // Initialize Swiper
         const swiper = new Swiper('.reviewSwiper', {
             slidesPerView: 1,
+            loop:true,
+            autoplay:true,
             spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
@@ -162,32 +167,35 @@
 
             if (!data) {
                 container.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <i class="ri-error-warning-line text-danger" style="font-size: 2rem;"></i>
-                        <p class="mt-3">Failed to load reviews. Please try again later.</p>
-                    </div>
-                `;
+                <div class="col-12 text-center py-5">
+                    <i class="ri-error-warning-line text-danger" style="font-size: 2rem;"></i>
+                    <p class="mt-3">Failed to load reviews. Please try again later.</p>
+                </div>
+            `;
                 return;
             }
 
             container.innerHTML = data.map(review => `
-                <div class="swiper-slide">
-                    <div class="review-card">
-                        <div class="review-rating">
-                            ${renderStars(review.stars)}
-                        </div>
-                        <p class="review-text">${review.text ? review.text : "Great Services"}</p>
-                        <div>
-                            <p class="review-author">${review.name}</p>
-                            <p class="review-date">${new Date(review.publishedAtDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric'
-                            })}</p>
-                        </div>
+            <div class="swiper-slide">
+                <div class="review-card">
+                    <div class="review-rating">
+                        ${renderStars(review.stars)}
+                    </div>
+                    <p class="review-text">${review.text
+                        ? review.text.substring(0, 180) + (review.text.length > 180 ? '...' : '')
+                        : "Great Services"}
+                    </p>
+                    <div>
+                        <p class="review-author">${review.name}</p>
+                        <p class="review-date">${new Date(review.publishedAtDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    })}</p>
                     </div>
                 </div>
-            `).join('');
+            </div>
+        `).join('');
 
             // Update Swiper after loading new slides
             swiper.update();
@@ -202,11 +210,12 @@
                     : i - 0.5 <= rating
                         ? '<i class="ri-star-half-line"></i>'
                         : '<i class="ri-star-line"></i>';
-                stars += ' '; // Add space between stars
+                stars += ' ';
             }
             return stars;
         }
 
-        // Load reviews when page loads
-        document.addEventListener('DOMContentLoaded', displayReviews);
-    </script>
+        // Load reviews now that DOM is ready
+        displayReviews();
+    });
+</script>

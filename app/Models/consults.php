@@ -7,5 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class consults extends Model
 {
-    use HasFactory;
+    protected $table = 'consults';
+
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'message',
+        'qualification',
+        'country_id',
+        'field',
+        'percentage',
+        'office_location',
+        'status',
+        'date',
+        'time',
+        'reason'
+    ];
 }

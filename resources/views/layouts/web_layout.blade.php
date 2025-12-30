@@ -4,34 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="description"
+        content="{{ $description ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
+    <meta property="og:title"
+        content="{{ $meta_title ?? "Atrac Consultants. Trusted by students, recommended by success" }}">
+    <meta property="og:description"
+        content="{{ $meta_description ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
+    <!-- Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    </noscript>
 
-    <link href="https://fonts.cdnfonts.com/css/bambino-2" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-    <link rel="stylesheet" href="{{asset('assets/dist/css/bootstrap.css')}}">
+    <!-- Favicon (no problem) -->
+    <link rel="shortcut icon" href="{{ asset('website/favicon.svg') }}" type="image/x-icon">
+
+    <!-- Custom Font -->
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/bambino-2">
+
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="{{ asset('website/lib/css/owl.carousel.min.css') }}">
+
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="{{ asset('website/lib/css/slick.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('website/lib/css/slick-theme.min.css') }}">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="{{ asset('website/lib/css/animate.min.css') }}">
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('website/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Remix Icons -->
     <link rel="stylesheet" href="{{ asset('website/lib/remixicons-fonts/remixicon.css') }}">
-    <link rel="stylesheet" crossorigin href="{{asset('website/style.css')}}">
+
+    <!-- iziToast CSS -->
+    <link rel="stylesheet" href="{{ asset('website/lib/iziToast/iziToast.min.css') }}">
+
+    <!-- Your Main CSS -->
+    <link rel="stylesheet" href="{{ asset('website/style.css') }}">
+
+    <!-- jQuery (must be first) -->
+    <script src="{{ asset('website/lib/js/jquery.min.js') }}" defer></script>
+
+    <!-- Bootstrap Bundle -->
+    <script src="{{ asset('website/lib/bootstrap/bootstrap.bundle.min.js') }}" defer></script>
+
+    <!-- Slick Carousel -->
+    <script src="{{ asset('website/lib/js/slick.min.js') }}" defer></script>
+
+    <!-- Typed.js -->
+    <script src="{{ asset('website/lib/js/typed.js') }}" defer></script>
+
+    <!-- Owl Carousel -->
+    <script src="{{ asset('website/lib/js/owl.carousel.min.js') }}" defer></script>
+
+    {{-- Swiper --}}
+    <script src="{{ asset('website/lib/js/swiper-bundle.min.js') }}" defer></script>
+
+    <!-- iziToast JS -->
+    <script src="{{ asset('website/lib/iziToast/iziToast.min.js') }}" defer></script>
 
     <title>Atrac Consultants | @stack('title')</title>
+    <style>
+        /* Disable text selection */
+        body {
+            -webkit-user-select: none;
+            /* Safari */
+            -ms-user-select: none;
+            /* IE 10+ */
+            user-select: none;
+            /* Standard */
+        }
+    </style>
     @yield('styles')
 </head>
 
 <body>
+    <div class="marquee-container">
+        <div class="marquee">
+            🎉 Exciting News! We'll be coming to <strong>Lahore</strong> soon! Stay tuned for updates! 🎉
+        </div>
+    </div>
     <nav class="atrac-navbar navbar navbar-expand-lg" style="z-index: 100">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="/">
-                <img src="{{asset('website/logo.png')}}" alt="Atrac Consultants"
-                    class="navbar-logo">
+                <img src="{{asset('website/logo.png')}}" alt="Atrac Consultants" class="navbar-logo">
             </a>
 
             <!-- Mobile Toggle Button -->
@@ -44,29 +104,47 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link-item {{ Route::is('user-home') ? 'active' : '' }}" href="/">Home</a>
+                        <a class="nav-link-item {{ Route::is('home') ? 'active' : '' }}" href="/">Home</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link-item {{ Route::is('about') ? 'active' : '' }}"
+                            href="{{route('about')}}">About Us</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link-item" href="{{ '/' . '#whychooseus' }}">Why Choose Us</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link-item" href="{{ '/' . '#country' }}">Countries</a>
+
+                    <!-- Countries Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link-item" href="#" id="countriesDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Countries
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="countriesDropdown"
+                            style="background-color: #f8f8f8; width: 400px;">
+                            @foreach ($countries as $country)
+                                <li>
+                                    <a class="dropdown-item dropdown-toggle"
+                                        href="{{route('country-details', strtolower($country->name))}}"
+                                        style="color: #333; padding: 8px 16px;">{{ $country->name }}</a>
+
+                                </li>
+                            @endforeach
+                        </ul>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link-item" href="{{'/' . '#blog'}}">Blog</a>
+                        <a class="nav-link-item" href="{{ '/' . '#form' }}">Book an Appointment</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link-item" href="{{ '/' . '#consultation' }}">Book an Appointment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link-item {{ Route::is('user-about') ? 'active' : '' }}"
-                            href="{{route('user-about')}}">About Us</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link-item {{ Route::is('contact') ? 'active' : '' }}"
                             href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -78,25 +156,30 @@
                 <a class="mobile-nav-link active" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="mobile-nav-link" href="#country">Countries</a>
+                <a class="mobile-nav-link" href="{{route('about')}}">About Us</a>
             </li>
             <li class="nav-item">
-                <a class="mobile-nav-link" href="#whatwedo">What We Do</a>
+                <a class="nav-link-item" href="{{ '/' . '#whychooseus' }}">Why Choose Us</a>
+            </li>
+            <!-- Countries Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link-item" href="#" id="countriesDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Countries
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="countriesDropdown" style="background-color: #f8f8f8;">
+                    @foreach ($countries as $country)
+                        <li><a class="dropdown-item" href="{{route('country-details', strtolower($country->name))}}"
+                                style="color: #333; padding: 8px 16px;">{{ $country->name }}</a></li>
+                    @endforeach
+                </ul>
             </li>
             <li class="nav-item">
-                <a class="mobile-nav-link" href="#whychooseus">Why Choose Us</a>
+                <a class="nav-link-item" href="{{ '/' . '#form' }}">Book an Appointment</a>
             </li>
             <li class="nav-item">
-                <a class="mobile-nav-link" href="#testimonial">Testimonials</a>
-            </li>
-            <li class="nav-item">
-                <a class="mobile-nav-link" href="#blog">Blog</a>
-            </li>
-            <li class="nav-item">
-                <a class="mobile-nav-link" href="./contact.html">Contact Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="mobile-nav-link" href="{{route('user-about')}}">About Us</a>
+                <a class="nav-link-item {{ Route::is('contact') ? 'active' : '' }}"
+                    href="{{ route('contact') }}">Contact Us</a>
             </li>
         </ul>
     </div>
@@ -111,42 +194,22 @@
             <div class="row g-4">
                 <!-- About Column -->
                 <div class="col-lg-4 col-md-6 footer-col">
-                    <img src="{{ asset('website/logo.png') }}"
-                        alt="Atrac Consultants Logo" class="footer-logo">
+                    <img src="{{ asset('website/logo.png') }}" alt="Atrac Consultants Logo" class="footer-logo">
                     {{-- <div class="brand-name">Atrac Consultants</div> --}}
                     <p class="mb-4">Providing expert consultancy services with integrity and innovation to help
                         businesses thrive in competitive markets.</p>
-
-                    <div class="contact-info">
-                        <p>
-                            <i class="ri-map-pin-2-fill"></i>
-                            <span>Office #101, Silver Trade Center, Block 13 A<br>Gulshan-e-Iqbal, Karachi,
-                                Pakistan</span>
-                        </p>
-                        <p>
-                            <i class="ri-time-fill"></i>
-                            <span>Mon-Sat | 10AM-8PM</span>
-                        </p>
-                        <p>
-                            <i class="ri-phone-fill"></i>
-                            <span>+92 300 1234567</span>
-                        </p>
-                        <p>
-                            <i class="ri-mail-fill"></i>
-                            <span>info@atracconsultants.com</span>
-                        </p>
-                    </div>
                 </div>
 
                 <!-- Quick Links Column -->
                 <div class="col-lg-4 col-md-6 footer-col">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="{{ route('user-home') }}"><i class="ri-arrow-right-s-line"></i> Home</a></li>
-                        <li><a href="{{ route('user-about') }}"><i class="ri-arrow-right-s-line"></i> About Us</a></li>
-                        <li><a href="{{ '/' . '#country' }}"><i class="ri-arrow-right-s-line"></i> Countries We Offer</a>
+                        <li><a href="{{ route('home') }}"><i class="ri-arrow-right-s-line"></i> Home</a></li>
+                        <li><a href="{{ route('about') }}"><i class="ri-arrow-right-s-line"></i> About Us</a></li>
+                        <li><a href="{{ '/' . '#country' }}"><i class="ri-arrow-right-s-line"></i> Countries We
+                                Offer</a>
                         </li>
-                        <li><a href="{{ '/' . '#whychooseus' }}"><i class="ri-arrow-right-s-line"></i> Our Services</a>
+                        <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Our Locations</a>
                         </li>
                         <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Contact</a></li>
                     </ul>
@@ -154,7 +217,7 @@
 
                 <!-- Social/Newsletter Column -->
                 <div class="col-lg-4 col-md-6 footer-col">
-                    <h3 class="footer-heading">Stay Connected</h3>
+                    {{-- <h3 class="footer-heading">Stay Connected</h3>
                     <p>Subscribe to our newsletter for industry insights and company updates.</p>
 
                     <form class="mb-4">
@@ -166,15 +229,16 @@
                                 <i class="ri-send-plane-fill"></i>
                             </button>
                         </div>
-                    </form>
+                    </form> --}}
 
-                    <h4 class="mt-4 mb-3">Follow Us</h4>
+                    <h3 class="footer-heading">Follow Us</h3>
                     <div class="social-links">
-                        <a href="#"><i class="ri-twitter-x-fill"></i></a>
-                        <a href="#"><i class="ri-facebook-fill"></i></a>
-                        <a href="#"><i class="ri-linkedin-fill"></i></a>
-                        <a href="#"><i class="ri-instagram-line"></i></a>
-                        <a href="#"><i class="ri-youtube-fill"></i></a>
+                        <a href="https://www.facebook.com/atracconsultants"><i class="ri-facebook-fill"></i></a>
+                        <a href="https://www.instagram.com/atracconsultants"><i class="ri-instagram-line"></i></a>
+                        <a href="https://www.youtube.com/@AtracConsultants"><i class="ri-youtube-fill"></i></a>
+                        <a href="https://www.linkedin.com/in/atrac-consultants-54158a316/"><i
+                                class="ri-linkedin-fill"></i></a>
+                        <a href="https://www.tiktok.com/@atracconsultants"><i class="ri-tiktok-fill"></i></a>
                     </div>
                 </div>
             </div>
@@ -183,43 +247,53 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="copyright">
-                        &copy; {{ date('Y') }} <span class="text-primary">Atrac Consultants.</span> All rights reserved.
+                    <div class="copyright" style="letter-spacing: 0.5;">
+                        &copy; 2020 - {{ date('Y') }} <span class="text-primary"
+                            style="font-family: 'Bambino-Bold'">Atrac Consultants.</span> All rights reserved.
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    <script src="{{asset('assets/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.js"
-        integrity="sha512-tQQXRDB2wEmuJGtFrmmoFYzNTq8StA1XJrfO0OQbbTxd9G0CwaTDL6/C1y805IlvBVrMwOqob1kf6r/2U5XXVg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
-        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
 
-    <script type="text/javascript">
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            margin: 10,
-            nav: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                600: {
-                    items: 3
-                },
-                1000: {
-                    items: 5
-                }
+        // Disable keyboard shortcuts (Ctrl+U, Ctrl+C, Ctrl+S, F12)
+        document.addEventListener('keydown', function (e) {
+            if (
+                (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c')) ||
+                e.key === 'F12'
+            ) {
+                e.preventDefault();
             }
-        })
-
+        });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof $ !== 'undefined' && typeof $.fn.owlCarousel !== 'undefined') {
+                $('.owl-carousel').owlCarousel({
+                    loop: true,
+                    margin: 10,
+                    nav: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 3
+                        },
+                        1000: {
+                            items: 5
+                        }
+                    }
+                });
+            } else {
+                console.warn('Owl Carousel not loaded properly.');
+            }
+        });
+    </script>
+
     @yield('scripts')
 </body>
 

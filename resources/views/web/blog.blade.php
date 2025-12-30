@@ -9,6 +9,9 @@
             --light-color: #f8f9fa;
             --dark-color: #212529;
         }
+        body{
+            font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif;
+        }
     /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://source.unsplash.com/random/1200x600/?nature,green') no-repeat center center !important;

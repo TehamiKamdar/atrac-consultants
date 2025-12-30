@@ -1,29 +1,43 @@
 @extends('layouts.web_layout')
 
+
 @push('title')
     Home
 @endpush
 
 @section('content')
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                iziToast.success({
+                    title: 'Success!',
+                    message: '{{ session('success') }}',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        </script>
+    @endif
+
 
     {{-- Hero Section --}}
 
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <h2 class="hero-subtitle">September to February</h2>
-                <h1 class="hero-title" id="element">Last Call</h1>
-                <p class="hero-description">
-                    Discover the realm of opportunity with free access to individual consultation
-                    and learn about new scholarships in top study destinations worldwide.
+                <h2 class="hero-subtitle" id="previewShortHeading">
+                    Spring 2026 Intake Open 
+                </h2>
+                <h1 class="hero-title text-white" id="element"></h1>
+                <p class="hero-description" id="previewParagraph">
+                    Explore the realm of opportunity with free access to individual consultation and apply for scholarships in top universities worldwide
                 </p>
-                <a href="#country" class="hero-btn">
-                    View Details <i class="fas fa-arrow-right"></i>
+                <a href="#form" class="hero-btn" id="previewButtonText">
+                    APPLY NOW <i class="fas fa-arrow-right"></i>
                 </a>
-
                 <div class="country-tags">
                     @foreach ($countries as $country)
-                    <a href="{{route('country-details', $country->iso2)}}" style="text-decoration: none;">
+                    <a href="{{route('country-details', strtolower($country->name))}}" style="text-decoration: none;">
                         <span class="country-tag">{{ $country->name }}</span>
                     </a>
                     @endforeach
@@ -31,6 +45,7 @@
             </div>
         </div>
     </section>
+
 
 
     <!-- Why Atrac Section -->
@@ -92,7 +107,7 @@
                                     alt="{{ $country->iso2 }}" class="country-img">
                                 @endif
                             </div>
-                            <a href="{{route('country-details', $country->iso2)}}" class="country-btn">{{ $country->name }}</a>
+                            <a href="{{route('country-details', strtolower($country->name))}}" class="country-btn">{{ $country->name }}</a>
                         </div>
                     </div>
                 @endforeach
@@ -111,7 +126,7 @@
                     With nearly five years of experience, we've helped numerous students achieve their academic dreams
                     across the globe. Our proven track record speaks for itself.
                 </p>
-                <button class="btn btn-outline-light btn-lg px-4 py-2">Learn More</button>
+                {{--<button class="btn btn-outline-light btn-lg px-4 py-2">Learn More</button>--}}
             </div>
         </div>
 
@@ -126,10 +141,10 @@
                 <!-- Feature 1 -->
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="ri-flashlight-line"></i>
+                        <i class="fa-solid fa-handshake"></i>
                     </div>
                     <div class="feature-content">
-                        <h3>State of the Art Technologies</h3>
+                        <h3>Partner with Top Universities</h3>
                         <p>
                             We represent numerous foreign institutes from Cyprus, Canada, UK, USA, and Europe,
                             providing free counselling for admissions, scholarships, and visa .
@@ -140,10 +155,10 @@
                 <!-- Feature 2 -->
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="ri-history-line"></i>
+                        <i class="fa-solid fa-user-tie"></i>
                     </div>
                     <div class="feature-content">
-                        <h3>Experienced Professionals</h3>
+                        <h3>Experienced Professional Team</h3>
                         <p>
                             Working since 2020, we have vast experience helping numerous students from
                             various backgrounds gain admissions to their ideal universities with a proven success record.
@@ -154,7 +169,7 @@
                 <!-- Feature 3 -->
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="ri-wallet-3-line"></i>
+                        <i class="ri-lightbulb-fill"></i>
                     </div>
                     <div class="feature-content">
                         <h3>Free Counselling</h3>
@@ -175,7 +190,7 @@
                 <div class="col-lg-8 options-content">
                     <h2 class="options-headline">An impressive amount of options await</h2>
                     <h1 class="options-title">Search for your desired study program through <span class="text-primary">Atrac Consultants</span></h1>
-                    <a href="#consultation" class="options-btn">
+                    <a href="#form" class="options-btn">
                         Book Free Consultation
                     </a>
                 </div>
@@ -201,38 +216,38 @@
 
             <div class="row g-4">
                 <!-- Visa Approval Ratio (flies from left) -->
-                <div class="col-md-6 col-lg-3 stat-item">
+                <div class="col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-pass-valid-line"></i>
                     </div>
-                    <div class="stat-value" data-target="98">0</div>
+                    <div class="stat-value" data-target="98" data-type="percentage">0%</div>
                     <h3 class="stat-label">Visa Approval Ratio</h3>
                 </div>
 
                 <!-- Student Visa Ratio (flies from top) -->
-                <div class="col-md-6 col-lg-3 stat-item">
+                <div class="col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-graduation-cap-line"></i>
                     </div>
-                    <div class="stat-value" data-target="95">0</div>
-                    <h3 class="stat-label">Student Visa Ratio</h3>
+                    <div class="stat-value" data-target="99.5"  data-type="percentage">0%</div>
+                    <h3 class="stat-label">Admission Successful Ratio</h3>
                 </div>
 
                 <!-- Success Cases (flies from bottom) -->
-                <div class="col-md-6 col-lg-3 stat-item">
-                    <div class="stat-icon">
-                        <i class="ri-checkbox-circle-line"></i>
-                    </div>
-                    <div class="stat-value" data-target="1200">0</div>
-                    <h3 class="stat-label">Success Cases</h3>
-                </div>
+                <!--<div class="col-md-6 col-lg-3 stat-item">-->
+                <!--    <div class="stat-icon">-->
+                <!--        <i class="ri-checkbox-circle-line"></i>-->
+                <!--    </div>-->
+                <!--    <div class="stat-value" data-target="1200">0</div>-->
+                <!--    <h3 class="stat-label">Success Cases</h3>-->
+                <!--</div>-->
 
                 <!-- Client Satisfaction (flies from right) -->
-                <div class="col-md-6 col-lg-3 stat-item">
+                <div class="col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-emotion-happy-line"></i>
                     </div>
-                    <div class="stat-value" data-target="99">0</div>
+                    <div class="stat-value" data-target="100" data-type="percentage">0%</div>
                     <h3 class="stat-label">Client Satisfaction</h3>
                 </div>
             </div>
@@ -315,7 +330,7 @@
     </section> --}}
 
 
-    <div class="consultation-section pb-5 mt-5" id="consultation">
+    <div class="consultation-section pb-5 mt-5" id="form">
         <div class="container">
             <!-- Header Section -->
             <div class="text-center mb-5">
@@ -325,17 +340,12 @@
                 </span>
                 <h2 class="display-5 fw-bold mb-4">Request Your <span class="text-primary"
                         style="color: #2BB673!important;">Free</span> Appointment</h2>
-                <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                <p class="lead text-muted mx-auto" style="max-width: 720px;">
                     Complete this form and our education experts will contact you within 24 hours
                 </p>
             </div>
 
-            @if (session('success'))
-                <div id="alert" class="alert alert-primary alert-custom">
-                    {{ session('success') }}
-                    <button id="close-btn" class="close">&times;</button>
-                </div>
-            @endif
+
 
             <!-- Form Container -->
             <div class="card border-0 shadow-lg overflow-hidden mx-auto" style="max-width: 1000px;">
@@ -354,11 +364,11 @@
                                 </li>
                                 <li class="mb-3 d-flex">
                                     <i class="ri-checkbox-circle-fill me-2 mt-1"></i>
-                                    <span>15+ years of experience</span>
+                                    <span>5+ years of experience</span>
                                 </li>
                                 <li class="mb-3 d-flex">
                                     <i class="ri-checkbox-circle-fill me-2 mt-1"></i>
-                                    <span>1000+ successful students</span>
+                                    <span>200+ successful students</span>
                                 </li>
                             </ul>
                         </div>
@@ -367,102 +377,7 @@
                     <!-- Form Column -->
                     <div class="col-md-8">
                         <div class="p-4 p-md-5">
-                            <form action="{{route('consultation')}}" method="POST" class="needs-validation" novalidate>
-                                @csrf
-
-                                <div class="mb-4">
-                                    <label for="name" class="form-label fw-semibold">Full Name <span
-                                            class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-light">
-                                            <i class="ri-user-line text-muted"></i>
-                                        </span>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="John Doe"
-                                            required>
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-4">
-                                    <div class="col-md-6">
-                                        <label for="email" class="form-label fw-semibold">Email <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light">
-                                                <i class="ri-mail-line text-muted"></i>
-                                            </span>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="your@email.com" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="phone" class="form-label fw-semibold">Phone <span
-                                                class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light">
-                                                <i class="ri-phone-line text-muted"></i>
-                                            </span>
-                                            <input type="tel" class="form-control" id="phone" name="phone"
-                                                placeholder="+92 300 1234567" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-4">
-                                    <div class="col-md-6">
-                                        <label for="qualification" class="form-label fw-semibold">Qualification <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="qualification" name="qualification" required>
-                                            <option value="" selected disabled>Select your qualification</option>
-                                            <option value="Intermediate">Intermediate</option>
-                                            <option value="Bachelors">Bachelors</option>
-                                            <option value="Masters">Masters</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="percentage" class="form-label fw-semibold">Percentage/GPA <span
-                                                class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" id="percentage" name="percentage"
-                                            max="100" placeholder="e.g. 85" required>
-                                    </div>
-                                </div>
-
-                                <div class="row g-3 mb-4">
-                                    <div class="col-md-6">
-                                        <label for="country" class="form-label fw-semibold">Country of Interest <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="country" name="country" required>
-                                            <option value="" selected disabled>Select preferred country</option>
-                                            @foreach ($countries as $c)
-                                                <option value="{{$c->id}}">{{$c->name}}</option>
-                                            @endforeach
-                                            <option value="others">Others</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="field" class="form-label fw-semibold">Field of Interest <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="field" name="field" required>
-                                            <option value="" selected disabled>Select field of study</option>
-                                            @foreach ($fields as $f)
-                                                <option value="{{$f->field}}">{{$f->field}}</option>
-                                            @endforeach
-                                            <option value="others">Others</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label for="message" class="form-label fw-semibold">Your Message</label>
-                                    <textarea class="form-control" id="message" name="message" rows="3"
-                                        placeholder="Any specific questions or requirements..."></textarea>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg fw-semibold">
-                                        <i class="ri-calendar-check-line me-2"></i> Book Free Consultation
-                                    </button>
-                                </div>
-                            </form>
+                            @include('include.form', ['layout' => 'wide'])
                         </div>
                     </div>
                 </div>
@@ -476,160 +391,8 @@
 
 @section('scripts')
 
-    {{-- Country Slider --}}
-    <script>
-        // Initialize slider
-        $(document).ready(function () {
-            $('.country-slider').slick({
-                dots: false,
-                infinite: true,
-                speed: 300,
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                arrows: true,
-                prevArrow: '<button type="button" class="slick-prev"></button>',
-                nextArrow: '<button type="button" class="slick-next"></button>',
-                responsive: [
-                    {
-                        breakpoint: 1200,
-                        settings: {
-                            slidesToShow: 3
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 576,
-                        settings: {
-                            slidesToShow: 1
-                        }
-                    }
-                ]
-            });
-        });
-    </script>
+{{-- Country Slider --}}
+<script src="{{ asset('website/index.js') }}"></script>
+<script src="{{ asset('website/forms.js') }}"></script>
 
-
-    {{-- Stats Animation Counter --}}
-    <script>
-        function animateStats() {
-            const statValues = document.querySelectorAll('.stat-value');
-            const duration = 1500;
-
-            statValues.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
-                const isPercentage = stat.parentElement.querySelector('.stat-label').textContent.includes('%');
-                let current = 0;
-                const increment = target / (duration / 16);
-
-                const animate = () => {
-                    current = Math.min(current + increment, target);
-
-                    if (isPercentage) {
-                        stat.textContent = Math.floor(current) + '%';
-                    } else {
-                        stat.textContent = Math.floor(current).toLocaleString();
-                    }
-
-                    if (current < target) {
-                        requestAnimationFrame(animate);
-                    }
-                };
-
-                animate();
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const statsSection = document.querySelector('#stats-section'); // your section wrapper
-            let hasAnimated = false;
-
-            if (!statsSection) return;
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !hasAnimated) {
-                        // Step 1: Add in-view class to trigger animations
-                        statsSection.querySelectorAll('.stat-item').forEach(item => {
-                            item.classList.add('in-view');
-                        });
-
-                        // Step 2: Start counting
-                        animateStats();
-
-                        hasAnimated = true;
-                        observer.unobserve(statsSection);
-                    }
-                });
-            }, {
-                threshold: 0.3
-            });
-
-            observer.observe(statsSection);
-        });
-    </script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    var typed = new Typed('#element', {
-        strings: [
-            "Last Call For <span>Fall Semester</span>",
-            "Deadlines are <strong>Near</strong>",
-            "Apply <em>Now</em> for Scholarships"
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        loop: true,
-        smartBackspace: true,
-    });
-});
-
-</script>
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const closeBtn = document.getElementById('close-btn');
-            const alertBox = document.getElementById('alert');
-
-            if (closeBtn && alertBox) {
-                closeBtn.addEventListener('click', function () {
-                    alertBox.style.display = 'none';
-                });
-            }
-        });
-    </script>
-
-
-    {{-- Form Validation --}}
-    <script>
-        // Enhanced form validation
-        document.addEventListener('DOMContentLoaded', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation');
-
-            // Loop over them and prevent submission
-            forms.forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        // Add shake animation to invalid fields
-                        form.querySelectorAll(':invalid').forEach(el => {
-                            el.classList.add('animate__animated', 'animate__headShake');
-                            setTimeout(() => {
-                                el.classList.remove('animate__animated', 'animate__headShake');
-                            }, 1000);
-                        });
-                    }
-
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        });
-    </script>
 @endsection

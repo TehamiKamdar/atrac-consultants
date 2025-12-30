@@ -7,6 +7,7 @@ use App\Models\country;
 use App\Models\consults;
 use App\Models\contacts;
 use App\Mail\RequestMail;
+use App\Mail\ContactEmail;
 use App\Models\universities;
 use Illuminate\Http\Request;
 use App\Models\countrydetails;
@@ -49,6 +50,8 @@ class HomeController extends Controller
         ]);
 
         contacts::create($validated);
+
+        Mail::to(users: '')->send(new ContactEmail($validated));
 
         return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
     }

@@ -1,7 +1,11 @@
 @php
 $fields = \App\Models\fields::all();
 @endphp
-
+<style>
+    .btn:disabled{
+        background-color: #2bb673 !important;
+    }
+</style>
 <form action="{{route('consultation')}}" method="POST" class="needs-validation" novalidate>
     @csrf
 

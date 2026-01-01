@@ -50,7 +50,7 @@ class HomeController extends Controller
         // Check if too many requests
         if (RateLimiter::tooManyAttempts($key, 5)) {
             return redirect()->back()
-                ->with('error', $key.' submitted too many messages today. Please try again tomorrow.');
+                ->with('error', 'You have submitted too many messages today. Please try again tomorrow.');
         }
 
         // Hit the limiter (counts request)
@@ -67,7 +67,7 @@ class HomeController extends Controller
 
         // Mail::to(users: '')->send(new ContactEmail($validated));
 
-        return redirect()->back()->with('success', $key.' Thanks for contacting us. We\'ll get back to you ASAP.');
+        return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
     }
 
 

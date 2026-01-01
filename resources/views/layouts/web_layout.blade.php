@@ -82,12 +82,12 @@
 </head>
 
 <body>
-    <div class="marquee-container">
+    <div class="marquee-container" role="contentinfo">
         <div class="marquee">
             🎉 Exciting News! We'll be coming to <strong>Lahore</strong> soon! Stay tuned for updates! 🎉
         </div>
     </div>
-    <nav class="atrac-navbar navbar navbar-expand-lg" style="z-index: 100">
+    <nav class="atrac-navbar navbar navbar-expand-lg" style="z-index: 100" role="menuitem">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="/">
@@ -150,7 +150,7 @@
     </nav>
 
     <!-- Mobile Menu (will be shown when toggled) -->
-    <div class="mobile-menu collapse d-lg-none" id="navbarContent">
+    <div class="mobile-menu collapse d-lg-none" id="navbarContent" role="menuitem">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="mobile-nav-link active" href="/">Home</a>
@@ -185,7 +185,7 @@
     </div>
     @yield('content')
 
-    <footer class="consultancy-footer">
+    <footer class="consultancy-footer" role="footer">
         <!-- Decorative elements -->
         <i class="ri-leaf-fill footer-decoration decoration-1"></i>
         <i class="ri-global-line footer-decoration decoration-2"></i>

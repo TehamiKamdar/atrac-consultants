@@ -34,7 +34,7 @@
 
     {{-- Hero Section --}}
 
-    <section class="hero-section">
+    <section class="hero-section" role="banner">
         <div class="container">
             <div class="hero-content">
                 <h2 class="hero-subtitle" id="previewShortHeading">
@@ -61,7 +61,7 @@
 
 
     <!-- Why Atrac Section -->
-    <section id="whatwedo" class="why-atrac-section">
+    <section id="whatwedo" class="why-atrac-section" role="columnheader">
         <div class="decorative-circle circle-1"></div>
         <div class="decorative-circle circle-2"></div>
 
@@ -88,7 +88,7 @@
     </section>
 
     <!-- Countries Section -->
-    <section id="country" class="countries-section">
+    <section id="country" class="countries-section" role="main">
         <div class="container">
             <!-- Section Header -->
             <div class="section-header row align-items-center">
@@ -129,7 +129,7 @@
 
 
     <!-- Why Choose Us Section -->
-    <section id="whychooseus" class="why-choose-section">
+    <section id="whychooseus" class="why-choose-section" role="contentinfo">
         <!-- Visual Section -->
         <div class="visual-section">
             <div class="visual-content">
@@ -196,7 +196,7 @@
     </section>
 
     <!-- Options Section -->
-    <section class="options-section d-flex align-items-center">
+    <section class="options-section d-flex align-items-center" role="complementary">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 options-content">
@@ -222,7 +222,7 @@
         </div>
     </section>
 
-    <section id="stats-section" class="stats-section">
+    <section id="stats-section" class="stats-section" role="complementary">
         <div class="container">
             <h2 class="section-title">Our Success Metrics</h2>
 
@@ -342,7 +342,7 @@
     </section> --}}
 
 
-    <div class="consultation-section pb-5 mt-5" id="form">
+    <div class="consultation-section pb-5 mt-5" id="form" role="form">
         <div class="container">
             <!-- Header Section -->
             <div class="text-center mb-5">

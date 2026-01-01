@@ -75,27 +75,22 @@ class HomeController extends Controller
     }
 
 
-    public function detailsShow($name)
+    public function detailsShow($slug)
     {
 
         // return $name;
         $details = countrydetails::join('countries', 'countrydetails.country_id', '=', 'countries.id')
-            ->where('countries.name', $name)
+            ->where('countries.slug', $slug)
             ->select('countrydetails.*', 'countries.*', 'countries.id as country_id')
             ->first();
         if (!$details) {
             return view('coming_soon');
         }
-        $fields = fields::orderBy('field', 'asc')->get();
-
 
         $countryName = $details->name;
         $country_id = $details->country_id;
-        // $slug = $details->slug;
 
-        return view('web.details', compact('details', 'name', 'countryName', 'fields'));
-        // return $universities;
-
+        return view('web.details', compact('details', 'countryName'));
     }
 
 

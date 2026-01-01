@@ -1,7 +1,12 @@
 <?php
 
+use App\Models\country;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Models\countrydetails;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Models\universities;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +33,11 @@ Route::get('/contact', [HomeController::class , 'showContactForm'])->name('conta
 
 Route::post('/contact', [HomeController::class , 'contact'])->name('contact.submit');
 
-Route::get('/study-in-{name}', [HomeController::class , 'detailsShow'])->name('country-details');
+Route::get('/study-in-{slug}', [HomeController::class , 'detailsShow'])->name('country-details');
 
 Route::post('/consult' , [HomeController::class , 'consultRequest'])->name('consultation');
 
-Route::get('/university/list/{name?}', [HomeController::class , 'getUniversities'])->name('university.list');
+Route::get('/university/list/{slug?}', [HomeController::class , 'getUniversities'])->name('university.list');
 
 Route::get('/university/details/{name}/{slug}', [HomeController::class ,'uniDetails'])->name('university.details');
 
@@ -52,3 +57,7 @@ Route::get('/explode',function(){
 });
 
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
+
+Route::get('/x3864v29cv2yhnf', function(){
+
+});

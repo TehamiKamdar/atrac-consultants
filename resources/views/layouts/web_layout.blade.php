@@ -127,7 +127,7 @@
                             @foreach ($countries as $country)
                                 <li>
                                     <a class="dropdown-item dropdown-toggle"
-                                        href="{{route('country-details', strtolower($country->name))}}"
+                                        href="{{route('country-details', strtolower($country->slug))}}"
                                         style="color: #333; padding: 8px 16px;">{{ $country->name }}</a>
 
                                 </li>

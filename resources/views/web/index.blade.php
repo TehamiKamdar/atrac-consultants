@@ -49,7 +49,7 @@
                 </a>
                 <div class="country-tags">
                     @foreach ($countries as $country)
-                    <a href="{{route('country-details', strtolower($country->name))}}" style="text-decoration: none;">
+                    <a href="{{route('country-details', strtolower($country->slug))}}" style="text-decoration: none;">
                         <span class="country-tag">{{ $country->name }}</span>
                     </a>
                     @endforeach
@@ -119,7 +119,7 @@
                                     alt="{{ $country->iso2 }}" class="country-img">
                                 @endif
                             </div>
-                            <a href="{{route('country-details', strtolower($country->name))}}" class="country-btn">{{ $country->name }}</a>
+                            <a href="{{route('country-details', strtolower($country->slug))}}" class="country-btn">{{ $country->name }}</a>
                         </div>
                     </div>
                 @endforeach

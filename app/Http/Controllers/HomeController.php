@@ -63,6 +63,10 @@ class HomeController extends Controller
             'message' => 'required|string|min:5|max:1000',
         ]);
 
+        if($validated['subject'] === "atracconsultants.com"){
+            return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
+        }
+
         contacts::create($validated);
 
         // Mail::to(users: '')->send(new ContactEmail($validated));

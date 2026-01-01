@@ -312,6 +312,30 @@ Contact
 @endsection
 
 @section('content')
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                iziToast.success({
+                    title: 'Success!',
+                    message: '{{ session('success') }}',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                iziToast.error({
+                    title: 'Error!',
+                    message: '{{ session('error') }}',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        </script>
+    @endif
     <div class="container py-5">
 
         <div class="text-center mb-5">
@@ -392,12 +416,7 @@ Contact
         <div class="row g-4">
             <!-- Contact Form Section -->
             <div class="col-lg-6">
-                @if (session('success'))
-                    <div id="alert" class="alert alert-primary alert-custom">
-                        {{ session('success') }}
-                        <button id="close-btn" class="close">&times;</button>
-                    </div>
-                @endif
+
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary-custom text-white py-3">
                         <h3 class="mb-0"><i class="fas fa-paper-plane me-2"></i> Send Us a Message</h3>

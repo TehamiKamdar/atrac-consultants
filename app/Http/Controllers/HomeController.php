@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\fields;
 use App\Models\country;
 use App\Models\consults;
@@ -14,8 +15,8 @@ use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 
 class HomeController extends Controller
 {
@@ -43,6 +44,18 @@ class HomeController extends Controller
     }
     public function contact(Request $request)
     {
+        // RateLimiter key: IP-based
+        $key = 'contact-form:' . $request->ip();
+
+        // Check if too many requests
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            return redirect()->back()
+                ->with('error', $key.' submitted too many messages today. Please try again tomorrow.');
+        }
+
+        // Hit the limiter (counts request)
+        RateLimiter::hit($key, 86400); // 86400 = 24 hours in seconds
+
         $validated = $request->validate([
             'name' => 'required|string|min:2|max:100|regex:/^[a-zA-Z\s]+$/',
             'email' => 'required|email|max:255',
@@ -54,7 +67,7 @@ class HomeController extends Controller
 
         // Mail::to(users: '')->send(new ContactEmail($validated));
 
-        return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
+        return redirect()->back()->with('success', $key.' Thanks for contacting us. We\'ll get back to you ASAP.');
     }
 
 

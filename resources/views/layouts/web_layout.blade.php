@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="{{ asset('website/style.css') }}">
 
     <!-- jQuery (must be first) -->
-    <script src="{{ asset('website/lib/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('website/lib/js/jquery.min.js') }}" async></script>
 
     <!-- Bootstrap Bundle -->
     <script src="{{ asset('website/lib/bootstrap/bootstrap.bundle.min.js') }}" defer></script>

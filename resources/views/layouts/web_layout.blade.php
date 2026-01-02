@@ -23,19 +23,6 @@
     <!-- Custom Font -->
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/bambino-2">
 
-    <!-- Owl Carousel -->
-    <link rel="stylesheet" href="{{ asset('website/lib/css/owl.carousel.min.css') }}">
-
-    <!-- Slick Carousel -->
-    <link rel="stylesheet" href="{{ asset('website/lib/css/slick.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('website/lib/css/slick-theme.min.css') }}">
-
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="{{ asset('website/lib/css/animate.min.css') }}">
-
-    <!-- Bootstrap -->
-    <link href="{{ asset('website/lib/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-
     <!-- Remix Icons -->
     <link rel="stylesheet" href="{{ asset('website/lib/remixicons-fonts/remixicon.css') }}">
 

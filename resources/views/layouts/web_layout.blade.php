@@ -99,10 +99,6 @@
                             href="{{route('about')}}">About Us</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link-item" href="{{ '/' . '#whychooseus' }}">Why Choose Us</a>
-                    </li>
-
                     <!-- Countries Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link-item" href="#" id="countriesDropdown" role="button" data-bs-toggle="dropdown"
@@ -130,6 +126,11 @@
                         <a class="nav-link-item {{ Route::is('contact') ? 'active' : '' }}"
                             href="{{ route('contact') }}">Contact Us</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link-item bg-primary px-4 py-2 md-py-0 rounded text-white text-xl" style="font-size: 1.1rem; text-shadow: 1px 1px black;"
+                            href="{{ route('register') }}">Register Here</a>
+                    </li>
                 </ul>
 
             </div>
@@ -144,9 +145,6 @@
             </li>
             <li class="nav-item">
                 <a class="mobile-nav-link" href="{{route('about')}}">About Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link-item" href="{{ '/' . '#whychooseus' }}">Why Choose Us</a>
             </li>
             <!-- Countries Dropdown -->
             <li class="nav-item dropdown">
@@ -167,6 +165,11 @@
             <li class="nav-item">
                 <a class="nav-link-item {{ Route::is('contact') ? 'active' : '' }}"
                     href="{{ route('contact') }}">Contact Us</a>
+            </li>
+
+            <li class="nav-item mt-3">
+                <a class="nav-link-item bg-primary px-4 rounded text-white"
+                    href="{{ route('contact') }}">Register Here</a>
             </li>
         </ul>
     </div>

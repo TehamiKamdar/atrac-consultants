@@ -2,11 +2,12 @@
 
 use App\Models\country;
 use Spatie\Sitemap\Sitemap;
+use App\Models\universities;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\countrydetails;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Models\universities;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,4 @@ Route::get('/explode',function(){
 
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
 
-Route::get('/x3864v29cv2yhnf', function(){
-
-});
+Route::get('register', [RegisterController::class , 'index'])->name('register');

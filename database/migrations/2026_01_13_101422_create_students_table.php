@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('father_name');
             $table->string('mother_name')->nullable();
             $table->date('dob');
-            $table->enum('gender', ['male', 'female']);
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('city');
-            $table->string('address');
+            $table->text('address');
             $table->string('postal_code')->nullable();
             $table->string('cnic', 16)->unique();
             $table->string('passport_number')->nullable();

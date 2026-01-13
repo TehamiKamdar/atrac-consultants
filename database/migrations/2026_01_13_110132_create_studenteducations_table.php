@@ -17,6 +17,9 @@ return new class extends Migration
             $table->enum('level', ['matric', 'intermediate', 'bachelors', 'masters']);
             $table->string('institute');
             $table->string('board');
+            $table->string('subject');
+            $table->double('obtained_marks', 6, 2);
+            $table->double('total_marks', 6, 2);
             $table->year('passing_year');
             $table->string('grade_or_cgpa')->nullable();
             $table->timestamps();

@@ -618,7 +618,7 @@ Registeration Form
                         <div class="form-body">
                             <h4 class="step-title"><i class="ri-contacts-line"></i> Educational Details</h4>
 
-                            <div class="card mb-3 d-none" id="MatricForm">
+                            <div class="card mb-3" id="MatricForm">
                                 <div class="card-header">
                                     <h4 class="mb-0 md-text-sm">Matric</h4>
                                 </div>
@@ -659,7 +659,7 @@ Registeration Form
                                 </div>
                             </div>
 
-                            <div class="card mb-3 d-none" id="IntermediateForm">
+                            <div class="card mb-3" id="IntermediateForm">
                                 <div class="card-header">
                                     <h4 class="mb-0 md-text-sm">Intermediate</h4>
                                 </div>
@@ -700,7 +700,7 @@ Registeration Form
                                 </div>
                             </div>
 
-                            <div class="card mb-3 d-none" id="BachelorsForm">
+                            <div class="card mb-3" id="BachelorsForm">
                                 <div class="card-header">
                                     <h4 class="mb-0 md-text-sm">Bachelors</h4>
                                 </div>
@@ -741,7 +741,7 @@ Registeration Form
                                 </div>
                             </div>
 
-                            <div class="card mb-3 d-none" id="MastersForm">
+                            <div class="card mb-3" id="MastersForm">
                                 <div class="card-header">
                                     <h4 class="mb-0 md-text-sm">Masters</h4>
                                 </div>

@@ -20,4 +20,8 @@ class students extends Model
     public function documents(){
         return $this->hasMany(studentdocument::class);
     }
+
+    public function applications(){
+        return $this->hasMany(studentapplication::class);
+    }
 }

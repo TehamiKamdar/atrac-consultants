@@ -925,6 +925,8 @@ Registeration Form
 $(document).ready(function () {
 
     const STEP1_KEY = 'student_step1';
+    const STEP2_KEY = 'student_step2';
+
     let currentStep = 1;
 
     /* -----------------------------
@@ -960,6 +962,70 @@ $(document).ready(function () {
         $('#progressBar').css('width', percent + '%');
     }
 
+    function toggleEducationForms(){
+        const q = $('#qualification').val();
+
+        $('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').addClass('d-none');
+
+        if(q == "Matriculation"){$('#MatricForm').removeClass('d-none')}
+        if(q == "Intermediate"){$('#MatricForm, #IntermediateForm').removeClass('d-none')}
+        if(q == "Bachelors"){$('#MatricForm, #IntermediateForm, #BachelorsForm').removeClass('d-none')}
+        if(q == "Masters"){$('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').removeClass('d-none')}
+    }
+
+    function calculatePercentage(obtained, total, target){
+        console.log("hello")
+        const o = parseFloat(obtained.val());
+        const t = parseFloat(total.val())
+        if(!isNaN(o) && !isNaN(t) && t > 0){
+            const percent = ((o/t)*100).toFixed(2);
+            target.val(percent);
+        }
+        else{
+            target.val('');
+        }
+    }
+
+    $('#qualification').on('change', function () {
+        toggleEducationForms();
+
+        $('#step2Form')
+            .find('.is-invalid')
+            .removeClass('is-invalid')
+            .next('.invalid-feedback')
+            .remove();
+    });
+
+    // Populating record in percentage box
+    $('#obtainedMarksMatric, #totalMarksMatric').on('input', function(){
+        calculatePercentage(
+            $('#obtainedMarksMatric'),
+            $('#totalMarksMatric'),
+            $('#percentageMatric')
+        )
+    })
+    $('#obtainedMarksIntermediate, #totalMarksIntermediate').on('input', function(){
+        calculatePercentage(
+            $('#obtainedMarksIntermediate'),
+            $('#totalMarksIntermediate'),
+            $('#percentageIntermediate')
+        )
+    })
+    $('#obtainedMarksBachelors, #totalMarksBachelors').on('input', function(){
+        calculatePercentage(
+            $('#obtainedMarksBachelors'),
+            $('#totalMarksBachelors'),
+            $('#percentageBachelors')
+        )
+    })
+    $('#obtainedMarksMasters, #totalMarksMasters').on('input', function(){
+        calculatePercentage(
+            $('#obtainedMarksMasters'),
+            $('#totalMarksMasters'),
+            $('#percentageMasters')
+        )
+    })
+
     /* -----------------------------
         STEP 1 VALIDATION
     ------------------------------*/
@@ -972,21 +1038,53 @@ $(document).ready(function () {
             if (!$this[0].checkValidity()) {
                 isValid = false;
 
-                // Shake effect
+                // animation fix
+                $this.removeClass('animate__animated animate__headShake');
+                void $this[0].offsetWidth;
                 $this.addClass('is-invalid animate__animated animate__headShake');
 
-                // Remove animation class after animation ends
-                setTimeout(() => $this.removeClass('animate__animated animate__headShake'), 1000);
-
-                // Optional: show HTML5 validation message in invalid-feedback
                 if ($this.next('.invalid-feedback').length === 0) {
                     $this.after('<div class="invalid-feedback">This field is required</div>');
                 }
+
             } else {
                 $this.removeClass('is-invalid');
                 $this.next('.invalid-feedback').remove();
             }
         });
+
+        return isValid;
+    }
+
+    function validateStep2() {
+        let isValid = true;
+
+        $('#step2Form')
+            .find('input, select')
+            .filter(':visible')
+            .each(function () {
+                const $this = $(this);
+
+                if (!$this.prop('required')) return;
+
+                if (!$this[0].checkValidity()) {
+                    isValid = false;
+
+                    // reset animation
+                    $this.removeClass('animate__animated animate__headShake');
+                    void $this[0].offsetWidth;
+
+                    // invalid + animation
+                    $this.addClass('is-invalid animate__animated animate__headShake');
+
+                    if ($this.next('.invalid-feedback').length === 0) {
+                        $this.after('<div class="invalid-feedback">This field is required</div>');
+                    }
+                } else {
+                    $this.removeClass('is-invalid');
+                    $this.next('.invalid-feedback').remove();
+                }
+            });
 
         return isValid;
     }
@@ -1020,6 +1118,33 @@ $(document).ready(function () {
     }
 
     /* -----------------------------
+        STEP 2 LOCAL STORAGE
+    ------------------------------*/
+
+    function saveStep2ToLocal(){
+        const data = {};
+
+        $('#step2Form')
+            .find('input')
+            .each(function(){
+                data[this.id] = $(this).val();
+            })
+
+        localStorage.setItem(STEP2_KEY, JSON.stringify(data));
+    }
+
+    function loadStep2FromLocal(){
+        const data = localStorage.getItem(STEP2_KEY);
+        if(!data) return false;
+
+        const step2 = JSON.parse(data);
+
+        Object.keys(step2).forEach(key => {
+            $('#' + key).val(step2[key]);
+        })
+    }
+
+    /* -----------------------------
         REVIEW STEP DATA
     ------------------------------*/
     function fillReview() {
@@ -1042,6 +1167,12 @@ $(document).ready(function () {
             if (!validateStep1()) return; // animation + validation here
             saveStep1ToLocal();
             showStep(2);
+        }
+
+        else if($('#step2Form').hasClass('active')) {
+            if (!validateStep2()) return; // animation + validation here
+            saveStep2ToLocal();
+            showStep(3);
         }
     });
 
@@ -1088,8 +1219,16 @@ $(document).ready(function () {
     /* -----------------------------
         ON PAGE LOAD
     ------------------------------*/
-    const hasData = loadStep1FromLocal();
-    showStep(hasData ? 2 : 1);
+    const hasData1 = loadStep1FromLocal();
+    const hasData2 = loadStep2FromLocal();
+    if(hasData2){
+        showStep(3);
+    }else if(hasData1){
+        showStep(2);
+        toggleEducationForms();
+    }else{
+        showStep(1);
+    }
 
 });
 

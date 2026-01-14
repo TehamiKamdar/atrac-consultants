@@ -746,7 +746,7 @@ Registeration Form
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Percentage</label>
-                                            <input type="number" id="percentageMatric" max="100" class="form-control" placeholder="79.99" readonly>
+                                            <input type="number" id="percentageMatric" max="100" class="form-control" placeholder="GPA" readonly>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
@@ -787,7 +787,7 @@ Registeration Form
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Percentage</label>
-                                            <input type="number" id="percentageIntermediate" max="100" class="form-control" placeholder="79.99" readonly>
+                                            <input type="number" id="percentageIntermediate" max="100" class="form-control" placeholder="GPA" readonly>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
@@ -828,7 +828,7 @@ Registeration Form
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Percentage</label>
-                                            <input type="number" id="percentageBachelors" max="4" class="form-control" placeholder="79.99" readonly>
+                                            <input type="number" id="percentageBachelors" max="4" class="form-control" placeholder="GPA" readonly>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
@@ -869,7 +869,7 @@ Registeration Form
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Percentage</label>
-                                            <input type="number" id="percentageMasters" max="4" class="form-control" placeholder="79.99" readonly>
+                                            <input type="number" id="percentageMasters" max="4" class="form-control" placeholder="GPA" readonly>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
@@ -905,7 +905,7 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6">
                                                 <label for="">Overall Score</label>
-                                                <input type="text" id="overallIELTS" class="form-control" placeholder="calculating for you" readonly>
+                                                <input type="number" id="overallIELTS" class="form-control" placeholder="score" readonly>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <label for="">Passing Year</label>
@@ -942,7 +942,7 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6">
                                                 <label for="">Overall Score</label>
-                                                <input type="text" id="overallTOEFL" class="form-control" placeholder="calculating for you" readonly>
+                                                <input type="number" id="overallTOEFL" class="form-control" placeholder="score" readonly>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <label for="">Passing Year</label>
@@ -1569,11 +1569,23 @@ $(document).ready(function () {
         const t = parseFloat(total.val())
         if(!isNaN(o) && !isNaN(t) && t > 0){
             const percent = ((o/t)*100).toFixed(2);
+            target.attr("value", percent);
             target.val(percent);
         }
         else{
             target.val('');
         }
+    }
+
+    function calculateTOEFLScore(listening, reading, speaking, writing){
+        const l = parseFloat(listening.val()) || 0;
+        const r = parseFloat(reading.val()) || 0;
+        const s = parseFloat(speaking.val()) || 0;
+        const w = parseFloat(writing.val()) || 0;
+
+        const overAll = l + r + s + w;
+
+        return overAll;
     }
 
     $('#qualification').on('change', function () {
@@ -1615,6 +1627,56 @@ $(document).ready(function () {
             $('#percentageMasters')
         )
     })
+
+    const overallTOEFL = calculateTOEFLScore(
+        $('#listeningTOEFL'),
+        $('#readingTOEFL'),
+        $('#speakingTOEFL'),
+        $('#writingTOEFL')
+    );
+
+    $('#overallTOEFL').val(overallTOEFL);
+
+    $('#listeningTOEFL, #readingTOEFL, #speakingTOEFL, #writingTOEFL').on("input", function(){
+        const overallTOEFL = calculateTOEFLScore(
+            $('#listeningTOEFL'),
+            $('#readingTOEFL'),
+            $('#speakingTOEFL'),
+            $('#writingTOEFL')
+        );
+
+        $('#overallTOEFL').val(overallTOEFL);
+        $('#overallTOEFL').attr("value", overallTOEFL);
+    })
+
+    function calculateIELTSScore(listening, reading, speaking, writing, overallField) {
+        const l = parseFloat(listening.val()) || 0;
+        const r = parseFloat(reading.val()) || 0;
+        const s = parseFloat(speaking.val()) || 0;
+        const w = parseFloat(writing.val()) || 0;
+
+        let avg = (l + r + s + w) / 4;
+
+        // Round according to IELTS rules
+        const decimal = avg % 1;
+        if (decimal < 0.25) avg = Math.floor(avg);
+        else if (decimal < 0.75) avg = Math.floor(avg) + 0.5;
+        else avg = Math.ceil(avg);
+
+        overallField.val(avg);
+        overallField.attr("value", avg);
+    }
+
+    $('#listeningIELTS, #readingIELTS, #speakingIELTS, #writingIELTS').on('input', function() {
+        calculateIELTSScore(
+            $('#listeningIELTS'),
+            $('#readingIELTS'),
+            $('#speakingIELTS'),
+            $('#writingIELTS'),
+            $('#overallIELTS')
+        );
+    });
+
     $(document).on('change', 'input[name="english_test[]"]', function () {
 
         const isNone = $(this).val() === "None";
@@ -1878,6 +1940,7 @@ $(document).ready(function () {
         else if($('#step2Form').hasClass('active')) {
             if (!validateStep2()) return; // animation + validation here
             saveStep2ToLocal();
+            toggleDocuments();
             showStep(3);
         }
 

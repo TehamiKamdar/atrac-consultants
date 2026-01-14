@@ -698,6 +698,14 @@ Registeration Form
                                         Please select at least one option
                                     </div>
                                 </div>
+                                <div class="col-md-6 mb-3" id="englishTestGroup">
+                                    <label for="proficiency" class="form-label">English Proficiency Letter <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="proficiency" required>
+                                        <option value="" selected disabled>Select Intake</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1328,7 +1336,6 @@ Registeration Form
                         </div>
                     </div>
 
-
                     <!-- Step 4 -->
                     <div class="form-step" id="step4Form">
                         <div class="form-body">
@@ -1444,6 +1451,10 @@ $(document).ready(function () {
 
         updateProgress(step);
         currentStep = step;
+
+        if (step === 1){
+            loadEnglishTestsFromLocal();
+        }
     }
 
     function updateProgress(step) {
@@ -1544,17 +1555,27 @@ $(document).ready(function () {
         console.log(selected);
     });
 
+    function saveEnglishTestsToLocal() {
+        const selectedTests = $('input[name="english_test[]"]:checked')
+            .map(function() {
+                return this.value;
+            }).get(); // get() converts jQuery object to plain array
+
+        localStorage.setItem('english_tests', JSON.stringify(selectedTests));
+    }
+
     function loadEnglishTestsFromLocal() {
-        const data = localStorage.getItem('english_tests');
-        if (!data) return;
+        const stored = localStorage.getItem('english_tests');
+        if (!stored) return;
 
-        const selected = JSON.parse(data);
+        const selectedTests = JSON.parse(stored);
 
-        selected.forEach(val => {
-            $('input[name="english_tests[]"][value="' + val + '"]').prop('checked', true);
+        // Check checkboxes
+        $('input[name="english_test[]"]').each(function() {
+            this.checked = selectedTests.includes(this.value);
         });
 
-        toggleEnglishTestForms(selected);
+        toggleEnglishTestForms(selectedTests);
     }
 
     loadEnglishTestsFromLocal();
@@ -1778,6 +1799,7 @@ $(document).ready(function () {
         if ($('#step1Form').hasClass('active')) {
             if (!validateStep1()) return; // animation + validation here
             saveStep1ToLocal();
+            saveEnglishTestsToLocal();
             showStep(2);
         }
 
@@ -1801,6 +1823,7 @@ $(document).ready(function () {
         if (currentStep > 1) {
             showStep(currentStep - 1);
         }
+
     });
 
     /* -----------------------------

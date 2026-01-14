@@ -11,7 +11,7 @@ class students extends Model
 
     protected $table = 'students';
 
-    protected $fillable = ['first_name','last_name','father_name','mother_name','dob','email','phone','city','address','postal_code','cnic','english_test','passport_number','passport_valid_from','passport_valid_thru','applying_for','account_created','status'];
+    protected $fillable = ['first_name','last_name','father_name','mother_name','dob','email','phone','city','address','postal_code','cnic','english_test','english_proficiency','passport_number','passport_valid_from','passport_valid_thru','applying_for','account_created','status'];
 
     public function educations(){
         return $this->hasMany(studenteducation::class);

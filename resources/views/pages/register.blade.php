@@ -1672,6 +1672,7 @@ $(document).ready(function () {
 
         $('#step1Form')
             .find('input, select')
+            .not('input[type="checkbox"]')
             .each(function () {
                 data[this.id] = $(this).val();
             });

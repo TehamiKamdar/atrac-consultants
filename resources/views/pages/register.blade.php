@@ -1006,11 +1006,6 @@ Registeration Form
 
                             <p>Required documents are marked with <span class="text-danger">*</span></p>
 
-                            <!-- Progress -->
-                            <div class="mb-3 text-muted small">
-                               Required Documents Completed: <span id="docCount"></span> / <span id="docTotal"></span>
-                            </div>
-
                             <div class="row g-3">
 
                                 <!-- CNIC Front -->
@@ -1332,6 +1327,66 @@ Registeration Form
                                         </label>
                                     </div>
                                 </div>
+
+                                <!-- Masters Transcript Back -->
+                                <div class="col-md-6 doc-ielts">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> IELTS Certificate <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Masters Transcript Back -->
+                                <div class="col-md-6 doc-toefl">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> TOEFL Certificate <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Masters Transcript Back -->
+                                <div class="col-md-6 doc-pte">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> PTE Certificate <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1455,6 +1510,12 @@ $(document).ready(function () {
         if (step === 1){
             loadEnglishTestsFromLocal();
         }
+        if(step === 2){
+            // Load saved data
+            loadStep2FromLocal();
+            // Toggle forms based on qualification
+            toggleEducationForms();
+        }
     }
 
     function updateProgress(step) {
@@ -1479,6 +1540,27 @@ $(document).ready(function () {
         if(selectedTests.includes('IELTS')){$('#ieltsForm').removeClass('d-none').find('input').prop('required', true);}
         if(selectedTests.includes('TOEFL')){$('#toeflForm').removeClass('d-none').find('input').prop('required', true);}
         if(selectedTests.includes('PTE')){$('#pteForm').removeClass('d-none').find('input').prop('required', true);}
+    }
+
+    function toggleDocuments(){
+        $('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back, .doc-masters-front, .doc-masters-back, .doc-ielts, .doc-toefl, .doc-pte').addClass('d-none');
+        const q = $('#qualification').val();
+        if(q == "Matriculation"){$('.doc-matric-front, .doc-matric-back').removeClass('d-none')}
+        if(q == "Intermediate"){$('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back').removeClass('d-none')}
+        if(q == "Bachelors"){$('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back').removeClass('d-none')}
+        if(q == "Masters"){$('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back, .doc-masters-front, .doc-masters-back').removeClass('d-none')}
+
+        const stored = localStorage.getItem('english_tests');
+        if (!stored) return;
+        const selectedTests = JSON.parse(stored);
+
+        if(selectedTests.includes('IELTS')) $('.doc-ielts').removeClass('d-none');
+        if(selectedTests.includes('TOEFL')) $('.doc-toefl').removeClass('d-none');
+        if(selectedTests.includes('PTE')) $('.doc-pte').removeClass('d-none');
+
+        // Required toggle (only visible files are required)
+        $('.upload-card input[type="file"]').prop('required', false); // reset
+        $('.upload-card:visible input[type="file"]').prop('required', true);
     }
 
     function calculatePercentage(obtained, total, target){
@@ -1725,15 +1807,6 @@ $(document).ready(function () {
     /* -----------------------------
         STEP 3 LOCAL STORAGE
     ------------------------------*/
-    function updateDocProgress(){
-        const total = $('#step3Form input[type="file"][required]').length;
-        const completed = $('#step3Form input[type="file"][required]').filter(function(){
-            return this.files.length > 0;
-        }).length;
-
-        $('#docCount').text(completed);
-        $('#docTotal').text(total);
-    }
 
     $('#step3Form input[type="file"]').on("change", function(){
         const file = this.files[0];
@@ -1760,8 +1833,6 @@ $(document).ready(function () {
         }
 
         $badge.removeClass('bg-secondary').addClass('bg-success').text('Uploaded')
-
-        updateDocProgress();
     })
 
     function validateStep3(){
@@ -1866,7 +1937,7 @@ $(document).ready(function () {
     console.log(hasData2);
     if(hasData2){
         showStep(3);
-        updateDocProgress();
+        toggleDocuments();
     }else if(hasData1){
         showStep(2);
         toggleEducationForms();

@@ -369,6 +369,11 @@ Registeration Form
 
         @media (max-width: 576px) {
 
+            .card-head-images small{
+                display: block;
+                min-height: 30px;
+                font-size: 10px;
+            }
 
             .logo-box {
                 width: 200px;
@@ -427,6 +432,50 @@ Registeration Form
             max-width: 500px;
             margin: 0 auto 2rem;
         }
+        .upload-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            background: #fff;
+            height: 100%;
+        }
+
+        .upload-box {
+            border: 2px dashed #d1d5db;
+            border-radius: 10px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s ease;
+            display: block;
+        }
+
+        .upload-box:hover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .upload-box i {
+            font-size: 32px;
+            color: #22c55e;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .upload-box span {
+            font-weight: 500;
+            display: block;
+        }
+
+        small {
+            color: #c0c0c0;
+        }
+
+        .card-head-images small{
+            display: block;
+            min-height: 50px;
+        }
+
     </style>
 @endsection
 
@@ -787,61 +836,261 @@ Registeration Form
                     <!-- Step 3 -->
                     <div class="form-step" id="step3Form">
                         <div class="form-body">
-                            <h4 class="step-title"><i class="ri-settings-3-line"></i> Preferences</h4>
 
-                            <div class="mb-4">
-                                <label class="form-label mb-2">Communication Preferences <span class="text-danger">*</span></label>
+                            <h4 class="step-title mb-4">
+                                <i class="ri-file-upload-line"></i> Upload Required Documents
+                            </h4>
 
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
-                                    <label class="form-check-label" for="emailNotifications">
-                                        Email notifications
-                                    </label>
-                                </div>
-
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
-                                    <label class="form-check-label" for="smsNotifications">
-                                        SMS notifications
-                                    </label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="newsletter">
-                                    <label class="form-check-label" for="newsletter">
-                                        Subscribe to newsletter
-                                    </label>
-                                </div>
+                            <!-- Progress -->
+                            <div class="mb-3 text-muted small">
+                                Documents Completed: <span id="docCount">0</span> / <span id="docTotal">5</span>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="preferredContact" class="form-label">Preferred Contact Method <span class="text-danger">*</span></label>
-                                <select class="form-select" id="preferredContact" required>
-                                    <option value="" selected disabled>Select preferred method</option>
-                                    <option value="email">Email</option>
-                                    <option value="phone">Phone</option>
-                                    <option value="both">Both</option>
-                                </select>
-                            </div>
+                            <div class="row g-3">
 
-                            <div class="mb-3">
-                                <label for="hearAboutUs" class="form-label">How did you hear about us?</label>
-                                <select class="form-select" id="hearAboutUs">
-                                    <option value="" selected>Select an option</option>
-                                    <option value="social-media">Social Media</option>
-                                    <option value="friend">Friend/Colleague</option>
-                                    <option value="advertisement">Advertisement</option>
-                                    <option value="search-engine">Search Engine</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
+                                <!-- CNIC Front -->
+                                <div class="col-md-6 doc-cnic-front">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> CNIC Front <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
 
-                            <div class="mb-3">
-                                <label for="comments" class="form-label">Additional Comments</label>
-                                <textarea class="form-control" id="comments" rows="3" placeholder="Any additional information or comments"></textarea>
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- CNIC Back -->
+                                <div class="col-md-6 doc-cnic-back">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> CNIC Back <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Passport -->
+                                <div class="col-md-6 doc-passport">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> Passport <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Photograph -->
+                                <div class="col-md-6 doc-photograph">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> Passport Size Photo <span class="text-danger">*</span></h6>
+                                                <small>Photo must be in white background and well scnaned from printer scanner</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Matric Marksheet Front -->
+                                <div class="col-md-6 doc-matric-front">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Marksheet Front <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Matric Marksheet Back -->
+                                <div class="col-md-6 doc-matric-back">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Marksheet Back <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Intermediate Marksheet Front -->
+                                <div class="col-md-6 doc-intermediate-front">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Intermediate Marksheet Front <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Intermediate Marksheet Back -->
+                                <div class="col-md-6 doc-intermediate-back">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Intermediate Marksheet Back <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Bachelors Transcript Front -->
+                                <div class="col-md-6 doc-bachelors-front">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript Front <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Bachelors Transcript Back -->
+                                <div class="col-md-6 doc-bachelors-back">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript Back <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Masters Transcript Front -->
+                                <div class="col-md-6 doc-masters-front">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript Front <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Masters Transcript Back -->
+                                <div class="col-md-6 doc-masters-back">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript Back <span class="text-danger">*</span></h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Step 4 -->
                     <div class="form-step" id="step4Form">
@@ -974,7 +1223,7 @@ $(document).ready(function () {
     }
 
     function calculatePercentage(obtained, total, target){
-        console.log("hello")
+        // console.log("hello");
         const o = parseFloat(obtained.val());
         const t = parseFloat(total.val())
         if(!isNaN(o) && !isNaN(t) && t > 0){
@@ -1142,6 +1391,8 @@ $(document).ready(function () {
         Object.keys(step2).forEach(key => {
             $('#' + key).val(step2[key]);
         })
+
+        return true;
     }
 
     /* -----------------------------
@@ -1221,6 +1472,7 @@ $(document).ready(function () {
     ------------------------------*/
     const hasData1 = loadStep1FromLocal();
     const hasData2 = loadStep2FromLocal();
+    console.log(hasData2);
     if(hasData2){
         showStep(3);
     }else if(hasData1){

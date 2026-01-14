@@ -837,9 +837,10 @@ Registeration Form
                     <div class="form-step" id="step3Form">
                         <div class="form-body">
 
-                            <h4 class="step-title mb-4">
+                            <h4 class="step-title mb-1">
                                 <i class="ri-file-upload-line"></i> Upload Required Documents
                             </h4>
+                            <p>Required documents are marked with <span class="text-danger">*</span></p>
 
                             <!-- Progress -->
                             <div class="mb-3 text-muted small">
@@ -921,6 +922,86 @@ Registeration Form
 
                                         <label class="upload-box">
                                             <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- CV / Resume -->
+                                <div class="col-md-6 doc-cv-resume">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> CV / Resume <span class="text-danger">*</span></h6>
+                                                <small>CV / Resume must be uploaded in PDF, you can prepare it from any online tool</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden required>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Experience Letter -->
+                                <div class="col-md-6 doc-experience">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> Experience Letter (if any) </h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- English Proficiency Letter -->
+                                <div class="col-md-6 doc-english">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> English Proficiency Letter (if any) </h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden>
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Motivation Letter -->
+                                <div class="col-md-6 doc-motivation">
+                                    <div class="upload-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="card-head-images">
+                                                <h6 class="mb-0"><i class="ri-image-line"></i> Motivation Letter (if any) </h6>
+                                                <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others aren't allowed)</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </div>
+
+                                        <label class="upload-box">
+                                            <input type="file" hidden>
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
                                             <small>PDF / JPG / PNG | Max 2MB</small>

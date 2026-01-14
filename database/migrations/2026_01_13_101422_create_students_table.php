@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('passport_number')->nullable();
             $table->date('passport_valid_from')->nullable();
             $table->date('passport_valid_thru')->nullable();
+            $table->json('english_test')->nullable();
             $table->boolean('account_created')->default(false);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();

@@ -109,8 +109,8 @@ Registeration Form
         }
 
         .form-header p {
-            margin: 0.5rem 0 0;
-            opacity: 0.9;
+            margin: 0.25rem 0 0;
+            opacity: 0.8;
             font-size: 1rem;
         }
 
@@ -467,7 +467,7 @@ Registeration Form
             display: block;
         }
 
-        small {
+        small, .small {
             color: #c0c0c0;
         }
 
@@ -495,6 +495,7 @@ Registeration Form
                 <div class="form-header">
                     <h2><i class="ri-user-follow-line"></i> Registration Form</h2>
                     <p>Please fill in all the required information</p>
+                    <p><i class="ri-information-line"></i> Please note: We collect information for our purpose only.</p>
                 </div>
 
                 <!-- Progress Steps -->
@@ -505,28 +506,28 @@ Registeration Form
                         <div class="step-container">
                             <div class="step-circle active" id="step1">
                                 1
-                                <span class="step-label">Personal Info</span>
+                                <span class="step-label">Basic Information</span>
                             </div>
                         </div>
 
                         <div class="step-container">
                             <div class="step-circle" id="step2">
                                 2
-                                <span class="step-label">Contact Details</span>
+                                <span class="step-label">Educational Details</span>
                             </div>
                         </div>
 
                         <div class="step-container">
                             <div class="step-circle" id="step3">
                                 3
-                                <span class="step-label">Preferences</span>
+                                <span class="step-label">Educational Documents</span>
                             </div>
                         </div>
 
                         <div class="step-container">
                             <div class="step-circle" id="step4">
                                 4
-                                <span class="step-label">Review & Submit</span>
+                                <span class="step-label">Program Selection</span>
                             </div>
                         </div>
                     </div>
@@ -537,7 +538,7 @@ Registeration Form
                     <!-- Step 1 -->
                     <div class="form-step active" id="step1Form">
                         <div class="form-body">
-                            <h4 class="step-title"><i class="ri-user-3-line"></i> Personal Information</h4>
+                            <h4 class="step-title"><i class="ri-user-3-line"></i> Basic Information</h4>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -836,15 +837,20 @@ Registeration Form
                     <!-- Step 3 -->
                     <div class="form-step" id="step3Form">
                         <div class="form-body">
+                            <div class="alert alert-warning d-flex align-items-start">
+                                <i class="ri-alert-line me-2 fs-5"></i>
+                                <div>
+                                    <strong>Important:</strong>
+                                    Please upload all required documents in one session.
+                                    For security reasons, uploaded files are not saved if you refresh or leave this page.
+                                </div>
+                            </div>
 
-                            <h4 class="step-title mb-1">
-                                <i class="ri-file-upload-line"></i> Upload Required Documents
-                            </h4>
                             <p>Required documents are marked with <span class="text-danger">*</span></p>
 
                             <!-- Progress -->
                             <div class="mb-3 text-muted small">
-                                Documents Completed: <span id="docCount">0</span> / <span id="docTotal">5</span>
+                               Required Documents Completed: <span id="docCount"></span> / <span id="docTotal"></span>
                             </div>
 
                             <div class="row g-3">
@@ -1257,6 +1263,9 @@ $(document).ready(function () {
     const STEP1_KEY = 'student_step1';
     const STEP2_KEY = 'student_step2';
 
+    const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
+    const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+
     let currentStep = 1;
 
     /* -----------------------------
@@ -1477,19 +1486,75 @@ $(document).ready(function () {
     }
 
     /* -----------------------------
+        STEP 3 LOCAL STORAGE
+    ------------------------------*/
+    function updateDocProgress(){
+        const total = $('#step3Form input[type="file"][required]').length;
+        const completed = $('#step3Form input[type="file"][required]').filter(function(){
+            return this.files.length > 0;
+        }).length;
+
+        $('#docCount').text(completed);
+        $('#docTotal').text(total);
+    }
+
+    $('#step3Form input[type="file"]').on("change", function(){
+        const file = this.files[0];
+        const $card = $(this).closest('.upload-card');
+        const $badge = $card.find('.badge');
+
+        $badge.removeClass('bg-success bg-danger').addClass('bg-secondary').text('Pending');
+        $(this).removeClass('is-invalid');
+
+        if(!file) return;
+
+        if(!ALLOWED_TYPES.includes(file.type)){
+            alert('Invalid Format. Only PDF, JPG, PNG are allowed');
+            this.value = '';
+            $(this).addClass('is-invalid');
+            return;
+        }
+
+        if(file.size > MAX_SIZE){
+            alert('File size exceeds 2MB limit!')
+            this.value = '';
+            $(this).addClass('is-invalid');
+            return;
+        }
+
+        $badge.removeClass('bg-secondary').addClass('bg-success').text('Uploaded')
+
+        updateDocProgress();
+    })
+
+    function validateStep3(){
+        let isValid = true;
+        $('#step3Form input[type="file"][required]').each(function(){
+            if(this.files.length === 0){
+                isValid = false;
+
+                $(this).closest('.upload-card').find('.badge').removeClass('bg-secondary bg-success').addClass('bg-danger').text('Required')
+            }
+
+        })
+        if(!isValid) alert('Please upload required documents before proceeding.');
+        return isValid;
+    }
+
+    /* -----------------------------
         REVIEW STEP DATA
     ------------------------------*/
-    function fillReview() {
-        $('#reviewName').text($('#firstName').val() + ' ' + $('#lastName').val());
-        $('#reviewDOB').text($('#dob').val());
-        $('#reviewGender').text($('#gender').val() || 'N/A');
+    // function fillReview() {
+    //     $('#reviewName').text($('#firstName').val() + ' ' + $('#lastName').val());
+    //     $('#reviewDOB').text($('#dob').val());
+    //     $('#reviewGender').text($('#gender').val() || 'N/A');
 
-        $('#reviewEmail').text($('#email').val());
-        $('#reviewPhone').text($('#phone').val());
-        $('#reviewCity').text($('#cob').val());
+    //     $('#reviewEmail').text($('#email').val());
+    //     $('#reviewPhone').text($('#phone').val());
+    //     $('#reviewCity').text($('#cob').val());
 
-        $('#reviewPreferredContact').text($('#preferredContact').val() || 'N/A');
-    }
+    //     $('#reviewPreferredContact').text($('#preferredContact').val() || 'N/A');
+    // }
 
     /* -----------------------------
         NEXT BUTTON
@@ -1506,6 +1571,12 @@ $(document).ready(function () {
             saveStep2ToLocal();
             showStep(3);
         }
+
+        else if($('#step3Form').hasClass('active')) {
+            if (!validateStep3()) return; // animation + validation here
+            saveStep3ToLocal();
+            showStep(4);
+        }
     });
 
     /* -----------------------------
@@ -1520,20 +1591,20 @@ $(document).ready(function () {
     /* -----------------------------
         FORM SUBMIT
     ------------------------------*/
-    $('#studentForm').on('submit', function (e) {
-        e.preventDefault();
+    // $('#studentForm').on('submit', function (e) {
+    //     e.preventDefault();
 
-        if (!$('#agreeTerms').is(':checked')) {
-            alert('Please accept Terms & Conditions');
-            return;
-        }
+    //     if (!$('#agreeTerms').is(':checked')) {
+    //         alert('Please accept Terms & Conditions');
+    //         return;
+    //     }
 
-        localStorage.removeItem(STEP1_KEY);
+    //     localStorage.removeItem(STEP1_KEY);
 
-        $('#formFooter').hide();
-        $('.form-step').removeClass('active');
-        $('#successMessage').show();
-    });
+    //     $('#formFooter').hide();
+    //     $('.form-step').removeClass('active');
+    //     $('#successMessage').show();
+    // });
 
     /* -----------------------------
         RESET FORM
@@ -1556,6 +1627,7 @@ $(document).ready(function () {
     console.log(hasData2);
     if(hasData2){
         showStep(3);
+        updateDocProgress();
     }else if(hasData1){
         showStep(2);
         toggleEducationForms();

@@ -1583,8 +1583,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -1901,6 +1899,77 @@
             }
 
             loadEnglishTestsFromLocal();
+
+            let programList = [];
+
+            $('#addProgramBtn').on('click', function () {
+
+                const program = $('#programSelect').val();
+                const university = $('#universitySelect').val();
+                const campus = $('#campusSelect').val();
+
+                if (!program || !university || !campus) {
+                    alert('Please select Program, University & Campus');
+                    return;
+                }
+
+                // prevent duplicate
+                const exists = programList.some(item =>
+                    item.program === program &&
+                    item.university === university &&
+                    item.campus === campus
+                );
+
+                if (exists) {
+                    alert('This combination is already added');
+                    return;
+                }
+
+                programList.push({ program, university, campus });
+
+                renderProgramTable();
+
+                // reset selects
+                $('#programSelect, #universitySelect, #campusSelect').val('');
+            });
+
+            function renderProgramTable() {
+
+                const tbody = $('#programTable');
+                tbody.empty();
+
+                if (programList.length === 0) {
+                    tbody.append(`
+                        <tr class="text-muted text-center" id="noDataRow">
+                            <td colspan="5">No programs added yet</td>
+                        </tr>
+                    `);
+                    return;
+                }
+
+                programList.forEach((item, index) => {
+                    tbody.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.program}</td>
+                            <td>${item.university}</td>
+                            <td>${item.campus}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            }
+
+            $(document).on('click', '.remove-row', function () {
+                const index = $(this).data('index');
+                programList.splice(index, 1);
+                renderProgramTable();
+            });
+
 
 
             /* -----------------------------

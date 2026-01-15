@@ -657,7 +657,9 @@ Registeration Form
                                     <label for="country" class="form-label">Country to Apply for <span class="text-danger">*</span></label>
                                     <select class="form-select" id="country" required>
                                         <option value="" selected disabled>Select Country</option>
-                                        <option>Karachi</option>
+                                        @foreach ($activeCountries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -724,24 +726,24 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-6 col-md-4">
                                                 <label for="">School</label>
-                                                <input type="text" id="schoolName" class="form-control" placeholder="School Name" required>
+                                                <input type="text" id="schoolName" class="form-control" placeholder="School Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Board</label>
-                                                <input type="text" id="boardMatric" class="form-control" placeholder="Board Name" required>
+                                                <input type="text" id="boardMatric" class="form-control" placeholder="Board Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Subject</label>
-                                                <input type="text" id="subjectMatric" class="form-control" placeholder="Subject Name" required>
+                                                <input type="text" id="subjectMatric" class="form-control" placeholder="Subject Name">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Obtained Marks</label>
-                                            <input type="number" id="obtainedMarksMatric" class="form-control" placeholder="899" required>
+                                            <input type="number" id="obtainedMarksMatric" class="form-control" placeholder="899">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Total Marks</label>
-                                            <input type="number" id="totalMarksMatric" class="form-control" placeholder="1099" required>
+                                            <input type="number" id="totalMarksMatric" class="form-control" placeholder="1099">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
@@ -750,7 +752,7 @@ Registeration Form
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
-                                            <input type="month" class="form-control" id="passingYearMatric" required>
+                                            <input type="month" class="form-control" id="passingYearMatric">
                                         </div>
                                     </div>
                                 </div>
@@ -765,24 +767,24 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-6 col-md-4">
                                                 <label for="">College / Institute</label>
-                                                <input type="text" id="collegeName" class="form-control" placeholder="College / Institute" required>
+                                                <input type="text" id="collegeName" class="form-control" placeholder="College / Institute">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Board</label>
-                                                <input type="text" id="boardIntermediate" class="form-control" placeholder="Board Name" required>
+                                                <input type="text" id="boardIntermediate" class="form-control" placeholder="Board Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Subject</label>
-                                                <input type="text" id="subjectIntermediate" class="form-control" placeholder="Subject Name" required>
+                                                <input type="text" id="subjectIntermediate" class="form-control" placeholder="Subject Name">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Obtained Marks</label>
-                                            <input type="number" id="obtainedMarksIntermediate" class="form-control" placeholder="899" required>
+                                            <input type="number" id="obtainedMarksIntermediate" class="form-control" placeholder="899">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Total Marks</label>
-                                            <input type="number" id="totalMarksIntermediate" class="form-control" placeholder="1099" required>
+                                            <input type="number" id="totalMarksIntermediate" class="form-control" placeholder="1099">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
@@ -791,7 +793,7 @@ Registeration Form
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
-                                            <input type="month" class="form-control" id="passingYearIntermediate" required>
+                                            <input type="month" class="form-control" id="passingYearIntermediate">
                                         </div>
                                     </div>
                                 </div>
@@ -806,33 +808,33 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-6 col-md-4">
                                                 <label for="">University</label>
-                                                <input type="text" id="universityBachelors" class="form-control" placeholder="University Name" required>
+                                                <input type="text" id="universityBachelors" class="form-control" placeholder="University Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Department</label>
-                                                <input type="text" id="boardBachelors" class="form-control" placeholder="Department Name" required>
+                                                <input type="text" id="boardBachelors" class="form-control" placeholder="Department Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Subject</label>
-                                                <input type="text" id="subjectBachelors" class="form-control" placeholder="Subject Name" required>
+                                                <input type="text" id="subjectBachelors" class="form-control" placeholder="Subject Name">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Obtained Marks</label>
-                                            <input type="number" id="obtainedMarksBachelors" class="form-control" placeholder="899" required>
+                                            <input type="number" id="obtainedMarksBachelors" class="form-control" placeholder="899">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Total Marks</label>
-                                            <input type="number" id="totalMarksBachelors" class="form-control" placeholder="1099" required>
+                                            <input type="number" id="totalMarksBachelors" class="form-control" placeholder="1099">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
-                                            <label for="">Percentage</label>
-                                            <input type="number" id="percentageBachelors" max="4" class="form-control" placeholder="GPA" readonly>
+                                            <label for="">GPA / Percentage</label>
+                                            <input type="number" id="percentageBachelors" step="0.1" class="form-control" placeholder="GPA">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
-                                            <input type="month" class="form-control" id="passingYearBachelors" required>
+                                            <input type="month" class="form-control" id="passingYearBachelors">
                                         </div>
                                     </div>
                                 </div>
@@ -847,33 +849,33 @@ Registeration Form
                                         <div class="row mb-3">
                                             <div class="col-6 col-md-4">
                                                 <label for="">University</label>
-                                                <input type="text" id="universityMasters" class="form-control" placeholder="University Name" required>
+                                                <input type="text" id="universityMasters" class="form-control" placeholder="University Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Department</label>
-                                                <input type="text" id="boardMasters" class="form-control" placeholder="Department Name" required>
+                                                <input type="text" id="boardMasters" class="form-control" placeholder="Department Name">
                                             </div>
                                             <div class="col-6 col-md-4">
                                                 <label for="">Subject</label>
-                                                <input type="text" id="subjectMasters" class="form-control" placeholder="Subject Name" required>
+                                                <input type="text" id="subjectMasters" class="form-control" placeholder="Subject Name">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Obtained Marks</label>
-                                            <input type="number" id="obtainedMarksMasters" class="form-control" placeholder="899" required>
+                                            <input type="number" id="obtainedMarksMasters" class="form-control" placeholder="899">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Total Marks</label>
-                                            <input type="number" id="totalMarksMasters" class="form-control" placeholder="1099" required>
+                                            <input type="number" id="totalMarksMasters" class="form-control" placeholder="1099">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
-                                            <label for="">Percentage</label>
-                                            <input type="number" id="percentageMasters" max="4" class="form-control" placeholder="GPA" readonly>
+                                            <label for="">GPA / Percentage</label>
+                                            <input type="number" id="percentageMasters" step="0.1" class="form-control" placeholder="GPA">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Passing Year</label>
-                                            <input type="month" class="form-control" id="passingYearMasters" required>
+                                            <input type="month" class="form-control" id="passingYearMasters">
                                         </div>
                                     </div>
                                 </div>
@@ -887,20 +889,20 @@ Registeration Form
                                     <div class="row">
                                         <div class="col-6 col-md-3">
                                             <label for="">Listening</label>
-                                            <input type="number" min="0" max="10" step="0.1" id="listeningIELTS" class="form-control" placeholder="6.5" required>
+                                            <input type="number" min="0" max="10" step="0.1" id="listeningIELTS" class="form-control" placeholder="6.5">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Reading</label>
-                                            <input type="number" min="0" max="10" step="0.1" id="readingIELTS" class="form-control" placeholder="6.5" required>
+                                            <input type="number" min="0" max="10" step="0.1" id="readingIELTS" class="form-control" placeholder="6.5">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Speaking</label>
-                                            <input type="number" min="0" max="10" step="0.1" id="speakingIELTS" class="form-control" placeholder="6.5" required>
+                                            <input type="number" min="0" max="10" step="0.1" id="speakingIELTS" class="form-control" placeholder="6.5">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Writing</label>
-                                            <input type="number" min="0" max="10" step="0.1" id="writingIELTS" class="form-control" placeholder="6.5" required>
+                                            <input type="number" min="0" max="10" step="0.1" id="writingIELTS" class="form-control" placeholder="6.5">
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6">
@@ -909,7 +911,7 @@ Registeration Form
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <label for="">Passing Year</label>
-                                                <input type="month" id="passingYearIELTS" class="form-control" placeholder="Department Name" required>
+                                                <input type="month" id="passingYearIELTS" class="form-control" placeholder="Department Name">
                                             </div>
                                         </div>
                                     </div>
@@ -924,20 +926,20 @@ Registeration Form
                                     <div class="row">
                                         <div class="col-6 col-md-3">
                                             <label for="">Listening</label>
-                                            <input type="number" min="0" max="30" step="1" id="listeningTOEFL" class="form-control" placeholder="26" required>
+                                            <input type="number" min="0" max="30" step="1" id="listeningTOEFL" class="form-control" placeholder="26">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Reading</label>
-                                            <input type="number" min="0" max="30" step="1" id="readingTOEFL" class="form-control" placeholder="21" required>
+                                            <input type="number" min="0" max="30" step="1" id="readingTOEFL" class="form-control" placeholder="21">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Speaking</label>
-                                            <input type="number" min="0" max="30" step="1" id="speakingTOEFL" max="4" class="form-control" placeholder="23" required>
+                                            <input type="number" min="0" max="30" step="1" id="speakingTOEFL" max="4" class="form-control" placeholder="23">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Writing</label>
-                                            <input type="number" min="0" max="30" step="1" id="writingTOEFL" class="form-control" placeholder="22" required>
+                                            <input type="number" min="0" max="30" step="1" id="writingTOEFL" class="form-control" placeholder="22">
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6">
@@ -946,7 +948,7 @@ Registeration Form
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <label for="">Passing Year</label>
-                                                <input type="month" id="passingYearTOEFL" class="form-control" placeholder="Department Name" required>
+                                                <input type="month" id="passingYearTOEFL" class="form-control" placeholder="Department Name">
                                             </div>
                                         </div>
                                     </div>
@@ -961,29 +963,29 @@ Registeration Form
                                     <div class="row">
                                         <div class="col-6 col-md-3">
                                             <label for="">Listening</label>
-                                            <input type="number" min="0" max="30" step="1" id="listeningPTE" class="form-control" placeholder="26" required>
+                                            <input type="number" min="0" max="30" step="1" id="listeningPTE" class="form-control" placeholder="26">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Reading</label>
-                                            <input type="number" min="0" max="30" step="1" id="readingPTE" class="form-control" placeholder="21" required>
+                                            <input type="number" min="0" max="30" step="1" id="readingPTE" class="form-control" placeholder="21">
                                         </div>
                                         {{-- To be updated by JS --}}
                                         <div class="col-6 col-md-3">
                                             <label for="">Speaking</label>
-                                            <input type="number" min="0" max="30" step="1" id="speakingPTE" max="4" class="form-control" placeholder="23" required>
+                                            <input type="number" min="0" max="30" step="1" id="speakingPTE" max="4" class="form-control" placeholder="23">
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <label for="">Writing</label>
-                                            <input type="number" min="0" max="30" step="1" id="writingPTE" class="form-control" placeholder="22" required>
+                                            <input type="number" min="0" max="30" step="1" id="writingPTE" class="form-control" placeholder="22">
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-12 col-md-6">
                                                 <label for="">Overall Score</label>
-                                                <input type="number" id="overallPTE" class="form-control" placeholder="Score" required>
+                                                <input type="number" id="overallPTE" class="form-control" placeholder="Score">
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <label for="">Passing Year</label>
-                                                <input type="month" id="passingYearPTE" class="form-control" placeholder="Department Name" required>
+                                                <input type="month" id="passingYearPTE" class="form-control" placeholder="Department Name">
                                             </div>
                                         </div>
                                     </div>
@@ -1526,12 +1528,12 @@ $(document).ready(function () {
     function toggleEducationForms(){
         const q = $('#qualification').val();
 
-        $('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').addClass('d-none');
+        $('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').addClass('d-none').find('input').prop('required', false);
 
-        if(q == "Matriculation"){$('#MatricForm').removeClass('d-none')}
-        if(q == "Intermediate"){$('#MatricForm, #IntermediateForm').removeClass('d-none')}
-        if(q == "Bachelors"){$('#MatricForm, #IntermediateForm, #BachelorsForm').removeClass('d-none')}
-        if(q == "Masters"){$('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').removeClass('d-none')}
+        if(q == "Matriculation"){$('#MatricForm').removeClass('d-none').find('input').prop('required', true)}
+        if(q == "Intermediate"){$('#MatricForm, #IntermediateForm').removeClass('d-none').find('input').prop('required', true)}
+        if(q == "Bachelors"){$('#MatricForm, #IntermediateForm, #BachelorsForm').removeClass('d-none').find('input').prop('required', true)}
+        if(q == "Masters"){$('#MatricForm, #IntermediateForm, #BachelorsForm, #MastersForm').removeClass('d-none').find('input').prop('required', true)}
     }
 
     function toggleEnglishTestForms(selectedTests = []){
@@ -1611,20 +1613,6 @@ $(document).ready(function () {
             $('#obtainedMarksIntermediate'),
             $('#totalMarksIntermediate'),
             $('#percentageIntermediate')
-        )
-    })
-    $('#obtainedMarksBachelors, #totalMarksBachelors').on('input', function(){
-        calculatePercentage(
-            $('#obtainedMarksBachelors'),
-            $('#totalMarksBachelors'),
-            $('#percentageBachelors')
-        )
-    })
-    $('#obtainedMarksMasters, #totalMarksMasters').on('input', function(){
-        calculatePercentage(
-            $('#obtainedMarksMasters'),
-            $('#totalMarksMasters'),
-            $('#percentageMasters')
         )
     })
 
@@ -1779,7 +1767,7 @@ $(document).ready(function () {
         let isValid = true;
 
         $('#step2Form')
-            .find('input, select')
+            .find('input')
             .filter(':visible')
             .each(function () {
                 const $this = $(this);
@@ -1946,7 +1934,6 @@ $(document).ready(function () {
 
         else if($('#step3Form').hasClass('active')) {
             if (!validateStep3()) return; // animation + validation here
-            saveStep3ToLocal();
             showStep(4);
         }
     });

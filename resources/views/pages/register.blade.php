@@ -1522,6 +1522,14 @@
                 <!-- Step 4 -->
                 <div class="form-step" id="step4Form">
                     <div class="form-body">
+                        <div class="alert alert-warning d-flex align-items-start">
+                            <i class="ri-alert-line me-2 fs-5"></i>
+                            <div>
+                                <strong>Important:</strong>
+                                Please fill all the fields in one sit.
+                                For security reasons, uploaded files are not saved if you refresh or leave this page.
+                            </div>
+                        </div>
                         <h4 class="step-title"><i class="ri-file-check-line"></i> Select Programs you're interested in:
                         </h4>
 
@@ -1654,7 +1662,6 @@
                 if (step === 4) {
                     $('#nextBtn').hide();
                     $('#submitBtn').show();
-                    fillReview();
                 } else {
                     $('#nextBtn').show();
                     $('#submitBtn').hide();

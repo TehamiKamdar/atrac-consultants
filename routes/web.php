@@ -61,3 +61,5 @@ Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.
 
 Route::get('register', [RegisterController::class , 'index'])->name('register');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
+Route::get('/get-departments', [RegisterController::class, 'departments']);
+Route::get('/get-universities', [RegisterController::class, 'universities']);

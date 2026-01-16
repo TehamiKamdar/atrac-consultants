@@ -631,7 +631,7 @@
                                 <div class="input-group">
                                     <!-- Prefix dropdown 25% -->
                                     <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;" required>
-                                        <option value="">0300</option>
+                                        <option value="0300">0300</option>
                                         <option value="0301">0301</option>
                                         <option value="0321">0321</option>
                                         <option value="0333">0333</option>
@@ -1099,7 +1099,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="cnic-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1121,7 +1121,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="cnic-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1143,7 +1143,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="passport" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1165,7 +1165,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="photograph" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1187,7 +1187,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="cv-resume" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF | Max 2MB</small>
@@ -1209,7 +1209,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden>
+                                        <input type="file" id="experience" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1231,7 +1231,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden>
+                                        <input type="file" id="english" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1253,7 +1253,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden>
+                                        <input type="file" id="motivation" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1275,7 +1275,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="matric-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1297,7 +1297,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="matric-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1319,7 +1319,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="intermediate-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1341,7 +1341,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="intermediate-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1363,7 +1363,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="bachelors-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1385,7 +1385,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="bachelors-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1407,7 +1407,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="masters-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1429,7 +1429,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="masters-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1451,7 +1451,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="ielts" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1473,7 +1473,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="toefl" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1495,7 +1495,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" hidden required>
+                                        <input type="file" id="pte" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1512,9 +1512,7 @@
                         <div class="alert alert-warning d-flex align-items-start">
                             <i class="ri-alert-line me-2 fs-5"></i>
                             <div>
-                                <strong>Important:</strong>
-                                Please fill all the fields in one sit.
-                                For security reasons, uploaded files are not saved if you refresh or leave this page.
+                                <strong>Important:</strong> Please fill all the fields in one sit. For security reasons, uploaded files are not saved if you refresh or leave this page.
                             </div>
                         </div>
                         <h4 class="step-title"><i class="ri-file-check-line"></i> Select Programs you're interested in:
@@ -1525,8 +1523,8 @@
 
                             <div class="col-md-4">
                                 <label class="form-label">Program</label>
-                                <select class="form-select" id="programSelect" disabled>
-                                    <option value="">Select Program</option>
+                                <select class="form-select" id="departmentSelect" disabled>
+                                    <option value="">Select Department</option>
                                 </select>
                             </div>
 
@@ -1625,6 +1623,60 @@
                 }
             });
 
+            $('#applying').on('change', function () {
+                const countryId = $('#country').val();
+                const programLevelId = $(this).val();
+
+                console.log(countryId)
+                console.log(programLevelId)
+
+                $('#departmentSelect').prop('disabled', true).html('<option>Select Department</option>');
+                $('#universitySelect').prop('disabled', true).html('<option>Select University</option>');
+
+                $.get('/get-departments', {
+                    country_id: countryId,
+                    program_level_id: programLevelId
+                }, function (data) {
+                    
+                    console.log(data)
+
+                    let options = '<option value="" disabled selected>Select Department</option>';
+
+                    data.forEach(dep => {
+                        options += `<option value="${dep.id}">${dep.name}</option>`;
+                    });
+
+                    $('#departmentSelect').html(options).prop('disabled', false);
+                });
+            });
+
+            $('#departmentSelect').on('change', function () {
+                const departmentId = $(this).val();
+                const countryId = $('#country').val();
+                const programLevelId = $('#applying').val();
+
+                $('#universitySelect').prop('disabled', true).html('<option>Select University</option>');
+
+                $.get('/get-universities', {
+                    department_id: departmentId,
+                    country_id: countryId,
+                    program_level_id: programLevelId
+                }, function (data) {
+
+                    if (!data.length) {
+                        $('#universitySelect').html('<option>No university found</option>');
+                    }
+
+                    let options = '<option value="" disabled selected>Select University</option>';
+
+                    data.forEach(u => {
+                        options += `<option value="${u.id}">${u.name}</option>`;
+                    });
+
+                    $('#universitySelect').html(options).prop('disabled', false);
+                });
+            });
+
             const STEP1_KEY = 'student_step1';
             const STEP2_KEY = 'student_step2';
             const STEP3_KEY = 'student_step3';
@@ -1668,6 +1720,10 @@
                     loadStep2FromLocal();
                     // Toggle forms based on qualification
                     toggleEducationForms();
+                }
+                if (step === 2) {
+                    // Load saved data
+                    loadStep3FromLocal();
                 }
             }
 
@@ -2160,23 +2216,31 @@
 
             function validateStep3() {
                 let isValid = true;
-                $('#step3Form input[type="file"][required]').each(function() {
+
+                $('#step3Form .upload-card:visible input[type="file"][required]').each(function () {
                     if (this.files.length === 0) {
                         isValid = false;
 
-                        $(this).closest('.upload-card').find('.badge').removeClass(
-                            'bg-secondary bg-success').addClass('bg-danger').text('Required')
+                        $(this)
+                            .closest('.upload-card')
+                            .find('.badge')
+                            .removeClass('bg-secondary bg-success')
+                            .addClass('bg-danger')
+                            .text('Required');
                     }
+                });
 
-                })
-                if (!isValid) alert('Please upload required documents before proceeding.');
+                if (!isValid) {
+                    alert('Please upload required documents before proceeding.');
+                }
+
                 return isValid;
             }
 
             function saveStep3ToLocal() {
                 const docs = {};
                 $('#step3Form input[type="file"]').each(function() {
-                    const id = $(this).id;
+                    const id = $(this).attr('id'); // BUT input ke paas id hi nahi
 
                     docs[id] = this.files.length > 0;
                 })

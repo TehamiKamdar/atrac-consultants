@@ -60,3 +60,4 @@ Route::get('/explode',function(){
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
 
 Route::get('register', [RegisterController::class , 'index'])->name('register');
+Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);

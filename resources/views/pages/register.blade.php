@@ -580,9 +580,6 @@
                                 <input type="text" class="form-control" id="lastName" placeholder="Enter your last name"
                                     required>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="fatherName" class="form-label">Father Name <span
                                         class="text-danger">*</span></label>
@@ -596,9 +593,6 @@
                                 <input type="text" class="form-control" id="motherName"
                                     placeholder="Enter your mother name" required>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="cob" class="form-label">City of Birth <span
                                         class="text-danger">*</span></label>
@@ -610,13 +604,9 @@
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="dob" required>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cnic" placeholder="01234-0123456-0"
-                                    required>
+                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\" placeholder="01234-0123456-0" required>
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -625,9 +615,6 @@
                                 <input type="text" class="form-control" id="passport" placeholder="PK000000000"
                                     required>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
                                         class="text-danger">*</span></label>
@@ -639,37 +626,38 @@
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="passportValidThru" required>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone # <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="phone" placeholder="0000-0000000"
-                                    required>
+                                <label for="phone" class="form-label">Phone # <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <!-- Prefix dropdown 25% -->
+                                    <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;" required>
+                                        <option value="">0300</option>
+                                        <option value="0301">0301</option>
+                                        <option value="0321">0321</option>
+                                        <option value="0333">0333</option>
+                                    </select>
+
+                                    <!-- Main number input 75% -->
+                                    <input type="text" id="phoneNumber" class="form-control" style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
+                                </div>
                             </div>
+
 
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="email" placeholder="test@example.com"
                                     required>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-10 mb-3">
+                            <div class="col-12 mb-3">
                                 <label for="address" class="form-label">Address <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="address"
                                     placeholder="House Number, Street, Area, City" required>
                             </div>
-                            <div class="col-2 mb-3">
+                            <div class="col-6 mb-3">
                                 <label for="postalCode" class="form-label">Postal Code </label>
-                                <input type="text" class="form-control" id="postalCode" placeholder="00000">
+                                <input type="text" class="form-control" id="postalCode" maxlength="5" placeholder="00000">
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="qualification" class="form-label">Latest Qualification <span
                                         class="text-danger">*</span></label>
@@ -681,25 +669,10 @@
                                     <option value="Masters">Masters</option>
                                 </select>
                             </div>
-
                             <div class="col-md-6 mb-3">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="percentage" placeholder="79% / 3.9 GPA"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="country" class="form-label">Country to Apply for <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="country" required>
-                                    <option value="" selected disabled>Select Country</option>
-                                    @foreach ($activeCountries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="number" step="0.01" class="form-control" id="percentage" placeholder="79% / 3.2 GPA " required>
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -713,13 +686,28 @@
                                     <option value="Masters">Spring 27'</option>
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3" id="englishTestGroup">
-                                <label class="form-label">Any English Test Attempted? <span
+                            <div class="col-md-6 mb-3">
+                                <label for="country" class="form-label">Country to Apply for <span
                                         class="text-danger">*</span></label>
-                                <div class="d-flex gap-3">
+                                <select class="form-select" id="country" required>
+                                    <option value="" selected disabled>Select Country</option>
+                                    @foreach ($activeCountries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="country" class="form-label">Applying For? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="applying" required disabled>
+                                    <option value="" selected disabled>Select Program..</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3" id="englishTestGroup">
+                                <label class="form-label">Any English Test Attempted? <span class="text-danger">*</span></label>
+                                <div class="d-flex gap-3 align-items-center">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="IELTS" id="testIELTS"
                                             name="english_test[]">
@@ -745,9 +733,8 @@
                                     Please select at least one option
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3" id="englishTestGroup">
-                                <label for="proficiency" class="form-label">English Proficiency Letter <span
-                                        class="text-danger">*</span></label>
+                            <div class="col-md-6 mb-3">
+                                <label for="proficiency" class="form-label">English Proficiency Letter <span class="text-danger">*</span></label>
                                 <select class="form-select" id="proficiency" required>
                                     <option value="" selected disabled>Select Intake</option>
                                     <option value="1">Yes</option>
@@ -1619,6 +1606,24 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            $('#country').on('change', function() {
+                var countryId = $(this).val();
+
+                if (countryId) {
+                    $.get('/get-country-programs/' + countryId, function(data) {
+                        var $dropdown = $('#applying');
+                        $dropdown.empty().append('<option value="">Select Program</option>');
+
+                        $.each(data, function(i, program) {
+                            $dropdown.append('<option value="' + program.id + '">' + program.name + '</option>');
+                        });
+
+                        $dropdown.prop('disabled', false);
+                    });
+                } else {
+                    $('#applying').empty().append('<option value="">Select Program..</option>').prop('disabled', true);
+                }
+            });
 
             const STEP1_KEY = 'student_step1';
             const STEP2_KEY = 'student_step2';
@@ -1795,6 +1800,26 @@
                     $('#percentageIntermediate')
                 )
             })
+
+            $('#cnic').on('input', function() {
+                var val = $(this).val();
+
+                // Remove anything besides digits
+                val = val.replace(/\D/g, '');
+
+                // Add hyphens at the correct positions
+                if(val.length > 5 && val.length <= 12) {
+                    val = val.slice(0,5) + '-' + val.slice(5);
+                } else if(val.length > 12) {
+                    val = val.slice(0,5) + '-' + val.slice(5,12) + '-' + val.slice(12,13);
+                }
+
+                $(this).val(val);
+            });
+
+            $('#phoneNumber, #postalCode').on('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+            });
 
             const overallTOEFL = calculateTOEFLScore(
                 $('#listeningTOEFL'),

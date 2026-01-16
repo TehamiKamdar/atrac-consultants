@@ -2241,8 +2241,15 @@
                 PREVIOUS BUTTON
             ------------------------------*/
             $('#prevBtn').on('click', function() {
+                // console.log(currentStep);
                 if (currentStep > 1) {
-                    showStep(currentStep - 1);
+                    currentStep = currentStep - 1;
+                    if(currentStep == 3){
+                        showStep(currentStep);
+                        loadStep2FromLocal()
+                        toggleDocuments();
+                    }
+                    showStep(currentStep)
                 }
 
             });

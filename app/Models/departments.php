@@ -13,7 +13,7 @@ class departments extends Model
 
     public function program()
     {
-        return $this->belongsTo(programs::class, 'program_id');
+        return $this->belongsTo(programs::class);
     }
 
     public function courses()

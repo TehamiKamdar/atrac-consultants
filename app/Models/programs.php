@@ -11,13 +11,16 @@ class programs extends Model
 
     protected $fillable = ['university_id', 'name', 'duration', 'description'];
 
-    public function university()
-    {
-        return $this->belongsTo(universities::class, 'university_id');
+    public function university() {
+        return $this->belongsTo(universities::class);
     }
 
-    public function departments()
-    {
-        return $this->hasMany(departments::class, 'program_id');
+    public function level() {
+        return $this->belongsTo(program_levels::class, 'program_level_id');
+    }
+
+    public function departments() {
+        return $this->hasMany(departments::class);
     }
 }
+

@@ -13,11 +13,11 @@ class universities extends Model
 
     public function country()
     {
-        return $this->belongsTo(country::class, 'country_id');
+        return $this->belongsTo(country::class);
     }
 
     public function programs()
     {
-        return $this->hasMany(programs::class, 'university_id');
+        return $this->hasMany(programs::class);
     }
 }

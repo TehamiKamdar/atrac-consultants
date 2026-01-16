@@ -194,8 +194,8 @@
                                 <div>
                                     <strong>Email:</strong>
                                     <span class="d-block"><a
-                                            href="https://mail.google.com/mail/?view=cm&to=atracconsultants@gmail.com&su=Inquiry%20About%20{{$university->name}}&body={{ urlencode("Hey there!, I want some details about {$university->name}. I would like to here from you ASAP.") }}"
-                                            target="_blank">atracconsultants@gmail.com</a></span>
+                                            href="https://mail.google.com/mail/?view=cm&to=apply@atracconsultants.com&su=Inquiry%20About%20{{$university->name}}&body={{ urlencode("Hey there!, I want some details about {$university->name}. I would like to here from you ASAP.") }}"
+                                            target="_blank">apply@atracconsultants.com</a></span>
                                 </div>
                             </li>
                             <li class="list-group-item d-flex align-items-center">

@@ -980,7 +980,7 @@
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
-                                            <label for="">Overall Score</label>
+                                            <label for="">Overall Bands</label>
                                             <input type="number" id="overallIELTS" class="form-control"
                                                 placeholder="score" readonly>
                                         </div>
@@ -1538,36 +1538,21 @@
 
                             <div class="col-md-4">
                                 <label class="form-label">Program</label>
-                                <select class="form-select" id="programSelect">
+                                <select class="form-select" id="programSelect" disabled>
                                     <option value="">Select Program</option>
-                                    <option value="BS Computer Science">BS Computer Science</option>
-                                    <option value="BS Business Admin">BS Business Admin</option>
-                                    <option value="MBA">MBA</option>
                                 </select>
                             </div>
 
                             <div class="col-md-4">
                                 <label class="form-label">University</label>
-                                <select class="form-select" id="universitySelect">
+                                <select class="form-select" id="universitySelect" disabled>
                                     <option value="">Select University</option>
-                                    <option value="University of Toronto">University of Toronto</option>
-                                    <option value="University of Melbourne">University of Melbourne</option>
-                                    <option value="University of London">University of London</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
-                                <label class="form-label">Campus</label>
-                                <select class="form-select" id="campusSelect">
-                                    <option value="">Select Campus</option>
-                                    <option value="Main Campus">Main Campus</option>
-                                    <option value="City Campus">City Campus</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2 d-grid">
+                            <div class="col-md-1 d-grid">
                                 <button type="button" id="addProgramBtn" class="btn btn-success ">
-                                    <i class="ri-add-line"></i> Add
+                                    <i class="ri-add-line"></i>
                                 </button>
                             </div>
 
@@ -1580,17 +1565,17 @@
                                         <th>#</th>
                                         <th>Program</th>
                                         <th>University</th>
-                                        <th>Campus</th>
                                         <th width="60">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="programTable">
                                     <tr class="text-muted text-center" id="noDataRow">
-                                        <td colspan="5">No programs added yet</td>
+                                        <td colspan="4">No programs added yet</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
 
@@ -1913,9 +1898,8 @@
 
                 const program = $('#programSelect').val();
                 const university = $('#universitySelect').val();
-                const campus = $('#campusSelect').val();
 
-                if (!program || !university || !campus) {
+                if (!program || !university) {
                     alert('Please select Program, University & Campus');
                     return;
                 }
@@ -1923,8 +1907,7 @@
                 // prevent duplicate
                 const exists = programList.some(item =>
                     item.program === program &&
-                    item.university === university &&
-                    item.campus === campus
+                    item.university === university
                 );
 
                 if (exists) {
@@ -1932,12 +1915,12 @@
                     return;
                 }
 
-                programList.push({ program, university, campus });
+                programList.push({ program, university });
 
                 renderProgramTable();
 
                 // reset selects
-                $('#programSelect, #universitySelect, #campusSelect').val('');
+                $('#programSelect, #universitySelect').val('');
             });
 
             function renderProgramTable() {
@@ -1960,7 +1943,6 @@
                             <td>${index + 1}</td>
                             <td>${item.program}</td>
                             <td>${item.university}</td>
-                            <td>${item.campus}</td>
                             <td class="text-center">
                                 <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
                                     <i class="ri-delete-bin-line"></i>

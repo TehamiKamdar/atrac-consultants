@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class universities extends Model
+class university extends Model
 {
     use HasFactory;
+
+    protected $table = "universities";
 
     protected $fillable = ['country_id', 'name', 'description', 'location', 'website','slug', 'meta_title', 'meta_description', 'meta_keywords', 'country', 'state', 'city', 'image'];
 
@@ -18,6 +20,6 @@ class universities extends Model
 
     public function programs()
     {
-        return $this->hasMany(programs::class);
+        return $this->hasMany(program::class);
     }
 }

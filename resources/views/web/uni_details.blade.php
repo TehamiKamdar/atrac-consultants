@@ -80,12 +80,11 @@
 
                 @php
                     $programTabs = [
-                        'associate' => ['id' => 'associate', 'label' => "Associate Degree", 'icon' => 'ri-graduation-cap-line'],
-                        'bachelors' => ['id' => 'bachelors', 'label' => "Bachelor's", 'icon' => 'ri-book-2-line'],
-                        'masters' => ['id' => 'master', 'label' => "Master's", 'icon' => 'ri-medal-line'],
-                        'phd' => ['id' => 'phd', 'label' => "PhD", 'icon' => 'ri-user-star-line'],
+                        'associate_degree' => ['id' => 'associate_degree', 'label' => "Associate Degree", 'icon' => 'ri-graduation-cap-line'],
+                        'bachelors'       => ['id' => 'bachelors',       'label' => "Bachelor's",       'icon' => 'ri-book-2-line'],
+                        'masters'         => ['id' => 'masters',         'label' => "Master's",         'icon' => 'ri-medal-line'],
+                        'phd'             => ['id' => 'phd',             'label' => "PhD",              'icon' => 'ri-user-star-line'],
                     ];
-
                 @endphp
 
                 <div class="programs-tabs bg-white rounded-3 shadow-sm">

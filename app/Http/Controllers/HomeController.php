@@ -9,7 +9,7 @@ use App\Models\consults;
 use App\Models\contacts;
 use App\Mail\RequestMail;
 use App\Mail\ContactEmail;
-use App\Models\universities;
+use App\Models\university;
 use Illuminate\Http\Request;
 use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
@@ -158,7 +158,7 @@ class HomeController extends Controller
 
         $country = country::where('slug', '=', $slug)->select('id', 'name')->first();
         $countryName = $country->name;
-        $universities = universities::where('universities.country_id', '=', $country->id)
+        $universities = university::where('universities.country_id', '=', $country->id)
             ->join('states', 'states.id', '=', 'universities.state')
             ->join('cities', 'cities.id', '=', 'universities.city')
             ->join('countries', 'countries.id', '=', 'universities.country_id')
@@ -173,7 +173,7 @@ class HomeController extends Controller
         $countryId = country::where('slug', '=', $countryslug)->value('id');
 
 
-        $university = universities::with('programs.departments.courses')
+        $university = university::with(['programs.departments.courses', 'programs.level'])
         ->where('slug', $slug)
         ->where('country_id', $countryId)
         ->first();
@@ -198,7 +198,7 @@ class HomeController extends Controller
         $meta_description = $university->meta_description;
 
         $programsByLevel = $university->programs->groupBy(function ($program) {
-            return strtolower($program->name);
+            return strtolower(str_replace(' ', '_', $program->level->name)); // e.g. "Associate Degree" -> "associate_degree"
         });
 
         return view('web.uni_details', compact(

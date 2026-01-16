@@ -12,4 +12,9 @@ class country extends Model
     protected $table = 'countries';
 
     protected $fillable = ['country_name', 'slug'];
+
+    public function programLevels()
+    {
+        return $this->belongsToMany(program_level::class, 'country_programs', 'country_id', 'program_level_id');
+    }
 }

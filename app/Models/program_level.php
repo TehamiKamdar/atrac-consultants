@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class program_levels extends Model
+class program_level extends Model
 {
     use HasFactory;
+    protected $table = "program_levels";
     protected $fillable = ['name'];
 
     public function countries()
@@ -20,6 +21,6 @@ class program_levels extends Model
 
     public function programs()
     {
-        return $this->hasMany(programs::class);
+        return $this->hasMany(program::class);
     }
 }

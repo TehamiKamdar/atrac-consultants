@@ -1523,7 +1523,7 @@
 
                             <div class="col-md-4">
                                 <label class="form-label">Program</label>
-                                <select class="form-select" id="departmentSelect" disabled>
+                                <select class="form-select" id="departmentSelect">
                                     <option value="">Select Department</option>
                                 </select>
                             </div>
@@ -1536,7 +1536,7 @@
                             </div>
 
                             <div class="col-md-1 d-grid">
-                                <button type="button" id="addProgramBtn" class="btn btn-success ">
+                                <button type="button" id="addDepartmentBtn" class="btn btn-success ">
                                     <i class="ri-add-line"></i>
                                 </button>
                             </div>
@@ -1553,7 +1553,7 @@
                                         <th width="60">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="programTable">
+                                <tbody id="departmentTable">
                                     <tr class="text-muted text-center" id="noDataRow">
                                         <td colspan="4">No programs added yet</td>
                                     </tr>
@@ -1724,6 +1724,10 @@
                 if (step === 2) {
                     // Load saved data
                     loadStep3FromLocal();
+                }
+                if (step === 4) {
+                    // Load saved data
+                    loadStep4FromLocal();
                 }
             }
 
@@ -1973,22 +1977,25 @@
 
             loadEnglishTestsFromLocal();
 
-            let programList = [];
+            let departmentList = [];
 
-            $('#addProgramBtn').on('click', function () {
+            $('#addDepartmentBtn').on('click', function () {
 
-                const program = $('#programSelect').val();
-                const university = $('#universitySelect').val();
+                const departmentId = $('#departmentSelect').val();
+                const departmentName = $('#departmentSelect option:selected').text();
 
-                if (!program || !university) {
-                    alert('Please select Program, University & Campus');
+                const universityId = $('#universitySelect').val();
+                const universityName = $('#universitySelect option:selected').text();
+
+                if (!departmentId || !universityId) {
+                    alert('Please select Department & University');
                     return;
                 }
 
                 // prevent duplicate
-                const exists = programList.some(item =>
-                    item.program === program &&
-                    item.university === university
+                const exists = departmentList.some(item =>
+                    item.department_id === departmentId &&
+                    item.university_id === universityId
                 );
 
                 if (exists) {
@@ -1996,34 +2003,38 @@
                     return;
                 }
 
-                programList.push({ program, university });
+                departmentList.push({
+                    department_id: departmentId,
+                    department_name: departmentName,
+                    university_id: universityId,
+                    university_name: universityName
+                });
 
-                renderProgramTable();
+                renderDepartmentTable();
 
-                // reset selects
-                $('#programSelect, #universitySelect').val('');
+                $('#departmentSelect, #universitySelect').val('');
             });
 
-            function renderProgramTable() {
+            function renderDepartmentTable() {
 
-                const tbody = $('#programTable');
+                const tbody = $('#departmentTable');
                 tbody.empty();
 
-                if (programList.length === 0) {
+                if (departmentList.length === 0) {
                     tbody.append(`
-                        <tr class="text-muted text-center" id="noDataRow">
-                            <td colspan="5">No programs added yet</td>
+                        <tr class="text-muted text-center">
+                            <td colspan="4">No departments added yet</td>
                         </tr>
                     `);
                     return;
                 }
 
-                programList.forEach((item, index) => {
+                departmentList.forEach((item, index) => {
                     tbody.append(`
                         <tr>
                             <td>${index + 1}</td>
-                            <td>${item.program}</td>
-                            <td>${item.university}</td>
+                            <td>${item.department_name}</td>
+                            <td>${item.university_name}</td>
                             <td class="text-center">
                                 <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
                                     <i class="ri-delete-bin-line"></i>
@@ -2036,8 +2047,8 @@
 
             $(document).on('click', '.remove-row', function () {
                 const index = $(this).data('index');
-                programList.splice(index, 1);
-                renderProgramTable();
+                departmentList.splice(index, 1);
+                renderDepartmentTable();
             });
 
 
@@ -2248,6 +2259,17 @@
                 localStorage.setItem(STEP3_KEY, JSON.stringify(docs));
             }
 
+            function studentCountryBasisDepartment() {
+                localStorage.setItem('countryBasisDepartment', JSON.stringify({
+                    country_id: $('#country').val(),
+                    program_level_id: $('#applying').val()
+                }));
+            }
+
+            $('#departmentSelect').on('change', studentCountryBasisDepartment);
+            $('#universitySelect').on('change', studentCountryBasisDepartment);
+
+
             function loadStep3FromLocal() {
                 const data = localStorage.getItem(STEP3_KEY);
 
@@ -2264,6 +2286,57 @@
 
                 return true;
             }
+
+            function loadStep4FromLocal() {
+
+                const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
+                if (!step1) return;
+                
+                const country_id = step1.country;
+                const program_level_id = step1.applying;
+                
+                console.log(country_id)
+                console.log(program_level_id)
+
+                // country & program already restored elsewhere
+                // now reload departments
+                $.get('/get-departments', {
+                    country_id,
+                    program_level_id
+                }, function (departments) {
+
+                    let depOptions = '<option disabled>Select Department</option>';
+                    departments.forEach(d => {
+                        depOptions += `<option value="${d.id}">${d.name}</option>`;
+                    });
+
+                    $('#departmentSelect')
+                        .html(depOptions)
+                        .prop('disabled', false);
+
+                    // now load universities
+                    $.get('/get-universities', {
+                        department_id: $('#departmentSelect').val(),
+                        country_id,
+                        program_level_id
+                    }, function (universities) {
+
+                        let uniOptions = '<option disabled>Select University</option>';
+                        universities.forEach(u => {
+                            uniOptions += `<option value="${u.id}">${u.name}</option>`;
+                        });
+
+                        $('#universitySelect')
+                            .html(uniOptions)
+                            .prop('disabled', false);
+
+                        if (step4.university_id) {
+                            $('#universitySelect').val(step4.university_id);
+                        }
+                    });
+                });
+            }
+
 
             /* -----------------------------
                 REVIEW STEP DATA
@@ -2288,6 +2361,7 @@
                     if (!validateStep1()) return; // animation + validation here
                     saveStep1ToLocal();
                     saveEnglishTestsToLocal();
+                    studentCountryBasisDepartment();
                     showStep(2);
                 } else if ($('#step2Form').hasClass('active')) {
                     if (!validateStep2()) return; // animation + validation here

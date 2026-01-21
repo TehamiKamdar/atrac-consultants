@@ -2632,10 +2632,10 @@
 
                 // Step3 files
                 const step3Files = [
-                    'cnic_front','cnic_back','matric_front','matric_back',
-                    'intermediate_front','intermediate_back','bachelors_front','bachelors_back',
-                    'masters_front','masters_back','ielts','toefl','pte',
-                    'motivation_letter','proficiency_letter'
+                    'cnic-front','cnic-back','matric-front','matric-back',
+                    'intermediate-front','intermediate-back','bachelors-transcript','bachelors-degree',
+                    'masters-transcript','masters-degree','ielts','toefl','pte',
+                    'motivation-letter','proficiency-letter','passport','photograph','cv-resume','experience-letter','proficiency-letter','motivation-letter'
                 ];
 
                 step3Files.forEach(name => {
@@ -2647,6 +2647,8 @@
 
                 // CSRF token
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                console.log(formData);
 
                 // AJAX call
                 $.ajax({

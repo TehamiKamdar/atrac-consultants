@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('states', function (Blueprint $table) {
             $table->id();
-            $table->string('name',191)->required();
-            $table->string(column: 'slug')->required();
-            $table->string('currency',191)->required();
-            $table->string('iso2',191)->nullable();
-            $table->enum('status', ['active','inactive'])->default('inactive');
+            $table->foreignId('country_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('states');
     }
 };

@@ -155,38 +155,42 @@ class RegisterController extends Controller
 
             // List of input files you expect
             $documentFields = [
-                'cnic_front',
-                'cnic_back',
-                'matric_front',
-                'matric_back',
-                'intermediate_front',
-                'intermediate_back',
-                'bachelors_front',
-                'bachelors_back',
-                'masters_front',
-                'masters_back',
+                'cnic-front',
+                'cnic-back',
+                'passport',
+                'photograph',
+                'cv-resume',
+                'experience-letter',
+                'proficiency-letter',
+                'motivation-letter',
+                'matric-front',
+                'matric-back',
+                'intermediate-front',
+                'intermediate-back',
+                'bachelors-transcript',
+                'bachelors-degree',
+                'masters-transcript',
+                'masters-degree',
                 'ielts',
                 'toefl',
                 'pte',
-                'motivation_letter',
-                'proficiency_letter',
+                'motivation-letter',
+                'proficiency-letter',
             ];
 
             foreach ($documentFields as $field) {
-                if ($request->hasFile($field)) {
-                    $file = $request->file($field);
+                if ($request->hasFile("step3.$field")) {
 
-                    // Clean file name: lowercase, underscores
+                    $file = $request->file("step3.$field");
+
                     $extension = $file->getClientOriginalExtension();
                     $fileName = strtolower($field).'_'.time().'.'.$extension;
 
-                    // Store in public/documents/FirstName_LastName_documents/
                     $path = $file->storeAs($studentFolder, $fileName, 'public');
 
-                    // Save record in DB
                     \App\Models\StudentDocument::create([
                         'student_id' => $student->id,
-                        'type' => $field,
+                        'document_type' => $field,
                         'file_path' => $path,
                     ]);
                 }

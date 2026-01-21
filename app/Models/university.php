@@ -11,7 +11,7 @@ class university extends Model
 
     protected $table = "universities";
 
-    protected $fillable = ['country_id', 'name', 'description', 'location', 'website','slug', 'meta_title', 'meta_description', 'meta_keywords', 'country', 'state', 'city', 'image'];
+    protected $fillable = ['country_id', 'name', 'description', 'location', 'website','slug', 'meta_title', 'meta_description', 'meta_keywords', 'country', 'state_id', 'city_id', 'image'];
 
     public function country()
     {

@@ -10,6 +10,7 @@ class countrydetails extends Model
     protected $table = 'countrydetails';
 
     protected $fillable = [
+        'country_id',
         'meta_title',
         'meta_description',
         'image',

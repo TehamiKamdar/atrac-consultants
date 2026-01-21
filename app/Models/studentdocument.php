@@ -11,7 +11,7 @@ class studentdocument extends Model
 
     protected $table = "student_documents";
 
-    protected $fillable = ['document_type', 'file_path'];
+    protected $fillable = ['student_id','document_type', 'file_path'];
 
     public function student(){
         return $this->belongsTo(students::class);

@@ -438,7 +438,6 @@
         .success-message {
             text-align: center;
             padding: 3rem 2rem;
-            display: none;
         }
 
         .success-icon {
@@ -596,7 +595,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="cob" class="form-label">City of Birth <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cob" placeholder="Karachi, Lahore"
+                                <input type="text" class="form-control" id="city" placeholder="Karachi, Lahore"
                                     required>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -680,10 +679,10 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="intake" required>
                                     <option value="" selected disabled>Select Intake</option>
-                                    <option value="Matriculation">Spring 26'</option>
-                                    <option value="Intermediate">Summer 26'</option>
-                                    <option value="Bachelors">Fall 26'</option>
-                                    <option value="Masters">Spring 27'</option>
+                                    <option value="Spring 26'">Spring 26'</option>
+                                    <option value="Summer 26'">Summer 26'</option>
+                                    <option value="Fall 26'">Fall 26'</option>
+                                    <option value="Spring 27'">Spring 27'</option>
                                 </select>
                             </div>
 
@@ -1098,7 +1097,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cnic-front" hidden required>
+                                        <input type="file" name="cnic-front" id="cnic-front" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1120,7 +1119,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cnic-back" hidden required>
+                                        <input type="file" name="cnic-back" id="cnic-back" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1142,7 +1141,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="passport" hidden required>
+                                        <input type="file" name="passport" id="passport" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1164,7 +1163,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="photograph" hidden required>
+                                        <input type="file" name="photograph" id="photograph" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1186,7 +1185,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cv-resume" hidden required>
+                                        <input type="file" name="cv-resume" id="cv-resume" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF | Max 2MB</small>
@@ -1208,7 +1207,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="experience" hidden>
+                                        <input type="file" name="experience-letter" id="experience-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1222,7 +1221,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-image-line"></i> English Proficiency Letter
-                                                (if any) </h6>
+                                                 </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1230,7 +1229,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="proficiency-letter" hidden>
+                                        <input type="file" name="proficiency-letter" id="proficiency-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1243,7 +1242,7 @@
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Motivation Letter (if any)
+                                            <h6 class="mb-0"><i class="ri-image-line"></i> Motivation Letter
                                             </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
@@ -1252,7 +1251,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="motivation-letter" hidden>
+                                        <input type="file" name="motivation-letter" id="motivation-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1274,7 +1273,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="matric-front" hidden>
+                                        <input type="file" name="matric-front" id="matric-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1296,7 +1295,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="matric-back" hidden>
+                                        <input type="file" name="matric-back" id="matric-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1318,7 +1317,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="intermediate-front" hidden>
+                                        <input type="file" name="intermediate-front" id="intermediate-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1340,7 +1339,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="intermediate-back" hidden>
+                                        <input type="file" name="intermediate-back" id="intermediate-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1349,12 +1348,12 @@
                             </div>
 
                             <!-- Bachelors Transcript Front -->
-                            <div class="col-md-6 doc-bachelors-front">
+                            <div class="col-md-6 doc-bachelors-transcript">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript
-                                                Front <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span></h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1362,7 +1361,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="bachelors-front" hidden>
+                                        <input type="file" name="bachelors-transcript" id="bachelors-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1371,11 +1370,11 @@
                             </div>
 
                             <!-- Bachelors Transcript Back -->
-                            <div class="col-md-6 doc-bachelors-back">
+                            <div class="col-md-6 doc-bachelors-degree">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript Back
+                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Degree
                                                 <span class="text-danger">*</span></h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
@@ -1384,7 +1383,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="bachelors-back" hidden>
+                                        <input type="file" name="bachelors-degree" id="bachelors-degree" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1393,11 +1392,11 @@
                             </div>
 
                             <!-- Masters Transcript Front -->
-                            <div class="col-md-6 doc-masters-front">
+                            <div class="col-md-6 doc-masters-transcript">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript Front
+                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript
                                                 <span class="text-danger">*</span></h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
@@ -1406,7 +1405,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="masters-front" hidden>
+                                        <input type="file" name="masters-transcript" id="masters-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1415,11 +1414,11 @@
                             </div>
 
                             <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-masters-back">
+                            <div class="col-md-6 doc-masters-degree">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript Back
+                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Degree
                                                 <span class="text-danger">*</span></h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
@@ -1428,7 +1427,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="masters-back" hidden>
+                                        <input type="file" name="masters-degree" id="masters-degree" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1450,7 +1449,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="ielts" hidden>
+                                        <input type="file" name="ielts-certificate" id="ielts-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1472,7 +1471,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="toefl" hidden>
+                                        <input type="file" name="toefl-certificate" id="toefl-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1494,7 +1493,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="pte" hidden>
+                                        <input type="file" name="pte-certificate" id="pte-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1564,7 +1563,7 @@
                 </div>
 
                 <!-- Success Message -->
-                <div class="success-message" id="successMessage">
+                <div class="success-message d-none" id="successMessage">
                     <div class="success-icon">
                         <i class="ri-checkbox-circle-fill"></i>
                     </div>
@@ -1777,8 +1776,8 @@
                     '.doc-proficiency-letter, .doc-motivation-letter,' +
                     '.doc-matric-front, .doc-matric-back,' +
                     '.doc-intermediate-front, .doc-intermediate-back,' +
-                    '.doc-bachelors-front, .doc-bachelors-back,' +
-                    '.doc-masters-front, .doc-masters-back,' +
+                    '.doc-bachelors-transcript, .doc-bachelors-degree,' +
+                    '.doc-masters-transcript, .doc-masters-degree,' +
                     '.doc-ielts, .doc-toefl, .doc-pte'
                 );
 
@@ -1813,7 +1812,7 @@
                     showDocs.push(
                         '.doc-matric-front', '.doc-matric-back',
                         '.doc-intermediate-front', '.doc-intermediate-back',
-                        '.doc-bachelors-front', '.doc-bachelors-back'
+                        '.doc-bachelors-transcript', '.doc-bachelors-degree'
                     );
                 }
 
@@ -1821,8 +1820,8 @@
                     showDocs.push(
                         '.doc-matric-front', '.doc-matric-back',
                         '.doc-intermediate-front', '.doc-intermediate-back',
-                        '.doc-bachelors-front', '.doc-bachelors-back',
-                        '.doc-masters-front', '.doc-masters-back'
+                        '.doc-bachelors-transcript', '.doc-bachelors-degree',
+                        '.doc-masters-transcript', '.doc-masters-degree'
                     );
                 }
 
@@ -2530,6 +2529,142 @@
             } else {
                 showStep(1);
             }
+
+            function prepareStep2Payload(step2Raw) {
+                const levels = ['matric', 'intermediate', 'bachelors', 'masters'];
+                const step2 = {};
+
+                levels.forEach(level => {
+                    let record = {};
+
+                    switch(level) {
+                        case 'matric':
+                            record = {
+                                board: step2Raw.boardMatric || null,
+                                institute: step2Raw.schoolName || null,
+                                subject: step2Raw.subjectMatric || null,
+                                passing_year: step2Raw.passingYearMatric || null,
+                                obtained_marks: step2Raw.obtainedMarksMatric || null,
+                                total_marks: step2Raw.totalMarksMatric || null,
+                                grade_or_cgpa: step2Raw.percentageMatric || null,
+                            };
+                            break;
+
+                        case 'intermediate':
+                            record = {
+                                board: step2Raw.boardIntermediate || null,
+                                institute: step2Raw.collegeName || null,
+                                subject: step2Raw.subjectIntermediate || null,
+                                passing_year: step2Raw.passingYearIntermediate || null,
+                                obtained_marks: step2Raw.obtainedMarksIntermediate || null,
+                                total_marks: step2Raw.totalMarksIntermediate || null,
+                                grade_or_cgpa: step2Raw.percentageIntermediate || null,
+                            };
+                            break;
+
+                        case 'bachelors':
+                            record = {
+                                board: step2Raw.boardBachelors || null,
+                                institute: step2Raw.universityBachelors || null,
+                                subject: step2Raw.subjectBachelors || null,
+                                passing_year: step2Raw.passingYearBachelors || null,
+                                obtained_marks: step2Raw.obtainedMarksBachelors || null,
+                                total_marks: step2Raw.totalMarksBachelors || null,
+                                grade_or_cgpa: step2Raw.percentageBachelors || null,
+                            };
+                            break;
+
+                        case 'masters':
+                            record = {
+                                board: step2Raw.boardMasters || null,
+                                institute: step2Raw.universityMasters || null,
+                                subject: step2Raw.subjectMasters || null,
+                                passing_year: step2Raw.passingYearMasters || null,
+                                obtained_marks: step2Raw.obtainedMarksMasters || null,
+                                total_marks: step2Raw.totalMarksMasters || null,
+                                grade_or_cgpa: step2Raw.percentageMasters || null,
+                            };
+                            break;
+                    }
+
+                    // 🔹 Check if all values are null/empty
+                    const hasData = Object.values(record).some(v => v !== null && v !== '');
+                    if (hasData) {
+                        step2[level] = record; // only include if not empty
+                    }
+                });
+
+                return step2;
+            }
+
+            $('#studentForm').on('submit', function(e) {
+                e.preventDefault(); // prevent default submit
+
+                const step1 = JSON.parse(localStorage.getItem('student_step1'));
+                const step2 = prepareStep2Payload(JSON.parse(localStorage.getItem('student_step2')));
+                const step4 = JSON.parse(localStorage.getItem('department_list'));
+                const englishTests = JSON.parse(localStorage.getItem('english_tests'));
+                const formData = new FormData();
+
+                // Step1
+                for (const key in step1) {
+                    formData.append(`step1[${key}]`, step1[key]);
+                }
+
+                // Step2
+                for (const level in step2) {
+                    for (const field in step2[level]) {
+                        formData.append(`step2[${level}][${field}]`, step2[level][field]);
+                    }
+                }
+
+                // Step4 → backend expects step4
+                step4.forEach((dep, i) => {
+                    for (const key in dep) {
+                        formData.append(`step4[${i}][${key}]`, dep[key]);
+                    }
+                });
+
+                // English tests
+                englishTests.forEach((test, i) => {
+                    formData.append(`english_test_list[${i}]`, test);
+                });
+
+                // Step3 files
+                const step3Files = [
+                    'cnic_front','cnic_back','matric_front','matric_back',
+                    'intermediate_front','intermediate_back','bachelors_front','bachelors_back',
+                    'masters_front','masters_back','ielts','toefl','pte',
+                    'motivation_letter','proficiency_letter'
+                ];
+
+                step3Files.forEach(name => {
+                    const input = document.querySelector(`input[name="${name}"]`);
+                    if(input && input.files.length > 0){
+                        formData.append(`step3[${name}]`, input.files[0]);
+                    }
+                });
+
+                // CSRF token
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                // AJAX call
+                $.ajax({
+                    url: '/student/register',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res){
+                        $('#successMessage').removeClass('d-none');
+                        localStorage.clear();
+                    },
+                    error: function(err){
+                        console.error(err.responseText);
+                    }
+                });
+            });
+
 
         });
     </script>

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->id();
             // future linking (nullable for now)
+            $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('first_name');
             $table->string('last_name');
@@ -29,13 +29,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->text('address');
             $table->string('postal_code')->nullable();
-            $table->string('latest_qualification')->nullable();
+            $table->string('qualification')->nullable();
             $table->decimal('percentage', 4, 2)->nullable();
             $table->string('intake')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
-            $table->unsignedBigInteger('applying_for_program_id')->nullable();
-            $table->foreign('applying_for_program_id')->references('id')->on('program_levels')->onDelete('set null');
+            $table->unsignedBigInteger('program_level_id')->nullable();
+            $table->foreign('program_level_id')->references('id')->on('program_levels')->onDelete('set null');
             $table->json('english_test')->nullable();
             $table->boolean('english_proficiency')->default(false);
             $table->boolean('account_created')->default(false);

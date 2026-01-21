@@ -59,7 +59,8 @@ Route::get('/explode',function(){
 
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
 
-Route::get('register', [RegisterController::class , 'index'])->name('register');
+Route::get('student/register', [RegisterController::class , 'index'])->name('register');
+Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);

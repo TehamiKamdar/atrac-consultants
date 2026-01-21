@@ -11,7 +11,7 @@ class studenteducation extends Model
 
     protected $table = 'student_educations';
 
-    protected $fillable = ['level','institute','board','subject','passing_year','obtained_marks','total_marks','grade_or_cgpa'];
+    protected $fillable = ['student_id','level','institute','board','subject','passing_year','obtained_marks','total_marks','grade_or_cgpa'];
 
     public function student(){
         return $this->belongsTo(students::class);

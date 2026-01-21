@@ -10,12 +10,12 @@
         content="{{ $meta_title ?? "Atrac Consultants. Trusted by students, recommended by success" }}">
     <meta property="og:description"
         content="{{ $meta_description ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <!-- Custom Font -->
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/bambino-2">

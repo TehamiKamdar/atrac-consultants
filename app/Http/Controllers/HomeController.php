@@ -159,8 +159,8 @@ class HomeController extends Controller
         $country = country::where('slug', '=', $slug)->select('id', 'name')->first();
         $countryName = $country->name;
         $universities = university::where('universities.country_id', '=', $country->id)
-            ->join('states', 'states.id', '=', 'universities.state')
-            ->join('cities', 'cities.id', '=', 'universities.city')
+            ->join('states', 'states.id', '=', 'universities.state_id')
+            ->join('cities', 'cities.id', '=', 'universities.city_id')
             ->join('countries', 'countries.id', '=', 'universities.country_id')
             ->select('cities.name as cityName', 'states.name as stateName', 'countries.slug as countryslug', 'universities.*')
             ->get();
@@ -185,11 +185,11 @@ class HomeController extends Controller
 
         // Safe queries for state & city
         $state = DB::table('states')
-        ->where('id', $university->state)
+        ->where('id', $university->state_id)
         ->value('name'); // direct string return karega
 
         $city = DB::table('cities')
-        ->where('id', $university->city)
+        ->where('id', $university->city_id)
         ->value('name');
         // return $city;
 

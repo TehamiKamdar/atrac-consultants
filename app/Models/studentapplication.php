@@ -11,14 +11,14 @@ class studentapplication extends Model
 
     protected $table = "student_applications";
 
-    protected $fillable = ['student_id', 'country_id', 'university_id', 'program_id'];
+    protected $fillable = ['student_id', 'country_id', 'university_id', 'program_id', 'department_id'];
 
     public function student(){
         return $this->belongsTo(students::class);
     }
 
     public function university(){
-        return $this->belongsTo(universities::class);
+        return $this->belongsTo(university::class);
     }
 
     public function country(){
@@ -26,6 +26,10 @@ class studentapplication extends Model
     }
 
     public function program(){
-        return $this->belongsTo(programs::class);
+        return $this->belongsTo(program::class);
+    }
+
+    public function department(){
+        return $this->belongsTo(departments::class);
     }
 }

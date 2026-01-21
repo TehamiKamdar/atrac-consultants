@@ -736,9 +736,8 @@
                             <div class="col-md-6 mb-3">
                                 <label for="proficiency" class="form-label">English Proficiency Letter <span class="text-danger">*</span></label>
                                 <select class="form-select" id="proficiency" required>
-                                    <option value="" selected disabled>Select Intake</option>
+                                    <option value="0" selected>No</option>
                                     <option value="1">Yes</option>
-                                    <option value="0">No</option>
                                 </select>
                             </div>
                         </div>
@@ -1099,7 +1098,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cnic-front" hidden>
+                                        <input type="file" id="cnic-front" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1121,7 +1120,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cnic-back" hidden>
+                                        <input type="file" id="cnic-back" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1143,7 +1142,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="passport" hidden>
+                                        <input type="file" id="passport" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1165,7 +1164,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="photograph" hidden>
+                                        <input type="file" id="photograph" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1187,7 +1186,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="cv-resume" hidden>
+                                        <input type="file" id="cv-resume" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF | Max 2MB</small>
@@ -1218,7 +1217,7 @@
                             </div>
 
                             <!-- English Proficiency Letter -->
-                            <div class="col-md-6 doc-english">
+                            <div class="col-md-6 doc-proficiency-letter">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
@@ -1231,7 +1230,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="english" hidden>
+                                        <input type="file" id="proficiency-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1240,7 +1239,7 @@
                             </div>
 
                             <!-- Motivation Letter -->
-                            <div class="col-md-6 doc-motivation">
+                            <div class="col-md-6 doc-motivation-letter">
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
@@ -1253,7 +1252,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" id="motivation" hidden>
+                                        <input type="file" id="motivation-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1572,9 +1571,6 @@
                     <h3>Registration Successful!</h3>
                     <p>Thank you for completing the form. We have received your information and will contact you shortly.
                     </p>
-                    <button type="button" class="btn btn-primary" id="newFormBtn">
-                        <i class="ri-restart-line"></i> Start New Form
-                    </button>
                 </div>
 
                 <!-- Form Footer with Navigation Buttons -->
@@ -1637,7 +1633,7 @@
                     country_id: countryId,
                     program_level_id: programLevelId
                 }, function (data) {
-                    
+
                     console.log(data)
 
                     let options = '<option value="" disabled selected>Select Department</option>';
@@ -1775,41 +1771,96 @@
             }
 
             function toggleDocuments() {
-                $('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back, .doc-masters-front, .doc-masters-back, .doc-ielts, .doc-toefl, .doc-pte')
-                    .addClass('d-none').find('input').prop('required', false);
-                const q = $('#qualification').val();
-                if (q == "Matriculation") {
-                    $('.doc-matric-front, .doc-matric-back').removeClass('d-none').find('input').prop('required',
-                        true)
-                }
-                if (q == "Intermediate") {
-                    $('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back')
-                        .removeClass('d-none').find('input').prop('required', true)
-                }
-                if (q == "Bachelors") {
-                    $('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back')
-                        .removeClass('d-none').find('input').prop('required', true)
-                }
-                if (q == "Masters") {
-                    $('.doc-matric-front, .doc-matric-back, .doc-intermediate-front, .doc-intermediate-back, .doc-bachelors-front, .doc-bachelors-back, .doc-masters-front, .doc-masters-back')
-                        .removeClass('d-none').find('input').prop('required', true)
+
+                // 1️⃣ Reset everything
+                const allDocs = $(
+                    '.doc-proficiency-letter, .doc-motivation-letter,' +
+                    '.doc-matric-front, .doc-matric-back,' +
+                    '.doc-intermediate-front, .doc-intermediate-back,' +
+                    '.doc-bachelors-front, .doc-bachelors-back,' +
+                    '.doc-masters-front, .doc-masters-back,' +
+                    '.doc-ielts, .doc-toefl, .doc-pte'
+                );
+
+                allDocs
+                    .addClass('d-none')
+                    .find('input[type="file"]')
+                    .prop({
+                        required: false,
+                        disabled: true
+                    });
+
+                // 2️⃣ Qualification based documents
+                const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
+                const q = step1.qualification;
+                const c = step1.country;
+                const p = step1.proficiency;
+
+                const showDocs = [];
+
+                if (q === 'Matriculation') {
+                    showDocs.push('.doc-matric-front', '.doc-matric-back');
                 }
 
+                if (q === 'Intermediate') {
+                    showDocs.push(
+                        '.doc-matric-front', '.doc-matric-back',
+                        '.doc-intermediate-front', '.doc-intermediate-back'
+                    );
+                }
+
+                if (q === 'Bachelors') {
+                    showDocs.push(
+                        '.doc-matric-front', '.doc-matric-back',
+                        '.doc-intermediate-front', '.doc-intermediate-back',
+                        '.doc-bachelors-front', '.doc-bachelors-back'
+                    );
+                }
+
+                if (q === 'Masters') {
+                    showDocs.push(
+                        '.doc-matric-front', '.doc-matric-back',
+                        '.doc-intermediate-front', '.doc-intermediate-back',
+                        '.doc-bachelors-front', '.doc-bachelors-back',
+                        '.doc-masters-front', '.doc-masters-back'
+                    );
+                }
+
+                if(c === '107'){
+                    showDocs.push(
+                        '.doc-motivation-letter'
+                    )
+                }
+
+                if(p === '1'){
+                    showDocs.push(
+                        '.doc-proficiency-letter'
+                    )
+                }
+
+                // 3️⃣ English tests
                 const stored = localStorage.getItem('english_tests');
-                if (!stored) return;
-                const selectedTests = JSON.parse(stored);
+                if (stored) {
+                    const tests = JSON.parse(stored);
 
-                if (selectedTests.includes('IELTS')) $('.doc-ielts').removeClass('d-none').find('input').prop(
-                    'required', true);
-                if (selectedTests.includes('TOEFL')) $('.doc-toefl').removeClass('d-none').find('input').prop(
-                    'required', true);
-                if (selectedTests.includes('PTE')) $('.doc-pte').removeClass('d-none').find('input').prop(
-                    'required', true);
+                    if (tests.includes('IELTS')) showDocs.push('.doc-ielts');
+                    if (tests.includes('TOEFL')) showDocs.push('.doc-toefl');
+                    if (tests.includes('PTE')) showDocs.push('.doc-pte');
+                }
 
-                // Required toggle (only visible files are required)
-                $('.upload-card input[type="file"]').prop('required', false); // reset
-                $('.upload-card:visible input[type="file"]').prop('required', true);
+                // 4️⃣ Apply show + required ONLY once (🔥 key part)
+                $(showDocs.join(','))
+                .removeClass('d-none')
+                .find('input[type="file"]')
+                .prop({
+                    required: true,
+                    disabled: false
+                });
+
+                console.log('Country value:', c, typeof c);
+                console.log('Show docs before apply:', showDocs);
             }
+
 
             function calculatePercentage(obtained, total, target) {
                 // console.log("hello");
@@ -1979,6 +2030,24 @@
 
             let departmentList = [];
 
+            // Load from localStorage on page load
+            function loadDepartmentsFromLocal() {
+                const stored = localStorage.getItem('department_list');
+                if (stored) {
+                    try {
+                        departmentList = JSON.parse(stored);
+                    } catch(e) {
+                        departmentList = [];
+                    }
+                }
+                renderDepartmentTable();
+            }
+
+            // Save to localStorage
+            function saveDepartmentsToLocal() {
+                localStorage.setItem('department_list', JSON.stringify(departmentList));
+            }
+
             $('#addDepartmentBtn').on('click', function () {
 
                 const departmentId = $('#departmentSelect').val();
@@ -1992,6 +2061,12 @@
                     return;
                 }
 
+                // Max 5 restriction
+                if (departmentList.length >= 5) {
+                    alert('You can only add a maximum of 5 programs.');
+                    return;
+                }
+
                 // prevent duplicate
                 const exists = departmentList.some(item =>
                     item.department_id === departmentId &&
@@ -1999,7 +2074,7 @@
                 );
 
                 if (exists) {
-                    alert('This combination is already added');
+                    alert('Selected program & university are already added');
                     return;
                 }
 
@@ -2012,7 +2087,7 @@
 
                 renderDepartmentTable();
 
-                $('#departmentSelect, #universitySelect').val('');
+                $('#departmentSelect').on('change', studentCountryBasisDepartment);
             });
 
             function renderDepartmentTable() {
@@ -2043,6 +2118,8 @@
                         </tr>
                     `);
                 });
+
+                saveDepartmentsToLocal();
             }
 
             $(document).on('click', '.remove-row', function () {
@@ -2051,7 +2128,7 @@
                 renderDepartmentTable();
             });
 
-
+            loadDepartmentsFromLocal();
 
             /* -----------------------------
                 STEP 1 VALIDATION
@@ -2227,10 +2304,14 @@
 
             function validateStep3() {
                 let isValid = true;
+                let firstInvalid = null;
 
-                $('#step3Form .upload-card:visible input[type="file"][required]').each(function () {
+                $('#step3Form input[type="file"][required]:enabled').each(function () {
+
                     if (this.files.length === 0) {
                         isValid = false;
+
+                        if (!firstInvalid) firstInvalid = this;
 
                         $(this)
                             .closest('.upload-card')
@@ -2243,6 +2324,11 @@
 
                 if (!isValid) {
                     alert('Please upload required documents before proceeding.');
+
+                    // 🔥 optional: auto scroll to first missing document
+                    $('html, body').animate({
+                        scrollTop: $(firstInvalid).closest('.upload-card').offset().top - 120
+                    }, 400);
                 }
 
                 return isValid;
@@ -2264,10 +2350,10 @@
                     country_id: $('#country').val(),
                     program_level_id: $('#applying').val()
                 }));
+                $('#universitySelect').attr('disabled', true);
             }
 
             $('#departmentSelect').on('change', studentCountryBasisDepartment);
-            $('#universitySelect').on('change', studentCountryBasisDepartment);
 
 
             function loadStep3FromLocal() {
@@ -2291,21 +2377,17 @@
 
                 const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
                 if (!step1) return;
-                
+
                 const country_id = step1.country;
                 const program_level_id = step1.applying;
-                
-                console.log(country_id)
-                console.log(program_level_id)
 
-                // country & program already restored elsewhere
-                // now reload departments
+                // load departments
                 $.get('/get-departments', {
                     country_id,
                     program_level_id
                 }, function (departments) {
 
-                    let depOptions = '<option disabled>Select Department</option>';
+                    let depOptions = '<option value="" disabled selected>Select Department</option>';
                     departments.forEach(d => {
                         depOptions += `<option value="${d.id}">${d.name}</option>`;
                     });
@@ -2313,30 +2395,36 @@
                     $('#departmentSelect')
                         .html(depOptions)
                         .prop('disabled', false);
-
-                    // now load universities
-                    $.get('/get-universities', {
-                        department_id: $('#departmentSelect').val(),
-                        country_id,
-                        program_level_id
-                    }, function (universities) {
-
-                        let uniOptions = '<option disabled>Select University</option>';
-                        universities.forEach(u => {
-                            uniOptions += `<option value="${u.id}">${u.name}</option>`;
-                        });
-
-                        $('#universitySelect')
-                            .html(uniOptions)
-                            .prop('disabled', false);
-
-                        if (step4.university_id) {
-                            $('#universitySelect').val(step4.university_id);
-                        }
-                    });
                 });
             }
 
+            $('#departmentSelect').on('change', function () {
+
+                const department_id = $(this).val();
+                if (!department_id) return;
+
+                const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
+                if (!step1) return;
+
+                const country_id = step1.country;
+                const program_level_id = step1.applying;
+
+                $.get('/get-universities', {
+                    department_id,
+                    country_id,
+                    program_level_id
+                }, function (universities) {
+
+                    let uniOptions = '<option value="" disabled selected>Select University</option>';
+                    universities.forEach(u => {
+                        uniOptions += `<option value="${u.id}">${u.name}</option>`;
+                    });
+
+                    $('#universitySelect')
+                        .html(uniOptions)
+                        .prop('disabled', false);
+                });
+            });
 
             /* -----------------------------
                 REVIEW STEP DATA
@@ -2356,7 +2444,8 @@
             /* -----------------------------
                 NEXT BUTTON
             ------------------------------*/
-            $('#nextBtn').on('click', function() {
+            $('#nextBtn').on('click', function(e) {
+                 e.preventDefault(); // ⛔ form submit rok do
                 if ($('#step1Form').hasClass('active')) {
                     if (!validateStep1()) return; // animation + validation here
                     saveStep1ToLocal();

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained();
             $table->foreignId('university_id')->nullable()->constrained();
             $table->foreignId('program_id')->nullable()->constrained();
+            $table->foreignId('department_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

@@ -2594,6 +2594,35 @@
                     }
                 });
 
+                // --------------------
+                // English Tests
+                // --------------------
+                step2.english_tests = {
+                    IELTS: {
+                        listening: step2Raw.listeningIELTS || null,
+                        reading: step2Raw.readingIELTS || null,
+                        speaking: step2Raw.speakingIELTS || null,
+                        writing: step2Raw.writingIELTS || null,
+                        score: step2Raw.overallIELTS || null,
+                        test_date: step2Raw.passingYearIELTS || null,
+                    },
+                    TOEFL: {
+                        listening: step2Raw.listeningTOEFL || null,
+                        reading: step2Raw.readingTOEFL || null,
+                        speaking: step2Raw.speakingTOEFL || null,
+                        writing: step2Raw.writingTOEFL || null,
+                        score: step2Raw.overallTOEFL || null,
+                        test_date: step2Raw.passingYearTOEFL || null,
+                    },
+                    PTE: {
+                        listening: step2Raw.listeningPTE || null,
+                        reading: step2Raw.readingPTE || null,
+                        speaking: step2Raw.speakingPTE || null,
+                        writing: step2Raw.writingPTE || null,
+                        score: step2Raw.overallPTE || null,
+                        test_date: step2Raw.passingYearPTE || null,
+                    }
+                };
                 return step2;
             }
 
@@ -2648,7 +2677,7 @@
                 // CSRF token
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
-                console.log(formData);
+                console.log(step2);
 
                 // AJAX call
                 $.ajax({
@@ -2658,6 +2687,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res){
+                        $('#studentForm').addClass('d-none');
                         $('#successMessage').removeClass('d-none');
                         localStorage.clear();
                     },

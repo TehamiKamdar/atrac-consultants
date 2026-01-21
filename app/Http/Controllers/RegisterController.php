@@ -95,6 +95,9 @@ class RegisterController extends Controller
 
             // saving student's academics (educational) records.
             foreach ($data['step2'] as $level => $academic) {
+                if($level === "english_tests"){
+                    continue;
+                }
                 studenteducation::create([
                     'student_id' => $student->id,        // Foreign key
                     'level' => $level,                   // matric / intermediate / bachelors
@@ -108,41 +111,26 @@ class RegisterController extends Controller
                 ]);
             }
 
-            // saving students english test records
-            $tests = ['IELTS', 'TOEFL', 'PTE'];
+            if (!empty($data['step2']['english_tests'])) {
+                foreach ($data['step2']['english_tests'] as $test => $values) {
 
-            foreach ($tests as $test) {
+                    if (collect($values)->filter()->isEmpty()) {
+                        continue;
+                    }
 
-                // Extract values
-                $listening = $data['step2']["listening$test"] ?? null;
-                $reading = $data['step2']["reading$test"] ?? null;
-                $speaking = $data['step2']["speaking$test"] ?? null;
-                $writing = $data['step2']["writing$test"] ?? null;
-                $score = $data['step2']["overall$test"] ?? null;
-                $test_date = $data['step2']["passingYear$test"] ?? null;
-
-                // Skip if all fields are empty strings or null
-                if (
-                    empty($listening) &&
-                    empty($reading) &&
-                    empty($speaking) &&
-                    empty($writing) &&
-                    empty($score) &&
-                    empty($test_date)
-                ) {
-                    continue; // skip this test
+                    studentenglishtests::create([
+                        'student_id' => $student->id,
+                        'test_name'  => $test,
+                        'listening'  => $values['listening'],
+                        'reading'    => $values['reading'],
+                        'speaking'   => $values['speaking'],
+                        'writing'    => $values['writing'],
+                        'score'      => $values['score'],
+                        'test_date'  => !empty($values['test_date'])
+                            ? substr($values['test_date'], 0, 4)
+                            : null,
+                    ]);
                 }
-
-                studentenglishtests::create([
-                    'student_id' => $student->id,
-                    'test_name' => $test,
-                    'listening' => $listening ?: null,
-                    'reading' => $reading ?: null,
-                    'speaking' => $speaking ?: null,
-                    'writing' => $writing ?: null,
-                    'score' => $score ?: null,
-                    'test_date' => !empty($test_date) ? substr($test_date,0,4) : null,
-                ]);
             }
 
             // saving student's documents

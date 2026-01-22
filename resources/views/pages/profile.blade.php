@@ -144,33 +144,33 @@
             <table>
                 <tr>
                     <td class="label">First Name</td>
-                    <td>{{ $student->first_name }}</td>
+                    <td>{{ $student->first_name ?? '-' }}</td>
                     <td class="label">Last Name</td>
-                    <td>{{ $student->last_name }}</td>
+                    <td>{{ $student->last_name ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Father Name</td>
-                    <td>{{ $student->father_name }}</td>
+                    <td>{{ $student->father_name ?? '-' }}</td>
                     <td class="label">Mother Name</td>
-                    <td>{{ $student->mother_name }}</td>
+                    <td>{{ $student->mother_name ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Date of Birth</td>
-                    <td>{{ \Carbon\Carbon::parse($student->dob)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($student->dob)->format('d M Y') ?? '-' }}</td>
                     <td class="label">City</td>
-                    <td>{{ $student->city }}</td>
+                    <td>{{ $student->city ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">CNIC</td>
-                    <td>{{ $student->cnic }}</td>
+                    <td>{{ $student->cnic ?? '-' }}</td>
                     <td class="label">Passport #</td>
-                    <td>{{ $student->passport_number }}</td>
+                    <td>{{ $student->passport_number ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Passport Valid From</td>
-                    <td>{{ \Carbon\Carbon::parse($student->passport_valid_from)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($student->passport_valid_from)->format('d M Y') ?? '-' }}</td>
                     <td class="label">Passport Valid Thru</td>
-                    <td>{{ \Carbon\Carbon::parse($student->passport_valid_thru)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($student->passport_valid_thru)->format('d M Y') ?? '-' }}</td>
                 </tr>
             </table>
         </div>
@@ -180,15 +180,15 @@
             <table>
                 <tr>
                     <td class="label">Address</td>
-                    <td>{{ $student->address }}</td>
+                    <td>{{ $student->address ?? '-' }}</td>
                     <td class="label">Postal Code</td>
-                    <td>{{ $student->postal_code }}</td>
+                    <td>{{ $student->postal_code ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Email</td>
-                    <td>{{ $student->email }}</td>
+                    <td>{{ $student->email ?? '-' }}</td>
                     <td class="label">Phone</td>
-                    <td>{{ $student->phone }}</td>
+                    <td>{{ $student->phone ?? '-' }}</td>
                 </tr>
             </table>
         </div>
@@ -198,25 +198,25 @@
             <table>
                 <tr>
                     <td class="label">Qualification</td>
-                    <td>{{ $student->qualification }}</td>
+                    <td>{{ $student->qualification ?? '-' }}</td>
                     <td class="label">Percentage / GPA</td>
-                    <td>{{ $student->percentage }}{{ $student->percentage <= 4 ? ' GPA' : '%' }}</td>
+                    <td>{{ $student->percentage ?? '-' }}{{ $student->percentage <= 4 ? ' GPA' : '%' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Interested Country </td>
-                    <td>{{ $country }}</td>
+                    <td>{{ $country ?? '-' }}</td>
                     <td class="label">Interested Program</td>
-                    <td>{{ $program_level }}</td>
+                    <td>{{ $program_level ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td class="label">Intake</td>
-                    <td>{{ $student->intake }}</td>
+                    <td>{{ $student->intake ?? '-' }}</td>
                     <td class="label">English Test Given</td>
                     <td>
                         @php
                             $tests = json_decode($student->english_test, true) ?: ['None'];
                         @endphp
-                        {{ implode(', ', $tests) }}
+                        {{ implode(', ', $tests) ?? '-' }}
                     </td>
                 </tr>
             </table>
@@ -246,14 +246,14 @@
                 <tbody>
                     @foreach ($education_details as $edu)
                         <tr>
-                            <td>{{ ucfirst($edu->level) }}</td>
-                            <td>{{ ucfirst($edu->institute) }}</td>
-                            <td>{{ ucfirst($edu->board) }}</td>
-                            <td>{{ ucfirst($edu->subject) }}</td>
-                            <td>{{ $edu->passing_year }}</td>
-                            <td>{{ floor($edu->obtained_marks) }}</td>
-                            <td>{{ floor($edu->total_marks) }}</td>
-                            <td>{{ $edu->grade_or_cgpa }}</td>
+                            <td>{{ ucfirst($edu->level) ?? '-' }}</td>
+                            <td>{{ ucfirst($edu->institute) ?? '-' }}</td>
+                            <td>{{ ucfirst($edu->board) ?? '-' }}</td>
+                            <td>{{ ucfirst($edu->subject) ?? '-' }}</td>
+                            <td>{{ $edu->passing_year ?? '-' }}</td>
+                            <td>{{ floor($edu->obtained_marks) ?? '-' }}</td>
+                            <td>{{ floor($edu->total_marks) ?? '-' }}</td>
+                            <td>{{ $edu->grade_or_cgpa ?? '-' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -20,7 +20,11 @@ class PdfController extends Controller
         $program_level = program_level::where('id', $student->program_level_id)->value('name');
         $education_details = studenteducation::where('student_id', $id)->get();
         $english_test_details = studentenglishtests::where('student_id', $id)->get();
-        $application_details = studentapplication::where('student_id', $id)->get();
+        $application_details = studentapplication::join('universities', 'student_applications.university_id', '=', 'universities.id')
+            ->join('departments', 'student_applications.department_id', '=', 'departments.id')
+            ->where('student_applications.student_id', $id)
+            ->select('universities.name as university', 'departments.name as department')
+            ->get();
 
         // Load PDF with same variables as view
         $pdf = Pdf::loadView('pages.profile', compact(

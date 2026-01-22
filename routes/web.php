@@ -64,3 +64,6 @@ Route::post('student/register', [RegisterController::class , 'store'])->name('st
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
+Route::get('generate/student/profile', function(){
+    return view('pages.profile');
+});

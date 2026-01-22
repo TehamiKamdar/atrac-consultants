@@ -407,98 +407,6 @@
             }
         }
 
-        @media (max-width: 576px) {
-
-            .card-head-images small {
-                display: block;
-                min-height: 30px;
-                font-size: 10px;
-            }
-
-            .logo-box {
-                width: 200px;
-                height: 70px;
-            }
-
-            .logo-text {
-                font-size: 1.4rem;
-            }
-
-            .progress-steps {
-                gap: 5px;
-            }
-
-            .step-circle {
-                width: 35px;
-                height: 35px;
-                font-size: 0.8rem;
-            }
-
-            .step-label {
-                top: 40px;
-            }
-
-            label{
-                font-size: 0.6rem;
-            }
-
-            .form-footer .btn{
-                font-size: 0.65rem;
-                padding: 0.5rem 1rem;
-            }
-
-            .form-footer .step-indicator{
-                font-size: 0.65rem;
-            }
-        }
-        @media (max-width: 480px) {
-            .form-header{
-                padding: 1rem;
-            }
-
-            .form-header h2{
-                font-size: 1rem;
-            }
-
-            .form-header p{
-                font-size: 0.75rem;
-            }
-
-            .form-body{
-                padding: 0.7rem 1rem
-            }
-
-            label{
-                font-size: 0.6rem;
-            }
-
-            .form-footer .btn{
-                font-size: 0.65rem;
-                padding: 0.5rem 1rem;
-            }
-
-            .form-footer .step-indicator{
-                font-size: 0.65rem;
-            }
-
-            .step-label{
-                font-size: 0.55rem;
-            }
-
-            .form-control,
-            .form-select{
-                padding: 0.65rem 0.5rem;
-                border-radius: 4px;
-                font-size: 0.75rem;
-            }
-            .mb-sm-2{
-                margin-bottom: 0.5rem !important;
-            }
-            .invalid-feedback{
-                font-size: .65em;
-            }
-        }
-
         /* Success Message */
         .success-message {
             display: flex;
@@ -568,6 +476,140 @@
         .card-head-images small {
             display: block;
             min-height: 50px;
+            width: 95%;
+        }
+
+        @media (max-width: 576px) {
+
+            .card-head-images small {
+                display: block;
+                min-height: 30px;
+                font-size: 10px;
+                width: 90%;
+            }
+
+            .logo-box {
+                width: 200px;
+                height: 70px;
+            }
+
+            .logo-text {
+                font-size: 1.4rem;
+            }
+
+            .progress-steps {
+                gap: 5px;
+            }
+
+            .step-circle {
+                width: 35px;
+                height: 35px;
+                font-size: 0.8rem;
+            }
+
+            .step-label {
+                top: 40px;
+            }
+
+            label{
+                font-size: 0.6rem;
+            }
+
+            .form-footer .btn{
+                font-size: 0.65rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .form-footer .step-indicator{
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-header{
+                padding: 1rem;
+            }
+
+            .form-header h2{
+                font-size: 1rem;
+            }
+
+            .form-header p{
+                font-size: 0.75rem;
+            }
+
+            .form-body{
+                padding: 0.7rem 1rem
+            }
+
+            .form-body p{
+                font-size: 0.75rem;
+            }
+
+            .form-body h6{
+                font-size: 0.75rem;
+            }
+
+            .card-head-images small{
+                font-size: 0.5rem;
+                min-height: 25px;
+            }
+
+            .badge{
+                font-size: 0.65em;
+                padding: 0.6em 0.8em 0.65em;
+            }
+
+            .upload-box{
+                padding: 0;
+                padding-bottom: 12px;
+            }
+
+            label{
+                font-size: 0.6rem;
+            }
+
+            .form-footer .btn{
+                font-size: 0.65rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .form-footer .step-indicator{
+                font-size: 0.65rem;
+            }
+
+            .step-label{
+                font-size: 0.55rem;
+            }
+
+            .form-control,
+            .form-select{
+                padding: 0.65rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.75rem;
+            }
+            .mb-sm-2{
+                margin-bottom: 0.5rem !important;
+            }
+            .invalid-feedback{
+                font-size: .65em;
+            }
+
+            .alert{
+                font-size: 0.75rem;
+            }
+
+            table  th{
+                font-size: 0.75rem;
+            }
+
+            table  td{
+                font-size: 0.7rem;
+            }
+
+            table .btn-sm{
+                padding: 0.25rem .75rem
+            }
         }
     </style>
 @endsection
@@ -812,17 +854,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="row mb-3">
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">School</label>
                                             <input type="text" id="schoolName" class="form-control"
                                                 placeholder="School Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Board</label>
                                             <input type="text" id="boardMatric" class="form-control"
                                                 placeholder="Board Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Subject</label>
                                             <input type="text" id="subjectMatric" class="form-control"
                                                 placeholder="Subject Name">
@@ -842,7 +884,7 @@
                                     <div class="col-6 col-md-3">
                                         <label for="">Percentage</label>
                                         <input type="number" id="percentageMatric" max="100" class="form-control"
-                                            placeholder="GPA" readonly>
+                                            placeholder="Percentage" readonly>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Passing Year</label>
@@ -859,17 +901,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="row mb-3">
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">College / Institute</label>
                                             <input type="text" id="collegeName" class="form-control"
                                                 placeholder="College / Institute">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Board</label>
                                             <input type="text" id="boardIntermediate" class="form-control"
                                                 placeholder="Board Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Subject</label>
                                             <input type="text" id="subjectIntermediate" class="form-control"
                                                 placeholder="Subject Name">
@@ -889,7 +931,7 @@
                                     <div class="col-6 col-md-3">
                                         <label for="">Percentage</label>
                                         <input type="number" id="percentageIntermediate" max="100"
-                                            class="form-control" placeholder="GPA" readonly>
+                                            class="form-control" placeholder="Percentage" readonly>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Passing Year</label>
@@ -906,17 +948,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="row mb-3">
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">University</label>
                                             <input type="text" id="universityBachelors" class="form-control"
                                                 placeholder="University Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Department</label>
                                             <input type="text" id="boardBachelors" class="form-control"
                                                 placeholder="Department Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Subject</label>
                                             <input type="text" id="subjectBachelors" class="form-control"
                                                 placeholder="Subject Name">
@@ -953,17 +995,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="row mb-3">
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">University</label>
                                             <input type="text" id="universityMasters" class="form-control"
                                                 placeholder="University Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Department</label>
                                             <input type="text" id="boardMasters" class="form-control"
                                                 placeholder="Department Name">
                                         </div>
-                                        <div class="col-6 col-md-4">
+                                        <div class="col-12 col-md-4">
                                             <label for="">Subject</label>
                                             <input type="text" id="subjectMasters" class="form-control"
                                                 placeholder="Subject Name">
@@ -1024,7 +1066,7 @@
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Bands</label>
                                             <input type="number" id="overallIELTS" class="form-control"
-                                                placeholder="score" readonly>
+                                                placeholder="Bands" readonly>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1067,7 +1109,7 @@
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Score</label>
                                             <input type="number" id="overallTOEFL" class="form-control"
-                                                placeholder="score" readonly>
+                                                placeholder="Score" readonly>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1154,7 +1196,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="cnic-front" id="cnic-front" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png;" name="cnic-front" id="cnic-front" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1176,7 +1218,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="cnic-back" id="cnic-back" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="cnic-back" id="cnic-back" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1198,7 +1240,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="passport" id="passport" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="passport" id="passport" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1220,7 +1262,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="photograph" id="photograph" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="photograph" id="photograph" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1242,7 +1284,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="cv-resume" id="cv-resume" hidden required>
+                                        <input type="file" accept=".pdf" name="cv-resume" id="cv-resume" hidden required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF | Max 2MB</small>
@@ -1264,7 +1306,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="experience-letter" id="experience-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="experience-letter" id="experience-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1286,7 +1328,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="proficiency-letter" id="proficiency-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="proficiency-letter" id="proficiency-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1308,7 +1350,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="motivation-letter" id="motivation-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="motivation-letter" id="motivation-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1330,7 +1372,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="matric-front" id="matric-front" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-front" id="matric-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1352,7 +1394,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="matric-back" id="matric-back" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-back" id="matric-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1374,7 +1416,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="intermediate-front" id="intermediate-front" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-front" id="intermediate-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1396,7 +1438,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="intermediate-back" id="intermediate-back" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-back" id="intermediate-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1418,7 +1460,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="bachelors-transcript" id="bachelors-transcript" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-transcript" id="bachelors-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1440,7 +1482,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="bachelors-degree" id="bachelors-degree" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-degree" id="bachelors-degree" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1462,7 +1504,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="masters-transcript" id="masters-transcript" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-transcript" id="masters-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1484,7 +1526,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="masters-degree" id="masters-degree" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-degree" id="masters-degree" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1506,7 +1548,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="ielts-certificate" id="ielts-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="ielts-certificate" id="ielts-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1528,7 +1570,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="toefl-certificate" id="toefl-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="toefl-certificate" id="toefl-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1550,7 +1592,7 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" name="pte-certificate" id="pte-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="pte-certificate" id="pte-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1570,14 +1612,12 @@
                                 <strong>Important:</strong> Please fill all the fields in one sit. For security reasons, uploaded files are not saved if you refresh or leave this page.
                             </div>
                         </div>
-                        <h4 class="step-title"><i class="ri-file-check-line"></i> Select Programs you're interested in:
-                        </h4>
 
                         <!-- Step 4 : Program Selection -->
                         <div class="row g-3 align-items-end mb-4">
 
                             <div class="col-md-4">
-                                <label class="form-label">Program</label>
+                                <label class="form-label">Department</label>
                                 <select class="form-select" id="departmentSelect">
                                     <option value="">Select Department</option>
                                 </select>
@@ -2528,8 +2568,8 @@
                 if (currentStep > 1) {
 
                     // Remove completed class from current step before going back
-                    $(`#step${currentStep}`).removeClass('completed');
-                    $(`#step${currentStep} .span`).html(''); // remove check icon if needed
+                    $(`#step${currentStep-1}`).removeClass('completed');
+                    $(`#step${currentStep-1} .span`).html(currentStep-1); // remove check icon if needed
 
                     currentStep = currentStep - 1;
                     if(currentStep == 3){

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('institute');
             $table->string('board');
             $table->string('subject');
-            $table->double('obtained_marks', 6, 2);
-            $table->double('total_marks', 6, 2);
+            $table->decimal('obtained_marks',5,2);
+            $table->decimal('total_marks',5,2);
             $table->year('passing_year');
             $table->string('grade_or_cgpa')->nullable();
             $table->timestamps();

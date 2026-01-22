@@ -63,8 +63,9 @@ class RegisterController extends Controller
             'step1' => 'required|array',
             'step2' => 'required|array',
             'step3' => 'sometimes|array',
-            'step4' => 'required|array',
+            'step4' => 'sometimes|array',
             'english_test_list' => 'required|array',
+            'english_tests' => 'sometimes|array',
         ]);
 
             // Saving Students is Students Table
@@ -95,9 +96,6 @@ class RegisterController extends Controller
 
             // saving student's academics (educational) records.
             foreach ($data['step2'] as $level => $academic) {
-                if($level === "english_tests"){
-                    continue;
-                }
                 studenteducation::create([
                     'student_id' => $student->id,        // Foreign key
                     'level' => $level,                   // matric / intermediate / bachelors
@@ -111,23 +109,27 @@ class RegisterController extends Controller
                 ]);
             }
 
-            if (!empty($data['step2']['english_tests'])) {
-                foreach ($data['step2']['english_tests'] as $test => $values) {
+            if (!empty($data['english_tests']) && is_array($data['english_tests'])) {
 
-                    if (collect($values)->filter()->isEmpty()) {
-                        continue;
-                    }
+                foreach ($data['english_tests'] as $test => $values) {
+
+                    // skip completely empty test
+                    $hasData = collect($values)->filter(function($v) {
+                        return $v !== null && $v !== '';
+                    })->isNotEmpty();
+
+                    if (! $hasData) continue;
 
                     studentenglishtests::create([
                         'student_id' => $student->id,
-                        'test_name'  => $test,
-                        'listening'  => $values['listening'],
-                        'reading'    => $values['reading'],
-                        'speaking'   => $values['speaking'],
-                        'writing'    => $values['writing'],
-                        'score'      => $values['score'],
-                        'test_date'  => !empty($values['test_date'])
-                            ? substr($values['test_date'], 0, 4)
+                        'test_name'  => strtoupper($test), // IELTS / TOEFL / PTE
+                        'listening'  => $values['listening'] ?? 0,
+                        'reading'    => $values['reading'] ?? 0,
+                        'speaking'   => $values['speaking'] ?? 0,
+                        'writing'    => $values['writing'] ?? 0,
+                        'score'      => $values['overall'] ?? 0,
+                        'test_date'  => !empty($values['passing_year'])
+                            ? substr($values['passing_year'], 0, 4)
                             : null,
                     ]);
                 }
@@ -184,17 +186,18 @@ class RegisterController extends Controller
                 }
             }
 
-            // saving student's program applications
-            foreach ($data['step4'] as $app) {
-                \App\Models\studentapplication::create([
-                    'student_id' => $student->id,
-                    'country_id' => $student->country_id ?? null,
-                    'university_id' => $app['university_id'] ?? null,
-                    'program_level_id' => $student->program_level_id ?? null,
-                    'department_id' => $app['department_id'] ?? null,
-                ]);
+            // saving student's department applications
+            if (!empty($data['step4']) && is_array($data['step4'])) {
+                foreach ($data['step4'] as $app) {
+                    \App\Models\studentapplication::create([
+                        'student_id' => $student->id,
+                        'country_id' => $student->country_id ?? null,
+                        'university_id' => $app['university_id'] ?? null,
+                        'program_level_id' => $student->program_level_id ?? null,
+                        'department_id' => $app['department_id'] ?? null,
+                    ]);
+                }
             }
-
 
         return response()->json([
             "sucess" => true,

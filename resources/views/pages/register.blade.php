@@ -34,9 +34,6 @@
             color: var(--dark-text-color);
             line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 20px 0;
         }
 
         .form-wrapper {
@@ -192,6 +189,7 @@
             font-size: 0.85rem;
             color: var(--dark-gray);
             font-weight: 500;
+            text-align: center;
         }
 
         .step-circle.active .step-label {
@@ -338,6 +336,7 @@
             color: var(--dark-gray);
             font-size: 0.9rem;
             font-weight: 500;
+            align-self: center;
         }
 
         /* Responsive Design */
@@ -360,10 +359,7 @@
                 font-size: 1rem;
             }
 
-            .form-header,
-            .progress-container,
-            .form-body,
-            .form-footer {
+            .progress-container{
                 padding: 1.5rem 1.2rem;
             }
 
@@ -374,8 +370,9 @@
             }
 
             .step-label {
-                font-size: 0.75rem;
-                top: 50px;
+                font-size: 0.65rem;
+                white-space: pre-wrap;
+                top: 45px;
             }
 
             .btn {
@@ -389,6 +386,24 @@
             label {
                 font-size: 0.75rem;
                 margin-bottom: 0.5rem;
+            }
+
+            .form-footer{
+                padding: 1rem;
+                flex-direction: row;
+                justify-content: space-around
+            }
+
+            .form-footer .btn,
+            .form-footer .step-indicator{
+                font-size: 0.75rem;
+            }
+
+            .form-control,
+            .form-select{
+                padding: 0.5rem 0.75rem;
+                border-radius: 6px;
+                font-size: 0.8rem;
             }
         }
 
@@ -420,30 +435,83 @@
             }
 
             .step-label {
+                top: 40px;
+            }
+
+            label{
+                font-size: 0.6rem;
+            }
+
+            .form-footer .btn{
                 font-size: 0.65rem;
-                top: 45px;
+                padding: 0.5rem 1rem;
             }
 
-            .form-footer {
-                flex-direction: column;
-                gap: 15px;
+            .form-footer .step-indicator{
+                font-size: 0.65rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .form-header{
+                padding: 1rem;
             }
 
-            .form-footer .btn {
-                width: 100%;
+            .form-header h2{
+                font-size: 1rem;
+            }
+
+            .form-header p{
+                font-size: 0.75rem;
+            }
+
+            .form-body{
+                padding: 0.7rem 1rem
+            }
+
+            label{
+                font-size: 0.6rem;
+            }
+
+            .form-footer .btn{
+                font-size: 0.65rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .form-footer .step-indicator{
+                font-size: 0.65rem;
+            }
+
+            .step-label{
+                font-size: 0.55rem;
+            }
+
+            .form-control,
+            .form-select{
+                padding: 0.65rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.75rem;
+            }
+            .mb-sm-2{
+                margin-bottom: 0.5rem !important;
+            }
+            .invalid-feedback{
+                font-size: .65em;
             }
         }
 
         /* Success Message */
         .success-message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 3rem 2rem;
+            height: 100vh;
         }
 
-        .success-icon {
-            font-size: 4rem;
-            color: var(--primary-green);
-            margin-bottom: 1.5rem;
+        .success-icon img {
+            height: 100px;
+            width: 100px;
         }
 
         .success-message h3 {
@@ -506,15 +574,6 @@
 
 @section('content')
     <div class="form-wrapper">
-        <!-- Logo Section -->
-        {{-- <div class="logo-container">
-                <div class="logo-box">
-                    <div class="logo-text">BRAND<span style="color: #FFD700;">LOGO</span></div>
-                </div>
-                <p class="logo-subtitle">Complete our 4-step form to get started</p>
-            </div> --}}
-
-        <!-- Form Container -->
         <div class="form-container">
             <!-- Form Header -->
             <div class="form-header">
@@ -530,28 +589,28 @@
 
                     <div class="step-container">
                         <div class="step-circle active" id="step1">
-                            1
+                            <span class="span">1</span>
                             <span class="step-label">Basic Information</span>
                         </div>
                     </div>
 
                     <div class="step-container">
                         <div class="step-circle" id="step2">
-                            2
+                            <span class="span">2</span>
                             <span class="step-label">Educational Details</span>
                         </div>
                     </div>
 
                     <div class="step-container">
                         <div class="step-circle" id="step3">
-                            3
+                            <span class="span">3</span>
                             <span class="step-label">Educational Documents</span>
                         </div>
                     </div>
 
                     <div class="step-container">
                         <div class="step-circle" id="step4">
-                            4
+                            <span class="span">4</span>
                             <span class="step-label">Program Selection</span>
                         </div>
                     </div>
@@ -563,69 +622,68 @@
                 <!-- Step 1 -->
                 <div class="form-step active" id="step1Form">
                     <div class="form-body">
-                        <h4 class="step-title"><i class="ri-user-3-line"></i> Basic Information</h4>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="firstName" class="form-label">First Name <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="firstName"
                                     placeholder="Enter your first name" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="lastName" class="form-label">Last Name <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="lastName" placeholder="Enter your last name"
                                     required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="fatherName" class="form-label">Father Name <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="fatherName"
                                     placeholder="Enter your father name" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="motherName" class="form-label">Mother Name <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="motherName"
                                     placeholder="Enter your mother name" required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="cob" class="form-label">City of Birth <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="city" placeholder="Karachi, Lahore"
                                     required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="dob" class="form-label">Date of Birth <span
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="dob" required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\" placeholder="01234-0123456-0" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passport" class="form-label">Passport # <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="passport" placeholder="PK000000000"
                                     required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="passportValidFrom" required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidThru" class="form-label">Passport Valid Thru # <span
                                         class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="passportValidThru" required>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="phone" class="form-label">Phone # <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <!-- Prefix dropdown 25% -->
@@ -642,22 +700,22 @@
                             </div>
 
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="email" placeholder="test@example.com"
                                     required>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-12 mb-3 mb-sm-2">
                                 <label for="address" class="form-label">Address <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="address"
                                     placeholder="House Number, Street, Area, City" required>
                             </div>
-                            <div class="col-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3 mb-sm-2">
                                 <label for="postalCode" class="form-label">Postal Code </label>
                                 <input type="text" class="form-control" id="postalCode" maxlength="5" placeholder="00000">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="qualification" class="form-label">Latest Qualification <span
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="qualification" required>
@@ -668,13 +726,13 @@
                                     <option value="Masters">Masters</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
                                 <input type="number" step="0.01" class="form-control" id="percentage" placeholder="79% / 3.2 GPA " required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="intake" class="form-label">Which intake? <span
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="intake" required>
@@ -686,7 +744,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="country" class="form-label">Country to Apply for <span
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="country" required>
@@ -697,14 +755,14 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="country" class="form-label">Applying For? <span class="text-danger">*</span></label>
                                 <select class="form-select" id="applying" required disabled>
                                     <option value="" selected disabled>Select Program..</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-6 mb-3" id="englishTestGroup">
+                            <div class="col-md-6 mb-3 mb-sm-2" id="englishTestGroup">
                                 <label class="form-label">Any English Test Attempted? <span class="text-danger">*</span></label>
                                 <div class="d-flex gap-3 align-items-center">
                                     <div class="form-check">
@@ -732,7 +790,7 @@
                                     Please select at least one option
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="proficiency" class="form-label">English Proficiency Letter <span class="text-danger">*</span></label>
                                 <select class="form-select" id="proficiency" required>
                                     <option value="0" selected>No</option>
@@ -746,7 +804,6 @@
                 <!-- Step 2 -->
                 <div class="form-step" id="step2Form">
                     <div class="form-body">
-                        <h4 class="step-title"><i class="ri-contacts-line"></i> Educational Details</h4>
 
                         <div class="card mb-3" id="MatricForm">
                             <div class="card-header">
@@ -1563,14 +1620,6 @@
                 </div>
 
                 <!-- Success Message -->
-                <div class="success-message d-none" id="successMessage">
-                    <div class="success-icon">
-                        <i class="ri-checkbox-circle-fill"></i>
-                    </div>
-                    <h3>Registration Successful!</h3>
-                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                    </p>
-                </div>
 
                 <!-- Form Footer with Navigation Buttons -->
                 <div class="form-footer" id="formFooter">
@@ -1691,6 +1740,14 @@
 
                 $('.step-circle').removeClass('active');
                 $('#step' + step).addClass('active');
+
+
+                // 🔹 Mark previous steps as completed
+                for (let i = 1; i < step; i++) {
+                    $('#step' + i).addClass('completed');
+                    $(`#step${i} .span`).html('<i class="ri ri-check-line"></i>');
+                }
+
 
                 $('#currentStepIndicator').text(`Step ${step} of 4`);
 
@@ -2469,6 +2526,11 @@
             $('#prevBtn').on('click', function() {
                 // console.log(currentStep);
                 if (currentStep > 1) {
+
+                    // Remove completed class from current step before going back
+                    $(`#step${currentStep}`).removeClass('completed');
+                    $(`#step${currentStep} .span`).html(''); // remove check icon if needed
+
                     currentStep = currentStep - 1;
                     if(currentStep == 3){
                         showStep(currentStep);
@@ -2501,16 +2563,6 @@
             /* -----------------------------
                 RESET FORM
             ------------------------------*/
-            $('#newFormBtn').on('click', function() {
-                $('#studentForm')[0].reset();
-                localStorage.removeItem(STEP1_KEY);
-
-                $('#successMessage').hide();
-                $('#formFooter').show();
-
-                showStep(1);
-            });
-
             /* -----------------------------
                 ON PAGE LOAD
             ------------------------------*/
@@ -2593,46 +2645,49 @@
                         step2[level] = record; // only include if not empty
                     }
                 });
-
-                // --------------------
-                // English Tests
-                // --------------------
-                step2.english_tests = {
-                    IELTS: {
-                        listening: step2Raw.listeningIELTS || null,
-                        reading: step2Raw.readingIELTS || null,
-                        speaking: step2Raw.speakingIELTS || null,
-                        writing: step2Raw.writingIELTS || null,
-                        score: step2Raw.overallIELTS || null,
-                        test_date: step2Raw.passingYearIELTS || null,
-                    },
-                    TOEFL: {
-                        listening: step2Raw.listeningTOEFL || null,
-                        reading: step2Raw.readingTOEFL || null,
-                        speaking: step2Raw.speakingTOEFL || null,
-                        writing: step2Raw.writingTOEFL || null,
-                        score: step2Raw.overallTOEFL || null,
-                        test_date: step2Raw.passingYearTOEFL || null,
-                    },
-                    PTE: {
-                        listening: step2Raw.listeningPTE || null,
-                        reading: step2Raw.readingPTE || null,
-                        speaking: step2Raw.speakingPTE || null,
-                        writing: step2Raw.writingPTE || null,
-                        score: step2Raw.overallPTE || null,
-                        test_date: step2Raw.passingYearPTE || null,
-                    }
-                };
                 return step2;
             }
+
+            function prepareEnglishTestsPayload(step2Raw) {
+
+                const availableTests = JSON.parse(localStorage.getItem('english_tests')); // ["IELTS"] ya ["IELTS","PTE"]
+                const englishTests = {};
+                availableTests.forEach(test => {
+
+                    // Skip if the test is "none" or empty string
+                    if (!test || test.toLowerCase() === 'none') return;
+
+                    const record = {
+                        listening: step2Raw[`listening${test}`] || null,
+                        reading: step2Raw[`reading${test}`] || null,
+                        speaking: step2Raw[`speaking${test}`] || null,
+                        writing: step2Raw[`writing${test}`] || null,
+                        overall: step2Raw[`overall${test}`] || null,
+                        passing_year: step2Raw[`passingYear${test}`] || null,
+                    };
+
+                    // null ko 0/empty string me convert kar do
+                    for (const key in record) {
+                        if (record[key] === null || record[key] === undefined) {
+                            record[key] = '';
+                        }
+                    }
+
+                    englishTests[test.toLowerCase()] = record;
+                });
+
+                return englishTests;
+            }
+
 
             $('#studentForm').on('submit', function(e) {
                 e.preventDefault(); // prevent default submit
 
                 const step1 = JSON.parse(localStorage.getItem('student_step1'));
                 const step2 = prepareStep2Payload(JSON.parse(localStorage.getItem('student_step2')));
-                const step4 = JSON.parse(localStorage.getItem('department_list'));
-                const englishTests = JSON.parse(localStorage.getItem('english_tests'));
+                const englishTests = prepareEnglishTestsPayload(JSON.parse(localStorage.getItem('student_step2')));
+                const step4 = JSON.parse(localStorage.getItem('department_list')) || [];
+                const englishTestList = JSON.parse(localStorage.getItem('english_tests'));
                 const formData = new FormData();
 
                 // Step1
@@ -2648,23 +2703,34 @@
                 }
 
                 // Step4 → backend expects step4
-                step4.forEach((dep, i) => {
-                    for (const key in dep) {
-                        formData.append(`step4[${i}][${key}]`, dep[key]);
-                    }
-                });
+
+                if (Array.isArray(step4) && step4.length > 0) {
+                    step4.forEach((dep, i) => {
+                        for (const key in dep) {
+                            formData.append(`step4[${i}][${key}]`, dep[key]);
+                        }
+                    });
+                }
 
                 // English tests
-                englishTests.forEach((test, i) => {
+                englishTestList.forEach((test, i) => {
                     formData.append(`english_test_list[${i}]`, test);
                 });
+
+                for (const test in englishTests) {
+                    for (const field in englishTests[test]) {
+                        let value = englishTests[test][field];
+                        if (value === null || value === undefined) value = ''; // ya 0 for numeric fields
+                        formData.append(`english_tests[${test}][${field}]`, value);
+                    }
+                }
 
                 // Step3 files
                 const step3Files = [
                     'cnic-front','cnic-back','matric-front','matric-back',
                     'intermediate-front','intermediate-back','bachelors-transcript','bachelors-degree',
                     'masters-transcript','masters-degree','ielts','toefl','pte',
-                    'motivation-letter','proficiency-letter','passport','photograph','cv-resume','experience-letter','proficiency-letter','motivation-letter'
+                    'passport','photograph','cv-resume','experience-letter','proficiency-letter','motivation-letter'
                 ];
 
                 step3Files.forEach(name => {
@@ -2687,12 +2753,22 @@
                     processData: false,
                     contentType: false,
                     success: function(res){
-                        $('#studentForm').addClass('d-none');
-                        $('#successMessage').removeClass('d-none');
+                        $('.form-wrapper').addClass('d-none');
+
+                        $('body').append(`
+                            <div class="success-message" id="successMessage">
+                                <div class="success-icon">
+                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                </div>
+                                <h3>Registration Successful!</h3>
+                                <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                </p>
+                            </div>
+                        `)
                         localStorage.clear();
                     },
                     error: function(err){
-                        console.error(err.responseText);
+                        console.error(err);
                     }
                 });
             });

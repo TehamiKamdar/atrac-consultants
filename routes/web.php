@@ -7,6 +7,7 @@ use Spatie\Sitemap\Tags\Url;
 use App\Models\countrydetails;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RegisterController;
 
 /*
@@ -64,6 +65,5 @@ Route::post('student/register', [RegisterController::class , 'store'])->name('st
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
-Route::get('generate/student/profile', function(){
-    return view('pages.profile');
-});
+Route::get('generate/student/profile', [PdfController::class , 'downloadDemoPdf']);
+Route::get('view/student/profile', [PdfController::class , 'viewPdf']);

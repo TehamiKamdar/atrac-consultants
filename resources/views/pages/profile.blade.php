@@ -114,7 +114,7 @@
         <table>
             <tr>
                 <td>
-                    <img src="{{ asset('website/logo.png') }}" class="logo">
+                    <img src="{{ public_path('website/logo.png') }}" class="logo">
                 </td>
                 <td class="title">
                     <h2>Student Profile</h2>
@@ -231,14 +231,16 @@
             <tr>
                 <th>#</th>
                 <th>Department</th>
-                <th>Country</th>
-                <th>Program Level</th>
+                <th>University</th>
+                <th>Campus</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td>1</td><td>Computer Science</td><td>UK</td><td>Bachelors</td></tr>
-            <tr><td>2</td><td>Software Engineering</td><td>Germany</td><td>Bachelors</td></tr>
-            <tr><td>3</td><td>Data Science</td><td>France</td><td>Masters</td></tr>
+            <tr><td>1</td><td>Computer Science</td><td>University of Toronto</td><td></td></tr>
+            <tr><td>2</td><td>Software Engineering</td><td>University of Toronto</td><td></td></tr>
+            <tr><td>3</td><td>Business Administration</td><td>University of Toronto</td><td></td></tr>
+            <tr><td>3</td><td>Media Science</td><td>University of Toronto</td><td></td></tr>
+            <tr><td>3</td><td>Data Science</td><td>University of Toronto</td><td></td></tr>
         </tbody>
     </table>
 

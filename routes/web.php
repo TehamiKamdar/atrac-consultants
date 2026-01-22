@@ -65,5 +65,5 @@ Route::post('student/register', [RegisterController::class , 'store'])->name('st
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
-Route::get('generate/student/profile', [PdfController::class , 'downloadDemoPdf']);
-Route::get('view/student/profile', [PdfController::class , 'viewPdf']);
+Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
+Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);

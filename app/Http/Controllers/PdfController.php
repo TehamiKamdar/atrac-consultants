@@ -38,7 +38,7 @@ class PdfController extends Controller
         ->setPaper('A4', 'portrait');
 
         $filename = preg_replace('/[^A-Za-z0-9\-]/', '', $student->first_name.'-'.$student->last_name).'-student-profile.pdf';
-        return $pdf->download($filename);
+        return $pdf->download(strtolower($filename));
 
     }
 

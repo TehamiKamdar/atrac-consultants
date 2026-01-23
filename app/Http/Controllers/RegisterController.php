@@ -200,7 +200,8 @@ class RegisterController extends Controller
             }
 
         return response()->json([
-            "sucess" => true,
+            "id" => $student->id,
+            "success" => true,
             "message" => "Student Registered"
         ]);
     }

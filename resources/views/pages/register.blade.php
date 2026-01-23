@@ -2803,6 +2803,7 @@
                                 <h3>Registration Successful!</h3>
                                 <p>Thank you for completing the form. We have received your information and will contact you shortly.
                                 </p>
+                                <p>You can download your form from <a href='http://localhost:7000/generate/student/profile/${res.id}'>here</a>.</p>
                             </div>
                         `)
                         localStorage.clear();

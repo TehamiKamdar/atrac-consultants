@@ -744,7 +744,7 @@
 
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="email" placeholder="test@example.com"
+                                <input type="email" class="form-control" id="email" placeholder="test@example.com"
                                     required>
                             </div>
                             <div class="col-12 mb-3 mb-sm-2">

@@ -279,13 +279,13 @@
                     @if (count($english_test_details) > 0)
                         @foreach ($english_test_details as $test)
                             <tr>
-                                <td>{{ $edu->test_name }}</td>
-                                <td>{{ $edu->listening }}</td>
-                                <td>{{ $edu->reading }}</td>
-                                <td>{{ $edu->speaking }}</td>
-                                <td>{{ $edu->writing }}</td>
-                                <td>{{ $edu->score }}</td>
-                                <td>{{ $edu->test_date }}</td>
+                                <td>{{ $test->test_name }}</td>
+                                <td>{{ $test->listening }}</td>
+                                <td>{{ $test->reading }}</td>
+                                <td>{{ $test->speaking }}</td>
+                                <td>{{ $test->writing }}</td>
+                                <td>{{ $test->score }}</td>
+                                <td>{{ $test->test_date }}</td>
                             </tr>
                         @endforeach
                     @else

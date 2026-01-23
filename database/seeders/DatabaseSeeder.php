@@ -15,34 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            [
-                'name' => 'Tehami',
-                'email' => 'tehami@atracconsultants.com',
-                'password' => Hash::make('12345678'), // Hashing the password
-                'role' => 1, // Assuming 1 is admin
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Uzair',
-                'email' => 'uzair@atracconsultants.com',
-                'password' => Hash::make('123audi789'), // Hashing the password
-                'role' => 1, // Assuming 0 is regular user
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Kamran',
-                'email' => 'kamran@atracconsultants.com',
-                'password' => Hash::make('123audi789'), // Hashing the password
-                'role' => 1, // Assuming 0 is regular user
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        // DB::table('users')->insert([
+        //     [
+        //         'name' => 'Admin',
+        //         'email' => 'admin@atracconsultants.com',
+        //         'password' => Hash::make('123audi789'), // Hashing the password
+        //         'role' => 'admin', // Assuming 1 is admin
+        //         'remember_token' => Str::random(10),
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        // ]);
+        for ($i=300; $i < 350; $i++) { 
+            DB::table('sim_codes')->insert([
+                ["code" => $i]
+            ]);
+        }
+        DB::table('sim_codes')->insert([
+            ["code"=>370]
         ]);
     }
 }

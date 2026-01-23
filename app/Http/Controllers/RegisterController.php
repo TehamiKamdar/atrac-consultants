@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\country;
+use App\Models\sim_codes;
 use App\Models\students;
 use App\Models\university;
 use App\Models\departments;
@@ -19,8 +20,8 @@ class RegisterController extends Controller
     public function index()
     {
         $activeCountries = country::where('status', 'active')->orderBy('name', 'ASC')->get();
-
-        return view('pages.register', compact('activeCountries'));
+        $sim_codes = sim_codes::all();
+        return view('pages.register', compact('activeCountries', 'sim_codes'));
     }
 
     public function getCountryPrograms($country_id)
@@ -41,16 +42,16 @@ class RegisterController extends Controller
             'program_level_id' => 'required|integer',
         ]);
 
-        $departments = departments::whereHas('program', function($q) use ($request) {
+        $departments = departments::whereHas('program', function ($q) use ($request) {
             $q->where('program_level_id', $request->program_level_id)
-            ->whereHas('university', function($q2) use ($request) {
-                $q2->where('country_id', $request->country_id);
-            });
+                ->whereHas('university', function ($q2) use ($request) {
+                    $q2->where('country_id', $request->country_id);
+                });
         })
-        ->select('id', 'name')
-        ->distinct()
-        ->orderBy('name')
-        ->get()->unique('name')->values();
+            ->select('id', 'name')
+            ->distinct()
+            ->orderBy('name')
+            ->get()->unique('name')->values();
 
         return response()->json($departments);
     }
@@ -65,25 +66,25 @@ class RegisterController extends Controller
 
         // Find all department IDs with this name for selected country + program level
         $departmentIds = departments::where('name', $request->department_name)
-            ->whereHas('program', function($q) use ($request) {
+            ->whereHas('program', function ($q) use ($request) {
                 $q->where('program_level_id', $request->program_level_id)
-                ->whereHas('university', function($q2) use ($request) {
-                    $q2->where('country_id', $request->country_id);
-                });
+                    ->whereHas('university', function ($q2) use ($request) {
+                        $q2->where('country_id', $request->country_id);
+                    });
             })
             ->pluck('id');
 
         // Fetch universities for all those department IDs
-        $universities = university::whereHas('programs', function($q) use ($departmentIds) {
-            $q->whereHas('departments', function($q2) use ($departmentIds) {
+        $universities = university::whereHas('programs', function ($q) use ($departmentIds) {
+            $q->whereHas('departments', function ($q2) use ($departmentIds) {
                 $q2->whereIn('id', $departmentIds);
             });
         })
-        ->where('country_id', $request->country_id)
-        ->select('id', 'name')
-        ->distinct()
-        ->orderBy('name')
-        ->get();
+            ->where('country_id', $request->country_id)
+            ->select('id', 'name')
+            ->distinct()
+            ->orderBy('name')
+            ->get();
 
         return response()->json($universities);
     }
@@ -91,17 +92,20 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'step1' => 'required|array',
-            'step2' => 'required|array',
-            'step3' => 'sometimes|array',
-            'step4' => 'sometimes|array',
-            'english_test_list' => 'required|array',
-            'english_tests' => 'sometimes|array',
-        ]);
+        DB::beginTransaction();
 
-            // Saving Students is Students Table
+        try {
 
+            $data = $request->validate([
+                'step1' => 'required|array',
+                'step2' => 'required|array',
+                'step3' => 'sometimes|array',
+                'step4' => 'sometimes|array',
+                'english_test_list' => 'required|array',
+                'english_tests' => 'sometimes|array',
+            ]);
+
+            // 1. Save student
             $student = students::create([
                 'first_name' => $data['step1']['firstName'],
                 'last_name' => $data['step1']['lastName'],
@@ -113,7 +117,7 @@ class RegisterController extends Controller
                 'passport_number' => $data['step1']['passport'],
                 'passport_valid_from' => $data['step1']['passportValidFrom'],
                 'passport_valid_thru' => $data['step1']['passportValidThru'],
-                'phone' => $data['step1']['phonePrefix'].$data['step1']['phoneNumber'],
+                'phone' => $data['step1']['phonePrefix'] . $data['step1']['phoneNumber'],
                 'email' => $data['step1']['email'],
                 'address' => $data['step1']['address'],
                 'postal_code' => $data['step1']['postalCode'],
@@ -126,56 +130,53 @@ class RegisterController extends Controller
                 'english_proficiency' => $data['step1']['proficiency'],
             ]);
 
-            // saving student's academics (educational) records.
+            // 2. Save academics
             foreach ($data['step2'] as $level => $academic) {
                 studenteducation::create([
-                    'student_id' => $student->id,        // Foreign key
-                    'level' => $level,                   // matric / intermediate / bachelors
+                    'student_id' => $student->id,
+                    'level' => $level,
                     'institute' => $academic['institute'] ?? null,
                     'board' => $academic['board'] ?? null,
                     'subject' => $academic['subject'] ?? null,
-                    'passing_year' => !empty($academic['passing_year']) ? substr($academic['passing_year'],0,4) : null,
+                    'passing_year' => !empty($academic['passing_year'])
+                        ? substr($academic['passing_year'], 0, 4)
+                        : null,
                     'obtained_marks' => $academic['obtained_marks'] ?? null,
                     'total_marks' => $academic['total_marks'] ?? null,
                     'grade_or_cgpa' => $academic['grade_or_cgpa'] ?? null,
                 ]);
             }
 
-            if (!empty($data['english_tests']) && is_array($data['english_tests'])) {
-
+            // 3. Save English tests
+            if (!empty($data['english_tests'])) {
                 foreach ($data['english_tests'] as $test => $values) {
 
-                    // skip completely empty test
-                    $hasData = collect($values)->filter(function($v) {
-                        return $v !== null && $v !== '';
-                    })->isNotEmpty();
-
-                    if (! $hasData) continue;
+                    $hasData = collect($values)->filter(fn($v) => $v !== null && $v !== '')->isNotEmpty();
+                    if (!$hasData)
+                        continue;
 
                     studentenglishtests::create([
                         'student_id' => $student->id,
-                        'test_name'  => strtoupper($test), // IELTS / TOEFL / PTE
-                        'listening'  => $values['listening'] ?? 0,
-                        'reading'    => $values['reading'] ?? 0,
-                        'speaking'   => $values['speaking'] ?? 0,
-                        'writing'    => $values['writing'] ?? 0,
-                        'score'      => $values['overall'] ?? 0,
-                        'test_date'  => !empty($values['passing_year'])
+                        'test_name' => strtoupper($test),
+                        'listening' => $values['listening'] ?? 0,
+                        'reading' => $values['reading'] ?? 0,
+                        'speaking' => $values['speaking'] ?? 0,
+                        'writing' => $values['writing'] ?? 0,
+                        'score' => $values['overall'] ?? 0,
+                        'test_date' => !empty($values['passing_year'])
                             ? substr($values['passing_year'], 0, 4)
                             : null,
                     ]);
                 }
             }
 
-            // saving student's documents
-            $studentFolder = 'documents/'.Str::slug($student->first_name.'_'.$student->last_name).'_documents';
+            // 4. Documents
+            $studentFolder = 'documents/' . Str::slug($student->first_name . '_' . $student->last_name) . '_documents';
 
-            // Make folder if not exists
-            if (! Storage::exists($studentFolder)) {
-                Storage::makeDirectory($studentFolder, 0755, true);
+            if (!Storage::disk('public')->exists($studentFolder)) {
+                Storage::disk('public')->makeDirectory($studentFolder);
             }
 
-            // List of input files you expect
             $documentFields = [
                 'cnic-front',
                 'cnic-back',
@@ -196,17 +197,13 @@ class RegisterController extends Controller
                 'ielts',
                 'toefl',
                 'pte',
-                'motivation-letter',
-                'proficiency-letter',
             ];
 
             foreach ($documentFields as $field) {
                 if ($request->hasFile("step3.$field")) {
 
                     $file = $request->file("step3.$field");
-
-                    $extension = $file->getClientOriginalExtension();
-                    $fileName = strtolower($field).'_'.time().'.'.$extension;
+                    $fileName = $field . '_' . time() . '.' . $file->getClientOriginalExtension();
 
                     $path = $file->storeAs($studentFolder, $fileName, 'public');
 
@@ -218,23 +215,36 @@ class RegisterController extends Controller
                 }
             }
 
-            // saving student's department applications
-            if (!empty($data['step4']) && is_array($data['step4'])) {
+            // 5. Department applications
+            if (!empty($data['step4'])) {
                 foreach ($data['step4'] as $app) {
                     \App\Models\studentapplication::create([
                         'student_id' => $student->id,
-                        'country_id' => $student->country_id ?? null,
+                        'country_id' => $student->country_id,
                         'university_id' => $app['university_id'] ?? null,
-                        'program_level_id' => $student->program_level_id ?? null,
+                        'program_level_id' => $student->program_level_id,
                         'department_id' => $app['department_id'] ?? null,
                     ]);
                 }
             }
 
-        return response()->json([
-            "id" => $student->id,
-            "success" => true,
-            "message" => "Student Registered"
-        ]);
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'id' => $student->id,
+                'message' => 'Student Registered'
+            ]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration failed', 
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

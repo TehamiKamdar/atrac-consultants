@@ -730,10 +730,9 @@
                                     <!-- Prefix dropdown 25% -->
                                     <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;"
                                         required>
-                                        <option value="0300">0300</option>
-                                        <option value="0301">0301</option>
-                                        <option value="0321">0321</option>
-                                        <option value="0333">0333</option>
+                                        @foreach ($sim_codes as $sim)
+                                            <option value="0{{$sim->code}}">0{{$sim->code}}</option>
+                                        @endforeach
                                     </select>
 
                                     <!-- Main number input 75% -->

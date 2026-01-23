@@ -16,6 +16,9 @@
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
+    <!-- Favicon (no problem) -->
+    <link rel="shortcut icon" href="{{ asset('website/favicon.svg') }}" type="image/x-icon">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <!-- Custom Font -->
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/bambino-2">

@@ -6,8 +6,9 @@ use App\Models\universities;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\countrydetails;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\RegisterController;
 
 /*
@@ -67,3 +68,4 @@ Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
+Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);

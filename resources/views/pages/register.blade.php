@@ -1712,6 +1712,77 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
+            function validateDateInputs(){
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+
+            $('input[type="month"]').each(function () {
+
+                    const $input = $(this);
+                    const value = $input.val();
+
+                    if (!value) {
+                        clearError($input);
+                        return;
+                    }
+
+                    let isInvalid = false;
+                    let errorMsg = '';
+
+                    if ($input.attr('type') === 'date') {
+
+                        const selectedDate = new Date(value);
+
+                        if (selectedDate > today) {
+                            isInvalid = true;
+                            errorMsg = 'Future dates are not allowed.';
+                        }
+                    }
+
+                    if ($input.attr('type') === 'month') {
+
+                        if (value > currentMonth) {
+                            isInvalid = true;
+                            errorMsg = 'Future months are not allowed.';
+                        }
+                    }
+
+                    if (isInvalid) {
+                        showError($input, errorMsg);
+                    } else {
+                        clearError($input);
+                    }
+                });
+            }
+
+            function showError($input, message) {
+
+                $input.addClass('is-invalid');
+
+                if ($input.next('.invalid-feedback').length === 0) {
+                    $input.after(`<div class="invalid-feedback">${message}</div>`);
+                } else {
+                    $input.next('.invalid-feedback').text(message);
+                }
+            }
+
+            function clearError($input) {
+
+                $input.removeClass('is-invalid');
+
+                if ($input.next('.invalid-feedback').length) {
+                    $input.next('.invalid-feedback').remove();
+                }
+            }
+
+            // Run on change & blur
+            $(document).on('change blur', 'input[type="month"]', function () {
+                validateDateInputs();
+            });
+
+
             $('#country').on('change', function () {
                 var countryId = $(this).val();
 
@@ -2754,6 +2825,7 @@
             $('#studentForm').on('submit', function (e) {
                 e.preventDefault(); // prevent default submit
 
+                validateDateInputs();
                 const step1 = JSON.parse(localStorage.getItem('student_step1'));
                 const step2 = prepareStep2Payload(JSON.parse(localStorage.getItem('student_step2')));
                 const englishTests = prepareEnglishTestsPayload(JSON.parse(localStorage.getItem('student_step2')));

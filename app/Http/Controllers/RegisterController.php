@@ -36,26 +36,58 @@ class RegisterController extends Controller
 
     public function departments(Request $request)
     {
-        return departments::select('departments.id', 'departments.name')
-            ->join('programs', 'programs.id', '=', 'departments.program_id')
-            ->join('universities', 'universities.id', '=', 'programs.university_id')
-            ->where('universities.country_id', $request->country_id)
-            ->where('programs.program_level_id', $request->program_level_id)
-            ->distinct()
-            ->get();
+        $request->validate([
+            'country_id' => 'required|integer',
+            'program_level_id' => 'required|integer',
+        ]);
+
+        $departments = departments::whereHas('program', function($q) use ($request) {
+            $q->where('program_level_id', $request->program_level_id)
+            ->whereHas('university', function($q2) use ($request) {
+                $q2->where('country_id', $request->country_id);
+            });
+        })
+        ->select('id', 'name')
+        ->distinct()
+        ->orderBy('name')
+        ->get()->unique('name')->values();
+
+        return response()->json($departments);
     }
 
     public function universities(Request $request)
     {
-        return university::select('universities.id', 'universities.name')
-            ->join('programs', 'programs.university_id', '=', 'universities.id')
-            ->join('departments', 'departments.program_id', '=', 'programs.id')
-            ->where('departments.id', $request->department_id)
-            ->where('programs.program_level_id', $request->program_level_id)
-            ->where('universities.country_id', $request->country_id)
-            ->distinct()
-            ->get();
+        $request->validate([
+            'department_name' => 'required|string',
+            'country_id' => 'required|integer',
+            'program_level_id' => 'required|integer',
+        ]);
+
+        // Find all department IDs with this name for selected country + program level
+        $departmentIds = departments::where('name', $request->department_name)
+            ->whereHas('program', function($q) use ($request) {
+                $q->where('program_level_id', $request->program_level_id)
+                ->whereHas('university', function($q2) use ($request) {
+                    $q2->where('country_id', $request->country_id);
+                });
+            })
+            ->pluck('id');
+
+        // Fetch universities for all those department IDs
+        $universities = university::whereHas('programs', function($q) use ($departmentIds) {
+            $q->whereHas('departments', function($q2) use ($departmentIds) {
+                $q2->whereIn('id', $departmentIds);
+            });
+        })
+        ->where('country_id', $request->country_id)
+        ->select('id', 'name')
+        ->distinct()
+        ->orderBy('name')
+        ->get();
+
+        return response()->json($universities);
     }
+
 
     public function store(Request $request)
     {

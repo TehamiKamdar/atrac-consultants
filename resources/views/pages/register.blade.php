@@ -359,7 +359,7 @@
                 font-size: 1rem;
             }
 
-            .progress-container{
+            .progress-container {
                 padding: 1.5rem 1.2rem;
             }
 
@@ -388,19 +388,19 @@
                 margin-bottom: 0.5rem;
             }
 
-            .form-footer{
+            .form-footer {
                 padding: 1rem;
                 flex-direction: row;
                 justify-content: space-around
             }
 
             .form-footer .btn,
-            .form-footer .step-indicator{
+            .form-footer .step-indicator {
                 font-size: 0.75rem;
             }
 
             .form-control,
-            .form-select{
+            .form-select {
                 padding: 0.5rem 0.75rem;
                 border-radius: 6px;
                 font-size: 0.8rem;
@@ -511,103 +511,105 @@
                 top: 40px;
             }
 
-            label{
+            label {
                 font-size: 0.6rem;
             }
 
-            .form-footer .btn{
+            .form-footer .btn {
                 font-size: 0.65rem;
                 padding: 0.5rem 1rem;
             }
 
-            .form-footer .step-indicator{
+            .form-footer .step-indicator {
                 font-size: 0.65rem;
             }
         }
 
         @media (max-width: 480px) {
-            .form-header{
+            .form-header {
                 padding: 1rem;
             }
 
-            .form-header h2{
+            .form-header h2 {
                 font-size: 1rem;
             }
 
-            .form-header p{
+            .form-header p {
                 font-size: 0.75rem;
             }
 
-            .form-body{
+            .form-body {
                 padding: 0.7rem 1rem
             }
 
-            .form-body p{
+            .form-body p {
                 font-size: 0.75rem;
             }
 
-            .form-body h6{
+            .form-body h6 {
                 font-size: 0.75rem;
             }
 
-            .card-head-images small{
+            .card-head-images small {
                 font-size: 0.5rem;
                 min-height: 25px;
             }
 
-            .badge{
+            .badge {
                 font-size: 0.65em;
                 padding: 0.6em 0.8em 0.65em;
             }
 
-            .upload-box{
+            .upload-box {
                 padding: 0;
                 padding-bottom: 12px;
             }
 
-            label{
+            label {
                 font-size: 0.6rem;
             }
 
-            .form-footer .btn{
+            .form-footer .btn {
                 font-size: 0.65rem;
                 padding: 0.5rem 1rem;
             }
 
-            .form-footer .step-indicator{
+            .form-footer .step-indicator {
                 font-size: 0.65rem;
             }
 
-            .step-label{
+            .step-label {
                 font-size: 0.55rem;
             }
 
             .form-control,
-            .form-select{
+            .form-select {
                 padding: 0.65rem 0.5rem;
                 border-radius: 4px;
                 font-size: 0.75rem;
             }
-            .mb-sm-2{
+
+            .mb-sm-2 {
                 margin-bottom: 0.5rem !important;
             }
-            .invalid-feedback{
+
+            .invalid-feedback {
                 font-size: .65em;
             }
 
-            .alert{
+            .alert {
                 font-size: 0.75rem;
             }
 
-            table  th{
+            table th {
                 font-size: 0.75rem;
             }
 
-            table  td{
+            table td {
                 font-size: 0.7rem;
             }
 
-            table .btn-sm{
+            table .btn-sm {
                 padding: 0.25rem .75rem
             }
         }
@@ -669,8 +671,8 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="firstName" class="form-label">First Name <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="firstName"
-                                    placeholder="Enter your first name" required>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name"
+                                    required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -682,37 +684,34 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="fatherName" class="form-label">Father Name <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="fatherName"
-                                    placeholder="Enter your father name" required>
+                                <input type="text" class="form-control" id="fatherName" placeholder="Enter your father name"
+                                    required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="motherName" class="form-label">Mother Name <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="motherName"
-                                    placeholder="Enter your mother name" required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="cob" class="form-label">City of Birth <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="city" placeholder="Karachi, Lahore"
+                                <input type="text" class="form-control" id="motherName" placeholder="Enter your mother name"
                                     required>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="dob" class="form-label">Date of Birth <span
-                                        class="text-danger">*</span></label>
+                                <label for="cob" class="form-label">City of Birth <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="city" placeholder="Karachi, Lahore" required>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-sm-2">
+                                <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="dob" required>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\" placeholder="01234-0123456-0" required>
+                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\"
+                                    placeholder="01234-0123456-0" required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passport" class="form-label">Passport # <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="passport" placeholder="PK000000000"
-                                    required>
+                                <input type="text" class="form-control" id="passport" placeholder="PK000000000" required>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
@@ -729,7 +728,8 @@
                                 <label for="phone" class="form-label">Phone # <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <!-- Prefix dropdown 25% -->
-                                    <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;" required>
+                                    <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;"
+                                        required>
                                         <option value="0300">0300</option>
                                         <option value="0301">0301</option>
                                         <option value="0321">0321</option>
@@ -737,19 +737,18 @@
                                     </select>
 
                                     <!-- Main number input 75% -->
-                                    <input type="text" id="phoneNumber" class="form-control" style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
+                                    <input type="text" id="phoneNumber" class="form-control"
+                                        style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
                                 </div>
                             </div>
 
 
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="test@example.com"
-                                    required>
+                                <input type="email" class="form-control" id="email" placeholder="test@example.com" required>
                             </div>
                             <div class="col-12 mb-3 mb-sm-2">
-                                <label for="address" class="form-label">Address <span
-                                        class="text-danger">*</span></label>
+                                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="address"
                                     placeholder="House Number, Street, Area, City" required>
                             </div>
@@ -771,7 +770,8 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="percentage" placeholder="79% / 3.2 GPA " required>
+                                <input type="number" step="0.01" class="form-control" id="percentage"
+                                    placeholder="79% / 3.2 GPA " required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -798,14 +798,16 @@
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="country" class="form-label">Applying For? <span class="text-danger">*</span></label>
+                                <label for="country" class="form-label">Applying For? <span
+                                        class="text-danger">*</span></label>
                                 <select class="form-select" id="applying" required disabled>
                                     <option value="" selected disabled>Select Program..</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2" id="englishTestGroup">
-                                <label class="form-label">Any English Test Attempted? <span class="text-danger">*</span></label>
+                                <label class="form-label">Any English Test Attempted? <span
+                                        class="text-danger">*</span></label>
                                 <div class="d-flex gap-3 align-items-center">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="IELTS" id="testIELTS"
@@ -833,7 +835,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="proficiency" class="form-label">English Proficiency Letter <span class="text-danger">*</span></label>
+                                <label for="proficiency" class="form-label">English Proficiency Letter <span
+                                        class="text-danger">*</span></label>
                                 <select class="form-select" id="proficiency" required>
                                     <option value="0" selected>No</option>
                                     <option value="1">Yes</option>
@@ -877,8 +880,7 @@
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksMatric" class="form-control"
-                                            placeholder="1099">
+                                        <input type="number" id="totalMarksMatric" class="form-control" placeholder="1099">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
@@ -930,8 +932,8 @@
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">Percentage</label>
-                                        <input type="number" id="percentageIntermediate" max="100"
-                                            class="form-control" placeholder="Percentage" readonly>
+                                        <input type="number" id="percentageIntermediate" max="100" class="form-control"
+                                            placeholder="Percentage" readonly>
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Passing Year</label>
@@ -977,8 +979,8 @@
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">GPA / Percentage</label>
-                                        <input type="number" id="percentageBachelors" step="0.1"
-                                            class="form-control" placeholder="GPA">
+                                        <input type="number" id="percentageBachelors" step="0.1" class="form-control"
+                                            placeholder="GPA">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Passing Year</label>
@@ -1018,8 +1020,7 @@
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksMasters" class="form-control"
-                                            placeholder="1099">
+                                        <input type="number" id="totalMarksMasters" class="form-control" placeholder="1099">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
@@ -1043,30 +1044,30 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3">
                                         <label for="">Listening</label>
-                                        <input type="number" min="0" max="10" step="0.1"
-                                            id="listeningIELTS" class="form-control" placeholder="6.5">
+                                        <input type="number" min="0" max="10" step="0.1" id="listeningIELTS"
+                                            class="form-control" placeholder="6.5">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Reading</label>
-                                        <input type="number" min="0" max="10" step="0.1"
-                                            id="readingIELTS" class="form-control" placeholder="6.5">
+                                        <input type="number" min="0" max="10" step="0.1" id="readingIELTS"
+                                            class="form-control" placeholder="6.5">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">Speaking</label>
-                                        <input type="number" min="0" max="10" step="0.1"
-                                            id="speakingIELTS" class="form-control" placeholder="6.5">
+                                        <input type="number" min="0" max="10" step="0.1" id="speakingIELTS"
+                                            class="form-control" placeholder="6.5">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Writing</label>
-                                        <input type="number" min="0" max="10" step="0.1"
-                                            id="writingIELTS" class="form-control" placeholder="6.5">
+                                        <input type="number" min="0" max="10" step="0.1" id="writingIELTS"
+                                            class="form-control" placeholder="6.5">
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Bands</label>
-                                            <input type="number" id="overallIELTS" class="form-control"
-                                                placeholder="Bands" readonly>
+                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands"
+                                                readonly>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1086,30 +1087,30 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3">
                                         <label for="">Listening</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="listeningTOEFL" class="form-control" placeholder="26">
+                                        <input type="number" min="0" max="30" step="1" id="listeningTOEFL"
+                                            class="form-control" placeholder="26">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Reading</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="readingTOEFL" class="form-control" placeholder="21">
+                                        <input type="number" min="0" max="30" step="1" id="readingTOEFL"
+                                            class="form-control" placeholder="21">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">Speaking</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="speakingTOEFL" max="4" class="form-control" placeholder="23">
+                                        <input type="number" min="0" max="30" step="1" id="speakingTOEFL" max="4"
+                                            class="form-control" placeholder="23">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Writing</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="writingTOEFL" class="form-control" placeholder="22">
+                                        <input type="number" min="0" max="30" step="1" id="writingTOEFL"
+                                            class="form-control" placeholder="22">
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Score</label>
-                                            <input type="number" id="overallTOEFL" class="form-control"
-                                                placeholder="Score" readonly>
+                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score"
+                                                readonly>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1129,30 +1130,29 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3">
                                         <label for="">Listening</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="listeningPTE" class="form-control" placeholder="26">
+                                        <input type="number" min="0" max="30" step="1" id="listeningPTE"
+                                            class="form-control" placeholder="26">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Reading</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="readingPTE" class="form-control" placeholder="21">
+                                        <input type="number" min="0" max="30" step="1" id="readingPTE" class="form-control"
+                                            placeholder="21">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">Speaking</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="speakingPTE" max="4" class="form-control" placeholder="23">
+                                        <input type="number" min="0" max="30" step="1" id="speakingPTE" max="4"
+                                            class="form-control" placeholder="23">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Writing</label>
-                                        <input type="number" min="0" max="30" step="1"
-                                            id="writingPTE" class="form-control" placeholder="22">
+                                        <input type="number" min="0" max="30" step="1" id="writingPTE" class="form-control"
+                                            placeholder="22">
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Score</label>
-                                            <input type="number" id="overallPTE" class="form-control"
-                                                placeholder="Score">
+                                            <input type="number" id="overallPTE" class="form-control" placeholder="Score">
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1196,7 +1196,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png;" name="cnic-front" id="cnic-front" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png;" name="cnic-front" id="cnic-front" hidden
+                                            required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1218,7 +1219,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="cnic-back" id="cnic-back" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="cnic-back" id="cnic-back" hidden
+                                            required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1240,7 +1242,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="passport" id="passport" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="passport" id="passport" hidden
+                                            required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1262,7 +1265,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="photograph" id="photograph" hidden required>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="photograph" id="photograph" hidden
+                                            required>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1306,7 +1310,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="experience-letter" id="experience-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="experience-letter"
+                                            id="experience-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1320,7 +1325,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-image-line"></i> English Proficiency Letter
-                                                 </h6>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1328,7 +1333,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="proficiency-letter" id="proficiency-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="proficiency-letter"
+                                            id="proficiency-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1350,7 +1356,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="motivation-letter" id="motivation-letter" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="motivation-letter"
+                                            id="motivation-letter" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1364,7 +1371,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Marksheet Front
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1372,7 +1380,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-front" id="matric-front" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-front" id="matric-front"
+                                            hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1386,7 +1395,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Marksheet Back
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1394,7 +1404,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-back" id="matric-back" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="matric-back" id="matric-back"
+                                            hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1416,7 +1427,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-front" id="intermediate-front" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-front"
+                                            id="intermediate-front" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1438,7 +1450,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-back" id="intermediate-back" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="intermediate-back"
+                                            id="intermediate-back" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1452,7 +1465,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1460,7 +1474,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-transcript" id="bachelors-transcript" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-transcript"
+                                            id="bachelors-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1474,7 +1489,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Degree
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1482,7 +1498,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-degree" id="bachelors-degree" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="bachelors-degree"
+                                            id="bachelors-degree" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1496,7 +1513,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1504,7 +1522,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-transcript" id="masters-transcript" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-transcript"
+                                            id="masters-transcript" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1518,7 +1537,8 @@
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
                                             <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Degree
-                                                <span class="text-danger">*</span></h6>
+                                                <span class="text-danger">*</span>
+                                            </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>
@@ -1526,7 +1546,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-degree" id="masters-degree" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="masters-degree" id="masters-degree"
+                                            hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1548,7 +1569,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="ielts-certificate" id="ielts-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="ielts-certificate"
+                                            id="ielts-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1570,7 +1592,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="toefl-certificate" id="toefl-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="toefl-certificate"
+                                            id="toefl-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1592,7 +1615,8 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" accept=".pdf,.jpg,.png" name="pte-certificate" id="pte-certificate" hidden>
+                                        <input type="file" accept=".pdf,.jpg,.png" name="pte-certificate"
+                                            id="pte-certificate" hidden>
                                         <i class="ri-upload-cloud-line"></i>
                                         <span>Click or drop file here</span>
                                         <small>PDF / JPG / PNG | Max 2MB</small>
@@ -1609,7 +1633,8 @@
                         <div class="alert alert-warning d-flex align-items-start">
                             <i class="ri-alert-line me-2 fs-5"></i>
                             <div>
-                                <strong>Important:</strong> Please fill all the fields in one sit. For security reasons, uploaded files are not saved if you refresh or leave this page.
+                                <strong>Important:</strong> Please fill all the fields in one sit. For security reasons,
+                                uploaded files are not saved if you refresh or leave this page.
                             </div>
                         </div>
 
@@ -1687,16 +1712,16 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('#country').on('change', function() {
+        $(document).ready(function () {
+            $('#country').on('change', function () {
                 var countryId = $(this).val();
 
                 if (countryId) {
-                    $.get('/get-country-programs/' + countryId, function(data) {
+                    $.get('/get-country-programs/' + countryId, function (data) {
                         var $dropdown = $('#applying');
                         $dropdown.empty().append('<option value="">Select Program</option>');
 
-                        $.each(data, function(i, program) {
+                        $.each(data, function (i, program) {
                             $dropdown.append('<option value="' + program.id + '">' + program.name + '</option>');
                         });
 
@@ -1922,13 +1947,13 @@
                     );
                 }
 
-                if(c === '107'){
+                if (c === '107') {
                     showDocs.push(
                         '.doc-motivation-letter'
                     )
                 }
 
-                if(p === '1'){
+                if (p === '1') {
                     showDocs.push(
                         '.doc-proficiency-letter'
                     )
@@ -1946,12 +1971,12 @@
 
                 // 4️⃣ Apply show + required ONLY once (🔥 key part)
                 $(showDocs.join(','))
-                .removeClass('d-none')
-                .find('input[type="file"]')
-                .prop({
-                    required: true,
-                    disabled: false
-                });
+                    .removeClass('d-none')
+                    .find('input[type="file"]')
+                    .prop({
+                        required: true,
+                        disabled: false
+                    });
 
                 console.log('Country value:', c, typeof c);
                 console.log('Show docs before apply:', showDocs);
@@ -1982,7 +2007,7 @@
                 return overAll;
             }
 
-            $('#qualification').on('change', function() {
+            $('#qualification').on('change', function () {
                 toggleEducationForms();
 
                 $('#step2Form')
@@ -1993,14 +2018,14 @@
             });
 
             // Populating record in percentage box
-            $('#obtainedMarksMatric, #totalMarksMatric').on('input', function() {
+            $('#obtainedMarksMatric, #totalMarksMatric').on('input', function () {
                 calculatePercentage(
                     $('#obtainedMarksMatric'),
                     $('#totalMarksMatric'),
                     $('#percentageMatric')
                 )
             })
-            $('#obtainedMarksIntermediate, #totalMarksIntermediate').on('input', function() {
+            $('#obtainedMarksIntermediate, #totalMarksIntermediate').on('input', function () {
                 calculatePercentage(
                     $('#obtainedMarksIntermediate'),
                     $('#totalMarksIntermediate'),
@@ -2008,23 +2033,23 @@
                 )
             })
 
-            $('#cnic').on('input', function() {
+            $('#cnic').on('input', function () {
                 var val = $(this).val();
 
                 // Remove anything besides digits
                 val = val.replace(/\D/g, '');
 
                 // Add hyphens at the correct positions
-                if(val.length > 5 && val.length <= 12) {
-                    val = val.slice(0,5) + '-' + val.slice(5);
-                } else if(val.length > 12) {
-                    val = val.slice(0,5) + '-' + val.slice(5,12) + '-' + val.slice(12,13);
+                if (val.length > 5 && val.length <= 12) {
+                    val = val.slice(0, 5) + '-' + val.slice(5);
+                } else if (val.length > 12) {
+                    val = val.slice(0, 5) + '-' + val.slice(5, 12) + '-' + val.slice(12, 13);
                 }
 
                 $(this).val(val);
             });
 
-            $('#phoneNumber, #postalCode').on('input', function() {
+            $('#phoneNumber, #postalCode').on('input', function () {
                 this.value = this.value.replace(/\D/g, '');
             });
 
@@ -2037,7 +2062,7 @@
 
             $('#overallTOEFL').val(overallTOEFL);
 
-            $('#listeningTOEFL, #readingTOEFL, #speakingTOEFL, #writingTOEFL').on("input", function() {
+            $('#listeningTOEFL, #readingTOEFL, #speakingTOEFL, #writingTOEFL').on("input", function () {
                 const overallTOEFL = calculateTOEFLScore(
                     $('#listeningTOEFL'),
                     $('#readingTOEFL'),
@@ -2067,7 +2092,7 @@
                 overallField.attr("value", avg);
             }
 
-            $('#listeningIELTS, #readingIELTS, #speakingIELTS, #writingIELTS').on('input', function() {
+            $('#listeningIELTS, #readingIELTS, #speakingIELTS, #writingIELTS').on('input', function () {
                 calculateIELTSScore(
                     $('#listeningIELTS'),
                     $('#readingIELTS'),
@@ -2077,7 +2102,7 @@
                 );
             });
 
-            $(document).on('change', 'input[name="english_test[]"]', function() {
+            $(document).on('change', 'input[name="english_test[]"]', function () {
 
                 const isNone = $(this).val() === "None";
 
@@ -2091,7 +2116,7 @@
 
                 // selected values (agar kahin use karna ho)
                 const selected = $('input[name="english_test[]"]:checked')
-                    .map(function() {
+                    .map(function () {
                         return this.value;
                     }).get();
 
@@ -2101,7 +2126,7 @@
 
             function saveEnglishTestsToLocal() {
                 const selectedTests = $('input[name="english_test[]"]:checked')
-                    .map(function() {
+                    .map(function () {
                         return this.value;
                     }).get(); // get() converts jQuery object to plain array
 
@@ -2115,7 +2140,7 @@
                 const selectedTests = JSON.parse(stored);
 
                 // Check checkboxes
-                $('input[name="english_test[]"]').each(function() {
+                $('input[name="english_test[]"]').each(function () {
                     this.checked = selectedTests.includes(this.value);
                 });
 
@@ -2132,7 +2157,7 @@
                 if (stored) {
                     try {
                         departmentList = JSON.parse(stored);
-                    } catch(e) {
+                    } catch (e) {
                         departmentList = [];
                     }
                 }
@@ -2193,26 +2218,26 @@
 
                 if (departmentList.length === 0) {
                     tbody.append(`
-                        <tr class="text-muted text-center">
-                            <td colspan="4">No departments added yet</td>
-                        </tr>
-                    `);
+                            <tr class="text-muted text-center">
+                                <td colspan="4">No departments added yet</td>
+                            </tr>
+                        `);
                     return;
                 }
 
                 departmentList.forEach((item, index) => {
                     tbody.append(`
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td>${item.department_name}</td>
-                            <td>${item.university_name}</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `);
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.department_name}</td>
+                                <td>${item.university_name}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `);
                 });
 
                 saveDepartmentsToLocal();
@@ -2233,7 +2258,7 @@
                 let isValid = true;
 
                 // existing input/select validation
-                $('#step1Form').find('input, select').each(function() {
+                $('#step1Form').find('input, select').each(function () {
                     const $this = $(this);
 
                     if ($this.attr('type') === 'checkbox') return;
@@ -2282,7 +2307,7 @@
                 $('#step2Form')
                     .find('input')
                     .filter(':visible')
-                    .each(function() {
+                    .each(function () {
                         const $this = $(this);
 
                         if (!$this.prop('required')) return;
@@ -2318,7 +2343,7 @@
                 $('#step1Form')
                     .find('input, select')
                     .not('input[type="checkbox"]')
-                    .each(function() {
+                    .each(function () {
                         data[this.id] = $(this).val();
                     });
 
@@ -2347,7 +2372,7 @@
 
                 $('#step2Form')
                     .find('input')
-                    .each(function() {
+                    .each(function () {
                         data[this.id] = $(this).val();
                     })
 
@@ -2371,7 +2396,7 @@
                 STEP 3 LOCAL STORAGE
             ------------------------------*/
 
-            $('#step3Form input[type="file"]').on("change", function() {
+            $('#step3Form input[type="file"]').on("change", function () {
                 const file = this.files[0];
                 const $card = $(this).closest('.upload-card');
                 const $badge = $card.find('.badge');
@@ -2432,7 +2457,7 @@
 
             function saveStep3ToLocal() {
                 const docs = {};
-                $('#step3Form input[type="file"]').each(function() {
+                $('#step3Form input[type="file"]').each(function () {
                     const id = $(this).attr('id'); // BUT input ke paas id hi nahi
 
                     docs[id] = this.files.length > 0;
@@ -2470,21 +2495,30 @@
             }
 
             function loadStep4FromLocal() {
-
                 const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
                 if (!step1) return;
 
                 const country_id = step1.country;
                 const program_level_id = step1.applying;
 
-                // load departments
+                // Load departments
                 $.get('/get-departments', {
                     country_id,
                     program_level_id
                 }, function (departments) {
 
-                    let depOptions = '<option value="" disabled selected>Select Department</option>';
+                    // Remove duplicates (based on department id)
+                    const uniqueDepartments = [];
+                    const seen = new Set();
                     departments.forEach(d => {
+                        if (!seen.has(d.id)) {
+                            seen.add(d.id);
+                            uniqueDepartments.push(d);
+                        }
+                    });
+
+                    let depOptions = '<option value="" disabled selected>Select Department</option>';
+                    uniqueDepartments.forEach(d => {
                         depOptions += `<option value="${d.id}">${d.name}</option>`;
                     });
 
@@ -2494,11 +2528,9 @@
                 });
             }
 
-            $('#departmentSelect').on('change', function () {
-
-                const department_id = $(this).val();
-                if (!department_id) return;
-
+            // When department changes, load universities
+            $('#departmentSelect').on('change', function() {
+                const departmentName = $(this).find('option:selected').text();
                 const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
                 if (!step1) return;
 
@@ -2506,11 +2538,10 @@
                 const program_level_id = step1.applying;
 
                 $.get('/get-universities', {
-                    department_id,
+                    department_name: departmentName,
                     country_id,
                     program_level_id
-                }, function (universities) {
-
+                }, function(universities) {
                     let uniOptions = '<option value="" disabled selected>Select University</option>';
                     universities.forEach(u => {
                         uniOptions += `<option value="${u.id}">${u.name}</option>`;
@@ -2521,6 +2552,7 @@
                         .prop('disabled', false);
                 });
             });
+
 
             /* -----------------------------
                 REVIEW STEP DATA
@@ -2540,8 +2572,8 @@
             /* -----------------------------
                 NEXT BUTTON
             ------------------------------*/
-            $('#nextBtn').on('click', function(e) {
-                 e.preventDefault(); // ⛔ form submit rok do
+            $('#nextBtn').on('click', function (e) {
+                e.preventDefault(); // ⛔ form submit rok do
                 if ($('#step1Form').hasClass('active')) {
                     if (!validateStep1()) return; // animation + validation here
                     saveStep1ToLocal();
@@ -2563,16 +2595,16 @@
             /* -----------------------------
                 PREVIOUS BUTTON
             ------------------------------*/
-            $('#prevBtn').on('click', function() {
+            $('#prevBtn').on('click', function () {
                 // console.log(currentStep);
                 if (currentStep > 1) {
 
                     // Remove completed class from current step before going back
-                    $(`#step${currentStep-1}`).removeClass('completed');
-                    $(`#step${currentStep-1} .span`).html(currentStep-1); // remove check icon if needed
+                    $(`#step${currentStep - 1}`).removeClass('completed');
+                    $(`#step${currentStep - 1} .span`).html(currentStep - 1); // remove check icon if needed
 
                     currentStep = currentStep - 1;
-                    if(currentStep == 3){
+                    if (currentStep == 3) {
                         showStep(currentStep);
                         loadStep2FromLocal()
                         toggleDocuments();
@@ -2629,7 +2661,7 @@
                 levels.forEach(level => {
                     let record = {};
 
-                    switch(level) {
+                    switch (level) {
                         case 'matric':
                             record = {
                                 board: step2Raw.boardMatric || null,
@@ -2720,7 +2752,7 @@
             }
 
 
-            $('#studentForm').on('submit', function(e) {
+            $('#studentForm').on('submit', function (e) {
                 e.preventDefault(); // prevent default submit
 
                 const step1 = JSON.parse(localStorage.getItem('student_step1'));
@@ -2767,15 +2799,15 @@
 
                 // Step3 files
                 const step3Files = [
-                    'cnic-front','cnic-back','matric-front','matric-back',
-                    'intermediate-front','intermediate-back','bachelors-transcript','bachelors-degree',
-                    'masters-transcript','masters-degree','ielts','toefl','pte',
-                    'passport','photograph','cv-resume','experience-letter','proficiency-letter','motivation-letter'
+                    'cnic-front', 'cnic-back', 'matric-front', 'matric-back',
+                    'intermediate-front', 'intermediate-back', 'bachelors-transcript', 'bachelors-degree',
+                    'masters-transcript', 'masters-degree', 'ielts', 'toefl', 'pte',
+                    'passport', 'photograph', 'cv-resume', 'experience-letter', 'proficiency-letter', 'motivation-letter'
                 ];
 
                 step3Files.forEach(name => {
                     const input = document.querySelector(`input[name="${name}"]`);
-                    if(input && input.files.length > 0){
+                    if (input && input.files.length > 0) {
                         formData.append(`step3[${name}]`, input.files[0]);
                     }
                 });
@@ -2792,23 +2824,23 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(res){
+                    success: function (res) {
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                            <div class="success-message" id="successMessage">
-                                <div class="success-icon">
-                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                <div class="success-message" id="successMessage">
+                                    <div class="success-icon">
+                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                    </div>
+                                    <h3>Registration Successful!</h3>
+                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                    </p>
+                                    <p>You can download your form from <a href='http://localhost:7000/generate/student/profile/${res.id}'>here</a>.</p>
                                 </div>
-                                <h3>Registration Successful!</h3>
-                                <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                                </p>
-                                <p>You can download your form from <a href='http://localhost:7000/generate/student/profile/${res.id}'>here</a>.</p>
-                            </div>
-                        `)
+                            `)
                         localStorage.clear();
                     },
-                    error: function(err){
+                    error: function (err) {
                         console.error(err);
                     }
                 });

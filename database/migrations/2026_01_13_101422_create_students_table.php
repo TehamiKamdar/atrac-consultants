@@ -39,6 +39,8 @@ return new class extends Migration
             $table->json('english_test')->nullable();
             $table->boolean('english_proficiency')->default(false);
             $table->boolean('account_created')->default(false);
+            $table->string('secondary_email')->nullable();
+            $table->string('secondary_password')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });

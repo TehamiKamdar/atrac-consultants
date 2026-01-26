@@ -98,6 +98,9 @@ class HomeController extends Controller
 
     public function consultRequest(Request $req)
     {
+        $req->validate([
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
         $key = 'contact-form:'.$req->ip();
         $phone = $req->prefix.$req->phone;
 

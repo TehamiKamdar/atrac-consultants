@@ -15,6 +15,7 @@ use App\Models\countrydetails;
 use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
+use App\Models\review;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -105,7 +106,25 @@ class HomeController extends Controller
         return view('web.details', compact('details', 'countryName'));
     }
 
+    public function store(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'city' => 'required|in:karachi,islamabad,lahore',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string',
+        ]);
 
+        $bannedWords = config('bannedwords');
+
+        if (containsBannedWords($validated, $bannedWords)) {
+            return redirect()->route('contact')->with('error', 'Your input contains inappropriate content.');
+        }
+
+        review::create($validated);
+
+        return redirect()->route('contact')->with('success', 'Thank you for your review!');
+    }
 
     public function consultRequest(Request $req)
     {

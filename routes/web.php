@@ -44,23 +44,13 @@ Route::get('/university/list/{slug?}', [HomeController::class , 'getUniversities
 
 Route::get('/university/details/{name}/{slug}', [HomeController::class ,'uniDetails'])->name('university.details');
 
+Route::post('/reviews', [HomeController::class, 'store'])->name('reviews.store');
+
 Route::get('/404', function(){
     return view('errors.404');
 })->name('error-404');
 
-Route::get('/explode',function(){
-    $var =
-        "Hello Hi How Are You?|I am fine How About You?|Me is good too"
-    ;
-
-    $exploded = explode("|", $var);
-
-
-    return view('test.views', compact('exploded'));
-});
-
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
-
 Route::get('student/register', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);

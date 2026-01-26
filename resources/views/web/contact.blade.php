@@ -379,7 +379,7 @@
                                     <div class="small">
                                         <p class="mb-1">
                                             <i class="ri-phone-fill text-muted me-1"></i>
-                                            <a href="tel:+923255209992" class="contact-link">+92 325 5209992</a>
+                                            <a href="tel:+923265209992" class="contact-link">+92 326 5209992</a>
                                         </p>
                                         <p class="mb-0">
                                             <i class="ri-mail-fill text-muted me-1"></i>

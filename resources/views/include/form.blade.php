@@ -1,5 +1,6 @@
 @php
-$fields = \App\Models\fields::all();
+$fields = \App\Models\fields::orderBy('field', 'asc')->get();
+$sim_codes = \App\Models\sim_codes::all();
 @endphp
 <style>
     .btn:disabled{
@@ -35,10 +36,19 @@ $fields = \App\Models\fields::all();
         <div class="col-12 {{ $layout === 'wide' || $layout === 'modal' ? 'col-md-6' : 'mb-3' }}">
             <label for="phone" class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
             <div class="input-group">
-                <span class="input-group-text bg-light">
-                    <i class="ri-phone-line text-muted"></i>
-                </span>
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+92 300 1234567" required>
+                <div class="input-group">
+                    <!-- Prefix dropdown 25% -->
+                    <select id="phonePrefix" name="prefix" class="form-select" style="flex: 0 0 35%; max-width: 35%;"
+                        required>
+                        @foreach ($sim_codes as $sim)
+                            <option value="0{{$sim->code}}">0{{$sim->code}}</option>
+                        @endforeach
+                    </select>
+
+                    <!-- Main number input 75% -->
+                    <input type="text" id="phoneNumber" name="phone" class="form-control"
+                        style="flex: 0 0 65%; max-width: 65%;" placeholder="1234567" maxlength="7" required>
+                </div>
             </div>
         </div>
         <div class="col-12 {{ $layout === 'wide' || $layout === 'modal' ? 'col-md-6' : 'mb-3' }}">
@@ -66,10 +76,8 @@ $fields = \App\Models\fields::all();
             </select>
         </div>
         <div class="col-12 {{ $layout === 'wide' || $layout === 'modal' ? 'col-md-6' : 'mb-3' }}">
-            <label for="percentage" class="form-label fw-semibold">Percentage/GPA <span
-                    class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="percentage" name="percentage" max="100" placeholder="e.g. 85"
-                required>
+            <label for="percentage" class="form-label fw-semibold">Percentage/GPA <span class="text-danger">*</span></label>
+            <input type="number" step="0.01" class="form-control" id="percentage" name="percentage" max="100" placeholder="e.g. 85" required>
         </div>
     </div>
 

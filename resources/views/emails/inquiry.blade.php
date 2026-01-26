@@ -102,6 +102,11 @@
 </head>
 <body>
   <div class="email-container">
+    <div class="meta">
+        Sender IP: {{ $data['ip'] ?? request()->ip() }}<br>
+        Server Time: {{ now()->format('Y-m-d H:i:s') }}
+    </div>
+
     <div class="header">
       <h2>New Inquiry Received</h2>
     </div>
@@ -109,7 +114,7 @@
     <div class="content">
 
       <div class="timestamp">
-        Received: {{ date('F j, Y, g:i a') }}
+        Received On: {{ date('F j, Y, g:i a') }}
       </div>
 
       <div class="details-card">

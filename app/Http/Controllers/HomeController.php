@@ -21,10 +21,9 @@ class HomeController extends Controller
     public function index()
     {
         $countries = country::orderBy('name', 'asc')->where('status', 'active')->get();
-        $fields = fields::orderBy('field', 'asc')->get();
 
         // print_r($countries);
-        return view('web.index', compact('countries', 'fields'));
+        return view('web.index', compact('countries'));
     }
 
     public function about()
@@ -70,7 +69,7 @@ class HomeController extends Controller
         unset($validated['phone_prefix'], $validated['phone_number']);
 
         if ($validated['subject'] === 'atracconsultants.com') {
-            return redirect()->back() ->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
+            return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
         }
 
         contacts::create($validated);
@@ -99,59 +98,33 @@ class HomeController extends Controller
 
     public function consultRequest(Request $req)
     {
-        // return view('web.index');
+        $key = 'contact-form:'.$req->ip();
+        $phone = $req->prefix.$req->phone;
 
-        $consult = new consults;
-        $consult->name = $req->name;
-        $consult->phone = $req->phone;
-        $consult->email = $req->email;
-        $consult->message = $req->message;
-        $consult->qualification = $req->qualification;
-        $consult->country_id = $req->country;
-        $consult->percentage = $req->percentage;
-        $consult->field = $req->field;
-        $consult->office_location = $req->office_location;
-        $consult->date = $req->date;
+        $officeData = $req->office_location === 'islamabad'
+            ? ['+92 325 5209992', 'atracconsultant@gmail.com']
+            : ['+92 335 3737904', 'atracconsultants@gmail.com'];
 
-        if ($req->office_location == 'islamabad') {
-            $data = [
-                'name' => $req->name,
-                'email' => $req->email,
-                'message' => $req->message,
-                'qualification' => $req->qualification,
-                'country_id' => $req->country,
-                'percentage' => $req->percentage,
-                'field' => $req->field,
-                'date' => $req->date,
-                'phone' => $req->phone,
-                'office_location' => $req->office_location,
-                'office_phone' => '+92 325 5209992',
-                'office_email' => 'atracconsultant@gmail.com',
-            ];
-        } else {
-            $data = [
-                'name' => $req->name,
-                'email' => $req->email,
-                'message' => $req->message,
-                'qualification' => $req->qualification,
-                'country_id' => $req->country,
-                'percentage' => $req->percentage,
-                'field' => $req->field,
-                'date' => $req->date,
-                'phone' => $req->phone,
-                'office_location' => $req->office_location,
-                'office_phone' => '+92 335 3737904',
-                'office_email' => 'atracconsultants@gmail.com',
-            ];
-        }
+        $data = [
+            'ip' => $key,
+            'name' => $req->name,
+            'email' => $req->email,
+            'message' => $req->message,
+            'qualification' => $req->qualification,
+            'country_id' => $req->country,
+            'percentage' => $req->percentage,
+            'field' => $req->field,
+            'date' => $req->date,
+            'phone' => $phone,
+            'office_location' => $req->office_location,
+            'office_phone' => $officeData[0],
+            'office_email' => $officeData[1],
+        ];
+
+        consults::create($data);
 
         Mail::to($req->email)->send(new RequestMail($data));
-
-        $adminEmail = env('MAIL_FROM_ADDRESS');
-
-        Mail::to($adminEmail)->send(new AdminInquiryAlertMail($data));
-
-        $consult->save();
+        Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
 
         return redirect()->back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
     }

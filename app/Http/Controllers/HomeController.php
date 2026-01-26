@@ -100,16 +100,25 @@ class HomeController extends Controller
     {
         $req->validate([
             'g-recaptcha-response' => 'required|captcha',
+            'name' => 'required|string|min:2',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'prefix' => 'required',
+            'message' => 'required|min:5',
+            'office_location' => 'required|in:islamabad,karachi',
         ]);
-        $key = 'contact-form:'.$req->ip();
-        $phone = $req->prefix.$req->phone;
-
-        $officeData = $req->office_location === 'islamabad'
-            ? ['+92 325 5209992', 'atracconsultant@gmail.com']
-            : ['+92 335 3737904', 'atracconsultants@gmail.com'];
-
+    
+        $phone = $req->prefix . $req->phone;
+    
+        $offices = [
+            'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
+            'karachi'    => ['+92 335 3737904', 'atracconsultants@gmail.com'],
+        ];
+    
+        $officeData = $offices[$req->office_location];
+    
         $data = [
-            'ip' => $key,
+            'ip' => $req->ip(),
             'name' => $req->name,
             'email' => $req->email,
             'message' => $req->message,
@@ -123,14 +132,19 @@ class HomeController extends Controller
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],
         ];
-
+    
         consults::create($data);
-
-        Mail::to($req->email)->send(new RequestMail($data));
-        Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
-
-        return redirect()->back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
+    
+        try {
+            Mail::to($req->email)->send(new RequestMail($data));
+            Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+        }
+    
+        return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
     }
+
 
     public function getUniversities($slug)
     {

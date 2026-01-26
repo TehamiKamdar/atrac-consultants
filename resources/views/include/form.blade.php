@@ -58,6 +58,7 @@ $sim_codes = \App\Models\sim_codes::all();
                 <option value="" selected disabled>Select Location</option>
                 <option value="karachi">Karachi</option>
                 <option value="islamabad">Islamabad</option>
+                <option value="lahore">Lahore</option>
             </select>
         </div>
     </div>

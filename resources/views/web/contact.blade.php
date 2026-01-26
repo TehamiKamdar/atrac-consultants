@@ -473,7 +473,7 @@ Contact
 
                             <div class="floating-label">
                                 <label for="subject" class="fw-semibold">City</label>
-                                <select name="city" id="">
+                                <select name="city" class="form-select" id="">
                                     <option value="" selected disabled>Select City</option>
                                     <option value="karachi">Karachi</option>
                                     <option value="islamabad">Islamabad</option>

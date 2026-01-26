@@ -275,7 +275,7 @@
                                 <i class="ri-building-3-line fs-5"></i>
                             </div>
                             <div>
-                                <h4 class="mb-1 fw-bold">Karachi HQ</h4>
+                                <h4 class="mb-1 fw-bold">Karachi</h4>
                                 <small class="opacity-90">Head Office</small>
                             </div>
                         </div>
@@ -420,7 +420,7 @@
                             </div>
                             <div>
                                 <h4 class="mb-1 fw-bold">Lahore</h4>
-                                <small class="opacity-90">Branch Office</small>
+                                <small class="opacity-90">Regional Office</small>
                             </div>
                         </div>
                     </div>

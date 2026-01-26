@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Anhskohbo\NoCaptcha\NoCaptcha;
-use App\Mail\AdminInquiryAlertMail;
-use App\Mail\RequestMail;
+use App\Models\fields;
+use App\Models\country;
 use App\Models\consults;
 use App\Models\contacts;
-use App\Models\country;
-use App\Models\countrydetails;
-use App\Models\fields;
+use App\Mail\RequestMail;
 use App\Models\sim_codes;
 use App\Models\university;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Models\countrydetails;
+use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\DB;
+use App\Mail\AdminInquiryAlertMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -48,7 +49,6 @@ class HomeController extends Controller
     public function contact(Request $request)
     {// RateLimiter key: IP-based
         $key = 'contact-form:'.$request->ip();
-
         if (RateLimiter::tooManyAttempts($key, 5)) {
             return redirect()->back()->with('error', 'You have submitted too many messages today. Please try again tomorrow.');
         }
@@ -71,7 +71,13 @@ class HomeController extends Controller
         // Remove extra fields before saving
         unset($validated['phone_prefix'], $validated['phone_number']);
 
-        if ($validated['subject'] === 'atracconsultants.com') {
+        $bannedWords = config('bannedwords');
+
+        if (containsBannedWords($validated, $bannedWords)) {
+            return redirect()->back()->with('error', 'Your input contains inappropriate content.');
+        }
+
+        if (str_contains($validated['subject'], 'atracconsultants.com')) {
             return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
         }
 
@@ -115,13 +121,19 @@ class HomeController extends Controller
         RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
 
         // Validation
-        $req->validate([
+        $validated = $req->validate([
             'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
             'email' => 'required|email',
             'phone' => 'required',
+            'qualification' => 'required',
+            'country' => 'required',
+            'percentage' => 'required',
+            'field' => 'required',
+            'date' => 'required',
             'prefix' => 'required',
             'office_location' => 'required|in:islamabad,karachi',
+            'message' => 'sometimes|string|min:5|max:1000'
         ]);
 
         // Captcha verification
@@ -132,39 +144,46 @@ class HomeController extends Controller
             return back()->with('error', 'Captcha verification failed. Please try again.');
         }
 
-        $phone = $req->prefix.$req->phone;
+        $phone = $validated['prefix'].$validated['phone'];
 
         $offices = [
             'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
             'karachi' => ['+92 335 3737904', 'atracconsultants@gmail.com'],
         ];
 
-        $officeData = $offices[$req->office_location];
+        $officeData = $offices[$validated['office_location']];
 
         $data = [
             'ip' => $ip,
-            'name' => $req->name,
-            'email' => $req->email,
-            'message' => $req->message,
-            'qualification' => $req->qualification,
-            'country_id' => $req->country,
-            'percentage' => $req->percentage,
-            'field' => $req->field,
-            'date' => $req->date,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'message' => $validated['message'],
+            'qualification' => $validated['qualification'],
+            'country_id' => $validated['country'],
+            'percentage' => $validated['percentage'],
+            'field' => $validated['field'],
+            'date' => $validated['date'],
             'phone' => $phone,
-            'office_location' => $req->office_location,
+            'office_location' => $validated['office_location'],
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],
         ];
 
-        // Save to DB
-        consults::create($data);
 
         try {
-            Mail::to($req->email)->send(new RequestMail($data));
-            Mail::to('tehamikamdar19@gmail.com')->send(new AdminInquiryAlertMail($data));
 
+            $bannedWords = config('bannedwords');
+            $fieldsToCheck = Arr::only($validated, ['name','email','phone','percentage','message', 'qualification']);
+            if (containsBannedWords($fieldsToCheck, $bannedWords)) {
+                return redirect()->back()->with('error', 'Your input contains inappropriate content.');
+            }
+
+            // Save to DB
+            consults::create($data);
+            Mail::to($validated['email'])->send(new RequestMail($data));
+            Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
             return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
+
         } catch (\Exception $e) {
             Log::error($e->getMessage());
 

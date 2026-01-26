@@ -336,6 +336,21 @@ Contact
             });
         </script>
     @endif
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @foreach ($errors->all() as $error)
+                    iziToast.error({
+                        title: 'Error!',
+                        message: '{{ $error }}',
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                @endforeach
+            });
+        </script>
+    @endif
     <div class="container py-5">
 
         <div class="text-center mb-5">
@@ -454,6 +469,16 @@ Contact
                             <div class="floating-label">
                                 <label for="subject" class="fw-semibold">Subject</label>
                                 <input type="text" class="form-control" id="subject" name="subject" placeholder="How can we help?" required>
+                            </div>
+
+                            <div class="floating-label">
+                                <label for="subject" class="fw-semibold">City</label>
+                                <select name="city" id="">
+                                    <option value="" selected disabled>Select City</option>
+                                    <option value="karachi">Karachi</option>
+                                    <option value="islamabad">Islamabad</option>
+                                    <option value="lahore">Lahore</option>
+                                </select>
                             </div>
 
                             <div class="floating-label">

@@ -61,6 +61,7 @@ class HomeController extends Controller
             'phone_prefix' => 'required|string|max:4',
             'phone_number' => 'required|string|min:7|max:9',
             'subject' => 'required|string|min:3|max:150',
+            'city' => 'required|string|min:3|max:150',
             'message' => 'required|string|min:5|max:1000',
         ]);
 
@@ -108,23 +109,23 @@ class HomeController extends Controller
             'prefix' => 'required',
             'office_location' => 'required|in:islamabad,karachi',
         ]);
-    
-        $captcha = new NoCaptcha(env('NOCAPTCHA_SECRET'), env('NOCAPTCHA_SITEKEY'));
-        $response = $captcha->verifyResponse($req->input('g-recaptcha-response'), $req->ip());
-    
-        if (!$response->isSuccess() || $response->getScore() < 0.5) {
+
+        $captcha = new NoCaptcha(env('RECAPTCHA_SECRET_KEY'), env('RECAPTCHA_SITE_KEY'));
+        $success = $captcha->verifyResponse($req->input('g-recaptcha-response'), $req->ip());
+
+        if (!$success) {
             return back()->with('error', 'Captcha verification failed. Please try again.');
         }
-    
+
         $phone = $req->prefix . $req->phone;
-    
+
         $offices = [
             'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
             'karachi'    => ['+92 335 3737904', 'atracconsultants@gmail.com'],
         ];
-    
+
         $officeData = $offices[$req->office_location];
-    
+
         $data = [
             'ip' => $req->ip(),
             'name' => $req->name,
@@ -140,13 +141,13 @@ class HomeController extends Controller
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],
         ];
-    
+
         consults::create($data);
-    
+
         try {
             Mail::to($req->email)->send(new RequestMail($data));
             Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
-    
+
             return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
         } catch (\Exception $e) {
             Log::error($e->getMessage());

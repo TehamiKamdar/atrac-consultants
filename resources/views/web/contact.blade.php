@@ -285,7 +285,7 @@
                             <div class="d-flex">
                                 <i class="ri-map-pin-2-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Address</h6>
+                                    <h6 class="fw-regular mb-2">Address</h6>
                                     <p class="text-muted mb-0 small">
                                         Office #101, Silver Trade Center<br>
                                         Block 13 A, Gulshan-e-Iqbal<br>
@@ -299,7 +299,7 @@
                             <div class="d-flex">
                                 <i class="ri-phone-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Contact</h6>
+                                    <h6 class="fw-regular mb-2">Contact</h6>
                                     <div class="small">
                                         <p class="mb-1">
                                             <i class="ri-phone-fill text-muted me-1"></i>
@@ -319,7 +319,7 @@
                             <div class="d-flex">
                                 <i class="ri-time-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Hours</h6>
+                                    <h6 class="fw-regular mb-2">Hours</h6>
                                     <p class="text-muted mb-0 small">
                                         Monday-Saturday: 11AM - 8PM<br>
                                         Sunday: Closed
@@ -357,7 +357,7 @@
                             <div class="d-flex">
                                 <i class="ri-map-pin-2-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Address</h6>
+                                    <h6 class="fw-regular mb-2">Address</h6>
                                     <p class="text-muted mb-0 small">
                                         Office 4B, Fourth Floor, Idris Arcade<br>
                                         Svc Road Jinnah Boulevard West<br>
@@ -371,7 +371,7 @@
                             <div class="d-flex">
                                 <i class="ri-phone-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Contact</h6>
+                                    <h6 class="fw-regular mb-2">Contact</h6>
                                     <div class="small">
                                         <p class="mb-1">
                                             <i class="ri-phone-fill text-muted me-1"></i>
@@ -391,7 +391,7 @@
                             <div class="d-flex">
                                 <i class="ri-time-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Hours</h6>
+                                    <h6 class="fw-regular mb-2">Hours</h6>
                                     <p class="text-muted mb-0 small">
                                         Monday-Saturday: 11AM - 8PM<br>
                                         Sunday: Closed
@@ -429,7 +429,7 @@
                             <div class="d-flex">
                                 <i class="ri-map-pin-2-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Address</h6>
+                                    <h6 class="fw-regular mb-2">Address</h6>
                                     <p class="text-muted mb-0 small">
                                         First Floor, Ali Tower, Office 105 &, 106<br>
                                         Gulberg III, MM Alam Rd, Lahore<br>
@@ -443,7 +443,7 @@
                             <div class="d-flex">
                                 <i class="ri-phone-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Contact</h6>
+                                    <h6 class="fw-regular mb-2">Contact</h6>
                                     <div class="small">
                                         <p class="mb-1">
                                             <i class="ri-phone-fill text-muted me-1"></i>
@@ -463,7 +463,7 @@
                             <div class="d-flex">
                                 <i class="ri-time-line info-icon"></i>
                                 <div>
-                                    <h6 class="fw-semibold mb-2">Hours</h6>
+                                    <h6 class="fw-regular mb-2">Hours</h6>
                                     <p class="text-muted mb-0 small">
                                         Monday-Saturday: 11AM - 8PM<br>
                                         Sunday: Closed
@@ -500,20 +500,20 @@
                     <div class="card-body p-4 p-xl-5">
                         <form action="{{ route('contact.submit') }}" method="POST">
                             @csrf
-                            <div class="floating-label">
-                                <label for="name" class="fw-semibold">Your Name</label>
+                            <div class="floating-label mb-3">
+                                <label for="name" class="fw-regular">Your Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="John Doe"
                                     required>
                             </div>
 
-                            <div class="floating-label">
-                                <label for="email" class="fw-semibold">Email Address</label>
+                            <div class="floating-label mb-3">
+                                <label for="email" class="fw-regular">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     placeholder="name@example.com" required>
                             </div>
 
-                            <div class="floating-label">
-                                <label for="email" class="fw-semibold">Phone</label>
+                            <div class="floating-label mb-3">
+                                <label for="email" class="fw-regular">Phone</label>
                                 <div class="input-group">
                                     <!-- Prefix dropdown 25% -->
                                     <select id="phonePrefix" name="phone_prefix" class="form-select"
@@ -529,14 +529,14 @@
                                 </div>
                             </div>
 
-                            <div class="floating-label">
-                                <label for="subject" class="fw-semibold">Subject</label>
+                            <div class="floating-label mb-3">
+                                <label for="subject" class="fw-regular">Subject</label>
                                 <input type="text" class="form-control" id="subject" name="subject"
                                     placeholder="How can we help?" required>
                             </div>
 
-                            <div class="floating-label">
-                                <label for="subject" class="fw-semibold">City</label>
+                            <div class="floating-label mb-3">
+                                <label for="subject" class="fw-regular">City</label>
                                 <select name="city" class="form-select" id="">
                                     <option value="" selected disabled>Select City</option>
                                     <option value="karachi">Karachi</option>
@@ -545,8 +545,8 @@
                                 </select>
                             </div>
 
-                            <div class="floating-label">
-                                <label for="message" class="fw-semibold">Your Message</label>
+                            <div class="floating-label mb-3">
+                                <label for="message" class="fw-regular">Your Message</label>
                                 <textarea class="form-control" id="message" rows="4" name="message"
                                     placeholder="Your message here..." required></textarea>
                             </div>
@@ -583,12 +583,12 @@
                             </div>
 
                             <div class="floating-label">
-                                <label for="reviewName" class="fw-semibold">Your Name</label>
+                                <label for="reviewName" class="fw-regular">Your Name</label>
                                 <input type="text" class="form-control" id="reviewName" placeholder="John Doe" required>
                             </div>
 
                             <div class="floating-label">
-                                <label for="reviewText" class="fw-semibold">Your Review</label>
+                                <label for="reviewText" class="fw-regular">Your Review</label>
                                 <textarea class="form-control" id="reviewText" rows="4"
                                     placeholder="Share your experience..." required></textarea>
                             </div>

@@ -71,7 +71,7 @@
 <body>
     <div class="marquee-container" role="contentinfo">
         <div class="marquee">
-            🎉 Exciting News! We'll be coming to <strong>Lahore</strong> soon! Stay tuned for updates! 🎉
+            🎉 Exciting News! We're now in Lahore! Explore amazing opportunities waiting for you. Stay tuned! 🎉
         </div>
     </div>
     <nav class="atrac-navbar navbar navbar-expand-lg" style="z-index: 100" role="menuitem">

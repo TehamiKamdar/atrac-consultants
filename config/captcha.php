@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'secret' => env('NOCAPTCHA_SECRET'),
-    'sitekey' => env('NOCAPTCHA_SITEKEY'),
+    'secret' => env('RECAPTCHA_SECRET_KEY'),
+    'sitekey' => env('RECAPTCHA_SITE_KEY'),
     'options' => [
-        'timeout' => 30,
+        'timeout' => 2.0,
     ],
 ];

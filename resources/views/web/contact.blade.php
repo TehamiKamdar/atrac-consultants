@@ -137,87 +137,39 @@
                     alertBox.style.display = 'none';
                 });
             }
-        });
-    </script>
 
-    {{--
-    <script>
-        // Enhanced Rating stars functionality
-        document.querySelectorAll('.rating-star').forEach(star => {
-            star.addEventListener('click', function () {
-                const value = this.getAttribute('data-value');
-                document.getElementById('ratingValue').value = value;
+            const stars = document.querySelectorAll('.rating-star');
+            const ratingInput = document.getElementById('ratingValue');
 
-                // Update star display
-                document.querySelectorAll('.rating-star').forEach((s, index) => {
-                    if (index < value) {
-                        s.innerHTML = '<i class="fas fa-star"></i>';
-                        s.classList.add('active');
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    const icon = star.querySelector('i');
+                    if (index < rating) {
+                        icon.classList.remove('far'); // empty star
+                        icon.classList.add('fas');    // filled star
+                        star.classList.add('active');
                     } else {
-                        s.innerHTML = '<i class="far fa-star"></i>';
-                        s.classList.remove('active');
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                        star.classList.remove('active');
                     }
                 });
-            });
-
-            // Enhanced hover effect
-            star.addEventListener('mouseover', function () {
-                const value = this.getAttribute('data-value');
-                document.querySelectorAll('.rating-star').forEach((s, index) => {
-                    s.classList.remove('active');
-                    if (index < value) {
-                        s.innerHTML = '<i class="fas fa-star"></i>';
-                    } else {
-                        s.innerHTML = '<i class="far fa-star"></i>';
-                    }
-                });
-            });
-
-            star.addEventListener('mouseout', function () {
-                const currentRating = document.getElementById('ratingValue').value;
-                document.querySelectorAll('.rating-star').forEach((s, index) => {
-                    if (index < currentRating) {
-                        s.innerHTML = '<i class="fas fa-star"></i>';
-                        s.classList.add('active');
-                    } else {
-                        s.innerHTML = '<i class="far fa-star"></i>';
-                        s.classList.remove('active');
-                    }
-                });
-            });
-        });
-
-        document.getElementById('reviewForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const rating = document.getElementById('ratingValue').value;
-            const btn = this.querySelector('button[type="submit"]');
-
-            if (rating === '0') {
-                alert('Please select a rating');
-                return;
             }
 
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting...';
-            btn.disabled = true;
+            stars.forEach((star, index) => {
+                // Hover effect
+                star.addEventListener('mouseover', () => updateStars(index + 1));
+                star.addEventListener('mouseout', () => updateStars(parseInt(ratingInput.value)));
 
-            // Simulate API call
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check me-2"></i> Thank You!';
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-check me-2"></i> Submit Review';
-                    btn.disabled = false;
-                }, 2000);
-                this.reset();
-
-                // Reset stars
-                document.querySelectorAll('.rating-star').forEach(star => {
-                    star.innerHTML = '<i class="far fa-star"></i>';
-                    star.classList.remove('active');
+                // Click sets the rating
+                star.addEventListener('click', () => {
+                    ratingInput.value = index + 1;
+                    updateStars(index + 1);
                 });
-                document.getElementById('ratingValue').value = '0';
-            }, 1500);
+            });
+
         });
-    </script> --}}
+    </script>
 @endsection
 
 
@@ -513,7 +465,7 @@
                             <div class="floating-label">
                                 <label for="email" class="fw-regular">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="name@example.com" required>
+                                    placeholder="johndoe@placeholder.com" required>
                             </div>
 
                             <div class="floating-label">
@@ -573,7 +525,8 @@
                         <h3 class="mb-0"><i class="fas fa-star me-2"></i> Share Your Experience</h3>
                     </div>
                     <div class="card-body p-4 p-xl-5">
-                        <form id="reviewForm" action="">
+                        <form id="reviewForm" action="{{ route('reviews.store') }}" method="POST">
+                            @csrf
                             <div class="mb-4">
                                 <label class="form-label d-block mb-3">Your Rating</label>
                                 <div class="rating">
@@ -588,12 +541,27 @@
 
                             <div class="floating-label">
                                 <label for="reviewName" class="fw-regular">Your Name</label>
-                                <input type="text" class="form-control" id="reviewName" placeholder="John Doe" required>
+                                <input type="text" class="form-control" id="reviewName" name="name" placeholder="John Doe" required>
+                            </div>
+
+                            <div class="floating-label">
+                                <label for="reviewName" class="fw-regular">Your Email</label>
+                                <input type="text" class="form-control" id="reviewEmail" name="email" placeholder="johndoe@placeholder.com" required>
+                            </div>
+
+                            <div class="floating-label">
+                                <label for="subject" class="fw-regular">Which Branch</label>
+                                <select name="city" class="form-select" id="">
+                                    <option value="" selected disabled>Select City</option>
+                                    <option value="karachi">Karachi</option>
+                                    <option value="islamabad">Islamabad</option>
+                                    <option value="lahore">Lahore</option>
+                                </select>
                             </div>
 
                             <div class="floating-label">
                                 <label for="reviewText" class="fw-regular">Your Review</label>
-                                <textarea class="form-control" id="reviewText" rows="4"
+                                <textarea class="form-control" id="reviewText" rows="4" name="review"
                                     placeholder="Share your experience..." required></textarea>
                             </div>
 

@@ -48,4 +48,12 @@ class AdminInquiryAlertMail extends Mailable
     {
         return [];
     }
+
+    public function build()
+    {
+    return $this->from('apply@atracconsultants.com', 'Website Form')
+    ->replyTo($this->data['email']) // user ka email
+    ->subject('New inquiry from website')
+    ->view('emails.inquiry');
+    }
 }

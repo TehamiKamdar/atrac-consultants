@@ -48,4 +48,12 @@ class RequestMail extends Mailable
     {
         return [];
     }
+
+    public function build()
+    {
+    return $this->from('apply@atracconsultants.com', 'Atrac Consultants')
+    ->replyTo('inquiries@atracconsultants.com') // ya apply@
+    ->subject('We have received your inquiry')
+    ->view('emails.requestMail  ');
+    }
 }

@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\fields;
-use App\Models\country;
+use Anhskohbo\NoCaptcha\NoCaptcha;
+use App\Mail\AdminInquiryAlertMail;
+use App\Mail\RequestMail;
 use App\Models\consults;
 use App\Models\contacts;
-use App\Mail\RequestMail;
+use App\Models\country;
+use App\Models\countrydetails;
+use App\Models\fields;
 use App\Models\sim_codes;
 use App\Models\university;
 use Illuminate\Http\Request;
-use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
-use App\Mail\AdminInquiryAlertMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\RateLimiter;
 
 class HomeController extends Controller
@@ -99,8 +99,22 @@ class HomeController extends Controller
         return view('web.details', compact('details', 'countryName'));
     }
 
+
+
     public function consultRequest(Request $req)
     {
+        $ip = $req->ip();
+        $key = 'consult-form:'.$ip;
+
+        // 5 requests per 24 hours
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            return back()->with('error', 'You have submitted too many requests today. Please try again tomorrow.');
+        }
+
+        // Hit the limiter (increment counter, TTL = 24 hours)
+        RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
+
+        // Validation
         $req->validate([
             'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
@@ -110,24 +124,25 @@ class HomeController extends Controller
             'office_location' => 'required|in:islamabad,karachi',
         ]);
 
+        // Captcha verification
         $captcha = new NoCaptcha(env('RECAPTCHA_SECRET_KEY'), env('RECAPTCHA_SITE_KEY'));
-        $success = $captcha->verifyResponse($req->input('g-recaptcha-response'), $req->ip());
+        $success = $captcha->verifyResponse($req->input('g-recaptcha-response'), $ip);
 
-        if (!$success) {
+        if (! $success) {
             return back()->with('error', 'Captcha verification failed. Please try again.');
         }
 
-        $phone = $req->prefix . $req->phone;
+        $phone = $req->prefix.$req->phone;
 
         $offices = [
             'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
-            'karachi'    => ['+92 335 3737904', 'atracconsultants@gmail.com'],
+            'karachi' => ['+92 335 3737904', 'atracconsultants@gmail.com'],
         ];
 
         $officeData = $offices[$req->office_location];
 
         $data = [
-            'ip' => $req->ip(),
+            'ip' => $ip,
             'name' => $req->name,
             'email' => $req->email,
             'message' => $req->message,
@@ -142,20 +157,20 @@ class HomeController extends Controller
             'office_email' => $officeData[1],
         ];
 
+        // Save to DB
         consults::create($data);
 
         try {
             Mail::to($req->email)->send(new RequestMail($data));
-            Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
+            Mail::to('tehamikamdar19@gmail.com')->send(new AdminInquiryAlertMail($data));
 
             return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+
             return back()->with('error', 'Something went wrong. Please try again later.');
         }
     }
-
-
 
     public function getUniversities($slug)
     {

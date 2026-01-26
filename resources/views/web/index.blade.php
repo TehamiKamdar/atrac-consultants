@@ -18,18 +18,21 @@
             });
         </script>
     @endif
-    @if (session('error'))
+    @if ($errors->any())
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                iziToast.error({
-                    title: 'Error!',
-                    message: '{{ session('error') }}',
-                    position: 'topRight',
-                    timeout: 5000
-                });
+                @foreach ($errors->all() as $error)
+                    iziToast.error({
+                        title: 'Error!',
+                        message: '{{ $error }}',
+                        position: 'topRight',
+                        timeout: 5000
+                    });
+                @endforeach
             });
         </script>
     @endif
+
 
 
     {{-- Hero Section --}}

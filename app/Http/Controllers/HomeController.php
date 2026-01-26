@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\RateLimiter;
 
 class HomeController extends Controller
@@ -100,24 +101,30 @@ class HomeController extends Controller
     public function consultRequest(Request $req)
     {
         $req->validate([
-            'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
             'email' => 'required|email',
             'phone' => 'required',
             'prefix' => 'required',
-            'message' => 'required|min:5',
             'office_location' => 'required|in:islamabad,karachi',
         ]);
-
+    
+        $captcha = new NoCaptcha(env('NOCAPTCHA_SECRET'), env('NOCAPTCHA_SITEKEY'));
+        $response = $captcha->verifyResponse($req->input('g-recaptcha-response'), $req->ip());
+    
+        if (!$response->isSuccess() || $response->getScore() < 0.5) {
+            return back()->with('error', 'Captcha verification failed. Please try again.');
+        }
+    
         $phone = $req->prefix . $req->phone;
-
+    
         $offices = [
             'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
             'karachi'    => ['+92 335 3737904', 'atracconsultants@gmail.com'],
         ];
-
+    
         $officeData = $offices[$req->office_location];
-
+    
         $data = [
             'ip' => $req->ip(),
             'name' => $req->name,
@@ -133,18 +140,20 @@ class HomeController extends Controller
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],
         ];
-
+    
         consults::create($data);
-
+    
         try {
             Mail::to($req->email)->send(new RequestMail($data));
             Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
+    
+            return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            return back()->with('error', 'Something went wrong. Please try again later.');
         }
-
-        return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
     }
+
 
 
     public function getUniversities($slug)

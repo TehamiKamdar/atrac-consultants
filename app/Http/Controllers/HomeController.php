@@ -62,7 +62,7 @@ class HomeController extends Controller
             'phone' => 'required|string|min:7|max:9',
             'subject' => 'required|string|min:3|max:150',
             'city' => 'required|string|min:3|max:150',
-            'message' => 'required|string|min:5|max:1000',
+            'message' => 'required|string|max:1000',
         ]);
 
         // Merge prefix + number

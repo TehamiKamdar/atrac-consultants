@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\AdminInquiryAlertMail;
-use App\Mail\RequestMail;
+use App\Models\fields;
+use App\Models\country;
 use App\Models\consults;
 use App\Models\contacts;
-use App\Models\country;
-use App\Models\countrydetails;
-use App\Models\fields;
+use App\Mail\RequestMail;
 use App\Models\sim_codes;
 use App\Models\university;
 use Illuminate\Http\Request;
+use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
+use App\Mail\AdminInquiryAlertMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -107,16 +108,16 @@ class HomeController extends Controller
             'message' => 'required|min:5',
             'office_location' => 'required|in:islamabad,karachi',
         ]);
-    
+
         $phone = $req->prefix . $req->phone;
-    
+
         $offices = [
             'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
             'karachi'    => ['+92 335 3737904', 'atracconsultants@gmail.com'],
         ];
-    
+
         $officeData = $offices[$req->office_location];
-    
+
         $data = [
             'ip' => $req->ip(),
             'name' => $req->name,
@@ -132,16 +133,16 @@ class HomeController extends Controller
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],
         ];
-    
+
         consults::create($data);
-    
+
         try {
             Mail::to($req->email)->send(new RequestMail($data));
             Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
         } catch (\Exception $e) {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
         }
-    
+
         return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
     }
 

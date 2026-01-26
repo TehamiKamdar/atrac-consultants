@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\country;
 use App\Models\universities;
+use App\Models\university;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Spatie\Sitemap\Sitemap;
@@ -41,7 +42,7 @@ class GenerateSitemap extends Command
         foreach ($countries as $country) {
             $sitemap->add(Url::create(route('country-details', $country->slug))->setLastModificationDate($country->updated_at ?? now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(0.8));
             $sitemap->add(Url::create(route('university.list', $country->slug))->setLastModificationDate($country->updated_at ?? now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(0.8));
-            $universities = universities::where('country_id', $country->id)->get();
+            $universities = university::where('country_id', $country->id)->get();
             foreach ($universities as $university) {
                 $sitemap->add(Url::create(route('university.details', [
                     'name' => $country->slug,

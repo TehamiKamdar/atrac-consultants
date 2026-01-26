@@ -18,6 +18,20 @@
             });
         </script>
     @endif
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                iziToast.error({
+                    title: 'Error!',
+                    message: '{{ session('error') }}',
+                    position: 'topRight',
+                    timeout: 5000
+                });
+            });
+        </script>
+    @endif
+    
     @if ($errors->any())
         <script>
             document.addEventListener('DOMContentLoaded', function () {

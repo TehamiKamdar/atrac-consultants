@@ -57,6 +57,10 @@
         text-align: center;
     }
 
+    .floating-label{
+        margin-bottom: 1rem !important;
+    }
+
     .map-btn {
         background: var(--primary-light);
         color: var(--primary-green);
@@ -500,19 +504,19 @@
                     <div class="card-body p-4 p-xl-5">
                         <form action="{{ route('contact.submit') }}" method="POST">
                             @csrf
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="name" class="fw-regular">Your Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="John Doe"
                                     required>
                             </div>
 
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="email" class="fw-regular">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     placeholder="name@example.com" required>
                             </div>
 
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="email" class="fw-regular">Phone</label>
                                 <div class="input-group">
                                     <!-- Prefix dropdown 25% -->
@@ -529,13 +533,13 @@
                                 </div>
                             </div>
 
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="subject" class="fw-regular">Subject</label>
                                 <input type="text" class="form-control" id="subject" name="subject"
                                     placeholder="How can we help?" required>
                             </div>
 
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="subject" class="fw-regular">City</label>
                                 <select name="city" class="form-select" id="">
                                     <option value="" selected disabled>Select City</option>
@@ -545,7 +549,7 @@
                                 </select>
                             </div>
 
-                            <div class="floating-label mb-3">
+                            <div class="floating-label">
                                 <label for="message" class="fw-regular">Your Message</label>
                                 <textarea class="form-control" id="message" rows="4" name="message"
                                     placeholder="Your message here..." required></textarea>

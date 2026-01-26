@@ -22,7 +22,6 @@ About Us
 
     .about-section p {
         font-family: 'Bambino-Light', sans-serif;
-        background-color: #f8fafc;
     }
 
     .text-primary {
@@ -103,7 +102,7 @@ About Us
         <!-- Header Section -->
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold mb-3 text-primary">About Atrac Consultants</h1>
-            <div class="mx-auto" style="max-width: 800px;">
+            <div class="mx-auto" style="max-width: 1100px;">
                 <p class="lead mb-4">
                     Atrac Consultants is a premier education and immigration consultancy with a proven track record since our founding. We serve as the vital bridge connecting ambitious students with world-class educational opportunities abroad.
                 </p>

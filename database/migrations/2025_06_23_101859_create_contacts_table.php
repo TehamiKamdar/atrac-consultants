@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->required();
             $table->string('email')->required();
+            $table->string('phone')->required();
             $table->string('subject')->required();
             $table->string('message')->required();
             $table->timestamps();

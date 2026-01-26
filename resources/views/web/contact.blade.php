@@ -435,6 +435,23 @@ Contact
                             </div>
 
                             <div class="floating-label">
+                                <label for="email" class="fw-semibold">Phone</label>
+                                <div class="input-group">
+                                    <!-- Prefix dropdown 25% -->
+                                    <select id="phonePrefix" name="prefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;"
+                                        required>
+                                        @foreach ($sim_codes as $sim)
+                                            <option value="0{{$sim->code}}">0{{$sim->code}}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <!-- Main number input 75% -->
+                                    <input type="text" name="phone" id="phoneNumber" class="form-control"
+                                        style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
+                                </div>
+                            </div>
+
+                            <div class="floating-label">
                                 <label for="subject" class="fw-semibold">Subject</label>
                                 <input type="text" class="form-control" id="subject" name="subject" placeholder="How can we help?" required>
                             </div>

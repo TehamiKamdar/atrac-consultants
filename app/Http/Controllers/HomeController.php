@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\fields;
-use App\Models\country;
+use App\Mail\AdminInquiryAlertMail;
+use App\Mail\RequestMail;
 use App\Models\consults;
 use App\Models\contacts;
-use App\Mail\RequestMail;
-use App\Mail\ContactEmail;
+use App\Models\country;
+use App\Models\countrydetails;
+use App\Models\fields;
+use App\Models\sim_codes;
 use App\Models\university;
 use Illuminate\Http\Request;
-use App\Models\countrydetails;
 use Illuminate\Support\Facades\DB;
-use App\Mail\AdminInquiryAlertMail;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -24,6 +22,7 @@ class HomeController extends Controller
     {
         $countries = country::orderBy('name', 'asc')->where('status', 'active')->get();
         $fields = fields::orderBy('field', 'asc')->get();
+
         // print_r($countries);
         return view('web.index', compact('countries', 'fields'));
     }
@@ -40,41 +39,45 @@ class HomeController extends Controller
 
     public function showContactForm()
     {
-        return view('web.contact');
-    }
-    public function contact(Request $request)
-    {
-        // RateLimiter key: IP-based
-        $key = 'contact-form:' . $request->ip();
+        $sim_codes = sim_codes::all();
 
-        // Check if too many requests
+        return view('web.contact', compact('sim_codes'));
+    }
+
+    public function contact(Request $request)
+    {// RateLimiter key: IP-based
+        $key = 'contact-form:'.$request->ip();
+
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            return redirect()->back()
-                ->with('error', 'You have submitted too many messages today. Please try again tomorrow.');
+            return redirect()->back()->with('error', 'You have submitted too many messages today. Please try again tomorrow.');
         }
 
-        // Hit the limiter (counts request)
-        RateLimiter::hit($key, 86400); // 86400 = 24 hours in seconds
+        RateLimiter::hit($key, 86400); // 24 hours
 
         $validated = $request->validate([
             'name' => 'required|string|min:2|max:100|regex:/^[a-zA-Z\s]+$/',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string',
+            'phone_prefix' => 'required|string|max:4',
+            'phone_number' => 'required|string|min:7|max:9',
             'subject' => 'required|string|min:3|max:150',
             'message' => 'required|string|min:5|max:1000',
         ]);
 
-        if($validated['subject'] === "atracconsultants.com"){
-            return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
+        // Merge prefix + number
+        $validated['phone'] = $validated['phone_prefix'].$validated['phone_number'];
+
+        // Remove extra fields before saving
+        unset($validated['phone_prefix'], $validated['phone_number']);
+
+        if ($validated['subject'] === 'atracconsultants.com') {
+            return redirect()->back() ->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
         }
 
         contacts::create($validated);
 
-        // Mail::to(users: '')->send(new ContactEmail($validated));
-
         return redirect()->back()->with('success', 'Thanks for contacting us. We\'ll get back to you ASAP.');
-    }
 
+    }
 
     public function detailsShow($slug)
     {
@@ -84,7 +87,7 @@ class HomeController extends Controller
             ->where('countries.slug', $slug)
             ->select('countrydetails.*', 'countries.*', 'countries.id as country_id')
             ->first();
-        if (!$details) {
+        if (! $details) {
             return view('coming_soon');
         }
 
@@ -94,12 +97,11 @@ class HomeController extends Controller
         return view('web.details', compact('details', 'countryName'));
     }
 
-
     public function consultRequest(Request $req)
     {
         // return view('web.index');
 
-        $consult = new consults();
+        $consult = new consults;
         $consult->name = $req->name;
         $consult->phone = $req->phone;
         $consult->email = $req->email;
@@ -124,7 +126,7 @@ class HomeController extends Controller
                 'phone' => $req->phone,
                 'office_location' => $req->office_location,
                 'office_phone' => '+92 325 5209992',
-                'office_email' => 'atracconsultant@gmail.com'
+                'office_email' => 'atracconsultant@gmail.com',
             ];
         } else {
             $data = [
@@ -139,7 +141,7 @@ class HomeController extends Controller
                 'phone' => $req->phone,
                 'office_location' => $req->office_location,
                 'office_phone' => '+92 335 3737904',
-                'office_email' => 'atracconsultants@gmail.com'
+                'office_email' => 'atracconsultants@gmail.com',
             ];
         }
 
@@ -165,6 +167,7 @@ class HomeController extends Controller
             ->join('countries', 'countries.id', '=', 'universities.country_id')
             ->select('cities.name as cityName', 'states.name as stateName', 'countries.slug as countryslug', 'universities.*')
             ->get();
+
         // return $universities;
         return view('web.uni_list', compact('universities', 'countryName'));
     }
@@ -173,25 +176,24 @@ class HomeController extends Controller
     {
         $countryId = country::where('slug', '=', $countryslug)->value('id');
 
-
         $university = university::with(['programs.departments.courses', 'programs.level'])
-        ->where('slug', $slug)
-        ->where('country_id', $countryId)
-        ->first();
+            ->where('slug', $slug)
+            ->where('country_id', $countryId)
+            ->first();
 
         // Agar university hi nahi mili toh direct return karo
-        if (!$university) {
+        if (! $university) {
             return view('coming_soon');
         }
 
         // Safe queries for state & city
         $state = DB::table('states')
-        ->where('id', $university->state_id)
-        ->value('name'); // direct string return karega
+            ->where('id', $university->state_id)
+            ->value('name'); // direct string return karega
 
         $city = DB::table('cities')
-        ->where('id', $university->city_id)
-        ->value('name');
+            ->where('id', $university->city_id)
+            ->value('name');
         // return $city;
 
         $description = $university->description;
@@ -213,8 +215,10 @@ class HomeController extends Controller
         ));
     }
 
-    public function checkEmail(Request $request){
+    public function checkEmail(Request $request)
+    {
         $emailExists = consults::where('email', $request->email)->exists();
-        return response()->json(['exists'=>$emailExists]);
+
+        return response()->json(['exists' => $emailExists]);
     }
 }

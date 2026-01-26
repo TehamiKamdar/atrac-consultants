@@ -118,9 +118,23 @@ $sim_codes = \App\Models\sim_codes::all();
             placeholder="Any specific questions or requirements..."></textarea>
     </div>
 
+    <div class="mb-4">
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+    </div>
+
     <div class="d-grid">
         <button type="submit" class="btn btn-primary btn-lg fw-semibold" disabled>
             <i class="ri-calendar-check-line me-2"></i> Book Free Consultation
         </button>
     </div>
 </form>
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+<script>
+grecaptcha.ready(function () {
+ grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'contact'})
+ .then(function (token) {
+ document.getElementById('g-recaptcha-response').value = token;
+ });
+});
+</script>

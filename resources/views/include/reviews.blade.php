@@ -151,7 +151,7 @@
         // Fetch reviews from JSON
         async function fetchReviews() {
             try {
-                const response = await fetch('{{ asset('reviews/dataset_Google-Maps-Reviews-Scraper_2025-06-19_12-35-21-203.json') }}');
+                const response = await fetch('{{ asset('google_reviews/dataset_Google-Maps-Reviews-Scraper_2025-06-19_12-35-21-203.json') }}');
                 if (!response.ok) throw new Error('Failed to fetch reviews');
                 return await response.json();
             } catch (error) {

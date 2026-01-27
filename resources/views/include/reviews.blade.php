@@ -125,8 +125,8 @@
         // Initialize Swiper
         const swiper = new Swiper('.reviewSwiper', {
             slidesPerView: 1,
-            loop:true,
-            autoplay:true,
+            loop: true,
+            autoplay: true,
             spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
@@ -151,7 +151,7 @@
         // Fetch reviews from JSON
         async function fetchReviews() {
             try {
-                const response = await fetch('{{ asset('google_reviews/dataset_Google-Maps-Reviews-Scraper_2025-06-19_12-35-21-203.json') }}');
+                const response = await fetch('{{ asset('google_reviews/dataset_Google-Maps-Reviews-Scraper_2026-01-27_04-59-11-410.json') }}');
                 if (!response.ok) throw new Error('Failed to fetch reviews');
                 return await response.json();
             } catch (error) {
@@ -161,43 +161,51 @@
         }
 
         // Display reviews
+        // Display reviews
         async function displayReviews() {
             const container = document.getElementById('reviews-container');
             const data = await fetchReviews();
 
             if (!data) {
                 container.innerHTML = `
-                <div class="col-12 text-center py-5">
-                    <i class="ri-error-warning-line text-danger" style="font-size: 2rem;"></i>
-                    <p class="mt-3">Failed to load reviews. Please try again later.</p>
-                </div>
-            `;
+            <div class="col-12 text-center py-5">
+                <i class="ri-error-warning-line text-danger" style="font-size: 2rem;"></i>
+                <p class="mt-3">Failed to load reviews. Please try again later.</p>
+            </div>
+        `;
                 return;
             }
 
+            // ✅ SORT BY DATE DESC (newest first)
+            data.sort((a, b) =>
+                new Date(b.publishedAtDate) - new Date(a.publishedAtDate)
+            );
+
             container.innerHTML = data.map(review => `
-            <div class="swiper-slide">
-                <div class="review-card">
-                    <div class="review-rating">
-                        ${renderStars(review.stars)}
-                    </div>
-                    <p class="review-text">${review.text
-                        ? review.text.substring(0, 180) + (review.text.length > 180 ? '...' : '')
-                        : "Great Services"}
-                    </p>
-                    <div>
-                        <p class="review-author">${review.name}</p>
-                        <p class="review-date">${new Date(review.publishedAtDate).toLocaleDateString('en-US', {
+        <div class="swiper-slide">
+            <div class="review-card">
+                <div class="review-rating">
+                    ${renderStars(review.stars)}
+                </div>
+                <p class="review-text">
+                    ${review.text
+                    ? review.text.substring(0, 180) + (review.text.length > 180 ? '...' : '')
+                    : "Great Services"}
+                </p>
+                <div>
+                    <p class="review-author">${review.name}</p>
+                    <p class="review-date">
+                        ${new Date(review.publishedAtDate).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
-                    })}</p>
-                    </div>
+                    })}
+                    </p>
                 </div>
             </div>
-        `).join('');
+        </div>
+    `).join('');
 
-            // Update Swiper after loading new slides
             swiper.update();
         }
 

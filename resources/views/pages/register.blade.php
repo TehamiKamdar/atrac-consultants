@@ -711,7 +711,10 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passport" class="form-label">Passport # <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="passport" placeholder="PK000000000" required>
+                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9" required>
+                                <div class="invalid-feedback">
+                                    Passport number must start with 2 letters followed by 7 digits (e.g. PK1234567)
+                                </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
@@ -1713,12 +1716,12 @@
     <script>
         $(document).ready(function () {
             function validateDateInputs(){
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-            const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
+                const currentMonth = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0');
 
-            $('input[type="month"]').each(function () {
+                $('input[type="month"]').each(function () {
 
                     const $input = $(this);
                     const value = $input.val();
@@ -2117,6 +2120,25 @@
                 }
 
                 $(this).val(val);
+            });
+
+
+            $('#passport').on('input', function () {
+                let value = $(this).val().toUpperCase();
+
+                // Allow only letters & numbers
+                value = value.replace(/[^A-Z0-9]/g, '');
+
+                $(this).val(value);
+
+                // Regex: 2 letters + 7 digits
+                const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
+
+                if (passportRegex.test(value)) {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+                } else {
+                    $(this).removeClass('is-valid').addClass('is-invalid');
+                }
             });
 
             $('#phoneNumber, #postalCode').on('input', function () {

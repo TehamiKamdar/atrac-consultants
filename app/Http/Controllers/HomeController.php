@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\fields;
-use App\Models\country;
+use App\Mail\AdminInquiryAlertMail;
+use App\Mail\RequestMail;
 use App\Models\consults;
 use App\Models\contacts;
-use App\Mail\RequestMail;
+use App\Models\country;
+use App\Models\countrydetails;
+use App\Models\fields;
+use App\Models\review;
 use App\Models\sim_codes;
 use App\Models\university;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use App\Models\countrydetails;
-use Anhskohbo\NoCaptcha\NoCaptcha;
-use Illuminate\Support\Facades\DB;
-use App\Mail\AdminInquiryAlertMail;
-use App\Models\review;
 use App\Services\RecaptchaEnterpriseService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -107,7 +106,8 @@ class HomeController extends Controller
         return view('web.details', compact('details', 'countryName'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
@@ -129,40 +129,27 @@ class HomeController extends Controller
 
     public function consultRequest(Request $req, RecaptchaEnterpriseService $recaptcha)
     {
-
-        if (! $recaptcha->verify(
-            $req->g_recaptcha_token,
-            'consultation',
-            0.5
-        )) {
+        // 1️⃣ Recaptcha verification
+        $token = $req->input('g_recaptcha_token');
+        if (! $token || ! $recaptcha->verify($token, 'consultation', 0.5)) {
             return back()->with('error', 'Captcha verification failed.');
         }
 
+        // 2️⃣ RateLimiter (1 request per month per IP)
         $ip = $req->ip();
         $key = 'consult-form:'.$ip;
-        $decaySeconds = 24 * 60 * 60 * 30;
+        $decaySeconds = 30 * 24 * 60 * 60; // 30 days
 
-        // // 5 requests per 24 hours
-        // if (RateLimiter::tooManyAttempts($key, 1)) {
-        //     return back()->with('error', 'You have submitted too many requests today. Please try again after a month.');
-        // }
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            return back()->with('success', "We have received your inquiry. We'll get back to you soon.");
+        }
 
-        // // Hit the limiter (increment counter, TTL = 24 hours)
-        // RateLimiter::hit($key, $decaySeconds);
+        RateLimiter::hit($key, $decaySeconds);
 
-        // Validation
+        // 3️⃣ Validation
         $validated = $req->validate([
             'name' => 'required|string|min:2',
-            [
-                'email' => [
-                    'required',
-                    'email',
-                    'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
-                ],
-            ],
-            [
-                'email.regex' => 'Only @gmail.com email addresses are allowed.',
-            ],
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'],
             'phone' => 'required',
             'qualification' => 'required',
             'country' => 'required',
@@ -170,25 +157,30 @@ class HomeController extends Controller
             'field' => 'required',
             'date' => 'required',
             'prefix' => 'required',
-            'office_location' => 'required|in:islamabad,karachi',
-            'message' => 'nullable|string|min:5|max:1000'
+            'office_location' => 'required|in:islamabad,karachi,lahore',
+            'message' => 'nullable|string|min:5|max:1000',
+        ], [
+            'email.regex' => 'Only @gmail.com email addresses are allowed.',
         ]);
 
+        // 4️⃣ Combine prefix + phone
         $phone = $validated['prefix'].$validated['phone'];
 
+        // 5️⃣ Offices info
         $offices = [
-            'islamabad' => ['+92 326 5209992', 'apply@atracconsultatns.com'],
-            'karachi' => ['+92 335 3737904', 'apply@atracconsultatns.com'],
-            'lahore' => ['+92 328 5209992', 'apply@atracconsultatns.com'],
+            'islamabad' => ['+92 326 5209992', 'apply@atracconsultants.com'],
+            'karachi' => ['+92 335 3737904', 'apply@atracconsultants.com'],
+            'lahore' => ['+92 328 5209992', 'apply@atracconsultants.com'],
         ];
 
         $officeData = $offices[$validated['office_location']];
 
+        // 6️⃣ Prepare data for DB + Mail
         $data = [
             'ip' => $ip,
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'message' => $validated['message'],
+            'message' => $validated['message'] ?? '',
             'qualification' => $validated['qualification'],
             'country_id' => $validated['country'],
             'percentage' => $validated['percentage'],
@@ -200,19 +192,21 @@ class HomeController extends Controller
             'office_email' => $officeData[1],
         ];
 
-
         try {
-
+            // 7️⃣ Banned words check
             $bannedWords = config('bannedwords');
-            $fieldsToCheck = Arr::only($validated, ['name','email','phone','percentage','message', 'qualification']);
+            $fieldsToCheck = Arr::only($validated, ['name', 'email', 'phone', 'percentage', 'message', 'qualification']);
             if (containsBannedWords($fieldsToCheck, $bannedWords)) {
-                return redirect()->back()->with('error', 'Your input contains inappropriate content.');
+                return back()->with('error', 'Your input contains inappropriate content.');
             }
 
-            // Save to DB
+            // 8️⃣ Save to DB
             consults::create($data);
+
+            // 9️⃣ Send mails
             Mail::to($validated['email'])->send(new RequestMail($data));
             Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
+
             return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");
 
         } catch (\Exception $e) {

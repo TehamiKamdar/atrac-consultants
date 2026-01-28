@@ -586,7 +586,9 @@
 <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
 <script>
-    $('#contactForm').on('submit', function(){
+    $('#contactForm').on('submit', function(e){
+        e.preventDefault();
+        
         grecaptcha.enterprise.ready(function () {
             grecaptcha.enterprise.execute(
                 "{{ config('services.recaptcha.site_key') }}",
@@ -597,7 +599,9 @@
             });
         });
     })
-    $('#reviewForm').on('submit', function(){
+    $('#reviewForm').on('submit', function(e){
+        e.preventDefault();
+        
         grecaptcha.enterprise.ready(function () {
             grecaptcha.enterprise.execute(
                 "{{ config('services.recaptcha.site_key') }}",

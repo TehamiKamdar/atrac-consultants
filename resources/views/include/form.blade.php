@@ -120,7 +120,7 @@ $sim_codes = \App\Models\sim_codes::all();
     </div>
 
     <div class="mb-4">
-        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+        <input type="hidden" name="g_recaptcha_token" id="g-recaptcha-response">
     </div>
 
     <div class="d-grid">

@@ -131,7 +131,7 @@ class HomeController extends Controller
     {
 
         if (! $recaptcha->verify(
-            $req->recaptcha_token,
+            $req->g_recaptcha_token,
             'consultation',
             0.5
         )) {

@@ -141,7 +141,7 @@ class HomeController extends Controller
         $decaySeconds = 30 * 24 * 60 * 60; // 30 days
 
         if (RateLimiter::tooManyAttempts($key, 1)) {
-            return back()->with('success', "We have received your inquiry. We'll get back to you soon.");
+            return back()->with('error', "You have already submitted a request this month. Please wait for our response.");
         }
 
         RateLimiter::hit($key, $decaySeconds);

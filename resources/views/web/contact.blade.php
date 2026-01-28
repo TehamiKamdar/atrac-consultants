@@ -454,7 +454,7 @@
                         <h3 class="mb-0"><i class="fas fa-paper-plane me-2"></i> Send Us a Message</h3>
                     </div>
                     <div class="card-body p-4 p-xl-5">
-                        <form id="contactForm" action="{{ route('contact.submit') }}" method="POST">
+                        <form action="{{ route('contact.submit') }}" method="POST">
                             @csrf
                             <div class="floating-label">
                                 <label for="name" class="fw-regular">Your Name</label>
@@ -566,7 +566,6 @@
                                 <textarea class="form-control" id="reviewText" rows="4" name="review"
                                     placeholder="Share your experience..." required></textarea>
                             </div>
-                            <input type="hidden" name="review_g_recaptcha_token" id="review-g-recaptcha-response">
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary-custom">
                                     <i class="fas fa-check me-2"></i> Submit Review
@@ -586,31 +585,13 @@
 <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
 <script>
-    $('#contactForm').on('submit', function(e){
-        e.preventDefault();
-
-        grecaptcha.enterprise.ready(function () {
-            grecaptcha.enterprise.execute(
-                "{{ config('services.recaptcha.site_key') }}",
-                { action: 'contact' }
-            ).then(function (token) {
-                document.getElementById('contact-g-recaptcha-response').value = token;
-                e.target.submit();
-            });
-        });
-    })
-    $('#reviewForm').on('submit', function(e){
-        e.preventDefault();
-
-        grecaptcha.enterprise.ready(function () {
-            grecaptcha.enterprise.execute(
-                "{{ config('services.recaptcha.site_key') }}",
-                { action: 'review' }
-            ).then(function (token) {
-                document.getElementById('review-g-recaptcha-response').value = token;
-                e.target.submit();
-            });
-        });
-    })
+grecaptcha.enterprise.ready(function () {
+    grecaptcha.enterprise.execute(
+        "{{ config('services.recaptcha.site_key') }}",
+        { action: 'contact' }
+    ).then(function (token) {
+        document.getElementById('contact-g-recaptcha-response').value = token;
+    });
+});
 </script>
 @endsection

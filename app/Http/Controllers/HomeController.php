@@ -16,6 +16,7 @@ use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
 use App\Models\review;
+use App\Services\RecaptchaEnterpriseService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -126,8 +127,17 @@ class HomeController extends Controller
         return redirect()->route('contact')->with('success', 'Thank you for your review!');
     }
 
-    public function consultRequest(Request $req)
+    public function consultRequest(Request $req, RecaptchaEnterpriseService $recaptcha)
     {
+
+        if (! $recaptcha->verify(
+            $req->recaptcha_token,
+            'consultation',
+            0.5
+        )) {
+            return back()->with('error', 'Captcha verification failed.');
+        }
+
         $ip = $req->ip();
         $key = 'consult-form:'.$ip;
         $decaySeconds = 24 * 60 * 60 * 30;
@@ -142,7 +152,6 @@ class HomeController extends Controller
 
         // Validation
         $validated = $req->validate([
-            'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
             [
                 'email' => [

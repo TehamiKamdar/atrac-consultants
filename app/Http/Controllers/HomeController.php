@@ -171,7 +171,7 @@ class HomeController extends Controller
             'date' => 'required',
             'prefix' => 'required',
             'office_location' => 'required|in:islamabad,karachi',
-            'message' => 'sometimes|string|min:5|max:1000'
+            'message' => 'nullable|string|min:5|max:1000'
         ]);
 
         // Captcha verification

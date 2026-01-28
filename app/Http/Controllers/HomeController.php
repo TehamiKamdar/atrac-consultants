@@ -50,7 +50,7 @@ class HomeController extends Controller
     public function contact(Request $request, RecaptchaEnterpriseService $recaptcha)
     {
         // 1️⃣ Recaptcha verification
-        $token = $request->input('g_recaptcha_token');
+        $token = $request->input('contact_g_recaptcha_token');
         if (! $token || ! $recaptcha->verify($token, 'contact', 0.5)) {
             return back()->with('error', 'Captcha verification failed.');
         }
@@ -116,11 +116,11 @@ class HomeController extends Controller
     public function store(Request $request, RecaptchaEnterpriseService $recaptcha)
     {
         // 1️⃣ Recaptcha verification
-        $token = $request->input('g_recaptcha_token');
+        $token = $request->input('review_g_recaptcha_token');
         if (! $token || ! $recaptcha->verify($token, 'review', 0.5)) {
             return back()->with('error', 'Captcha verification failed.');
         }
-        
+
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',

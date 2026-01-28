@@ -507,7 +507,7 @@
                                     placeholder="Your message here..." required></textarea>
                             </div>
 
-                            <input type="hidden" name="g_recaptcha_token" id="contact-g-recaptcha-response">
+                            <input type="hidden" name="contact_g_recaptcha_token" id="contact-g-recaptcha-response">
 
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary-custom">
@@ -566,7 +566,7 @@
                                 <textarea class="form-control" id="reviewText" rows="4" name="review"
                                     placeholder="Share your experience..." required></textarea>
                             </div>
-                            <input type="hidden" name="g_recaptcha_token" id="review-g-recaptcha-response">
+                            <input type="hidden" name="review_g_recaptcha_token" id="review-g-recaptcha-response">
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary-custom">
                                     <i class="fas fa-check me-2"></i> Submit Review
@@ -588,7 +588,7 @@
 <script>
     $('#contactForm').on('submit', function(e){
         e.preventDefault();
-        
+
         grecaptcha.enterprise.ready(function () {
             grecaptcha.enterprise.execute(
                 "{{ config('services.recaptcha.site_key') }}",
@@ -601,7 +601,7 @@
     })
     $('#reviewForm').on('submit', function(e){
         e.preventDefault();
-        
+
         grecaptcha.enterprise.ready(function () {
             grecaptcha.enterprise.execute(
                 "{{ config('services.recaptcha.site_key') }}",

@@ -507,8 +507,6 @@
                                     placeholder="Your message here..." required></textarea>
                             </div>
 
-                            <input type="hidden" name="contact_g_recaptcha_token" id="contact-g-recaptcha-response">
-
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary-custom">
                                     <i class="fas fa-paper-plane me-2"></i> Send Message
@@ -566,6 +564,7 @@
                                 <textarea class="form-control" id="reviewText" rows="4" name="review"
                                     placeholder="Share your experience..." required></textarea>
                             </div>
+
                             <div class="d-grid mt-4">
                                 <button type="submit" class="btn btn-primary-custom">
                                     <i class="fas fa-check me-2"></i> Submit Review
@@ -579,19 +578,4 @@
             @include('include.reviews')
         </div>
     </div>
-@endsection
-
-@section('scripts')
-<script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
-
-<script>
-grecaptcha.enterprise.ready(function () {
-    grecaptcha.enterprise.execute(
-        "{{ config('services.recaptcha.site_key') }}",
-        { action: 'contact' }
-    ).then(function (token) {
-        document.getElementById('contact-g-recaptcha-response').value = token;
-    });
-});
-</script>
 @endsection

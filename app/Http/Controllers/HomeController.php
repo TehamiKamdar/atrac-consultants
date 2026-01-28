@@ -47,17 +47,12 @@ class HomeController extends Controller
         return view('web.contact', compact('sim_codes'));
     }
 
-    public function contact(Request $request, RecaptchaEnterpriseService $recaptcha)
+    public function contact(Request $request)
     {
-        // 1️⃣ Recaptcha verification
-        $token = $request->input('contact_g_recaptcha_token');
-        if (! $token || ! $recaptcha->verify($token, 'contact', 0.5)) {
-            return back()->with('error', 'Captcha verification failed.');
-        }
 
         // RateLimiter key: IP-based
         $key = 'contact-form:'.$request->ip();
-        if (RateLimiter::tooManyAttempts($key, 5)) {
+        if (RateLimiter::tooManyAttempts($key, 1)) {
             return redirect()->back()->with('error', 'You have submitted too many messages today. Please try again tomorrow.');
         }
 
@@ -113,14 +108,8 @@ class HomeController extends Controller
         return view('web.details', compact('details', 'countryName'));
     }
 
-    public function store(Request $request, RecaptchaEnterpriseService $recaptcha)
+    public function store(Request $request)
     {
-        // 1️⃣ Recaptcha verification
-        $token = $request->input('review_g_recaptcha_token');
-        if (! $token || ! $recaptcha->verify($token, 'review', 0.5)) {
-            return back()->with('error', 'Captcha verification failed.');
-        }
-
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',

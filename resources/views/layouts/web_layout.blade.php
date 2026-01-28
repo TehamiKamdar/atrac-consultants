@@ -78,7 +78,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="/">
-                <img src="{{asset('website/logo.png')}}" alt="Atrac Consultants" class="navbar-logo">
+                <img src="{{asset('website/logo.svg')}}" alt="Atrac Consultants" class="navbar-logo">
             </a>
 
             <!-- Mobile Toggle Button -->

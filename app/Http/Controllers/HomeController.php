@@ -16,6 +16,7 @@ use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Facades\DB;
 use App\Mail\AdminInquiryAlertMail;
 use App\Models\review;
+use App\Services\RecaptchaEnterpriseService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -126,22 +127,31 @@ class HomeController extends Controller
         return redirect()->route('contact')->with('success', 'Thank you for your review!');
     }
 
-    public function consultRequest(Request $req)
+    public function consultRequest(Request $req, RecaptchaEnterpriseService $recaptcha)
     {
+
+        if (! $recaptcha->verify(
+            $req->recaptcha_token,
+            'consultation',
+            0.5
+        )) {
+            return back()->with('error', 'Captcha verification failed.');
+        }
+
         $ip = $req->ip();
         $key = 'consult-form:'.$ip;
+        $decaySeconds = 24 * 60 * 60 * 30;
 
         // 5 requests per 24 hours
-        if (RateLimiter::tooManyAttempts($key, 5)) {
-            return back()->with('error', 'You have submitted too many requests today. Please try again tomorrow.');
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            return back()->with('error', 'You have submitted too many requests today. Please try again after a month.');
         }
 
         // Hit the limiter (increment counter, TTL = 24 hours)
-        RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
+        RateLimiter::hit($key, $decaySeconds);
 
         // Validation
         $validated = $req->validate([
-            'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
             [
                 'email' => [

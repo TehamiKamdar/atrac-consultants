@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     var emailValid = false;
 
@@ -11,18 +11,18 @@ $(document).ready(function(){
         var $dateInput = $form.find('input[type="date"]');
         var $dateError = $dateInput.next('.invalid-feedback');
 
-        if($dateInput.val()) {
+        if ($dateInput.val()) {
             var selectedDate = new Date($dateInput.val());
             var today = new Date();
-            selectedDate.setHours(0,0,0,0);
-            today.setHours(0,0,0,0);
+            selectedDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
 
-            if(selectedDate < today) {
+            if (selectedDate < today) {
                 valid = false;
                 dateValid = false;
                 $dateError.text('Select a valid date (today or later)');
                 $dateInput.addClass('is-invalid animate__animated animate__headShake');
-                setTimeout(function(){
+                setTimeout(function () {
                     $dateInput.removeClass('animate__animated animate__headShake');
                 }, 1000);
             } else {
@@ -33,7 +33,7 @@ $(document).ready(function(){
 
         // Final button state
         var $submitBtn = $form.find('button[type="submit"]');
-        if(valid && emailValid && dateValid){
+        if (valid && emailValid && dateValid) {
             $submitBtn.removeAttr('disabled');
         } else {
             $submitBtn.attr('disabled', true);
@@ -43,34 +43,45 @@ $(document).ready(function(){
     }
 
     // --- AJAX Email Check ---
-    $('input[type="email"]').on('input blur', function(){
+    $('input[type="email"]').on('input blur', function () {
         var $emailInput = $(this);
         var $emailError = $emailInput.next('.invalid-feedback');
 
-        var emailVal = $emailInput.val();
-        if(emailVal.length === 0) {
+        var emailVal = $emailInput.val().trim();
+
+        // Empty check
+        if (emailVal.length === 0) {
             emailValid = false;
             $emailError.text('Email is required');
             $emailInput.addClass('is-invalid');
             return;
         }
 
-        // Email Regex check first
+        // Basic email format
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!emailPattern.test(emailVal)){
+        if (!emailPattern.test(emailVal)) {
             emailValid = false;
             $emailError.text('Enter a valid email');
             $emailInput.addClass('is-invalid');
             return;
         }
 
-        // AJAX call to Laravel route for uniqueness
+        // ✅ Gmail-only check
+        var gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if (!gmailPattern.test(emailVal)) {
+            emailValid = false;
+            $emailError.text('Only @gmail.com email addresses are allowed');
+            $emailInput.addClass('is-invalid');
+            return;
+        }
+
+        // AJAX call for uniqueness
         $.ajax({
-            url: '/checkEmails', // Laravel route
+            url: '/checkEmails',
             type: 'GET',
             data: { email: emailVal },
-            success: function(res){
-                if(res.exists){
+            success: function (res) {
+                if (res.exists) {
                     emailValid = false;
                     $emailError.text('Email already exists');
                     $emailInput.addClass('is-invalid');
@@ -79,9 +90,10 @@ $(document).ready(function(){
                     $emailError.text('');
                     $emailInput.removeClass('is-invalid');
                 }
+
                 validateForm($emailInput.closest('form'));
             },
-            error: function(){
+            error: function () {
                 emailValid = false;
                 $emailError.text('Error checking email');
                 $emailInput.addClass('is-invalid');
@@ -89,18 +101,19 @@ $(document).ready(function(){
         });
     });
 
+
     // --- Form Submit ---
-    $('.needs-validation').on('submit', function(e){
+    $('.needs-validation').on('submit', function (e) {
         e.preventDefault();
         var $form = $(this);
 
         // Shake invalid fields
-        $form.find(':invalid').each(function(){
+        $form.find(':invalid').each(function () {
             $(this).addClass('animate__animated animate__headShake');
             setTimeout(() => $(this).removeClass('animate__animated animate__headShake'), 1000);
         });
 
-        if(validateForm($form)){
+        if (validateForm($form)) {
             $form.off('submit'); // remove handler to avoid infinite loop
             $form.submit(); // finally submit
         }
@@ -109,7 +122,7 @@ $(document).ready(function(){
     });
 
     // --- Real-time validation ---
-    $('.needs-validation').find('input, select, textarea').on('input', function(){
+    $('.needs-validation').find('input, select, textarea').on('input', function () {
         validateForm($(this).closest('form'));
     });
 

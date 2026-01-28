@@ -143,7 +143,16 @@ class HomeController extends Controller
         $validated = $req->validate([
             'g-recaptcha-response' => 'required',
             'name' => 'required|string|min:2',
-            'email' => 'required|email',
+            [
+                'email' => [
+                    'required',
+                    'email',
+                    'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
+                ],
+            ],
+            [
+                'email.regex' => 'Only @gmail.com email addresses are allowed.',
+            ],
             'phone' => 'required',
             'qualification' => 'required',
             'country' => 'required',

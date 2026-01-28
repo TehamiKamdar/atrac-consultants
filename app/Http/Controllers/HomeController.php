@@ -185,8 +185,9 @@ class HomeController extends Controller
         $phone = $validated['prefix'].$validated['phone'];
 
         $offices = [
-            'islamabad' => ['+92 325 5209992', 'atracconsultant@gmail.com'],
+            'islamabad' => ['+92 326 5209992', 'atracconsultant@gmail.com'],
             'karachi' => ['+92 335 3737904', 'atracconsultants@gmail.com'],
+            'lahore' => ['+92 328 5209992', 'atracconsultants@gmail.com'],
         ];
 
         $officeData = $offices[$validated['office_location']];

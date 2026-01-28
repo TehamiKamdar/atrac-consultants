@@ -174,14 +174,6 @@ class HomeController extends Controller
             'message' => 'nullable|string|min:5|max:1000'
         ]);
 
-        // Captcha verification
-        $captcha = new NoCaptcha(env('RECAPTCHA_SECRET_KEY'), env('RECAPTCHA_SITE_KEY'));
-        $success = $captcha->verifyResponse($req->input('g-recaptcha-response'), $ip);
-
-        if (! $success) {
-            return back()->with('error', 'Captcha verification failed. Please try again.');
-        }
-
         $phone = $validated['prefix'].$validated['phone'];
 
         $offices = [

@@ -130,14 +130,15 @@ class HomeController extends Controller
     {
         $ip = $req->ip();
         $key = 'consult-form:'.$ip;
+        $decaySeconds = 24 * 60 * 60 * 30;
 
         // 5 requests per 24 hours
-        if (RateLimiter::tooManyAttempts($key, 5)) {
-            return back()->with('error', 'You have submitted too many requests today. Please try again tomorrow.');
+        if (RateLimiter::tooManyAttempts($key, 1)) {
+            return back()->with('error', 'You have submitted too many requests today. Please try again after a month.');
         }
 
         // Hit the limiter (increment counter, TTL = 24 hours)
-        RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
+        RateLimiter::hit($key, $decaySeconds);
 
         // Validation
         $validated = $req->validate([

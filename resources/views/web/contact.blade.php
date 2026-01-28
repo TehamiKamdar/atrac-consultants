@@ -454,7 +454,7 @@
                         <h3 class="mb-0"><i class="fas fa-paper-plane me-2"></i> Send Us a Message</h3>
                     </div>
                     <div class="card-body p-4 p-xl-5">
-                        <form action="{{ route('contact.submit') }}" method="POST" id="contactForm">
+                        <form id="contactForm" action="{{ route('contact.submit') }}" method="POST">
                             @csrf
                             <div class="floating-label">
                                 <label for="name" class="fw-regular">Your Name</label>

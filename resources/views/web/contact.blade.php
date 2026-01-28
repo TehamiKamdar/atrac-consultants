@@ -506,7 +506,7 @@
                                 <textarea class="form-control" id="message" rows="4" name="message"
                                     placeholder="Your message here..." required></textarea>
                             </div>
-                            
+
                             <input type="hidden" name="g_recaptcha_token" id="contact-g-recaptcha-response">
 
                             <div class="d-grid mt-4">
@@ -593,6 +593,7 @@
                 { action: 'contact' }
             ).then(function (token) {
                 document.getElementById('contact-g-recaptcha-response').value = token;
+                e.target.submit();
             });
         });
     })
@@ -603,6 +604,7 @@
                 { action: 'review' }
             ).then(function (token) {
                 document.getElementById('review-g-recaptcha-response').value = token;
+                e.target.submit();
             });
         });
     })

@@ -120,7 +120,7 @@ $sim_codes = \App\Models\sim_codes::all();
     </div>
 
     <div class="mb-4">
-        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
     </div>
 
     <div class="d-grid">
@@ -138,7 +138,7 @@ $sim_codes = \App\Models\sim_codes::all();
             "{{ config('services.recaptcha.site_key') }}",
             { action: 'consultation' }
         ).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
+            document.getElementById('g-recaptcha-response').value = token;
         });
     });
 </script>

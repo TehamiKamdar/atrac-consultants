@@ -2,21 +2,27 @@
 
 namespace App\Services;
 
-use Google\Cloud\RecaptchaEnterprise\V1\Event;
 use Google\Cloud\RecaptchaEnterprise\V1\Assessment;
 use Google\Cloud\RecaptchaEnterprise\V1\Client\RecaptchaEnterpriseServiceClient;
+use Google\Cloud\RecaptchaEnterprise\V1\Event;
 
 class RecaptchaEnterpriseService
 {
     public function verify(string $token, string $action, float $minScore = 0.5): bool
     {
-        $client = new RecaptchaEnterpriseServiceClient();
+        // Absolute path to your JSON file
+        $credentialsPath = base_path('storage/app/google/abiding-ripple-485604-u0-0ceac760a2d1.json');
 
-        $event = (new Event())
+        // Pass credentials directly
+        $client = new RecaptchaEnterpriseServiceClient([
+            'credentials' => $credentialsPath,
+        ]);
+
+        $event = (new Event)
             ->setSiteKey(config('services.recaptcha.site_key'))
             ->setToken($token);
 
-        $assessment = (new Assessment())
+        $assessment = (new Assessment)
             ->setEvent($event);
 
         $response = $client->createAssessment(

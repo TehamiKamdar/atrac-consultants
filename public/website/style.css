@@ -107,6 +107,15 @@
     font-family: 'Bambino-ExtraLight', sans-serif;
 }
 
+p{
+    font-family: 'Bambino-Light', sans-serif;
+}
+
+b,
+strong{
+    color: var(--primary-green);
+}
+
 li {
     font-family: 'Bambino-Light', sans-serif;
     letter-spacing: 0.25;

@@ -31,15 +31,8 @@
         .content-text {
             font-size: 1.05rem;
             line-height: 1.7;
-            font-family: 'Bambino-Regular', sans-serif;
+            font-family: 'Bambino-Light', sans-serif;
             color: #495057;
-        }
-
-        .list-group-item {
-            padding-left: 0;
-            border-left: 0;
-            font-family: 'Bambino-Light', sans-serif !important;
-            border-right: 0;
         }
 
         .list-group-item:hover {
@@ -337,10 +330,10 @@
                                 About {{$countryName}}
                             </h2>
                             <div class="content-text">
-                                {{$details->meta_description}}
+                                {!!$details->meta_description!!}
                                 <br>
                                 <br>
-                                {{$details->country_description}}
+                                {!!$details->country_description!!}
                             </div>
                         </div>
                     </div>
@@ -353,7 +346,7 @@
                                 Cost of Living
                             </h2>
                             <div class="content-text">
-                                {{$details->cost_of_living}}
+                                {!!$details->cost_of_living!!}
                             </div>
                         </div>
                     </div>
@@ -366,10 +359,10 @@
                                 Climate & Language of {{$countryName}}
                             </h2>
                             <div class="content-text">
-                                {{$details->climate}}
+                                {!!$details->climate!!}
                             </div>
                             <div class="content-text mt-3">
-                                {{$details->language}}
+                                {!!$details->language!!}
                             </div>
                         </div>
                     </div>
@@ -420,7 +413,7 @@
                                 Cost of studying in {{$countryName}} for international students
                             </h2>
                             <div class="content-text">
-                                {{$details->scholarships}}
+                                {!!$details->scholarships!!}
                             </div>
                         </div>
                     </div>
@@ -471,7 +464,7 @@
                                 Post-Study Work Opportunities
                             </h2>
                             <div class="content-text">
-                                {{$details->workOpp}}
+                                {!!$details->workOpp!!}
                             </div>
                         </div>
                     </div>

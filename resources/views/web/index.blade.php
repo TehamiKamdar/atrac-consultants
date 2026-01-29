@@ -423,8 +423,7 @@
                     style="background-color: rgba(43, 182, 115, 0.1)!important; color: #2BB673!important;">
                     <i class="ri-question-line me-2"></i> FAQs
                 </span>
-                <h2 class="display-5 fw-bold mb-4">Frequently <span class="text-primary"
-                        style="color: #2BB673!important;">Asked</span> Questions</h2>
+                <h2 class="display-5 fw-bold mb-4">Frequently <span class="text-primary" style="color: #2BB673!important;">Asked</span> Questions</h2>
                 <p class="lead text-muted mx-auto" style="max-width: 720px;">
                     Find quick answers to common questions about our products and services
                 </p>

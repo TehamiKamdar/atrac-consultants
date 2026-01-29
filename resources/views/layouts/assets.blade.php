@@ -43,13 +43,30 @@
     </style>
     @yield('styles')
 </head>
+
 <body>
     <div class="container">
         @yield('content')
     </div>
 </body>
 </html>
-<script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-</script>
+@production
+    <script>
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "F12") e.preventDefault();
+
+            if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) {
+                e.preventDefault();
+            }
+
+            if (e.ctrlKey && e.key === "U") {
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
+@endproduction
 @yield('scripts')

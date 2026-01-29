@@ -180,11 +180,9 @@
         <!-- Decorative elements -->
         <i class="ri-leaf-fill footer-decoration decoration-1"></i>
         <i class="ri-global-line footer-decoration decoration-2"></i>
-
-        <div class="container">
             <div class="row g-4">
                 <!-- About Column -->
-                <div class="col-lg-4 col-md-6 footer-col">
+                <div class="col-lg-3 col-md-6 footer-col px-5">
                     <img src="{{ asset('website/logo.png') }}" alt="Atrac Consultants Logo" class="footer-logo">
                     {{-- <div class="brand-name">Atrac Consultants</div> --}}
                     <p class="mb-4">Providing expert consultancy services with integrity and innovation to help
@@ -192,35 +190,27 @@
                 </div>
 
                 <!-- Quick Links Column -->
-                <div class="col-lg-4 col-md-6 footer-col">
+                <div class="col-lg-3 col-md-6 footer-col">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="{{ route('home') }}"><i class="ri-arrow-right-s-line"></i> Home</a></li>
-                        <li><a href="{{ route('about') }}"><i class="ri-arrow-right-s-line"></i> About Us</a></li>
-                        <li><a href="{{ '/' . '#country' }}"><i class="ri-arrow-right-s-line"></i> Countries We
-                                Offer</a>
-                        </li>
-                        <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Our Locations</a>
-                        </li>
+                        <li><a href="{{ '/' . '#country' }}"><i class="ri-arrow-right-s-line"></i> Countries We Offer</a></li>
                         <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Contact</a></li>
                     </ul>
                 </div>
 
-                <!-- Social/Newsletter Column -->
-                <div class="col-lg-4 col-md-6 footer-col">
-                    {{-- <h3 class="footer-heading">Stay Connected</h3>
-                    <p>Subscribe to our newsletter for industry insights and company updates.</p>
+                <!-- Help Column -->
+                <div class="col-lg-3 col-md-6 footer-col">
+                    <h3 class="footer-heading">Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('home') }}"><i class="ri-arrow-right-s-line"></i> FAQs</a></li>
+                        <li><a href="{{ route('about') }}"><i class="ri-arrow-right-s-line"></i> About Us</a></li>
+                        <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Our Locations</a></li>
+                    </ul>
+                </div>
 
-                    <form class="mb-4">
-                        <div class="input-group">
-                            <input type="email" class="form-control bg-dark border-dark text-white"
-                                placeholder="Your Email">
-                            <button class="btn btn-primary" type="submit"
-                                style="background-color: var(--primary-green); border-color: var(--primary-green);">
-                                <i class="ri-send-plane-fill"></i>
-                            </button>
-                        </div>
-                    </form> --}}
+                <!-- Social/Newsletter Column -->
+                <div class="col-lg-3 col-md-6 footer-col">
 
                     <h3 class="footer-heading">Follow Us</h3>
                     <div class="social-links">
@@ -244,7 +234,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </footer>
     {{--
     <script>

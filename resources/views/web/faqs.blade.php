@@ -202,7 +202,7 @@ FAQs
                     <div id="collapse{{ $key + 1 }}" class="accordion-collapse collapse show"
                          aria-labelledby="heading{{ $key + 1 }}" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            <p>{{ $faq->answer }}</p>
+                            <p>{!! $faq->answer !!}</p>
                         </div>
                     </div>
                 </div>

@@ -477,9 +477,11 @@
                         </div>
                     @endforelse
 
-                    <div class="mt-4 d-flex justify-content-center">
-                        <a href="{{ route('faqs') }}" class="btn btn-primary"><i class="ri-restart-line me-2"></i>Load More</a>
-                    </div>
+                    @if (count($faqs)>0)
+                        <div class="mt-4 d-flex justify-content-center">
+                            <a href="{{ route('faqs') }}" class="btn btn-primary"><i class="ri-restart-line me-2"></i>Load More</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

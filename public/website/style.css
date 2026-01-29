@@ -1136,7 +1136,7 @@ li {
 }
 
 .consultation-section p {
-    font-family: 'Bambino-Regular', sans-serif;
+    font-family: 'Bambino-Light', sans-serif;
 }
 
 .consultation-section ul span {
@@ -1353,9 +1353,109 @@ p.text-muted {
     display: block;
 }
 
+/* Custom Accordion Styles */
 
-/* Navbar Styles */
+.faq-section {
+    background-color: var(--light-bg);
+}
 
+.faq-section h2,
+.faq-section h3 {
+    font-family: 'Bambino-Regular', sans-serif;
+}
+
+.faq-section p {
+    font-family: 'Bambino-Light', sans-serif;
+}
+
+.faq-section ul span {
+    font-family: 'Bambino-Light', sans-serif;
+}
+
+.faq-section .btn {
+    font-family: 'Bambino-Light', sans-serif;
+}
+.custom-accordion .accordion-item {
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.custom-accordion .accordion-item:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.custom-accordion .accordion-button {
+    background-color: white;
+    color: var(--dark-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 20px 25px;
+    border: none;
+    box-shadow: none;
+    position: relative;
+    transition: var(--transition);
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+    background-color: var(--primary-light);
+    color: var(--dark-green);
+    box-shadow: none;
+}
+
+.custom-accordion .accordion-button:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+/* Plus/Minus Icons */
+.custom-accordion .accordion-button::after {
+    display: none; /* Hide default Bootstrap arrow */
+}
+
+.custom-accordion .accordion-button .icon-container {
+    position: absolute;
+    right: 25px;
+    transition: var(--transition);
+}
+
+.custom-accordion .accordion-button .icon-plus {
+    display: inline-block;
+    color: var(--primary-green);
+    font-size: 1.25rem;
+}
+
+.custom-accordion .accordion-button:not(.collapsed) .icon-plus {
+    display: none;
+}
+
+.custom-accordion .accordion-button .icon-minus {
+    display: none;
+    color: var(--dark-green);
+    font-size: 1.25rem;
+}
+
+.custom-accordion .accordion-button:not(.collapsed) .icon-minus {
+    display: inline-block;
+}
+
+/* Accordion Body */
+.custom-accordion .accordion-body {
+    padding: 25px;
+    background-color: white;
+    color: var(--text-color);
+    border-top: 1px solid var(--primary-light);
+}
+
+.custom-accordion .accordion-body p {
+    margin-bottom: 0;
+    line-height: 1.7;
+}
 
 /* Footer Styles */
 

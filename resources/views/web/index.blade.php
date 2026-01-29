@@ -31,7 +31,7 @@
             });
         </script>
     @endif
-    
+
     @if ($errors->any())
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -407,6 +407,183 @@
                     <div class="col-md-8">
                         <div class="p-4 p-md-5">
                             @include('include.form', ['layout' => 'wide'])
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="faq-section pb-5 mt-5" id="faq" role="article">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="text-center mb-5">
+                <span class="badge bg-primary-subtle text-primary fs-6 mb-3"
+                    style="background-color: rgba(43, 182, 115, 0.1)!important; color: #2BB673!important;">
+                    <i class="ri-question-line me-2"></i> FAQs
+                </span>
+                <h2 class="display-5 fw-bold mb-4">Frequently <span class="text-primary"
+                        style="color: #2BB673!important;">Asked</span> Questions</h2>
+                <p class="lead text-muted mx-auto" style="max-width: 720px;">
+                    Find quick answers to common questions about our products and services
+                </p>
+            </div>
+            <!-- Form Container -->
+            <div class="card border-0 shadow-lg overflow-hidden mx-auto" style="max-width: 1000px;">
+                <div class="card-body">
+
+                    <div class="accordion custom-accordion" id="faqAccordion">
+                        <!-- FAQ Item 1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                    What services do you offer?
+                                    <span class="icon-container">
+                                        <i class="ri-add-fill icon-plus"></i>
+                                        <i class="ri-subtract-fill icon-minus"></i>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>We offer a comprehensive range of digital services including web development,
+                                    mobile app development, UI/UX design, digital marketing, and consulting services.
+                                    Our team specializes in creating custom solutions tailored to your business needs,
+                                    leveraging the latest technologies and industry best practices.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                    How long does a typical project take?
+                                    <span class="icon-container">
+                                        <i class="ri-add-fill icon-plus"></i>
+                                        <i class="ri-subtract-fill icon-minus"></i>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Project timelines vary depending on the scope and complexity. A simple website
+                                    might take 2-3 weeks, while more complex web applications can take 3-6 months.
+                                    We provide detailed project timelines during our initial consultation and maintain
+                                    transparent communication throughout the development process.</p>
+                                    <p>All projects include regular milestone reviews to ensure we stay on track
+                                    and meet your expectations.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                        aria-expanded="false" aria-controls="collapseThree">
+                                    What is your pricing structure?
+                                    <span class="icon-container">
+                                        <i class="ri-add-fill icon-plus"></i>
+                                        <i class="ri-subtract-fill icon-minus"></i>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>We offer flexible pricing options:</p>
+                                    <ul>
+                                        <li><strong>Fixed Price:</strong> For well-defined projects with clear requirements</li>
+                                        <li><strong>Time & Materials:</strong> For projects with evolving requirements</li>
+                                        <li><strong>Retainer:</strong> For ongoing maintenance and support</li>
+                                        <li><strong>Custom Packages:</strong> Tailored solutions for specific business needs</li>
+                                    </ul>
+                                    <p>We provide detailed quotes after understanding your specific requirements
+                                    and project scope. Contact us for a personalized estimate.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 4 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                        aria-expanded="false" aria-controls="collapseFour">
+                                    Do you provide ongoing support and maintenance?
+                                    <span class="icon-container">
+                                        <i class="ri-add-fill icon-plus"></i>
+                                        <i class="ri-subtract-fill icon-minus"></i>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse"
+                                aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Yes, we offer comprehensive support and maintenance packages to ensure your
+                                    digital solutions continue to perform optimally. Our support services include:</p>
+                                    <ul>
+                                        <li>Regular security updates and patches</li>
+                                        <li>Performance monitoring and optimization</li>
+                                        <li>Content updates and changes</li>
+                                        <li>Technical support and troubleshooting</li>
+                                        <li>Backup management and disaster recovery</li>
+                                    </ul>
+                                    <p>We offer monthly and annual support plans tailored to your specific needs.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 5 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFive"
+                                        aria-expanded="false" aria-controls="collapseFive">
+                                    What technologies do you work with?
+                                    <span class="icon-container">
+                                        <i class="ri-add-fill icon-plus"></i>
+                                        <i class="ri-subtract-fill icon-minus"></i>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse"
+                                aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <p>Our team is proficient in a wide range of modern technologies:</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Frontend:</strong></p>
+                                            <ul>
+                                                <li>HTML5, CSS3, JavaScript (ES6+)</li>
+                                                <li>React, Vue.js, Angular</li>
+                                                <li>Bootstrap 5, Tailwind CSS</li>
+                                                <li>TypeScript, Webpack, Vite</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Backend:</strong></p>
+                                            <ul>
+                                                <li>Node.js, Python, PHP</li>
+                                                <li>Express, Django, Laravel</li>
+                                                <li>MySQL, PostgreSQL, MongoDB</li>
+                                                <li>REST APIs, GraphQL</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p>We choose technologies based on project requirements, scalability needs,
+                                    and long-term maintainability.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

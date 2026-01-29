@@ -128,7 +128,8 @@
                     </li>
 
                     {{-- <li class="nav-item">
-                        <a class="nav-link-item bg-primary px-4 py-2 md-py-0 rounded text-white text-xl" style="font-size: 1.1rem; text-shadow: 1px 1px black;"
+                        <a class="nav-link-item bg-primary px-4 py-2 md-py-0 rounded text-white text-xl"
+                            style="font-size: 1.1rem; text-shadow: 1px 1px black;"
                             href="{{ route('register') }}">Register Here</a>
                     </li> --}}
                 </ul>
@@ -168,8 +169,8 @@
             </li>
 
             <li class="nav-item mt-3">
-                <a class="nav-link-item bg-primary px-4 rounded text-white"
-                    href="{{ route('contact') }}">Register Here</a>
+                <a class="nav-link-item bg-primary px-4 rounded text-white" href="{{ route('contact') }}">Register
+                    Here</a>
             </li>
         </ul>
     </div>
@@ -245,7 +246,8 @@
             </div>
         </div>
     </footer>
-    {{-- <script>
+    {{--
+    <script>
         // Disable right-click
         document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -259,6 +261,26 @@
             }
         });
     </script> --}}
+    @production
+        <script>
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "F12") e.preventDefault();
+
+                if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) {
+                    e.preventDefault();
+                }
+
+                if (e.ctrlKey && e.key === "U") {
+                    e.preventDefault();
+                }
+            });
+
+            document.addEventListener("contextmenu", function (e) {
+                e.preventDefault();
+            });
+        </script>
+    @endproduction
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof $ !== 'undefined' && typeof $.fn.owlCarousel !== 'undefined') {

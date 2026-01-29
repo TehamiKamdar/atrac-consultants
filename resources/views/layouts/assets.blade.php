@@ -49,4 +49,7 @@
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+</script>
 @yield('scripts')

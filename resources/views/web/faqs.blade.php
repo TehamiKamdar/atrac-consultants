@@ -27,6 +27,25 @@ FAQs
             max-width: 600px;
             margin: 0 auto;
         }
+        h1{
+            font-family: 'Bambino-Bold', sans-serif;
+        }
+        h2,
+        h3 {
+            font-family: 'Bambino-Regular', sans-serif;
+        }
+
+        p {
+            font-family: 'Bambino-Light', sans-serif;
+        }
+
+        ul span {
+            font-family: 'Bambino-Light', sans-serif;
+        }
+
+        .btn {
+            font-family: 'Bambino-Light', sans-serif;
+        }
 
         /* Custom Accordion Styles */
         .custom-accordion .accordion-item {
@@ -130,7 +149,7 @@ FAQs
             color: var(--dark-green);
             margin-bottom: 20px;
         }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
             .faq-header h1 {

@@ -26,9 +26,9 @@ class HomeController extends Controller
     public function index()
     {
         $countries = country::orderBy('name', 'asc')->where('status', 'active')->get();
-
+        $faqs = faq::latest()->take(5)->get();
         // print_r($countries);
-        return view('web.index', compact('countries'));
+        return view('web.index', compact('countries', 'faqs'));
     }
 
     public function about()

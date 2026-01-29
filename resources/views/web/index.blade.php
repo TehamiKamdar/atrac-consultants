@@ -415,7 +415,7 @@
     </div>
 
 
-    <div class="faq-section pb-5 mt-5" id="faq" role="article">
+    <div class="faq-section py-5 mt-5" id="faq" role="article">
         <div class="container">
             <!-- Header Section -->
             <div class="text-center mb-5">
@@ -585,6 +585,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-center">
+                        <a href="{{ route('faqs') }}" class="btn btn-primary"><i class="ri-restart-line me-2"></i>Load More</a>
                     </div>
                 </div>
             </div>

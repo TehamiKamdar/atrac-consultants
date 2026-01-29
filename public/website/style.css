@@ -1356,7 +1356,7 @@ p.text-muted {
 /* Custom Accordion Styles */
 
 .faq-section {
-    background-color: var(--light-bg);
+    background-color: var(--primary-light);
 }
 
 .faq-section h2,

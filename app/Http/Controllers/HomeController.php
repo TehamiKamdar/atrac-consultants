@@ -8,6 +8,7 @@ use App\Models\consults;
 use App\Models\contacts;
 use App\Models\country;
 use App\Models\countrydetails;
+use App\Models\faq;
 use App\Models\fields;
 use App\Models\review;
 use App\Models\sim_codes;
@@ -42,7 +43,8 @@ class HomeController extends Controller
 
     public function faqs()
     {
-        return view('web.faqs');
+        $faqs = faq::all();
+        return view('web.faqs', compact('faqs'));
     }
 
     public function showContactForm()

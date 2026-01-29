@@ -40,6 +40,11 @@ class HomeController extends Controller
         return view('web.blog');
     }
 
+    public function faqs()
+    {
+        return view('web.faqs');
+    }
+
     public function showContactForm()
     {
         $sim_codes = sim_codes::all();

@@ -195,7 +195,7 @@
                     <ul class="footer-links">
                         <li><a href="{{ route('home') }}"><i class="ri-arrow-right-s-line"></i> Home</a></li>
                         <li><a href="{{ '/' . '#country' }}"><i class="ri-arrow-right-s-line"></i> Countries We Offer</a></li>
-                        <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Contact</a></li>
+                        <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Contact Us</a></li>
                     </ul>
                 </div>
 
@@ -203,7 +203,7 @@
                 <div class="col-lg-3 col-md-6 footer-col">
                     <h3 class="footer-heading">Help</h3>
                     <ul class="footer-links">
-                        <li><a href="{{ route('home') }}"><i class="ri-arrow-right-s-line"></i> FAQs</a></li>
+                        <li><a href="{{ route('faqs') }}"><i class="ri-arrow-right-s-line"></i> FAQs</a></li>
                         <li><a href="{{ route('about') }}"><i class="ri-arrow-right-s-line"></i> About Us</a></li>
                         <li><a href="{{ route('contact') }}"><i class="ri-arrow-right-s-line"></i> Our Locations</a></li>
                     </ul>

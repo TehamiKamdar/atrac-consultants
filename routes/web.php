@@ -32,6 +32,8 @@ Route::get('/about', [HomeController::class , 'about'])->name('about');
 
 Route::get('/blog', [HomeController::class , 'blog'])->name('blog');
 
+Route::get('/faqs', [HomeController::class , 'faqs'])->name('faqs');
+
 Route::get('/contact', [HomeController::class , 'showContactForm'])->name('contact');
 
 Route::post('/contact', [HomeController::class , 'contact'])->name('contact.submit');

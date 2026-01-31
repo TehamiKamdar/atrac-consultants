@@ -53,7 +53,7 @@ Route::get('/404', function(){
 })->name('error-404');
 
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
-Route::get('student/register', [RegisterController::class , 'index'])->name('register');
+Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);

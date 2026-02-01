@@ -213,7 +213,7 @@ class HomeController extends Controller
             consults::create($data);
 
             // 9️⃣ Send mails
-            Mail::to($validated['email'])->send(new RequestMail($data));
+            // Mail::to($validated['email'])->send(new RequestMail($data));
             Mail::to(config('mail.from.address'))->send(new AdminInquiryAlertMail($data));
 
             return back()->with('success', "Your query has been passed to us. We'll get back to you shortly");

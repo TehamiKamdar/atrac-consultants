@@ -152,6 +152,13 @@ class HomeController extends Controller
         if (RateLimiter::tooManyAttempts($key, 1)) {
             return back()->with('error', "You have already submitted a request this month. Please wait for our response.");
         }
+        Log::info('Form submission received', [
+            'ip' => $req->ip(),
+            'email' => $req->email,
+            'name' => $req->name ?? 'N/A',
+            'timestamp' => now()->toDateTimeString(),
+            'user_agent' => $req->userAgent(), // optional, bots ke patterns dekhne ke liye
+        ]);
 
         RateLimiter::hit($key, $decaySeconds);
 

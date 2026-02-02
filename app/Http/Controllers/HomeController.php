@@ -195,9 +195,9 @@ class HomeController extends Controller
         // 6️⃣ Prepare data for DB + Mail
         $data = [
             'ip' => $ip,
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'message' => $validated['message'] ?? '',
+            'name' => strtolower($validated['name']),
+            'email' => strtolower($validated['email']),
+            'message' => strtolower($validated['message']) ?? '',
             'qualification' => $validated['qualification'],
             'country_id' => $validated['country'],
             'percentage' => $validated['percentage'],

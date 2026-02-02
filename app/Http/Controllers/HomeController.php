@@ -156,6 +156,7 @@ class HomeController extends Controller
             'ip' => $req->ip(),
             'email' => $req->email,
             'name' => $req->name ?? 'N/A',
+            'message' => $req->message ?? 'N/A',
             'timestamp' => now()->toDateTimeString(),
             'user_agent' => $req->userAgent(), // optional, bots ke patterns dekhne ke liye
         ]);

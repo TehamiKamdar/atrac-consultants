@@ -58,6 +58,7 @@ Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
 Route::get('/check-student-email', [RegisterController::class , 'checkEmail'])->name('student-email-check');
 Route::get('/check-student-cnic', [RegisterController::class , 'checkCNIC'])->name('student-cnic-check');
+Route::get('/check-student-passport', [RegisterController::class , 'checkPassport'])->name('student-passport-check');
 Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);

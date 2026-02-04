@@ -704,18 +704,19 @@
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\" placeholder="01234-0123456-0" required>
+                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\"
+                                    placeholder="01234-0123456-0" required>
                                 <div class="invalid-feedback" id="cnic-error">
                                     CNIC Number Already Exists.
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="passport" class="form-label">Passport # <span
-                                        class="text-danger">*</span></label>
+                                <label for="passport" class="form-label">Passport # <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9" required>
-                                <div class="invalid-feedback">
-                                    Passport number must start with 2 letters followed by 7 digits (e.g. PK1234567)
+                                <div id="passport-error" class="invalid-feedback"></div>
+                                <div class="valid-feedback">
+                                    Passport is valid
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -1720,7 +1721,7 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            function validateDateInputs(){
+            function validateDateInputs() {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
@@ -2127,25 +2128,6 @@
                 $(this).val(val);
             });
 
-
-            $('#passport').on('input', function () {
-                let value = $(this).val().toUpperCase();
-
-                // Allow only letters & numbers
-                value = value.replace(/[^A-Z0-9]/g, '');
-
-                $(this).val(value);
-
-                // Regex: 2 letters + 7 digits
-                const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
-
-                if (passportRegex.test(value)) {
-                    $(this).removeClass('is-invalid').addClass('is-valid');
-                } else {
-                    $(this).removeClass('is-valid').addClass('is-invalid');
-                }
-            });
-
             $('#phoneNumber, #postalCode').on('input', function () {
                 this.value = this.value.replace(/\D/g, '');
             });
@@ -2315,26 +2297,26 @@
 
                 if (departmentList.length === 0) {
                     tbody.append(`
-                            <tr class="text-muted text-center">
-                                <td colspan="4">No departments added yet</td>
-                            </tr>
-                        `);
+                                    <tr class="text-muted text-center">
+                                        <td colspan="4">No departments added yet</td>
+                                    </tr>
+                                `);
                     return;
                 }
 
                 departmentList.forEach((item, index) => {
                     tbody.append(`
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${item.department_name}</td>
-                                <td>${item.university_name}</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `);
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.department_name}</td>
+                                        <td>${item.university_name}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `);
                 });
 
                 saveDepartmentsToLocal();
@@ -2626,13 +2608,13 @@
             }
 
 
-            $('#cnic').on('blur', function(){
+            $('#cnic').on('blur', function () {
                 let cnic = $(this).val();
 
                 $.ajax({
                     url: "/check-student-cnic",
                     method: "GET",
-                    data: {cnic: cnic},
+                    data: { cnic: cnic },
                     success: function (response) {
                         if (response.exists) {
                             $('#cnic')
@@ -2649,13 +2631,49 @@
                 })
             })
 
-            $('#email').on('blur', function(){
+            const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
+
+            $('#passport').on('input', function () {
+                let value = $(this).val().toUpperCase();
+                value = value.replace(/[^A-Z0-9]/g, '');
+                $(this).val(value);
+                $(this).removeClass('is-valid is-invalid');
+                $('#passport-error').text('');
+            });
+
+            $('#passport').on('input', function () {
+
+                let passport = $(this).val();
+
+                if (!passportRegex.test(passport)) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                    $('#passport-error').text('Invalid passport format');
+                    return;
+                }
+
+                $.ajax({
+                    url: "/check-student-passport",
+                    type: "GET",
+                    data: { passport: passport },
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#passport').addClass('is-invalid').removeClass('is-valid');
+                            $('#passport-error').text('Passport already exists');
+                        } else {
+                            $('#passport').addClass('is-valid').removeClass('is-invalid');
+                            $('#passport-error').text('');
+                        }
+                    }
+                });
+            });
+
+            $('#email').on('blur', function () {
                 let email = $(this).val();
 
                 $.ajax({
                     url: "/check-student-email",
                     method: "GET",
-                    data: {email: email},
+                    data: { email: email },
                     success: function (response) {
                         if (response.exists) {
                             $('#email')
@@ -2673,7 +2691,7 @@
             })
 
             // When department changes, load universities
-            $('#departmentSelect').on('change', function() {
+            $('#departmentSelect').on('change', function () {
                 const departmentName = $(this).find('option:selected').text();
                 const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
                 if (!step1) return;
@@ -2685,7 +2703,7 @@
                     department_name: departmentName,
                     country_id,
                     program_level_id
-                }, function(universities) {
+                }, function (universities) {
                     let uniOptions = '<option value="" disabled selected>Select University</option>';
                     universities.forEach(u => {
                         uniOptions += `<option value="${u.id}">${u.name}</option>`;
@@ -2973,16 +2991,16 @@
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                <div class="success-message" id="successMessage">
-                                    <div class="success-icon">
-                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
-                                    </div>
-                                    <h3>Registration Successful!</h3>
-                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                                    </p>
-                                    <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
-                                </div>
-                            `)
+                                        <div class="success-message" id="successMessage">
+                                            <div class="success-icon">
+                                                <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                            </div>
+                                            <h3>Registration Successful!</h3>
+                                            <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                            </p>
+                                            <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
+                                        </div>
+                                    `)
                         localStorage.clear();
                     },
                     error: function (err) {

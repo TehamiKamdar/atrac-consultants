@@ -1,11 +1,47 @@
-function step1(){
-    $('#cnic').on('blur', function(){
+function step1() {
+    const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
+
+    $('#passport').on('input', function () {
+        let value = $(this).val().toUpperCase();
+        value = value.replace(/[^A-Z0-9]/g, '');
+        $(this).val(value);
+        $(this).removeClass('is-valid is-invalid');
+        $('#passport-error').text('');
+    });
+
+    $('#passport').on('input', function () {
+
+        let passport = $(this).val();
+
+        if (!passportRegex.test(passport)) {
+            $(this).addClass('is-invalid').removeClass('is-valid');
+            $('#passport-error').text('Invalid passport format');
+            return;
+        }
+
+        $.ajax({
+            url: "/check-student-passport",
+            type: "GET",
+            data: { passport: passport },
+            success: function (response) {
+                if (response.exists) {
+                    $('#passport').addClass('is-invalid').removeClass('is-valid');
+                    $('#passport-error').text('Passport already exists');
+                } else {
+                    $('#passport').addClass('is-valid').removeClass('is-invalid');
+                    $('#passport-error').text('');
+                }
+            }
+        });
+    });
+
+    $('#cnic').on('blur', function () {
         let cnic = $(this).val();
 
         $.ajax({
             url: "/check-student-cnic",
             method: "GET",
-            data: {cnic: cnic},
+            data: { cnic: cnic },
             success: function (response) {
                 if (response.exists) {
                     $('#cnic')
@@ -21,13 +57,14 @@ function step1(){
             }
         })
     })
-    $('#email').on('blur', function(){
+
+    $('#email').on('blur', function () {
         let email = $(this).val();
 
         $.ajax({
             url: "/check-student-email",
             method: "GET",
-            data: {email: email},
+            data: { email: email },
             success: function (response) {
                 if (response.exists) {
                     $('#email')

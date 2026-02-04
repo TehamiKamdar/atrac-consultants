@@ -109,6 +109,16 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function checkPassport(Request $request){
+        $passport = $request->passport;
+
+        $exists = Students::where('passport_number', $passport)->exists();
+
+        return response()->json([
+            'exists' => $exists
+        ]);
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();

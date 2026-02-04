@@ -706,15 +706,17 @@
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\"
                                     placeholder="01234-0123456-0" required>
+                                <div class="invalid-feedback" id="cnic-error">
+                                    CNIC Number Already Exists.
+                                </div>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passport" class="form-label">Passport # <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9" required>
-                                <div class="invalid-feedback">
-                                    Passport number must start with 2 letters followed by 7 digits (e.g. PK1234567)
-                                </div>
+                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9"
+                                    required>
+                                <div id="passport-error" class="invalid-feedback"></div>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
@@ -741,6 +743,7 @@
                                     <!-- Main number input 75% -->
                                     <input type="text" id="phoneNumber" class="form-control"
                                         style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
+                                    <div id="phone-error" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
@@ -748,6 +751,9 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" placeholder="test@example.com" required>
+                                <div id="email-error" class="invalid-feedback">
+                                    Email Already Exists.
+                                </div>
                             </div>
                             <div class="col-12 mb-3 mb-sm-2">
                                 <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
@@ -772,7 +778,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="percentage"
+                                <input type="number" step="0.01" class="form-control" id="percentage" max="100"
                                     placeholder="79% / 3.2 GPA " required>
                             </div>
 
@@ -802,7 +808,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="country" class="form-label">Applying For? <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="applying" required disabled>
+                                <select class="form-select" id="applying" required>
                                     <option value="" selected disabled>Select Program..</option>
                                 </select>
                             </div>
@@ -1068,8 +1074,7 @@
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Bands</label>
-                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands"
-                                                readonly>
+                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands">
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1111,8 +1116,7 @@
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Score</label>
-                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score"
-                                                readonly>
+                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score">
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1715,7 +1719,8 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            function validateDateInputs(){
+            $('#applying').prop('disabled', true)
+            function validateDateInputs() {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
@@ -1787,23 +1792,32 @@
 
 
             $('#country').on('change', function () {
-                var countryId = $(this).val();
-
-                if (countryId) {
-                    $.get('/get-country-programs/' + countryId, function (data) {
-                        var $dropdown = $('#applying');
-                        $dropdown.empty().append('<option value="">Select Program</option>');
-
-                        $.each(data, function (i, program) {
-                            $dropdown.append('<option value="' + program.id + '">' + program.name + '</option>');
-                        });
-
-                        $dropdown.prop('disabled', false);
-                    });
-                } else {
-                    $('#applying').empty().append('<option value="">Select Program..</option>').prop('disabled', true);
-                }
+                loadProgramsByCountry($(this).val());
             });
+
+            function loadProgramsByCountry(countryId) {
+                if (!countryId) {
+                    $('#applying')
+                        .empty()
+                        .append('<option value="">Select Program..</option>')
+                        .prop('disabled', true);
+                    return $.Deferred().resolve(); // safe fallback
+                }
+
+                return $.get('/get-country-programs/' + countryId, function (data) {
+                    var $dropdown = $('#applying');
+                    $dropdown.empty().append('<option value="">Select Program</option>');
+
+                    $.each(data, function (i, program) {
+                        $dropdown.append(
+                            '<option value="' + program.id + '">' + program.name + '</option>'
+                        );
+                    });
+
+                    $dropdown.prop('disabled', false);
+                });
+            }
+
 
             $('#applying').on('change', function () {
                 const countryId = $('#country').val();
@@ -2122,25 +2136,6 @@
                 $(this).val(val);
             });
 
-
-            $('#passport').on('input', function () {
-                let value = $(this).val().toUpperCase();
-
-                // Allow only letters & numbers
-                value = value.replace(/[^A-Z0-9]/g, '');
-
-                $(this).val(value);
-
-                // Regex: 2 letters + 7 digits
-                const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
-
-                if (passportRegex.test(value)) {
-                    $(this).removeClass('is-invalid').addClass('is-valid');
-                } else {
-                    $(this).removeClass('is-valid').addClass('is-invalid');
-                }
-            });
-
             $('#phoneNumber, #postalCode').on('input', function () {
                 this.value = this.value.replace(/\D/g, '');
             });
@@ -2310,26 +2305,26 @@
 
                 if (departmentList.length === 0) {
                     tbody.append(`
-                            <tr class="text-muted text-center">
-                                <td colspan="4">No departments added yet</td>
-                            </tr>
-                        `);
+                                            <tr class="text-muted text-center">
+                                                <td colspan="4">No departments added yet</td>
+                                            </tr>
+                                        `);
                     return;
                 }
 
                 departmentList.forEach((item, index) => {
                     tbody.append(`
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${item.department_name}</td>
-                                <td>${item.university_name}</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `);
+                                            <tr>
+                                                <td>${index + 1}</td>
+                                                <td>${item.department_name}</td>
+                                                <td>${item.university_name}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `);
                 });
 
                 saveDepartmentsToLocal();
@@ -2448,9 +2443,23 @@
 
                 const step1 = JSON.parse(data);
 
+                // 1️⃣ Simple fields
                 Object.keys(step1).forEach(key => {
-                    $('#' + key).val(step1[key]);
+                    if (!['country', 'applying'].includes(key)) {
+                        $('#' + key).val(step1[key]);
+                    }
                 });
+
+                // 2️⃣ Country → Programs → Applying (SEQUENCE MATTERS)
+                if (step1.country) {
+                    $('#country').val(step1.country);
+
+                    loadProgramsByCountry(step1.country).done(function () {
+                        if (step1.applying) {
+                            $('#applying').val(step1.applying);
+                        }
+                    });
+                }
 
                 return true;
             }
@@ -2620,8 +2629,152 @@
                 });
             }
 
+
+            $('#cnic').on('input', function () {
+                let cnic = $(this).val();
+
+                $.ajax({
+                    url: "/check-student-cnic",
+                    method: "GET",
+                    data: { cnic: cnic },
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#cnic')
+                                .removeClass('is-valid')
+                                .addClass('is-invalid');
+                            $('#cnic-error').css('display', 'block')
+                        } else {
+                            $('#cnic')
+                                .removeClass('is-invalid')
+                                .addClass('is-valid');
+                            $('#cnic-error').css('display', 'none')
+                        }
+                    }
+                })
+            })
+
+            const phoneNumberRegex = /^[0-9]{7}$/;
+
+            function resetPhone() {
+                $('#phonePrefix, #phoneNumber')
+                    .removeClass('is-valid is-invalid');
+                $('#phone-error').text('');
+            }
+
+            function phoneInvalid(msg) {
+                $('#phoneNumber')
+                    .removeClass('is-valid')
+                    .addClass('is-invalid');
+                $('#phone-error').text(msg);
+            }
+
+            function phoneValid() {
+                $('#phoneNumber')
+                    .removeClass('is-invalid')
+                    .addClass('is-valid');
+                $('#phone-error').text('');
+            }
+
+            // digits only
+            $('#phoneNumber').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                resetPhone();
+            });
+
+            // final validation
+            $('#phonePrefix, #phoneNumber').on('input', function () {
+
+                const prefix = $('#phonePrefix').val();
+                const number = $('#phoneNumber').val();
+
+                if (!prefix) {
+                    phoneInvalid('Select phone prefix');
+                    return;
+                }
+
+                if (!phoneNumberRegex.test(number)) {
+                    phoneInvalid('Phone number must be 7 digits');
+                    return;
+                }
+
+                $.ajax({
+                    url: "/check-student-phone",
+                    type: "GET",
+                    data: {
+                        phone_prefix: prefix,
+                        phone_number: number
+                    },
+                    success: function (res) {
+                        if (res.exists) {
+                            phoneInvalid('Phone number already exists');
+                        } else {
+                            phoneValid();
+                        }
+                    }
+                });
+            });
+
+            const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
+
+            $('#passport').on('input', function () {
+                let value = $(this).val().toUpperCase();
+                value = value.replace(/[^A-Z0-9]/g, '');
+                $(this).val(value);
+                $(this).removeClass('is-valid is-invalid');
+                $('#passport-error').text('');
+            });
+
+            $('#passport').on('input', function () {
+
+                let passport = $(this).val();
+
+                if (!passportRegex.test(passport)) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                    $('#passport-error').text('Invalid passport format');
+                    return;
+                }
+
+                $.ajax({
+                    url: "/check-student-passport",
+                    type: "GET",
+                    data: { passport: passport },
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#passport').addClass('is-invalid').removeClass('is-valid');
+                            $('#passport-error').text('Passport already exists');
+                        } else {
+                            $('#passport').addClass('is-valid').removeClass('is-invalid');
+                            $('#passport-error').text('');
+                        }
+                    }
+                });
+            });
+
+            $('#email').on('input', function () {
+                let email = $(this).val();
+
+                $.ajax({
+                    url: "/check-student-email",
+                    method: "GET",
+                    data: { email: email },
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#email')
+                                .removeClass('is-valid')
+                                .addClass('is-invalid');
+                            $('#email-error').css('display', 'block')
+                        } else {
+                            $('#email')
+                                .removeClass('is-invalid')
+                                .addClass('is-valid');
+                            $('#email-error').css('display', 'none')
+                        }
+                    }
+                })
+            })
+
             // When department changes, load universities
-            $('#departmentSelect').on('change', function() {
+            $('#departmentSelect').on('change', function () {
                 const departmentName = $(this).find('option:selected').text();
                 const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
                 if (!step1) return;
@@ -2633,7 +2786,7 @@
                     department_name: departmentName,
                     country_id,
                     program_level_id
-                }, function(universities) {
+                }, function (universities) {
                     let uniOptions = '<option value="" disabled selected>Select University</option>';
                     universities.forEach(u => {
                         uniOptions += `<option value="${u.id}">${u.name}</option>`;
@@ -2917,25 +3070,54 @@
                     data: formData,
                     processData: false,
                     contentType: false,
+                    beforeSend: function () {
+                        $('#submitBtn').prop('disabled', true);
+                        $('#submitBtn').html(`<i class="fa fa-spinner fa-spin"></i> Saving...`);
+                    },
                     success: function (res) {
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                <div class="success-message" id="successMessage">
-                                    <div class="success-icon">
-                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
-                                    </div>
-                                    <h3>Registration Successful!</h3>
-                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                                    </p>
-                                    <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
-                                </div>
-                            `)
+                                                <div class="success-message" id="successMessage">
+                                                    <div class="success-icon">
+                                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                    </div>
+                                                    <h3>Registration Successful!</h3>
+                                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                                    </p>
+                                                    <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
+                                                </div>
+                                            `)
                         localStorage.clear();
                     },
                     error: function (err) {
-                        console.error(err);
+
+                        $('#submitBtn').prop('disabled', false);
+                        $('#submitBtn').html(`<i class="ri-send-plane-fill"></i> Submit Form`);
+                        let message = 'Something went wrong';
+
+                        // Laravel validation errors (422)
+                        if (err.status === 422 && err.responseJSON?.errors) {
+                            message = Object.values(err.responseJSON.errors)
+                                .map(e => e[0])
+                                .join('<br>');
+                        }
+                        // Normal error message
+                        else if (err.responseJSON?.message) {
+                            message = err.responseJSON.message;
+                        }
+                        // Fallback
+                        else if (err.statusText) {
+                            message = err.statusText;
+                        }
+
+                        iziToast.error({
+                            title: 'Error',
+                            message: message,
+                            position: 'topRight'
+                        });
                     }
+
                 });
             });
 

@@ -1074,8 +1074,7 @@
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Bands</label>
-                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands"
-                                                readonly>
+                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands">
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>
@@ -1117,8 +1116,7 @@
                                     <div class="row mb-3">
                                         <div class="col-12 col-md-6">
                                             <label for="">Overall Score</label>
-                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score"
-                                                readonly>
+                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score">
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <label for="">Passing Year</label>

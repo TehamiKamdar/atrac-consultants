@@ -35,5 +35,5 @@ return [
         'site_key'  => env('RECAPTCHA_ENTERPRISE_SITE_KEY'),
         'project_id' => env('RECAPTCHA_ENTERPRISE_PROJECT_ID'),
     ]
-
+    
 ];

@@ -207,7 +207,7 @@ class RegisterController extends Controller
 
                     $path = $file->storeAs($studentFolder, $fileName, 'public');
 
-                    \App\Models\StudentDocument::create([
+                    \App\Models\studentdocument::create([
                         'student_id' => $student->id,
                         'document_type' => $field,
                         'file_path' => $path,

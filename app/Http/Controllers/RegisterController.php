@@ -89,6 +89,25 @@ class RegisterController extends Controller
         return response()->json($universities);
     }
 
+    public function checkEmail(Request $request){
+        $email = $request->email;
+
+        $exists = Students::where('email', $email)->exists();
+
+        return response()->json([
+            'exists' => $exists
+        ]);
+    }
+
+    public function checkCNIC(Request $request){
+        $cnic = $request->cnic;
+
+        $exists = Students::where('cnic', $cnic)->exists();
+
+        return response()->json([
+            'exists' => $exists
+        ]);
+    }
 
     public function store(Request $request)
     {
@@ -242,7 +261,7 @@ class RegisterController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Registration failed', 
+                'message' => 'Registration failed',
                 'error' => $e->getMessage()
             ], 500);
         }

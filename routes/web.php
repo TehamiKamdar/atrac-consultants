@@ -53,11 +53,13 @@ Route::get('/404', function(){
 })->name('error-404');
 
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
-Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
-Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
+Route::get('/check-student-email', [RegisterController::class , 'checkEmail'])->name('student-email-check');
+Route::get('/check-student-cnic', [RegisterController::class , 'checkCNIC'])->name('student-cnic-check');
+Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
+Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);

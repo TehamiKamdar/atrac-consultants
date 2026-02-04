@@ -704,8 +704,10 @@
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\"
-                                    placeholder="01234-0123456-0" required>
+                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\" placeholder="01234-0123456-0" required>
+                                <div class="invalid-feedback" id="cnic-error">
+                                    CNIC Number Already Exists.
+                                </div>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -748,6 +750,9 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" placeholder="test@example.com" required>
+                                <div class="invalid-feedback" id="email-error">
+                                    Email Already Exists.
+                                </div>
                             </div>
                             <div class="col-12 mb-3 mb-sm-2">
                                 <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
@@ -2619,6 +2624,53 @@
                         .prop('disabled', false);
                 });
             }
+
+
+            $('#cnic').on('blur', function(){
+                let cnic = $(this).val();
+
+                $.ajax({
+                    url: "/check-student-cnic",
+                    method: "GET",
+                    data: {cnic: cnic},
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#cnic')
+                                .removeClass('is-valid')
+                                .addClass('is-invalid');
+                            $('#cnic-error').css('display', 'block')
+                        } else {
+                            $('#cnic')
+                                .removeClass('is-invalid')
+                                .addClass('is-valid');
+                            $('#cnic-error').css('display', 'none')
+                        }
+                    }
+                })
+            })
+
+            $('#email').on('blur', function(){
+                let email = $(this).val();
+
+                $.ajax({
+                    url: "/check-student-email",
+                    method: "GET",
+                    data: {email: email},
+                    success: function (response) {
+                        if (response.exists) {
+                            $('#email')
+                                .removeClass('is-valid')
+                                .addClass('is-invalid');
+                            $('#email-error').css('display', 'block')
+                        } else {
+                            $('#email')
+                                .removeClass('is-invalid')
+                                .addClass('is-valid');
+                            $('#email-error').css('display', 'none')
+                        }
+                    }
+                })
+            })
 
             // When department changes, load universities
             $('#departmentSelect').on('change', function() {

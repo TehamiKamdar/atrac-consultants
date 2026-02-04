@@ -1,4 +1,5 @@
 function step1() {
+    const form1 = $('#step1Form');
     const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
 
     $('#passport').on('input', function () {
@@ -94,6 +95,26 @@ function step1() {
                     $('#email-error').css('display', 'none')
                 }
             }
+        })
+    })
+
+
+    // Loading Form 1 From localStorage
+    window.addEventListener('DOMContentLoaded', function(){
+        const form1 = JSON.parse(localStorage.getItem('step1Form'));
+
+        if(!form1) return;
+
+        for (const [name, value] of Object.entries(form1)) {
+            const field = form1.elements[name];
+            if(field) field.value = value
+        }
+    })
+
+    form1.addEventListener('input', () => {
+        const formData = {}
+        Array.from(form1.elements).forEach(element => {
+            
         })
     })
 }

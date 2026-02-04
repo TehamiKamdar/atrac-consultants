@@ -25,6 +25,13 @@
 
     <!-- jQuery (must be first) -->
     <script src="{{ asset('website/lib/js/jquery.min.js') }}"></script>
+    <!-- iziToast CSS -->
+    <link rel="stylesheet" href="{{ asset('website/lib/iziToast/iziToast.min.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+
+    <!-- iziToast JS -->
+    <script src="{{ asset('website/lib/iziToast/iziToast.min.js') }}"></script>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

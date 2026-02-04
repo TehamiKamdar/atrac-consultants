@@ -717,9 +717,6 @@
                                 <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9"
                                     required>
                                 <div id="passport-error" class="invalid-feedback"></div>
-                                <div class="valid-feedback">
-                                    Passport is valid
-                                </div>
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="passportValidFrom" class="form-label">Passport Valid From # <span
@@ -781,7 +778,8 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="percentage" max="100" placeholder="79% / 3.2 GPA " required>
+                                <input type="number" step="0.01" class="form-control" id="percentage" max="100"
+                                    placeholder="79% / 3.2 GPA " required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -810,7 +808,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="country" class="form-label">Applying For? <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="applying" required disabled>
+                                <select class="form-select" id="applying" required>
                                     <option value="" selected disabled>Select Program..</option>
                                 </select>
                             </div>
@@ -1723,6 +1721,7 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
+            $('#applying').prop('disabled', true)
             function validateDateInputs() {
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
@@ -1795,23 +1794,32 @@
 
 
             $('#country').on('change', function () {
-                var countryId = $(this).val();
-
-                if (countryId) {
-                    $.get('/get-country-programs/' + countryId, function (data) {
-                        var $dropdown = $('#applying');
-                        $dropdown.empty().append('<option value="">Select Program</option>');
-
-                        $.each(data, function (i, program) {
-                            $dropdown.append('<option value="' + program.id + '">' + program.name + '</option>');
-                        });
-
-                        $dropdown.prop('disabled', false);
-                    });
-                } else {
-                    $('#applying').empty().append('<option value="">Select Program..</option>').prop('disabled', true);
-                }
+                loadProgramsByCountry($(this).val());
             });
+
+            function loadProgramsByCountry(countryId) {
+                if (!countryId) {
+                    $('#applying')
+                        .empty()
+                        .append('<option value="">Select Program..</option>')
+                        .prop('disabled', true);
+                    return $.Deferred().resolve(); // safe fallback
+                }
+
+                return $.get('/get-country-programs/' + countryId, function (data) {
+                    var $dropdown = $('#applying');
+                    $dropdown.empty().append('<option value="">Select Program</option>');
+
+                    $.each(data, function (i, program) {
+                        $dropdown.append(
+                            '<option value="' + program.id + '">' + program.name + '</option>'
+                        );
+                    });
+
+                    $dropdown.prop('disabled', false);
+                });
+            }
+
 
             $('#applying').on('change', function () {
                 const countryId = $('#country').val();
@@ -2299,26 +2307,26 @@
 
                 if (departmentList.length === 0) {
                     tbody.append(`
-                                        <tr class="text-muted text-center">
-                                            <td colspan="4">No departments added yet</td>
-                                        </tr>
-                                    `);
+                                            <tr class="text-muted text-center">
+                                                <td colspan="4">No departments added yet</td>
+                                            </tr>
+                                        `);
                     return;
                 }
 
                 departmentList.forEach((item, index) => {
                     tbody.append(`
-                                        <tr>
-                                            <td>${index + 1}</td>
-                                            <td>${item.department_name}</td>
-                                            <td>${item.university_name}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
-                                                    <i class="ri-delete-bin-line"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `);
+                                            <tr>
+                                                <td>${index + 1}</td>
+                                                <td>${item.department_name}</td>
+                                                <td>${item.university_name}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `);
                 });
 
                 saveDepartmentsToLocal();
@@ -2437,9 +2445,23 @@
 
                 const step1 = JSON.parse(data);
 
+                // 1️⃣ Simple fields
                 Object.keys(step1).forEach(key => {
-                    $('#' + key).val(step1[key]);
+                    if (!['country', 'applying'].includes(key)) {
+                        $('#' + key).val(step1[key]);
+                    }
                 });
+
+                // 2️⃣ Country → Programs → Applying (SEQUENCE MATTERS)
+                if (step1.country) {
+                    $('#country').val(step1.country);
+
+                    loadProgramsByCountry(step1.country).done(function () {
+                        if (step1.applying) {
+                            $('#applying').val(step1.applying);
+                        }
+                    });
+                }
 
                 return true;
             }
@@ -2610,7 +2632,7 @@
             }
 
 
-            $('#cnic').on('blur', function () {
+            $('#cnic').on('input', function () {
                 let cnic = $(this).val();
 
                 $.ajax({
@@ -2662,7 +2684,7 @@
             });
 
             // final validation
-            $('#phonePrefix, #phoneNumber').on('blur', function () {
+            $('#phonePrefix, #phoneNumber').on('input', function () {
 
                 const prefix = $('#phonePrefix').val();
                 const number = $('#phoneNumber').val();
@@ -2730,7 +2752,7 @@
                 });
             });
 
-            $('#email').on('blur', function () {
+            $('#email').on('input', function () {
                 let email = $(this).val();
 
                 $.ajax({
@@ -3050,25 +3072,54 @@
                     data: formData,
                     processData: false,
                     contentType: false,
+                    beforeSend: function () {
+                        $('#submitBtn').prop('disabled', true);
+                        $('#submitBtn').html(`<i class="fa fa-spinner fa-spin"></i> Saving...`);
+                    },
                     success: function (res) {
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                            <div class="success-message" id="successMessage">
-                                                <div class="success-icon">
-                                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                <div class="success-message" id="successMessage">
+                                                    <div class="success-icon">
+                                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                    </div>
+                                                    <h3>Registration Successful!</h3>
+                                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                                    </p>
+                                                    <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
                                                 </div>
-                                                <h3>Registration Successful!</h3>
-                                                <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                                                </p>
-                                                <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
-                                            </div>
-                                        `)
+                                            `)
                         localStorage.clear();
                     },
                     error: function (err) {
-                        console.error(err);
+
+                        $('#submitBtn').prop('disabled', false);
+                        $('#submitBtn').html(`<i class="ri-send-plane-fill"></i> Submit Form`);
+                        let message = 'Something went wrong';
+
+                        // Laravel validation errors (422)
+                        if (err.status === 422 && err.responseJSON?.errors) {
+                            message = Object.values(err.responseJSON.errors)
+                                .map(e => e[0])
+                                .join('<br>');
+                        }
+                        // Normal error message
+                        else if (err.responseJSON?.message) {
+                            message = err.responseJSON.message;
+                        }
+                        // Fallback
+                        else if (err.statusText) {
+                            message = err.statusText;
+                        }
+
+                        iziToast.error({
+                            title: 'Error',
+                            message: message,
+                            position: 'topRight'
+                        });
                     }
+
                 });
             });
 

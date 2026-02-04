@@ -119,6 +119,16 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function checkPhone(Request $request)
+    {
+        $exists = Students::where('phone', $request->phone_prefix.$request->phone_number)->exists();
+
+        return response()->json([
+            'exists' => $exists
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         DB::beginTransaction();

@@ -712,8 +712,10 @@
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="passport" class="form-label">Passport # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9" required>
+                                <label for="passport" class="form-label">Passport # <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9"
+                                    required>
                                 <div id="passport-error" class="invalid-feedback"></div>
                                 <div class="valid-feedback">
                                     Passport is valid
@@ -744,6 +746,7 @@
                                     <!-- Main number input 75% -->
                                     <input type="text" id="phoneNumber" class="form-control"
                                         style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
+                                    <div id="phone-error" class="invalid-feedback"></div>
                                 </div>
                             </div>
 
@@ -751,7 +754,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" placeholder="test@example.com" required>
-                                <div class="invalid-feedback" id="email-error">
+                                <div id="email-error" class="invalid-feedback">
                                     Email Already Exists.
                                 </div>
                             </div>
@@ -778,8 +781,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="percentage" class="form-label">Percentage / CGPA <span
                                         class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="percentage"
-                                    placeholder="79% / 3.2 GPA " required>
+                                <input type="number" step="0.01" class="form-control" id="percentage" max="100" placeholder="79% / 3.2 GPA " required>
                             </div>
 
                             <div class="col-md-6 mb-3 mb-sm-2">
@@ -2297,26 +2299,26 @@
 
                 if (departmentList.length === 0) {
                     tbody.append(`
-                                    <tr class="text-muted text-center">
-                                        <td colspan="4">No departments added yet</td>
-                                    </tr>
-                                `);
+                                        <tr class="text-muted text-center">
+                                            <td colspan="4">No departments added yet</td>
+                                        </tr>
+                                    `);
                     return;
                 }
 
                 departmentList.forEach((item, index) => {
                     tbody.append(`
-                                    <tr>
-                                        <td>${index + 1}</td>
-                                        <td>${item.department_name}</td>
-                                        <td>${item.university_name}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `);
+                                        <tr>
+                                            <td>${index + 1}</td>
+                                            <td>${item.department_name}</td>
+                                            <td>${item.university_name}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-danger remove-row" data-index="${index}">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `);
                 });
 
                 saveDepartmentsToLocal();
@@ -2630,6 +2632,67 @@
                     }
                 })
             })
+
+            const phoneNumberRegex = /^[0-9]{7}$/;
+
+            function resetPhone() {
+                $('#phonePrefix, #phoneNumber')
+                    .removeClass('is-valid is-invalid');
+                $('#phone-error').text('');
+            }
+
+            function phoneInvalid(msg) {
+                $('#phoneNumber')
+                    .removeClass('is-valid')
+                    .addClass('is-invalid');
+                $('#phone-error').text(msg);
+            }
+
+            function phoneValid() {
+                $('#phoneNumber')
+                    .removeClass('is-invalid')
+                    .addClass('is-valid');
+                $('#phone-error').text('');
+            }
+
+            // digits only
+            $('#phoneNumber').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                resetPhone();
+            });
+
+            // final validation
+            $('#phonePrefix, #phoneNumber').on('blur', function () {
+
+                const prefix = $('#phonePrefix').val();
+                const number = $('#phoneNumber').val();
+
+                if (!prefix) {
+                    phoneInvalid('Select phone prefix');
+                    return;
+                }
+
+                if (!phoneNumberRegex.test(number)) {
+                    phoneInvalid('Phone number must be 7 digits');
+                    return;
+                }
+
+                $.ajax({
+                    url: "/check-student-phone",
+                    type: "GET",
+                    data: {
+                        phone_prefix: prefix,
+                        phone_number: number
+                    },
+                    success: function (res) {
+                        if (res.exists) {
+                            phoneInvalid('Phone number already exists');
+                        } else {
+                            phoneValid();
+                        }
+                    }
+                });
+            });
 
             const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
 
@@ -2991,16 +3054,16 @@
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                        <div class="success-message" id="successMessage">
-                                            <div class="success-icon">
-                                                <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                            <div class="success-message" id="successMessage">
+                                                <div class="success-icon">
+                                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                </div>
+                                                <h3>Registration Successful!</h3>
+                                                <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                                </p>
+                                                <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
                                             </div>
-                                            <h3>Registration Successful!</h3>
-                                            <p>Thank you for completing the form. We have received your information and will contact you shortly.
-                                            </p>
-                                            <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
-                                        </div>
-                                    `)
+                                        `)
                         localStorage.clear();
                     },
                     error: function (err) {

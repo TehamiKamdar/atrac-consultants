@@ -58,6 +58,22 @@ function step1() {
         })
     })
 
+    $('#cnic').on('input', function () {
+        var val = $(this).val();
+
+        // Remove anything besides digits
+        val = val.replace(/\D/g, '');
+
+        // Add hyphens at the correct positions
+        if (val.length > 5 && val.length <= 12) {
+            val = val.slice(0, 5) + '-' + val.slice(5);
+        } else if (val.length > 12) {
+            val = val.slice(0, 5) + '-' + val.slice(5, 12) + '-' + val.slice(12, 13);
+        }
+
+        $(this).val(val);
+    });
+
     $('#email').on('blur', function () {
         let email = $(this).val();
 

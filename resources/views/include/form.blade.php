@@ -38,7 +38,7 @@ $sim_codes = \App\Models\sim_codes::all();
             <div class="input-group">
                 <div class="input-group">
                     <!-- Main number input 75% -->
-                    <input type="tel" id="phoneNumber" name="phone" class="form-control" style="flex: 0 0 65%; max-width: 65%;" placeholder="03xx0000000" maxlength="11" required>
+                    <input type="tel" id="phoneNumber" name="phone" class="form-control" placeholder="03xx0000000" maxlength="11" required>
                 </div>
             </div>
         </div>

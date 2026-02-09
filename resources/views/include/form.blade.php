@@ -37,17 +37,8 @@ $sim_codes = \App\Models\sim_codes::all();
             <label for="phone" class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
             <div class="input-group">
                 <div class="input-group">
-                    <!-- Prefix dropdown 25% -->
-                    <select id="phonePrefix" name="prefix" class="form-select" style="flex: 0 0 35%; max-width: 35%;"
-                        required>
-                        @foreach ($sim_codes as $sim)
-                            <option value="0{{$sim->code}}">0{{$sim->code}}</option>
-                        @endforeach
-                    </select>
-
                     <!-- Main number input 75% -->
-                    <input type="text" id="phoneNumber" name="phone" class="form-control"
-                        style="flex: 0 0 65%; max-width: 65%;" placeholder="1234567" maxlength="7" required>
+                    <input type="tel" id="phoneNumber" name="phone" class="form-control" style="flex: 0 0 65%; max-width: 65%;" placeholder="03xx0000000" maxlength="11" required>
                 </div>
             </div>
         </div>

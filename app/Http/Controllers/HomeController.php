@@ -68,18 +68,11 @@ class HomeController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|min:2|max:100|regex:/^[a-zA-Z\s]+$/',
             'email' => 'required|email|max:255',
-            'phone_prefix' => 'required|string|max:4',
-            'phone_number' => 'required|string|min:7|max:9',
+            'phone' => 'required|string|max:11',
             'subject' => 'required|string|min:3|max:150',
             'city' => 'required|string|min:3|max:150',
             'message' => 'required|string|max:1000',
         ]);
-
-        // Merge prefix + number
-        $validated['phone'] = $validated['phone_prefix'].$validated['phone_number'];
-
-        // Remove extra fields before saving
-        unset($validated['phone_prefix'], $validated['phone_number']);
 
         $bannedWords = config('bannedwords');
 

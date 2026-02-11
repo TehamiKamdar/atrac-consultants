@@ -242,7 +242,7 @@ class RegisterController extends Controller
                 if ($request->hasFile("step3.$field")) {
 
                     $file = $request->file("step3.$field");
-                    $fileName = $field . '_' . time() . '.' . $file->getClientOriginalExtension();
+                    $fileName = $field . '_' . $student->first_name . '.' . $file->getClientOriginalExtension();
 
                     $path = $file->storeAs($studentFolder, $fileName, 'public');
 

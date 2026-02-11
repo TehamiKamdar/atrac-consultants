@@ -65,4 +65,4 @@ Route::post('student/register', [RegisterController::class , 'store'])->name('st
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);
-Route::delete('download/student/document/{$studentId}', [DocumentController::class, 'destroy'])->name('student.document.destroy');
+Route::delete('delete/student/documents/{$studentId}', [DocumentController::class, 'destroy'])->name('student.document.destroy');

@@ -3000,6 +3000,8 @@
             $('#studentForm').on('submit', function (e) {
                 e.preventDefault(); // prevent default submit
 
+                if (!confirm('Are you sure you want to submit this application? You won’t be able to edit it afterwards.')) return;
+
                 validateDateInputs();
                 const step1 = JSON.parse(localStorage.getItem('student_step1'));
                 const step2 = prepareStep2Payload(JSON.parse(localStorage.getItem('student_step2')));
@@ -3083,9 +3085,8 @@
                                                         <img src="{{ asset('website/success-check-2.gif') }}" alt="">
                                                     </div>
                                                     <h3>Registration Successful!</h3>
-                                                    <p>Thank you for completing the form. We have received your information and will contact you shortly.
+                                                    <p>You can review and download documents from your dashboard. Thank You!
                                                     </p>
-                                                    <p>You can download your form from <a href='/generate/student/profile/${res.id}'>here</a>.</p>
                                                 </div>
                                             `)
                         localStorage.clear();

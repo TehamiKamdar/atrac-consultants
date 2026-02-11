@@ -210,7 +210,7 @@ class RegisterController extends Controller
             }
 
             // 4. Documents
-            $studentFolder = 'documents/' . Str::slug($student->first_name . '_' . $student->last_name) . '_documents';
+            $studentFolder = 'documents/' . $student->email . '_documents';
 
             if (!Storage::disk('public')->exists($studentFolder)) {
                 Storage::disk('public')->makeDirectory($studentFolder);

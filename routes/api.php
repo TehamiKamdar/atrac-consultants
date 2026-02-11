@@ -16,6 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 // routes/api.php
-Route::delete('/delete/student/document/{id}', [DocumentController::class, 'destroy'])
-    ->middleware('auth:sanctum'); // ya apni API auth
+Route::delete('/delete/student/document/{id}', [DocumentController::class, 'destroy']); // ya apni API auth
 

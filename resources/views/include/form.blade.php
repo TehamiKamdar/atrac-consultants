@@ -109,11 +109,7 @@ $sim_codes = \App\Models\sim_codes::all();
         <textarea class="form-control" id="message" name="message" rows="3"
             placeholder="Any specific questions or requirements..."></textarea>
     </div>
-
-    <div class="mb-4">
-        <input type="hidden" name="g_recaptcha_token" id="g-recaptcha-response">
-    </div>
-
+    
     <div class="d-grid">
         <button type="submit" class="btn btn-primary btn-lg fw-semibold" disabled>
             <i class="ri-calendar-check-line me-2"></i> Book Free Consultation

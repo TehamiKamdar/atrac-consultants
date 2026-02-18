@@ -166,15 +166,11 @@ class HomeController extends Controller
             'percentage' => 'required',
             'field' => 'required',
             'date' => 'required',
-            'prefix' => 'required',
             'office_location' => 'required|in:islamabad,karachi,lahore',
             'message' => 'nullable|string|min:5|max:1000',
         ], [
             'email.regex' => 'Only @gmail.com email addresses are allowed.',
         ]);
-
-        // 4️⃣ Combine prefix + phone
-        $phone = $validated['prefix'].$validated['phone'];
 
         // 5️⃣ Offices info
         $offices = [
@@ -196,7 +192,7 @@ class HomeController extends Controller
             'percentage' => $validated['percentage'],
             'field' => $validated['field'],
             'date' => $validated['date'],
-            'phone' => $phone,
+            'phone' => $validated['phone'],
             'office_location' => $validated['office_location'],
             'office_phone' => $officeData[0],
             'office_email' => $officeData[1],

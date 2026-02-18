@@ -36,10 +36,7 @@ $sim_codes = \App\Models\sim_codes::all();
         <div class="col-12 {{ $layout === 'wide' || $layout === 'modal' ? 'col-md-6' : 'mb-3' }}">
             <label for="phone" class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
             <div class="input-group">
-                <div class="input-group">
-                    <!-- Main number input 75% -->
                     <input type="tel" id="phoneNumber" name="phone" class="form-control" placeholder="03xx0000000" maxlength="11" required>
-                </div>
             </div>
         </div>
         <div class="col-12 {{ $layout === 'wide' || $layout === 'modal' ? 'col-md-6' : 'mb-3' }}">

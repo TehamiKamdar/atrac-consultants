@@ -155,7 +155,7 @@ class HomeController extends Controller
             'user_agent' => $req->userAgent(), // optional, bots ke patterns dekhne ke liye
         ]);
 
-        RateLimiter::hit($key, $decaySeconds);
+        // RateLimiter::hit($key, $decaySeconds);
 
         // 3️⃣ Validation
         $validated = $req->validate([

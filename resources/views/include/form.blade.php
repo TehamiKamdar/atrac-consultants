@@ -109,23 +109,10 @@ $sim_codes = \App\Models\sim_codes::all();
         <textarea class="form-control" id="message" name="message" rows="3"
             placeholder="Any specific questions or requirements..."></textarea>
     </div>
-    
+
     <div class="d-grid">
         <button type="submit" class="btn btn-primary btn-lg fw-semibold" disabled>
             <i class="ri-calendar-check-line me-2"></i> Book Free Consultation
         </button>
     </div>
 </form>
-
-{{-- <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
-
-<script>
-    grecaptcha.enterprise.ready(function () {
-        grecaptcha.enterprise.execute(
-            "{{ config('services.recaptcha.site_key') }}",
-            { action: 'consultation' }
-        ).then(function (token) {
-            document.getElementById('g-recaptcha-response').value = token;
-        });
-    });
-</script> --}}

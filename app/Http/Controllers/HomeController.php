@@ -131,14 +131,7 @@ class HomeController extends Controller
 
     public function consultRequest(Request $req)
     {
-        // 1️⃣ Recaptcha verification
-        // , RecaptchaEnterpriseService $recaptcha
-        // $token = $req->input('g_recaptcha_token');
-        // if (! $token || ! $recaptcha->verify($token, 'consultation', 0.5)) {
-        //     return back()->with('error', 'Captcha verification failed.');
-        // }
-
-        // 2️⃣ RateLimiter (1 request per month per IP)
+        // 2️ RateLimiter (1 request per month per IP)
         // $ip = $req->ip();
         // $key = 'consult-form:'.$ip;
         // $decaySeconds = 30 * 24 * 60 * 60; // 30 days
@@ -184,7 +177,7 @@ class HomeController extends Controller
 
         // 6️⃣ Prepare data for DB + Mail
         $data = [
-            'ip' => $$validated['ip'],
+            'ip' => $validated['ip'],
             'name' => strtolower($validated['name']),
             'email' => strtolower($validated['email']),
             'message' => strtolower($validated['message']) ?? '',

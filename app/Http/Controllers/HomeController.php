@@ -129,13 +129,14 @@ class HomeController extends Controller
         return redirect()->route('contact')->with('success', 'Thank you for your review!');
     }
 
-    public function consultRequest(Request $req, RecaptchaEnterpriseService $recaptcha)
+    public function consultRequest(Request $req)
     {
         // 1️⃣ Recaptcha verification
-        $token = $req->input('g_recaptcha_token');
-        if (! $token || ! $recaptcha->verify($token, 'consultation', 0.5)) {
-            return back()->with('error', 'Captcha verification failed.');
-        }
+        // , RecaptchaEnterpriseService $recaptcha
+        // $token = $req->input('g_recaptcha_token');
+        // if (! $token || ! $recaptcha->verify($token, 'consultation', 0.5)) {
+        //     return back()->with('error', 'Captcha verification failed.');
+        // }
 
         // 2️⃣ RateLimiter (1 request per month per IP)
         $ip = $req->ip();

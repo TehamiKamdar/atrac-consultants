@@ -121,7 +121,7 @@ $sim_codes = \App\Models\sim_codes::all();
     </div>
 </form>
 
-<script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
+{{-- <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
 <script>
     grecaptcha.enterprise.ready(function () {
@@ -132,4 +132,4 @@ $sim_codes = \App\Models\sim_codes::all();
             document.getElementById('g-recaptcha-response').value = token;
         });
     });
-</script>
+</script> --}}

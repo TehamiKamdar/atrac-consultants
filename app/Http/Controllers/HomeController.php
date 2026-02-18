@@ -139,13 +139,13 @@ class HomeController extends Controller
         // }
 
         // 2️⃣ RateLimiter (1 request per month per IP)
-        $ip = $req->ip();
-        $key = 'consult-form:'.$ip;
-        $decaySeconds = 30 * 24 * 60 * 60; // 30 days
+        // $ip = $req->ip();
+        // $key = 'consult-form:'.$ip;
+        // $decaySeconds = 30 * 24 * 60 * 60; // 30 days
 
-        if (RateLimiter::tooManyAttempts($key, 1)) {
-            return back()->with('error', "You have already submitted a request this month. Please wait for our response.");
-        }
+        // if (RateLimiter::tooManyAttempts($key, 1)) {
+        //     return back()->with('error', "You have already submitted a request this month. Please wait for our response.");
+        // }
         Log::info('Form submission received', [
             'ip' => $req->ip(),
             'email' => $req->email,

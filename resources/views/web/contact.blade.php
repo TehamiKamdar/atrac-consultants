@@ -222,221 +222,77 @@
         </div>
 
         <div class="row g-4">
-            <!-- Office 1: Karachi -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="office-card card">
-                    <div class="office-header">
-                        <div class="d-flex align-items-center">
-                            <div class="office-icon">
-                                <i class="ri-building-3-line fs-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="mb-1 fw-bold">Karachi</h4>
-                                <small class="opacity-90">Head Office</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-map-pin-2-line info-icon"></i>
+            <!-- Offices -->
+            @foreach ($offices as $office)
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="office-card card">
+                        <div class="office-header">
+                            <div class="d-flex align-items-center">
+                                <div class="office-icon">
+                                    <i class="ri-building-3-line fs-5"></i>
+                                </div>
                                 <div>
-                                    <h6 class="fw-regular mb-2">Address</h6>
-                                    <p class="text-muted mb-0 small">
-                                        Office #101, Silver Trade Center<br>
-                                        Block 13 A, Gulshan-e-Iqbal<br>
-                                        Karachi, Pakistan
-                                    </p>
+                                    <h4 class="mb-1 fw-bold">{{ $office->city }}</h4>
+                                    <small class="opacity-90">{{ $office->city == 'Karachi' ? 'Head Office' : 'Regional Office' }}</small>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-phone-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Contact</h6>
-                                    <div class="small">
-                                        <p class="mb-1">
-                                            <i class="ri-phone-fill text-muted me-1"></i>
-                                            <a href="tel:+923353737904" class="contact-link">+92 335 3737904</a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="ri-mail-fill text-muted me-1"></i>
-                                            <a href="mailto:apply@atracconsultants.com"
-                                                class="contact-link">apply@atracconsultants.com</a>
+                        <div class="card-body p-4">
+                            <div class="info-item">
+                                <div class="d-flex">
+                                    <i class="ri-map-pin-2-line info-icon"></i>
+                                    <div>
+                                        <h6 class="fw-regular mb-2">Address</h6>
+                                        <p class="text-muted mb-0 small">
+                                            {{ $office->address }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-time-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Hours</h6>
-                                    <p class="text-muted mb-0 small">
-                                        Monday-Saturday: 11AM - 8PM<br>
-                                        Sunday: Closed
-                                    </p>
+                            <div class="info-item">
+                                <div class="d-flex">
+                                    <i class="ri-phone-line info-icon"></i>
+                                    <div>
+                                        <h6 class="fw-regular mb-2">Contact</h6>
+                                        <div class="small">
+                                            <p class="mb-1">
+                                                <i class="ri-phone-fill text-muted me-1"></i>
+                                                <a href="tel:{{ $office->phone }}" class="contact-link">{{ $office->phone }}</a>
+                                            </p>
+                                            <p class="mb-0">
+                                                <i class="ri-mail-fill text-muted me-1"></i>
+                                                <a href="mailto:apply@atracconsultants.com"
+                                                    class="contact-link">apply@atracconsultants.com</a>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mt-4 pt-2">
-                            <a href="https://www.google.com/maps/place/Atrac+Consultants/@24.9033943,67.0735336,17z/data=!4m10!1m2!2m1!1sOffice+101+Silver+Trade+Center+Gulshan-e-Iqbal+Karachi!3m6!1s0x3eb33f7dc212e66b:0x9765b0d5311c30dd!8m2!3d24.9033377!4d67.0761097!15sCjZPZmZpY2UgMTAxIFNpbHZlciBUcmFkZSBDZW50ZXIgR3Vsc2hhbi1lLUlxYmFsIEthcmFjaGmSARZlZHVjYXRpb25hbF9jb25zdWx0YW504AEA!16s%2Fg%2F11mhpl3cjz?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D"
-                                target="_blank" class="map-btn">
-                                <i class="ri-map-pin-line"></i> View on Map
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Office 2: Islamabad -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="office-card card">
-                    <div class="office-header">
-                        <div class="d-flex align-items-center">
-                            <div class="office-icon">
-                                <i class="ri-government-line fs-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="mb-1 fw-bold">Islamabad</h4>
-                                <small class="opacity-90">Regional Office</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-map-pin-2-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Address</h6>
-                                    <p class="text-muted mb-0 small">
-                                        Office 4B, Fourth Floor, Idris Arcade<br>
-                                        Svc Road Jinnah Boulevard West<br>
-                                        DHA Phase 2, Islamabad
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-phone-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Contact</h6>
-                                    <div class="small">
-                                        <p class="mb-1">
-                                            <i class="ri-phone-fill text-muted me-1"></i>
-                                            <a href="tel:+923265209992" class="contact-link">+92 326 5209992</a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="ri-mail-fill text-muted me-1"></i>
-                                            <a href="apply@atracconsultants.com"
-                                                class="contact-link">apply@atracconsultants.com</a>
+                            <div class="info-item">
+                                <div class="d-flex">
+                                    <i class="ri-time-line info-icon"></i>
+                                    <div>
+                                        <h6 class="fw-regular mb-2">Hours</h6>
+                                        <p class="text-muted mb-0 small">
+                                            Monday-Saturday: 11AM - 8PM<br>
+                                            Sunday: Closed
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-time-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Hours</h6>
-                                    <p class="text-muted mb-0 small">
-                                        Monday-Saturday: 11AM - 8PM<br>
-                                        Sunday: Closed
-                                    </p>
-                                </div>
+                            <div class="mt-4 pt-2">
+                                <a href="{{ $office->map_location }}"
+                                    target="_blank" class="map-btn">
+                                    <i class="ri-map-pin-line"></i> View on Map
+                                </a>
                             </div>
-                        </div>
-
-                        <div class="mt-4 pt-2">
-                            <a href="https://www.google.com/maps/place/Atrac+Consultants+-+Islamabad/@33.5338878,73.0911186,14z/data=!4m10!1m2!2m1!1sOffice+4B+Idris+Arcade+DHA+Phase+2+Islamabad!3m6!1s0x38dfedcdb1eb54a1:0x6950c5282ffe670a!8m2!3d33.5338878!4d73.1292274!15sCixPZmZpY2UgNEIgSWRyaXMgQXJjYWRlIERIQSBQaGFzZSAyIElzbGFtYWJhZJIBFmVkdWNhdGlvbmFsX2NvbnN1bHRhbnTgAQA!16s%2Fg%2F11xlyy9px5?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D"
-                                target="_blank" class="map-btn">
-                                <i class="ri-map-pin-line"></i> View on Map
-                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Office 3: Lahore (New Office) -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="office-card card">
-                    <div class="office-header">
-                        <div class="d-flex align-items-center">
-                            <div class="office-icon">
-                                <i class="ri-store-2-line fs-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="mb-1 fw-bold">Lahore</h4>
-                                <small class="opacity-90">Regional Office</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-map-pin-2-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Address</h6>
-                                    <p class="text-muted mb-0 small">
-                                        First Floor, Ali Tower, Office 105 &, 106<br>
-                                        Gulberg III, MM Alam Rd, Lahore<br>
-                                        Punjab, Pakistan
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-phone-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Contact</h6>
-                                    <div class="small">
-                                        <p class="mb-1">
-                                            <i class="ri-phone-fill text-muted me-1"></i>
-                                            <a href="tel:+923285209992" class="contact-link">+92 328 5209992</a>
-                                        </p>
-                                        <p class="mb-0">
-                                            <i class="ri-mail-fill text-muted me-1"></i>
-                                            <a href="mailto:apply@atracconsultants.com"
-                                                class="contact-link">apply@atracconsultants.com</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-item">
-                            <div class="d-flex">
-                                <i class="ri-time-line info-icon"></i>
-                                <div>
-                                    <h6 class="fw-regular mb-2">Hours</h6>
-                                    <p class="text-muted mb-0 small">
-                                        Monday-Saturday: 11AM - 8PM<br>
-                                        Sunday: Closed
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 pt-2">
-                            <a href="https://www.google.com/maps/place/Atrac+Consultants+-+Lahore/@31.5115198,74.3511659,17z/data=!3m1!4b1!4m6!3m5!1s0x391905dd26af6b71:0xbdcb3d3a25f7fe74!8m2!3d31.5115198!4d74.3511659!16s%2Fg%2F11yxsghsw5?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D" target="_blank"
-                                class="map-btn">
-                                <i class="ri-map-pin-line"></i> View on Map
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
 

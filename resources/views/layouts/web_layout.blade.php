@@ -99,9 +99,8 @@
 
                     <!-- Countries Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link-item" href="#" id="countriesDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Countries
+                        <a class="nav-link-item" href="#" id="countriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Study In
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="countriesDropdown"
                             style="background-color: #f8f8f8; width: 400px;">

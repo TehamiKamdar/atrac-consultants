@@ -10,6 +10,7 @@ use App\Models\country;
 use App\Models\countrydetails;
 use App\Models\faq;
 use App\Models\fields;
+use App\Models\Office;
 use App\Models\review;
 use App\Models\sim_codes;
 use App\Models\university;
@@ -50,8 +51,8 @@ class HomeController extends Controller
     public function showContactForm()
     {
         $sim_codes = sim_codes::all();
-
-        return view('web.contact', compact('sim_codes'));
+        $offices = Office::all();
+        return view('web.contact', compact('sim_codes', 'offices'));
     }
 
     public function contact(Request $request)

@@ -46,7 +46,7 @@ $offices = \App\Models\Office::where('status', '1')->get();
             <select class="form-select" id="office_location" name="office_location" required>
                 <option value="" selected disabled>Select Location</option>
                 @foreach ($offices as $office)
-                    <option value="{{ $office->city }}">{{ $office->city }}</option>
+                    <option value="{{ $office->city->name }}">{{ucfirst( $office->city->name )}}</option>
                 @endforeach
             </select>
         </div>

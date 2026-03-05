@@ -32,6 +32,6 @@ class studentapplicationdetail extends Model
 
     public function university()
     {
-        return $this->belongsTo(University::class);
+        return $this->belongsTo(university::class, 'university_id',);
     }
 }

@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    // use HasRoles;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +26,8 @@ class User extends Authenticatable
         'email',
         'password',
         'username',
-        'office'
+        'office',
+        'status',
     ];
 
     /**
@@ -58,4 +59,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
 }

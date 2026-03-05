@@ -232,8 +232,8 @@
                                     <i class="ri-building-3-line fs-5"></i>
                                 </div>
                                 <div>
-                                    <h4 class="mb-1 fw-bold">{{ $office->city }}</h4>
-                                    <small class="opacity-90">{{ $office->city == 'Karachi' ? 'Head Office' : 'Regional Office' }}</small>
+                                    <h4 class="mb-1 fw-bold">{{ ucfirst($office->city->name) }}</h4>
+                                    <small class="opacity-90">{{ ucfirst($office->city->name) == 'Karachi' ? 'Head Office' : 'Regional Office' }}</small>
                                 </div>
                             </div>
                         </div>

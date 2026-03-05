@@ -22,6 +22,7 @@ class consults extends Model
         'status',
         'date',
         'time',
-        'reason'
+        'reason',
+        'is_seen'
     ];
 }

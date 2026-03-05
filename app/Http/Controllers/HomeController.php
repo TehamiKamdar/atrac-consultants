@@ -51,7 +51,7 @@ class HomeController extends Controller
     public function showContactForm()
     {
         $sim_codes = sim_codes::all();
-        $offices = Office::all();
+        $offices = Office::where('status', '1')->get();
         return view('web.contact', compact('sim_codes', 'offices'));
     }
 

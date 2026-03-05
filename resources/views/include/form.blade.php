@@ -1,6 +1,7 @@
 @php
 $fields = \App\Models\fields::orderBy('field', 'asc')->get();
 $sim_codes = \App\Models\sim_codes::all();
+$offices = \App\Models\Office::where('status', '1')->get();
 @endphp
 <style>
     .btn:disabled{
@@ -44,9 +45,9 @@ $sim_codes = \App\Models\sim_codes::all();
                     class="text-danger">*</span></label>
             <select class="form-select" id="office_location" name="office_location" required>
                 <option value="" selected disabled>Select Location</option>
-                <option value="karachi">Karachi</option>
-                <option value="islamabad">Islamabad</option>
-                <option value="lahore">Lahore</option>
+                @foreach ($offices as $office)
+                    <option value="{{ $office->city }}">{{ $office->city }}</option>
+                @endforeach
             </select>
         </div>
     </div>

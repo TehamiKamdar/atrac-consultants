@@ -65,7 +65,7 @@
         }
 
         .blog-img {
-            height: 250px !important;
+            height: 100% !important;
             object-fit: cover !important;
             width: 100% !important;
         }
@@ -168,52 +168,22 @@
         <!-- Blog Posts -->
         <div class="row">
             <!-- Post 1 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card blog-card">
-                    <img src="https://source.unsplash.com/random/600x400/?garden" class="card-img-top blog-img" alt="Blog Post Image">
-                    <div class="card-body">
-                        <h3 class="blog-title"><a href="#">Organic Gardening for Beginners</a></h3>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> June 10, 2023</span>
-                            <span class="ms-2"><i class="far fa-user"></i> By Michael Green</span>
+            @foreach ($blogs as $blog)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card blog-card">
+                        <img src="http://localhost:8000{{ $blog->thumbnail }}" class="card-img-top blog-img" alt="Blog Post Image">
+                        <div class="card-body">
+                            <h3 class="blog-title"><a href="#">{{ $blog->title }}</a></h3>
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($blog->published_at)->format('F d, Y') }}</span>
+                                <span class="ms-2"><i class="far fa-user"></i> By {{ $blog->user->name }}</span>
+                            </div>
+                            <p class="blog-excerpt">{{ $blog->excerpt }}</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                         </div>
-                        <p class="blog-excerpt">Learn how to start your own organic garden with these simple tips and tricks that will help you grow healthy, pesticide-free vegetables...</p>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
-
-            <!-- Post 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card blog-card">
-                    <img src="https://source.unsplash.com/random/600x400/?recycling" class="card-img-top blog-img" alt="Blog Post Image">
-                    <div class="card-body">
-                        <h3 class="blog-title"><a href="#">The Complete Guide to Home Recycling</a></h3>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> June 5, 2023</span>
-                            <span class="ms-2"><i class="far fa-user"></i> By Emma Wilson</span>
-                        </div>
-                        <p class="blog-excerpt">Everything you need to know about setting up an efficient recycling system at home to reduce your environmental footprint and contribute to a circular economy...</p>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Post 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card blog-card">
-                    <img src="https://source.unsplash.com/random/600x400/?electric-car" class="card-img-top blog-img" alt="Blog Post Image">
-                    <div class="card-body">
-                        <h3 class="blog-title"><a href="#">Electric Vehicles: Myths vs Facts</a></h3>
-                        <div class="blog-meta">
-                            <span><i class="far fa-calendar-alt"></i> May 28, 2023</span>
-                            <span class="ms-2"><i class="far fa-user"></i> By David Chen</span>
-                        </div>
-                        <p class="blog-excerpt">We debunk the most common misconceptions about electric vehicles and provide factual information to help you make an informed decision about your next car purchase...</p>
-                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <!-- Pagination -->

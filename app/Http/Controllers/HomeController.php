@@ -37,11 +37,6 @@ class HomeController extends Controller
         return view('web.about');
     }
 
-    public function blog()
-    {
-        return view('web.blog');
-    }
-
     public function faqs()
     {
         $faqs = faq::all();

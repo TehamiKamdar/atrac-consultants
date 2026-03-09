@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Models\country;
 use Spatie\Sitemap\Sitemap;
 use App\Models\universities;
@@ -30,7 +31,9 @@ Route::get('/', [HomeController::class , 'index'])->name('home');
 
 Route::get('/about', [HomeController::class , 'about'])->name('about');
 
-Route::get('/blog', [HomeController::class , 'blog'])->name('blog');
+Route::get('/blogs', [BlogController::class , 'index'])->name('blog');
+
+Route::get('/blog/{id}', [BlogController::class , 'show'])->name('blog.show');
 
 Route::get('/faqs', [HomeController::class , 'faqs'])->name('faqs');
 

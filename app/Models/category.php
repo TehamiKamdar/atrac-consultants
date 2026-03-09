@@ -2,23 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class category extends Model
+class Category extends Model
 {
-    use HasFactory;
-    protected $table = "categories";
-    protected $fillable = [
-        'name',
-        'slug',
-    ];
-
-    /**
-     * Blogs relation
-     */
-    public function blogs()
+    protected $fillable = ['name', 'slug', 'description'];
+    public function posts()
     {
-        return $this->belongsToMany(Blog::class, 'blog_category');
+        return $this->belongsToMany(Post::class, 'post_category');
     }
 }

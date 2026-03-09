@@ -179,7 +179,7 @@
                                 <span class="ms-2"><i class="far fa-user"></i> By {{ $blog->user->name }}</span>
                             </div>
                             <p class="blog-excerpt">{{ $blog->excerpt }}</p>
-                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            <a href="{{ $blog->url }}" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>

@@ -173,7 +173,7 @@
                     <div class="card blog-card">
                         <img src="http://localhost:8000{{ $blog->thumbnail }}" class="card-img-top blog-img" alt="Blog Post Image">
                         <div class="card-body">
-                            <h3 class="blog-title"><a href="#">{{ $blog->title }}</a></h3>
+                            <h3 class="blog-title"><a href="{{ $blog->url }}">{{ $blog->title }}</a></h3>
                             <div class="blog-meta">
                                 <span><i class="far fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($blog->published_at)->format('F d, Y') }}</span>
                                 <span class="ms-2"><i class="far fa-user"></i> By {{ $blog->user->name }}</span>

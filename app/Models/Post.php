@@ -31,6 +31,10 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function faqs(){
+        return $this->hasMany(PostFaq::class);
+    }
+
     // SEO ke liye helpful accessors (blade mein easy use)
     public function getMetaTitleAttribute($value)
     {

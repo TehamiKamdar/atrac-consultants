@@ -12,8 +12,9 @@ class BlogController extends Controller
         $blogs = Post::where('is_published', '1')->get();
         return view('web.blog', compact('blogs'));
     }
-    public function show($id)
+    public function show($slug)
     {
-        return view('web.blog_details');
+        $details = Post::where('slug', $slug)->first();
+        return view('web.blog_details', compact('details'));
     }
 }

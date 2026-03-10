@@ -1,7 +1,7 @@
 @extends('layouts.web_layout')
 
 @push('title')
-
+{{ $details->title }}
 @endpush
 
 @section('styles')
@@ -39,23 +39,113 @@
             --image-aspect-ratio: 16/9;
         }
 
-        body {
-            font-family: 'Bambino', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-color);
-            background-color: #ffffff;
-            line-height: var(--body-line-height);
-            overflow-x: hidden;
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Bambino-Regular', sans-serif;
         }
 
-        /* Bambino Font Weights */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Bambino', sans-serif;
-            font-weight: 600;
-            line-height: var(--heading-line-height);
+        a,p {
+            font-family: 'Bambino-Light', sans-serif;
+        }
+
+        ul span {
+            font-family: 'Bambino-Light', sans-serif;
+        }
+
+        button, .btn {
+            font-family: 'Bambino-Light', sans-serif;
+        }
+
+        /* Custom Accordion Styles */
+        .custom-accordion .accordion-item {
+            background-color: white;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .custom-accordion .accordion-item:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .custom-accordion .accordion-button {
+            background-color: white;
             color: var(--dark-text);
-            letter-spacing: -0.02em;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 20px 25px;
+            border: none;
+            box-shadow: none;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .custom-accordion .accordion-button:not(.collapsed) {
+            background-color: var(--primary-light);
+            color: var(--dark-green);
+            box-shadow: none;
+        }
+
+        .custom-accordion .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        /* Plus/Minus Icons */
+        .custom-accordion .accordion-button::after {
+            display: none; /* Hide default Bootstrap arrow */
+        }
+
+        .custom-accordion .accordion-button .icon-container {
+            position: absolute;
+            right: 25px;
+            transition: var(--transition);
+        }
+
+        .custom-accordion .accordion-button .icon-plus {
+            display: inline-block;
+            color: var(--primary-green);
+            font-size: 1.25rem;
+        }
+
+        .custom-accordion .accordion-button:not(.collapsed) .icon-plus {
+            display: none;
+        }
+
+        .custom-accordion .accordion-button .icon-minus {
+            display: none;
+            color: var(--dark-green);
+            font-size: 1.25rem;
+        }
+
+        .custom-accordion .accordion-button:not(.collapsed) .icon-minus {
+            display: inline-block;
+        }
+
+        /* Accordion Body */
+        .custom-accordion .accordion-body {
+            padding: 25px;
+            background-color: white;
+            color: var(--text-color);
+            border-top: 1px solid var(--primary-light);
+        }
+
+        .custom-accordion .accordion-body p {
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        .custom-accordion .accordion-header {
+            margin: 0px !important;
+            line-height: 1.7;
         }
 
         /* Container Width Optimization */
@@ -77,7 +167,7 @@
         }
 
         .navbar-brand {
-            font-family: 'Bambino', sans-serif;
+
             font-weight: 700;
             font-size: 1.75rem;
             color: var(--primary-green) !important;
@@ -96,7 +186,7 @@
         }
 
         .nav-link {
-            font-family: 'Bambino', sans-serif;
+
             font-weight: 500;
             color: var(--dark-text) !important;
             padding: 8px 16px !important;
@@ -125,14 +215,14 @@
         }
 
         /* Hero Section - Minimal */
-        .hero-section {
+        .hero-blog {
             padding: 40px 0 20px;
             background: linear-gradient(to bottom, var(--primary-light) 0%, white 100%);
         }
 
         .category-badge {
             display: inline-block;
-            font-family: 'Bambino', sans-serif;
+
             font-weight: 600;
             font-size: 0.875rem;
             padding: 6px 16px;
@@ -342,7 +432,7 @@
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            font-family: 'Bambino', sans-serif;
+
             line-height: 1;
             margin-bottom: 8px;
         }
@@ -369,7 +459,7 @@
         }
 
         .widget-title {
-            font-family: 'Bambino', sans-serif;
+
             font-weight: 600;
             font-size: 1.2rem;
             margin-bottom: 20px;
@@ -392,7 +482,7 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             margin-bottom: 16px;
-            font-family: 'Bambino', sans-serif;
+
             font-size: 0.95rem;
         }
 
@@ -412,7 +502,7 @@
             border-radius: 40px;
             font-weight: 600;
             width: 100%;
-            font-family: 'Bambino', sans-serif;
+
             font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
@@ -424,12 +514,12 @@
         }
 
         /* Country List */
-        .country-list {
+        .category-list {
             list-style: none;
             padding: 0;
         }
 
-        .country-list li {
+        .category-list li {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -437,23 +527,23 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .country-list li:last-child {
+        .category-list li:last-child {
             border-bottom: none;
         }
 
-        .country-list a {
+        .category-list a {
             text-decoration: none;
             color: var(--text-color);
             font-weight: 500;
             transition: var(--transition);
         }
 
-        .country-list a:hover {
+        .category-list a:hover {
             color: var(--primary-green);
             padding-left: 5px;
         }
 
-        .visa-rate {
+        .category-count {
             background: var(--primary-light);
             color: var(--primary-green);
             padding: 4px 12px;
@@ -566,45 +656,6 @@
             color: var(--primary-green);
         }
 
-        /* Comments */
-        .comment {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .comment-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .comment-author {
-            font-weight: 600;
-            color: var(--dark-text);
-            margin-bottom: 4px;
-        }
-
-        .comment-date {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-bottom: 8px;
-        }
-
-        .comment-text {
-            margin-bottom: 8px;
-        }
-
-        .comment-reply {
-            color: var(--primary-green);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
         /* Related Posts */
         .related-grid {
             display: grid;
@@ -653,102 +704,6 @@
             font-size: 0.8rem;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--dark-bg);
-            color: white;
-            padding: 60px 0 30px;
-            margin-top: 60px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 991px) {
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .footer-logo {
-            font-family: 'Bambino', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-green);
-            text-decoration: none;
-        }
-
-        .footer-text {
-            color: rgba(255,255,255,0.7);
-            margin: 16px 0;
-            line-height: 1.6;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 12px;
-        }
-
-        .footer-social a {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            transition: var(--transition);
-        }
-
-        .footer-social a:hover {
-            background: var(--primary-green);
-            transform: translateY(-3px);
-        }
-
-        .footer-links h5 {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-green);
-            padding-left: 5px;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 40px;
-            padding-top: 30px;
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-        }
-
         /* WhatsApp Float Button - Convert */
         .whatsapp-float {
             position: fixed;
@@ -790,7 +745,7 @@
                 display: none;
             }
         }
-    </style>
+</style>
 @endsection
 
 @section('content')
@@ -798,36 +753,39 @@
     <i class="ri-whatsapp-line"></i>
 </a>
 <!-- Hero Section -->
-<section class="hero-section">
+<section class="hero-blog">
     <div class="container">
         <div class="category-badge">
             <i class="ri-flight-takeoff-line"></i> VISA GUIDE · COUNTRY INSIGHTS
         </div>
 
         <h1 class="blog-title">
-            Top 5 Countries with 100% Visa Success Rate for Indian Students in 2024
+            {{ $details->title }}
         </h1>
 
         <div class="blog-meta">
             <div class="author-wrapper">
                 <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                     alt="Dr. Rajesh Kumar"
+                     alt="{{ $details->user->name === 'Admin' ? 'Dr. Uzair Yameen' : $details->user->name }}"
                      class="author-avatar"
                      loading="eager">
                 <div>
-                    <div class="author-name">Dr. Rajesh Kumar</div>
-                    <div class="author-title">Senior Visa Consultant · 12+ Years</div>
+                    <div class="author-name">{{ $details->user->name === 'Admin' ? 'Dr. Uzair Yameen' : $details->user->name }}</div>
+                    <div class="author-title">Senior Visa Consultant · 5+ Years</div>
                 </div>
             </div>
 
             <div class="meta-item">
                 <i class="ri-calendar-line"></i>
-                <span>March 15, 2024</span>
+                <span>{{ \Carbon\Carbon::parse($details->published_at)->format('F d, Y') }}</span>
             </div>
-
+            @php
+                $wordCount = str_word_count(strip_tags($details->content));
+                $minutes = ceil($wordCount / 250);
+            @endphp
             <div class="meta-item">
                 <i class="ri-time-line"></i>
-                <span>7 min read</span>
+                <span>{{ $minutes }} min read</span>
             </div>
 
             <div class="meta-item">
@@ -842,107 +800,17 @@
 <section class="container">
     <!-- Featured Image - Fixed Aspect Ratio -->
     <div class="featured-image-wrapper">
-        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-             alt="Students studying abroad"
-             class="featured-image"
-             width="1200"
-             height="675"
-             loading="eager"
-             fetchpriority="high">
+        <img src="http://localhost:8000{{ $details->featured_image }}" alt="{{ $details->slug }}-image" class="featured-image" loading="lazy" fetchpriority="high">
     </div>
 
     <!-- Content Grid -->
     <div class="content-wrapper">
         <!-- Main Blog Content -->
         <article class="blog-content">
-            <p><strong>Are you dreaming of studying abroad but worried about visa rejection?</strong> You're not alone. Every year, thousands of Indian students face anxiety over visa approvals. But here's the good news - some countries have consistently high visa success rates for Indian students.</p>
-
-            <p>In this comprehensive guide, I'll share the top 5 countries with nearly 100% visa success rates, backed by our consultancy's 12 years of experience and official data from immigration departments.</p>
-
-            <!-- Stats Card -->
-            <div class="stats-card">
-                <div class="stats-grid">
-                    <div>
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Overall Success</div>
-                    </div>
-                    <div>
-                        <div class="stat-number">15K+</div>
-                        <div class="stat-label">Students Placed</div>
-                    </div>
-                    <div>
-                        <div class="stat-number">12+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                </div>
-            </div>
-
-            <h2>🇨🇦 1. Canada - The Most Student-Friendly Country</h2>
-            <p>Canada continues to be the top destination for Indian students with a visa success rate of <strong>85-90%</strong> through SDS (Student Direct Stream) category. The Canadian government has set a target to welcome 1.5 million immigrants by 2025, making it easier for students to get PR.</p>
-
-            <div class="highlight-box">
-                <h4>✨ Why Canada?</h4>
-                <ul>
-                    <li><strong>SDS Visa:</strong> Faster processing in 20-45 days</li>
-                    <li><strong>Work Rights:</strong> 20 hours/week during studies, full-time during breaks</li>
-                    <li><strong>Post-Study Work:</strong> Up to 3 years PGWP</li>
-                    <li><strong>PR Pathway:</strong> Express Entry and PNP programs</li>
-                </ul>
-            </div>
-
-            <h2>🇦🇺 2. Australia - High Success Rate with Genuine Student Requirement</h2>
-            <p>Australia has simplified its visa process with the new Genuine Student (GS) requirement replacing GTE. Success rate: <strong>85-90%</strong> for well-documented applications.</p>
-
-            <div class="country-card">
-                <img src="https://flagcdn.com/au.svg" alt="Australia Flag" class="country-flag">
-                <div class="country-info">
-                    <h5>Australia</h5>
-                    <p>Processing time: 2-4 weeks</p>
-                </div>
-                <span class="visa-badge">88% Success</span>
-            </div>
-
-            <h2>🇩🇪 3. Germany - Free Education + High Visa Success</h2>
-            <p>Germany offers tuition-free education in public universities. Visa success rate: <strong>90-95%</strong> for students with APS certificate and blocked account.</p>
-
-            <h2>🇳🇿 4. New Zealand - Friendly Immigration Policies</h2>
-            <p>New Zealand has streamlined visa process for Indian students. Success rate: <strong>85-90%</strong> with proper documentation.</p>
-
-            <h2>🇮🇪 5. Ireland - Growing Hub for Tech Students</h2>
-            <p>Ireland's visa success rate for Indian students: <strong>88-92%</strong>. Strong tech job market with companies like Google, Facebook, and Apple having European HQ here.</p>
-
-            <!-- Quote Block -->
-            <div class="highlight-box">
-                <h4>💡 Pro Tip from Our Experience</h4>
-                <p>"The key to 100% visa success is not just choosing the right country - it's about proper documentation, genuine academic intent, and sufficient funds. We've helped 15,000+ students achieve their study abroad dreams with proper guidance."</p>
-                <p style="margin-top: 16px; font-weight: 600;">- Dr. Rajesh Kumar, Senior Visa Consultant</p>
-            </div>
-
-            <h3>📊 Visa Success Rate Comparison 2024</h3>
-            <ul>
-                <li><strong>Canada (SDS):</strong> 85-90%</li>
-                <li><strong>Australia:</strong> 85-90%</li>
-                <li><strong>Germany:</strong> 90-95%</li>
-                <li><strong>New Zealand:</strong> 85-90%</li>
-                <li><strong>Ireland:</strong> 88-92%</li>
-                <li><strong>UK:</strong> 80-85%</li>
-                <li><strong>USA:</strong> 75-80%</li>
-            </ul>
-
-            <h3>🎯 Documents Required for 100% Success</h3>
-            <ol>
-                <li>Valid passport with minimum 18 months validity</li>
-                <li>Acceptance letter from recognized institution</li>
-                <li>Proof of funds (tuition + living expenses)</li>
-                <li>English proficiency scores (IELTS/TOEFL/PTE)</li>
-                <li>Academic transcripts and certificates</li>
-                <li>Statement of Purpose (SOP) - Most Critical</li>
-                <li>Medical insurance and health checkup</li>
-                <li>Police clearance certificate</li>
-            </ol>
+            {!! $details->content !!}
 
             <!-- Author Box -->
-            <div class="author-box">
+            {{-- <div class="author-box">
                 <div class="author-box-content">
                     <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
                          alt="Dr. Rajesh Kumar"
@@ -959,35 +827,51 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Comments -->
-            <h3 style="margin: 40px 0 24px;">Student Discussions</h3>
-
-            <div class="comment">
-                <img src="https://images.unsplash.com/photo-1494790108777-466fd006c0d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                     alt="User"
-                     class="comment-avatar"
-                     loading="lazy">
-                <div>
-                    <div class="comment-author">Priya Sharma</div>
-                    <div class="comment-date">2 days ago</div>
-                    <p class="comment-text">Thank you for this detailed guide! I'm planning for Canada and was worried about visa. Your SDS tips are really helpful. Can you share which consultants are best for Canada?</p>
-                    <a href="#" class="comment-reply"><i class="ri-reply-line"></i> Reply</a>
-                </div>
-            </div>
-
-            <div class="comment">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                     alt="User"
-                     class="comment-avatar"
-                     loading="lazy">
-                <div>
-                    <div class="comment-author">Amit Patel</div>
-                    <div class="comment-date">5 days ago</div>
-                    <p class="comment-text">I got my Australia visa last month through SDS! The process was smooth. Thanks for the tips about document organization.</p>
-                    <a href="#" class="comment-reply"><i class="ri-reply-line"></i> Reply</a>
-                </div>
+            </div> --}}
+            <!-- Comment Form -->
+            <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: var(--card-shadow); " class="custom-accordion">
+                <h4 style="margin-bottom: 40px;">FAQs related to {{ $details->title }}</h4>
+                @forelse ($details->faqs as $key => $faq)
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ $key + 1 }}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ $key + 1 }}" aria-expanded="true"
+                                    aria-controls="collapse{{ $key + 1 }}">
+                                {{ $faq->question }}
+                                <span class="icon-container">
+                                    <i class="ri-add-fill icon-plus"></i>
+                                    <i class="ri-subtract-fill icon-minus"></i>
+                                </span>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ $key + 1 }}" class="accordion-collapse collapse show"
+                            aria-labelledby="heading{{ $key + 1 }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>{!! $faq->answer !!}</p>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingEmpty">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseEmpty" aria-expanded="true"
+                                    aria-controls="collapseEmpty">
+                                No FAQs are available at this time
+                                <span class="icon-container">
+                                    <i class="ri-add-fill icon-plus"></i>
+                                    <i class="ri-subtract-fill icon-minus"></i>
+                                </span>
+                            </button>
+                        </h2>
+                        <div id="collapseEmpty" class="accordion-collapse collapse show"
+                            aria-labelledby="headingEmpty" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                <p>Our team is researching to provide you with the best details possible. Stay tuned.</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
             </div>
 
             <!-- Comment Form -->
@@ -1045,30 +929,30 @@
                 <h4 class="widget-title">
                     <i class="ri-flight-takeoff-line"></i> Top Visa Rate Countries
                 </h4>
-                <ul class="country-list">
+                <ul class="category-list">
                     <li>
                         <a href="#">Germany</a>
-                        <span class="visa-rate">92%</span>
+                        <span class="category-count">92%</span>
                     </li>
                     <li>
                         <a href="#">Ireland</a>
-                        <span class="visa-rate">90%</span>
+                        <span class="category-count">90%</span>
                     </li>
                     <li>
                         <a href="#">Canada (SDS)</a>
-                        <span class="visa-rate">88%</span>
+                        <span class="category-count">88%</span>
                     </li>
                     <li>
                         <a href="#">Australia</a>
-                        <span class="visa-rate">87%</span>
+                        <span class="category-count">87%</span>
                     </li>
                     <li>
                         <a href="#">New Zealand</a>
-                        <span class="visa-rate">86%</span>
+                        <span class="category-count">86%</span>
                     </li>
                     <li>
                         <a href="#">UK</a>
-                        <span class="visa-rate">82%</span>
+                        <span class="category-count">82%</span>
                     </li>
                 </ul>
             </div>
@@ -1114,28 +998,23 @@
             </div>
 
             <!-- Download Guide -->
-            <div class="widget" style="background: var(--primary-light);">
+            {{-- <div class="widget" style="background: var(--primary-light);">
                 <h4 class="widget-title" style="border-bottom-color: var(--primary-green);">
                     <i class="ri-file-pdf-line"></i> Free Visa Guide
                 </h4>
                 <p style="margin-bottom: 16px;">Download our comprehensive visa guide with SOP samples and document checklist.</p>
                 <a href="#" class="btn-submit" style="text-align: center; display: block; text-decoration: none;">Download PDF →</a>
-            </div>
+            </div> --}}
 
             <!-- Tags -->
             <div class="widget">
                 <h4 class="widget-title">
-                    <i class="ri-price-tag-line"></i> Popular Topics
+                    <i class="ri-price-tag-line"></i> Popular Tags
                 </h4>
                 <div class="tags-cloud">
-                    <a href="#" class="tag">Canada Visa</a>
-                    <a href="#" class="tag">SDS Program</a>
-                    <a href="#" class="tag">Germany APS</a>
-                    <a href="#" class="tag">Australia Visa</a>
-                    <a href="#" class="tag">Study in UK</a>
-                    <a href="#" class="tag">Ireland</a>
-                    <a href="#" class="tag">SOP Writing</a>
-                    <a href="#" class="tag">Scholarships</a>
+                    @foreach ($details->tags as $tag)
+                    <a href="#" class="tag">{{ ucwords($tag->name) }}</a>
+                    @endforeach
                 </div>
             </div>
         </aside>

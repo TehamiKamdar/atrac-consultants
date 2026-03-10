@@ -877,19 +877,19 @@
             <!-- Comment Form -->
             <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: var(--card-shadow); margin-top: 40px;">
                 <h4 style="margin-bottom: 20px;">Have a Question? Ask Our Expert</h4>
-                <form>
+                <form id="blogForm">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Your Name *" style="padding: 12px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                            <input type="text" name="name" class="form-control" placeholder="Your Name *">
                         </div>
                         <div class="col-md-6">
-                            <input type="email" class="form-control" placeholder="Your Email *" style="padding: 12px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email *">
                         </div>
                         <div class="col-12">
-                            <textarea class="form-control" rows="4" placeholder="Your Question *" style="padding: 12px; border-radius: 8px; border: 1px solid #e0e0e0;"></textarea>
+                            <textarea class="form-control" name="question" rows="4" placeholder="Your Question *"></textarea>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn-submit">Ask Expert →</button>
+                            <button type="submit" class="btn-submit">Submit Question →</button>
                         </div>
                     </div>
                 </form>
@@ -1058,5 +1058,70 @@
 @endsection
 
 @section('scripts')
+<script>
+$(function(){
 
+    $(document).on('submit', '#blogForm', function(e){
+        e.preventDefault();
+
+        let form = $(this);
+        let button = form.find('.btn-submit');
+
+        $.ajax({
+            url: '/post/question',
+            method: 'POST',
+            headers:{
+                'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+            },
+            data : form.serialize() + '&post_id={{ $details->id }}',
+            beforeSend:function(){
+                button.prop('disabled', true)
+                      .html('<i class="ri-loader-4-line ri-spin"></i> Submitting Question');
+            },
+
+            success:function(res){
+                iziToast.success({
+                    title: 'Success',
+                    message: res.message,
+                    position: 'topRight',
+                    timeout: 3000
+                });
+
+                form.trigger('reset');
+
+                button.prop('disabled', false)
+                      .html('Submit Question →');
+            },
+
+            error:function(xhr){
+
+                button.prop('disabled', false)
+                      .html('Submit Question →');
+
+                if(xhr.responseJSON && xhr.responseJSON.errors){
+
+                    $.each(xhr.responseJSON.errors, function(key, value){
+                        iziToast.error({
+                            title: 'Error',
+                            message: value[0],
+                            position: 'topRight'
+                        });
+                    });
+
+                } else {
+
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Your Question contains inappropriate words',
+                        position: 'topRight'
+                    });
+
+                }
+            }
+        });
+
+    });
+
+});
+</script>
 @endsection

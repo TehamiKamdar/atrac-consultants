@@ -11,6 +11,8 @@ class PostFaq extends Model
     protected $table = 'post_faqs';
     protected $fillable = [
         'post_id',
+        'name',
+        'email',
         'question',
         'answer'
     ];

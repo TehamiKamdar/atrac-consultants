@@ -2,12 +2,21 @@
 
 function containsBannedWords(array $inputs, array $bannedWords): bool
 {
-    foreach ($inputs as $field => $value) {
+    foreach ($inputs as $value) {
+
+        if (!is_string($value)) {
+            continue;
+        }
+
         foreach ($bannedWords as $word) {
-            if (stripos($value, $word) !== false) { // case-insensitive
+
+            $pattern = '/\b' . preg_quote($word, '/') . '\b/i';
+
+            if (preg_match($pattern, $value)) {
                 return true;
             }
         }
     }
+
     return false;
 }

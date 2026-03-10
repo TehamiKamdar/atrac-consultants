@@ -32,8 +32,8 @@ Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/about', [HomeController::class , 'about'])->name('about');
 
 Route::get('/blogs', [BlogController::class , 'index'])->name('blog');
-
 Route::get('/blog/{id}', [BlogController::class , 'show'])->name('blog.show');
+Route::post('/post/question', [BlogController::class , 'question']);
 
 Route::get('/faqs', [HomeController::class , 'faqs'])->name('faqs');
 

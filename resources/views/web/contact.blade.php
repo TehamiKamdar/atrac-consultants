@@ -217,7 +217,7 @@
     <div class="container py-5">
 
         <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold mb-3">Our Locations</h1>
+            <h1 class="display-4 fw-bold mb-3 text-primary">Our Locations</h1>
             <p class="lead text-muted">We'd love to welcome you!</p>
         </div>
 

@@ -13,29 +13,25 @@
             font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif;
         }
     /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://source.unsplash.com/random/1200x600/?nature,green') no-repeat center center !important;
-            background-size: cover !important;
-            color: white !important;
-            padding: 150px 0 !important;
-            margin-bottom: 50px !important;
-            text-align: center !important;
-            position: relative !important;
+        .blog-header {
+            background: linear-gradient(0deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 60px;
+            text-align: center;
         }
 
-        .hero-title {
-            font-size: 3.5rem !important;
-            font-weight: 700 !important;
-            margin-bottom: 20px !important;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+        .blog-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
-        .hero-subtitle {
-            font-size: 1.5rem !important;
-            font-weight: 400 !important;
-            max-width: 800px !important;
-            margin: 0 auto 30px !important;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+        .blog-header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .btn-primary {
@@ -139,17 +135,16 @@
 
 @section('content')
 <!-- Hero Section -->
-    <header class="hero-section">
+    <header class="blog-header">
         <div class="container">
-            <h1 class="hero-title">Welcome to GreenBlog</h1>
-            <p class="hero-subtitle">Discover insightful articles on sustainability, eco-living, and green technology</p>
-            <a href="#" class="btn btn-primary btn-lg">Start Reading</a>
+            <h1>Study Abroad Insights & Guides</h1>
+            <p>Explore expert articles on university admissions, student visas, scholarships, and everything you need to kickstart your international education journey.</p>
         </div>
     </header>
 
 <main class="container">
         <!-- Featured Post -->
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-lg-12">
                 <div class="featured-post">
                     <h2>Featured Post</h2>
@@ -163,7 +158,7 @@
                     <a href="#" class="read-more">Continue Reading <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Blog Posts -->
         <div class="row">

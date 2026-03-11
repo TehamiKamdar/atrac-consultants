@@ -110,7 +110,7 @@ $offices = \App\Models\Office::where('status', '1')->get();
 
     <div class="d-grid">
         <button type="submit" class="btn btn-primary btn-lg fw-semibold" disabled>
-            <i class="ri-calendar-check-line me-2"></i> Book Free Consultation
+            <i class="ri-calendar-check-line me-2"></i> Book Appointment
         </button>
     </div>
 </form>

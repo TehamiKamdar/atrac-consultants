@@ -4,10 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="title" content="{{ $details->meta_title ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
-    <meta name="description" content="{{ $details->meta_description ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
-    <meta property="og:title" content="{{ $details->meta_title ?? "Atrac Consultants. Trusted by students, recommended by success" }}">
-    <meta property="og:description"content="{{ $details->meta_description ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
+
+    <meta name="description" content="{{ $details->meta_description ?? "Atrac Consultants Karachi helps Pakistani students study in Canada, UK, Australia, Germany & Cyprus. Expert guidance on university admissions, student visas & scholarships. Book a free consultation today!" }}">
+
+    <meta name="keywords" content="{{ $details->keywords ?? "study abroad consultants Karachi, overseas education consultants Pakistan, study in Canada from Pakistan, study in UK from Karachi, study in Australia consultants, study in Germany from Pakistan, study in Cyprus from Pakistan, student visa consultants Karachi, university admissions consultants Pakistan, scholarships for Pakistani students, Atrac Consultants Karachi" }}">
+
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="{{ $details->meta_title ?? "Atrac Consultants | Study Abroad Experts in Karachi" }}">
+    <meta property="og:description"content="{{ $details->meta_description ?? "Pakistan's trusted study abroad consultancy. We guide students to top universities in Canada, UK, Australia, Germany & Cyprus. Free consultation available!" }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.atracconsultants.com">
+    <meta property="og:locale" content="en_PK">
+    <meta property="og:image" content="{{ asset('website/logo.svg') }}">
+    <meta property="og:image:alt" content="Atrac Consultants - Study Abroad Experts Karachi">
     <!-- Font Awesome -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style"
         onload="this.onload=null;this.rel='stylesheet'">

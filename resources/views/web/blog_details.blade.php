@@ -294,7 +294,7 @@
         /* Featured Image - Fixed Aspect Ratio for CLS */
         .featured-image-wrapper {
             margin: 32px 0 40px;
-            border-radius: 20px;
+            border-radius: 0px;
             overflow: hidden;
             aspect-ratio: 16/9;
             background: #f0f0f0; /* Placeholder background */
@@ -304,13 +304,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 20px;
+            border-radius: 0px;
         }
 
         /* Content Layout */
         .content-wrapper {
             display: grid;
-            grid-template-columns: 1fr 320px;
+            grid-template-columns: 1fr 360px;
             gap: 48px;
             margin: 40px 0;
         }
@@ -745,6 +745,134 @@
                 display: none;
             }
         }
+        .insights-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .insights-message {
+            position: relative;
+            z-index: 2;
+            color: var(--primary-green);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-family: 'Bambino-Bold', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animated shapes */
+        .shape {
+            position: absolute;
+            background-color: hsl(100, 98%, 65%);
+            opacity: 0.3;
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            top: -50px;
+            left: -50px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 100px;
+            height: 100px;
+            bottom: 20px;
+            right: 50px;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            right: -20px;
+            animation: float 18s ease-in-out infinite;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            bottom: -30px;
+            left: 30%;
+            animation: float 14s ease-in-out infinite reverse;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, 20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(0, 30px) rotate(0deg);
+            }
+
+            75% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+        }
+
+        /* Blob animation */
+        .blob {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background-color: #D0F0C0;
+            opacity: 0.2;
+            border-radius: 50%;
+            filter: blur(30px);
+            animation: blob-animate 20s linear infinite;
+            z-index: 1;
+        }
+
+        .blob-1 {
+            top: 20%;
+            left: 10%;
+        }
+
+        .blob-2 {
+            bottom: 10%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        @keyframes blob-animate {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            33% {
+                transform: scale(1.1) translate(50px, 30px);
+            }
+
+            66% {
+                transform: scale(0.9) translate(-30px, 50px);
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0);
+            }
+        }
 </style>
 @endsection
 
@@ -756,7 +884,10 @@
 <section class="hero-blog">
     <div class="container">
         <div class="category-badge">
-            <i class="ri-flight-takeoff-line"></i> VISA GUIDE · COUNTRY INSIGHTS
+            <i class="ri-flight-takeoff-line"></i>
+            @foreach ($details->categories as $category)
+                {{ strtoupper($category->name) }} ·
+            @endforeach
         </div>
 
         <h1 class="blog-title">
@@ -901,31 +1032,16 @@
             <!-- Quick Consultation Widget -->
             <div class="widget">
                 <h4 class="widget-title">
-                    <i class="ri-customer-service-line"></i> Free Visa Assessment
+                    <i class="ri-customer-service-line"></i> Free Consultation
                 </h4>
-                <form class="consult-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Email Address" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                    <select required>
-                        <option value="">Preferred Country</option>
-                        <option>Canada</option>
-                        <option>Australia</option>
-                        <option>Germany</option>
-                        <option>New Zealand</option>
-                        <option>Ireland</option>
-                        <option>UK</option>
-                        <option>USA</option>
-                    </select>
-                    <button type="submit" class="btn-submit">Get Free Assessment</button>
-                </form>
+                @include('include.form', ['layout' => 'narrow'])
                 <p style="font-size: 0.8rem; color: var(--gray); margin-top: 12px; text-align: center;">
                     <i class="ri-lock-line"></i> 100% Privacy Guaranteed
                 </p>
             </div>
 
             <!-- Top Countries by Visa Rate -->
-            <div class="widget">
+            {{-- <div class="widget">
                 <h4 class="widget-title">
                     <i class="ri-flight-takeoff-line"></i> Top Visa Rate Countries
                 </h4>
@@ -955,47 +1071,7 @@
                         <span class="category-count">82%</span>
                     </li>
                 </ul>
-            </div>
-
-            <!-- Popular Posts -->
-            <div class="widget">
-                <h4 class="widget-title">
-                    <i class="ri-fire-line"></i> Popular This Week
-                </h4>
-
-                <a href="#" class="popular-post">
-                    <img src="https://images.unsplash.com/photo-1530569673472-307dc017a82d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                         alt="Canada PR"
-                         class="post-thumb"
-                         loading="lazy">
-                    <div class="post-info">
-                        <h6>Canada PR Roadmap 2024</h6>
-                        <small><i class="ri-eye-line"></i> 3.2k views</small>
-                    </div>
-                </a>
-
-                <a href="#" class="popular-post">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                         alt="Germany"
-                         class="post-thumb"
-                         loading="lazy">
-                    <div class="post-info">
-                        <h6>Germany APS Guide 2024</h6>
-                        <small><i class="ri-eye-line"></i> 2.8k views</small>
-                    </div>
-                </a>
-
-                <a href="#" class="popular-post">
-                    <img src="https://images.unsplash.com/photo-1529257414772-1960b7bea4eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                         alt="Australia"
-                         class="post-thumb"
-                         loading="lazy">
-                    <div class="post-info">
-                        <h6>Australia GTE to GS Change</h6>
-                        <small><i class="ri-eye-line"></i> 2.1k views</small>
-                    </div>
-                </a>
-            </div>
+            </div> --}}
 
             <!-- Download Guide -->
             {{-- <div class="widget" style="background: var(--primary-light);">
@@ -1013,7 +1089,7 @@
                 </h4>
                 <div class="tags-cloud">
                     @foreach ($details->tags as $tag)
-                    <a href="#" class="tag">{{ ucwords($tag->name) }}</a>
+                        <a href="#" class="tag">{{ ucwords($tag->name) }}</a>
                     @endforeach
                 </div>
             </div>
@@ -1023,37 +1099,37 @@
     <!-- Related Articles -->
     <h3 style="margin: 60px 0 30px;">📚 More Articles You'll Love</h3>
 
-    <div class="related-grid">
-        <a href="#" class="related-card">
-            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                 alt="SOP Guide"
-                 loading="lazy">
-            <div class="related-content">
-                <h5>How to Write a Winning SOP (with Samples)</h5>
-                <small>March 12, 2024</small>
-            </div>
-        </a>
+    @if (count($relatedPosts) > 0)
+        <div class="related-grid">
+            @foreach ($relatedPosts as $related)
+            <a href="#" class="related-card">
+                <img src="http://localhost:8000{{ $related->thumbnail }}" alt="SOP Guide" loading="lazy">
+                <div class="related-content">
+                    <h5>{{ $related->title }}</h5>
+                    <small>{{ \Carbon\Carbon::parse($related->published_at)->format('F d, Y') }}</small>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    @else
+        <div class="insights-container">
+            <!-- Animated background shapes -->
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
 
-        <a href="#" class="related-card">
-            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                 alt="Canada Guide"
-                 loading="lazy">
-            <div class="related-content">
-                <h5>Canada Study Visa: Complete Step-by-Step Guide</h5>
-                <small>March 10, 2024</small>
-            </div>
-        </a>
+            <!-- Blob effects -->
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
 
-        <a href="#" class="related-card">
-            <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                 alt="Scholarships"
-                 loading="lazy">
-            <div class="related-content">
-                <h5>Top 10 Scholarships for Indian Students</h5>
-                <small>March 8, 2024</small>
+            <!-- Message content -->
+            <div class="insights-message">
+                Our team is actively working in this area! Stay Tuned.</span>
             </div>
-        </a>
-    </div>
+        </div>
+
+    @endif
 </section>
 @endsection
 

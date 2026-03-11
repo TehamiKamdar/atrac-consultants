@@ -16,7 +16,17 @@ class BlogController extends Controller
     public function show($slug)
     {
         $details = Post::where('slug', $slug)->first();
-        return view('web.blog_details', compact('details'));
+        $keywords = explode(' ', $details->title);
+        $relatedPosts = Post::where('id', '!=', $details->id)
+                        ->where(function($q) use ($keywords){
+                            foreach($keywords as $word){
+                                $q->orWhere('title', 'LIKE', '%'.$word.'%');
+                            }
+                        })->take(4)->get();
+
+
+
+        return view('web.blog_details', compact('details', 'relatedPosts'));
     }
     public function question(Request $request){
         $validated = $request->validate([

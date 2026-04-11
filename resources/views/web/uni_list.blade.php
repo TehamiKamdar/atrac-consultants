@@ -320,7 +320,7 @@
                             <h4 class="university-name">{{ $uni->name }}</h4>
                             <a href="{{ $uni->website }}" class="university-url" target="_blank">{{ $uni->website }}</a>
                             <p class="university-location">
-                                <i class="ri-map-pin-line"></i> {{ ucfirst($uni->city) }}
+                                <i class="ri-map-pin-line"></i> {{ ucfirst($uni->city) ?? ''}}
                             </p>
                         </div>
                         <a href="{{ route('university.details', [$uni->countryslug, $uni->slug]) }}" class="view-btn">

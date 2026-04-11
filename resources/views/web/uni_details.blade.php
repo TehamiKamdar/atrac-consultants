@@ -164,7 +164,7 @@
                                 <i class="ri-map-pin-line fs-5 text-primary me-3"></i>
                                 <div>
                                     <strong>Location:</strong>
-                                    <span class="d-block">{{ ucfirst($university->$city) }}</span>
+                                    <span class="d-block">{{ ucfirst($university->$city) ?? '' }}</span>
                                 </div>
                             </li>
                             <li class="list-group-item d-flex align-items-center">

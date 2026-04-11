@@ -1,5 +1,7 @@
 @extends('layouts.web_layout')
 
+@push('title', 'Blogs')
+
 @section('styles')
 <style>
 

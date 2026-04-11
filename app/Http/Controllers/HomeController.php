@@ -218,11 +218,15 @@ class HomeController extends Controller
         $country = country::where('slug', '=', $slug)->select('id', 'name')->first();
         $countryName = $country->name;
         $universities = university::where('universities.country_id', '=', $country->id)
-            ->join('states', 'states.id', '=', 'universities.state_id')
-            ->join('cities', 'cities.id', '=', 'universities.city_id')
             ->join('countries', 'countries.id', '=', 'universities.country_id')
-            ->select('cities.name as cityName', 'states.name as stateName', 'countries.slug as countryslug', 'universities.*')
+            ->select('countries.slug as countryslug', 'universities.*')
             ->get();
+        // $universities = university::where('universities.country_id', '=', $country->id)
+        //     ->join('states', 'states.id', '=', 'universities.state_id')
+        //     ->join('cities', 'cities.id', '=', 'universities.city_id')
+        //     ->join('countries', 'countries.id', '=', 'universities.country_id')
+        //     ->select('cities.name as cityName', 'states.name as stateName', 'countries.slug as countryslug', 'universities.*')
+        //     ->get();
 
         // return $universities;
         return view('web.uni_list', compact('universities', 'countryName'));
@@ -243,13 +247,13 @@ class HomeController extends Controller
         }
 
         // Safe queries for state & city
-        $state = DB::table('states')
-            ->where('id', $university->state_id)
-            ->value('name'); // direct string return karega
+        // $state = DB::table('states')
+        //     ->where('id', $university->state_id)
+        //     ->value('name'); // direct string return karega
 
-        $city = DB::table('cities')
-            ->where('id', $university->city_id)
-            ->value('name');
+        // $city = DB::table('cities')
+        //     ->where('id', $university->city_id)
+        //     ->value('name');
         // return $city;
 
         $description = $university->description;
@@ -265,9 +269,7 @@ class HomeController extends Controller
             'programsByLevel',
             'description',
             'meta_title',
-            'meta_description',
-            'state',
-            'city'
+            'meta_description'
         ));
     }
 

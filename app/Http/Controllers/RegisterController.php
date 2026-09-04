@@ -40,6 +40,7 @@ class RegisterController extends Controller
         $request->validate([
             'country_id' => 'required|integer',
             'program_level_id' => 'required|integer',
+            'search' => 'nullable|string|max:255',
         ]);
 
         $departments = departments::whereHas('program', function ($q) use ($request) {
@@ -48,10 +49,15 @@ class RegisterController extends Controller
                     $q2->where('country_id', $request->country_id);
                 });
         })
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%');
+            })
             ->select('id', 'name')
             ->distinct()
             ->orderBy('name')
-            ->get()->unique('name')->values();
+            ->get()
+            ->unique('name')
+            ->values();
 
         return response()->json($departments);
     }

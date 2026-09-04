@@ -5,6 +5,7 @@
 @endpush
 
 @section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"></style>
     <style>
         :root {
             --primary-green: #2BB673;
@@ -467,7 +468,73 @@
             font-weight: 500;
             display: block;
         }
+        /* Select2 main container */
+        .select2-container {
+            width: 100% !important;
+        }
 
+        /* Selected box */
+        .select2-container .select2-selection--single {
+            height: 50px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            display: none;
+        }
+
+        /* Selected text */
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 12px;
+            padding-right: 35px;
+            color: #212529;
+            line-height: 38px;
+        }
+
+        /* Dropdown */
+        .select2-container .select2-dropdown {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+        }
+
+        /* Search input inside dropdown */
+        .select2-search--dropdown .select2-search__field {
+            width: 100%;
+            height: 38px;
+            padding: 6px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+            color: #212529;
+            background-color: #fff;
+        }
+
+        /* Search input focus */
+        .select2-search--dropdown .select2-search__field:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Options */
+        .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 12px
+        }
+
+        /* Hover / selected option */
+        .select2-results__option--highlighted {
+            background-color: #f1f3f5 !important;
+            color: #212529 !important;
+        }
         small,
         .small {
             color: #c0c0c0;
@@ -1717,6 +1784,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#applying').prop('disabled', true)
@@ -1844,6 +1912,38 @@
 
                     $('#departmentSelect').html(options).prop('disabled', false);
                 });
+            });
+
+            $('#departmentSelect').select2({
+                placeholder: 'Search Department',
+                allowClear: true,
+                width: '100%',
+                ajax: {
+                    url: '/get-departments',
+                    dataType: 'json',
+                    delay: 300,
+
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                            country_id: $('#country').val(),
+                            program_level_id: $('#applying').val()
+                        };
+                    },
+
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function (department) {
+                                return {
+                                    id: department.id,
+                                    text: department.name
+                                };
+                            })
+                        };
+                    },
+
+                    cache: true
+                }
             });
 
             $('#departmentSelect').on('change', function () {

@@ -306,15 +306,15 @@
         </div>
 
         <div class="section">
-            <div class="section-title">Departments Interested In</div>
+            <div class="section-title">Programs Applying for</div>
 
             <table class="table">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>University</th>
+                        <th>Program</th>
                         <th>Department</th>
-                        <th>Campus</th>
+                        <th>University</th>
                         <th>Intake</th>
                         <th>Information</th>
                     </tr>
@@ -324,9 +324,9 @@
                         @foreach ($application_details as $key => $app)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $app->university }}</td>
+                                <td>{{ $app->course_name }}</td>
                                 <td>{{ $app->department }}</td>
-                                <td></td>
+                                <td>{{ $app->university }}</td>
                                 <td></td>
                                 <td></td>
                             </tr>

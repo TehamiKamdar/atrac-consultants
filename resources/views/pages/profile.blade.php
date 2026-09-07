@@ -105,6 +105,17 @@
             text-align: center;
         }
 
+        .notes-box {
+            width: 100%;
+            min-height: 120px;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            box-sizing: border-box;
+            background: #ffffff;
+            color: #212529;
+            line-height: 1.5;
+        }
+
         /* ===== FOOTER ===== */
         .footer {
             position: fixed;
@@ -316,7 +327,6 @@
                         <th>Department</th>
                         <th>University</th>
                         <th>Intake</th>
-                        <th>Information</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -328,7 +338,6 @@
                                 <td>{{ $app->department }}</td>
                                 <td>{{ $app->university }}</td>
                                 <td>{{ $app->intake }}</td>
-                                <td></td>
                             </tr>
                         @endforeach
                     @else
@@ -345,6 +354,14 @@
                     @endif
                 </tbody>
             </table>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Information / Notes</div>
+
+            <div class="notes-box">
+                {{ $student->notes ?? '' }}
+            </div>
         </div>
     </div>
 

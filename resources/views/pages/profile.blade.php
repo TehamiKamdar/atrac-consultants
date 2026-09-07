@@ -327,7 +327,7 @@
                                 <td>{{ $app->course_name }}</td>
                                 <td>{{ $app->department }}</td>
                                 <td>{{ $app->university }}</td>
-                                <td></td>
+                                <td>{{ $app->intake }}</td>
                                 <td></td>
                             </tr>
                         @endforeach

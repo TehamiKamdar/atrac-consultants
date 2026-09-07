@@ -11,7 +11,7 @@ class studentapplication extends Model
 
     protected $table = "student_applications";
 
-    protected $fillable = ['student_id', 'country_id', 'university_id', 'program_id', 'department_id'];
+    protected $fillable = ['student_id', 'country_id', 'university_id', 'program_level_id', 'course_name', 'department_id'];
 
     public function student(){
         return $this->belongsTo(students::class);
@@ -25,8 +25,8 @@ class studentapplication extends Model
         return $this->belongsTo(country::class);
     }
 
-    public function program(){
-        return $this->belongsTo(program::class);
+    public function program_level(){
+        return $this->belongsTo(program_level::class);
     }
 
     public function department(){

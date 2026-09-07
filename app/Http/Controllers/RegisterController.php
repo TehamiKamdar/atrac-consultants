@@ -7,6 +7,7 @@ use App\Models\sim_codes;
 use App\Models\students;
 use App\Models\university;
 use App\Models\departments;
+use App\Models\program;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\studenteducation;
@@ -95,7 +96,72 @@ class RegisterController extends Controller
         return response()->json($universities);
     }
 
-    public function checkEmail(Request $request){
+    public function searchPrograms(Request $request)
+{
+    $request->validate([
+        'country_id' => 'required|integer',
+        'program_level_id' => 'required|integer',
+        'search' => 'required|string|min:2|max:255',
+    ]);
+
+    $search = trim($request->search);
+
+    $programs = program::with([
+        'level:id,name',
+        'university:id,name',
+
+        'departments' => function ($query) use ($search) {
+            $query->select('id', 'program_id', 'name')
+                ->with([
+                    'courses' => function ($query) use ($search) {
+                        $query->select(
+                            'id',
+                            'department_id',
+                            'name',
+                        )
+                        ->where('name', 'LIKE', "%{$search}%");
+                    }
+                ])
+                ->whereHas('courses', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', "%{$search}%");
+                });
+        }
+    ])
+        ->where('program_level_id', $request->program_level_id)
+
+        // Country filter
+        ->whereHas('university', function ($query) use ($request) {
+            $query->where('country_id', $request->country_id);
+        })
+
+        // Search ONLY course name OR university name
+        ->where(function ($query) use ($search) {
+
+            // University search
+            $query->whereHas('university', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            })
+
+            // Course search
+            ->orWhereHas('departments.courses', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+
+        })
+
+        ->select(
+            'id',
+            'university_id',
+            'program_level_id'
+        )
+        ->limit(20)
+        ->get();
+
+    return response()->json($programs);
+}
+
+    public function checkEmail(Request $request)
+    {
         $email = $request->email;
 
         $exists = Students::where('email', $email)->exists();
@@ -105,7 +171,8 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function checkCNIC(Request $request){
+    public function checkCNIC(Request $request)
+    {
         $cnic = $request->cnic;
 
         $exists = Students::where('cnic', $cnic)->exists();
@@ -115,7 +182,8 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function checkPassport(Request $request){
+    public function checkPassport(Request $request)
+    {
         $passport = $request->passport;
 
         $exists = Students::where('passport_number', $passport)->exists();
@@ -127,7 +195,7 @@ class RegisterController extends Controller
 
     public function checkPhone(Request $request)
     {
-        $exists = Students::where('phone', $request->phone_prefix.$request->phone_number)->exists();
+        $exists = Students::where('phone', $request->phone_prefix . $request->phone_number)->exists();
 
         return response()->json([
             'exists' => $exists
@@ -268,6 +336,7 @@ class RegisterController extends Controller
                         'country_id' => $student->country_id,
                         'university_id' => $app['university_id'] ?? null,
                         'program_level_id' => $student->program_level_id,
+                        'course_name' => $app['course'] ?? null,
                         'department_id' => $app['department_id'] ?? null,
                     ]);
                 }

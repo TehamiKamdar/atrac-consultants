@@ -23,7 +23,7 @@ class PdfController extends Controller
         $application_details = studentapplication::join('universities', 'student_applications.university_id', '=', 'universities.id')
             ->join('departments', 'student_applications.department_id', '=', 'departments.id')
             ->where('student_applications.student_id', $id)
-            ->select('universities.name as university', 'departments.name as department')
+            ->select('course_name','universities.name as university', 'departments.name as department')
             ->get();
 
         // Load PDF with same variables as view

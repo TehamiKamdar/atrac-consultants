@@ -331,32 +331,33 @@
                 </thead>
                 <tbody>
                     @php
-                    $courseCounter = 1;
+                        $courseCounter = 1;
                     @endphp
+
                     @if (count($application_details) > 0)
 
-                        @foreach ($application_details as $key => $app)
+                        @foreach ($application_details as $app)
 
-                            @php
-                                if (is_array($app->course_name)) {
-                                    $courses = $app->course_name;
-                                } else {
-                                    $decoded = json_decode($app->course_name, true);
-
-                                    $courses = is_array($decoded)
-                                        ? $decoded
-                                        : [$app->course_name];
-                                }
-                            @endphp
-
-                            @foreach ($courses as $course)
+                            @foreach ($app['courses'] as $course)
 
                                 <tr>
                                     <td>{{ $courseCounter++ }}</td>
-                                    <td>{{ $course }}</td>
-                                    <td>{{ $app->department }}</td>
-                                    <td>{{ $app->university }}</td>
-                                    <td>{{ $app->intake }}</td>
+
+                                    <td>
+                                        {{ $course['course'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $course['department'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $app['university'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $app['intake'] }}
+                                    </td>
                                 </tr>
 
                             @endforeach
@@ -366,16 +367,13 @@
                     @else
 
                         @for ($i = 0; $i < 8; $i++)
-
                             <tr>
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
-                                <td style="height: 14px;"></td>
                             </tr>
-
                         @endfor
 
                     @endif

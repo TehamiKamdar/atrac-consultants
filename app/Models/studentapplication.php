@@ -15,9 +15,14 @@ class studentapplication extends Model
         'student_id',
         'country_id',
         'university_id',
-        'program_id',
+        'program_level_id',
         'department_id',
         'course_name',
+    ];
+
+    protected $casts = [
+        'course_name' => 'array',
+        'department_id' => 'array',
     ];
 
     public function student()

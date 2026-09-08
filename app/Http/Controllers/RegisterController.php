@@ -341,7 +341,12 @@ class RegisterController extends Controller
                     $courseNames = $apps
                         ->pluck('course')
                         ->filter()
-                        ->unique()
+                        ->values()
+                        ->toArray();
+
+                    $departmentIds = $apps
+                        ->pluck('department_id')
+                        ->filter()
                         ->values()
                         ->toArray();
 
@@ -351,7 +356,7 @@ class RegisterController extends Controller
                         'university_id' => $universityId,
                         'program_level_id' => $student->program_level_id,
                         'course_name' => json_encode($courseNames),
-                        'department_id' => $firstApp['department_id'] ?? null,
+                        'department_id' => json_encode($departmentIds),
                     ]);
                 }
             }

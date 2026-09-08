@@ -12,6 +12,7 @@ class studentapplicationdetail extends Model
     protected $table = 'student_application_details';
 
     protected $fillable = [
+        'student_application_id',
         'student_id',
         'university_id',
         'campus',
@@ -22,7 +23,7 @@ class studentapplicationdetail extends Model
     ];
 
     protected $casts = [
-        'uni_user_password' => 'encrypted', // Laravel 10+ encryption
+        'uni_user_password' => 'encrypted',
     ];
 
     public function student()
@@ -32,6 +33,17 @@ class studentapplicationdetail extends Model
 
     public function university()
     {
-        return $this->belongsTo(university::class, 'university_id',);
+        return $this->belongsTo(
+            university::class,
+            'university_id'
+        );
+    }
+
+    public function application()
+    {
+        return $this->belongsTo(
+            studentapplication::class,
+            'student_application_id'
+        );
     }
 }

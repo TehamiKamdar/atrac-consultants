@@ -330,14 +330,28 @@ class RegisterController extends Controller
 
             // 5. Department applications
             if (!empty($data['step4'])) {
-                foreach ($data['step4'] as $app) {
+
+                $applications = collect($data['step4'])
+                    ->groupBy('university_id');
+
+                foreach ($applications as $universityId => $apps) {
+
+                    $firstApp = $apps->first();
+
+                    $courseNames = $apps
+                        ->pluck('course')
+                        ->filter()
+                        ->unique()
+                        ->values()
+                        ->toArray();
+
                     \App\Models\studentapplication::create([
                         'student_id' => $student->id,
                         'country_id' => $student->country_id,
-                        'university_id' => $app['university_id'] ?? null,
+                        'university_id' => $universityId,
                         'program_level_id' => $student->program_level_id,
-                        'course_name' => $app['course'] ?? null,
-                        'department_id' => $app['department_id'] ?? null,
+                        'course_name' => json_encode($courseNames),
+                        'department_id' => $firstApp['department_id'] ?? null,
                     ]);
                 }
             }

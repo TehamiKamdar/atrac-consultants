@@ -9,27 +9,47 @@ class studentapplication extends Model
 {
     use HasFactory;
 
-    protected $table = "student_applications";
+    protected $table = 'student_applications';
 
-    protected $fillable = ['student_id', 'country_id', 'university_id', 'program_level_id', 'course_name', 'department_id'];
+    protected $fillable = [
+        'student_id',
+        'country_id',
+        'university_id',
+        'program_id',
+        'department_id',
+        'course_name',
+    ];
 
-    public function student(){
+    public function student()
+    {
         return $this->belongsTo(students::class);
     }
 
-    public function university(){
+    public function university()
+    {
         return $this->belongsTo(university::class);
     }
 
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(country::class);
     }
 
-    public function program_level(){
-        return $this->belongsTo(program_level::class);
+    public function program()
+    {
+        return $this->belongsTo(program::class);
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(departments::class);
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(
+            studentapplicationdetail::class,
+            'student_application_id'
+        );
     }
 }

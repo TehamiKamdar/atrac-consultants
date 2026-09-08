@@ -101,14 +101,14 @@
             /* text-color */
         }
 
-        .table td{
+        .table td {
             text-align: center;
         }
 
         .notes-box {
             width: 100%;
             min-height: 120px;
-            border: 1px solid #dee2e6;
+            border: 1px dashed #dee2e6;
             padding: 10px;
             box-sizing: border-box;
             background: #ffffff;
@@ -330,18 +330,43 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    $courseCounter = 1;
+                    @endphp
                     @if (count($application_details) > 0)
+
                         @foreach ($application_details as $key => $app)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $app->course_name }}</td>
-                                <td>{{ $app->department }}</td>
-                                <td>{{ $app->university }}</td>
-                                <td>{{ $app->intake }}</td>
-                            </tr>
+
+                            @php
+                                if (is_array($app->course_name)) {
+                                    $courses = $app->course_name;
+                                } else {
+                                    $decoded = json_decode($app->course_name, true);
+
+                                    $courses = is_array($decoded)
+                                        ? $decoded
+                                        : [$app->course_name];
+                                }
+                            @endphp
+
+                            @foreach ($courses as $course)
+
+                                <tr>
+                                    <td>{{ $courseCounter++ }}</td>
+                                    <td>{{ $course }}</td>
+                                    <td>{{ $app->department }}</td>
+                                    <td>{{ $app->university }}</td>
+                                    <td>{{ $app->intake }}</td>
+                                </tr>
+
+                            @endforeach
+
                         @endforeach
+
                     @else
+
                         @for ($i = 0; $i < 8; $i++)
+
                             <tr>
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
@@ -350,7 +375,9 @@
                                 <td style="height: 14px;"></td>
                                 <td style="height: 14px;"></td>
                             </tr>
+
                         @endfor
+
                     @endif
                 </tbody>
             </table>

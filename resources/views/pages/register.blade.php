@@ -474,7 +474,7 @@
             position: relative;
         }
 
-        .program-search i {
+        .program-search i.ri-search-line {
             position: absolute;
             left: 14px;
             top: 50%;
@@ -489,14 +489,21 @@
             padding-left: 42px;
         }
 
-
         /* Search Results */
         .program-results {
-            margin-top: 6px;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+
             border: 1px solid #dee2e6;
             border-radius: 8px;
             background: #fff;
-            overflow: hidden;
+
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .program-result {
@@ -540,6 +547,7 @@
             color: #2bb673;
             font-size: 20px;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .add-program:hover {
@@ -1735,11 +1743,14 @@
                             <div class="program-search">
                                 <i class="ri-search-line"></i>
 
-                                <input type="text" class="form-control" id="programSearch" placeholder="Search for a program..." autocomplete="off">
+                                <input type="text" class="form-control" id="programSearch"
+                                    placeholder="Search for a program..." autocomplete="off">
+
+
+                                <div id="programResults" class="program-results d-none"></div>
                             </div>
 
                             <!-- Search Results -->
-                            <div id="programResults" class="program-results d-none"></div>
 
                         </div>
 
@@ -2039,25 +2050,25 @@
                 }
 
                 searchTimeout = setTimeout(function () {
-                    
+
 
                     const countryId = step1.country;
                     const programLevelId = step1.applying;
 
                     if (!countryId || !programLevelId) {
                         $('#programResults').html(`
-                            <div class="alert alert-warning">
-                                Please select Country and Program Level first.
-                            </div>
-                        `);
+                                <div class="alert alert-warning">
+                                    Please select Country and Program Level first.
+                                </div>
+                            `);
                         return;
                     }
 
                     $('#programResults').html(`
-                        <div class="text-muted p-3">
-                            Searching...
-                        </div>
-                    `);
+                            <div class="text-muted p-3">
+                                Searching...
+                            </div>
+                        `);
 
                     $.ajax({
                         url: '/get-programs',
@@ -2072,10 +2083,10 @@
 
                             if (!data.length) {
                                 $('#programResults').html(`
-                                    <div class="text-muted p-3 border rounded">
-                                        No matching program, course, department or university found.
-                                    </div>
-                                `);
+                                        <div class="text-muted p-3 border rounded">
+                                            No matching program, course, department or university found.
+                                        </div>
+                                    `);
                                 return;
                             }
 
@@ -2105,40 +2116,40 @@
                                                 });
 
                                             html += `
-                                                <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                                    <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
 
-                                                    <div>
-                                                        <div class="fw-semibold">
-                                                            ${escapeHtml(course.name)}
+                                                        <div>
+                                                            <div class="fw-semibold">
+                                                                ${escapeHtml(course.name)}
+                                                            </div>
+
+                                                            <div class="small text-muted">
+                                                                ${escapeHtml(department.name)}
+                                                                &nbsp; • &nbsp;
+                                                                ${escapeHtml(universityName)}
+                                                                &nbsp; • &nbsp;
+                                                                ${escapeHtml(levelName)}
+                                                            </div>
                                                         </div>
 
-                                                        <div class="small text-muted">
-                                                            ${escapeHtml(department.name)}
-                                                            &nbsp; • &nbsp;
-                                                            ${escapeHtml(universityName)}
-                                                            &nbsp; • &nbsp;
-                                                            ${escapeHtml(levelName)}
-                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-success btn-sm add-program-btn"
+                                                            data-program-id="${program.id}"
+                                                            data-program-level="${escapeHtml(levelName)}"
+                                                            data-department-id="${department.id}"
+                                                            data-department="${escapeHtml(department.name)}"
+                                                            data-course-id="${course.id}"
+                                                            data-course="${escapeHtml(course.name)}"
+                                                            data-university-id="${program.university_id}"
+                                                            data-university="${escapeHtml(universityName)}"
+                                                            ${alreadySelected ? 'disabled' : ''}
+                                                        >
+                                                            <i class="ri-add-line"></i>
+                                                        </button>
+
                                                     </div>
-
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-success btn-sm add-program-btn"
-                                                        data-program-id="${program.id}"
-                                                        data-program-level="${escapeHtml(levelName)}"
-                                                        data-department-id="${department.id}"
-                                                        data-department="${escapeHtml(department.name)}"
-                                                        data-course-id="${course.id}"
-                                                        data-course="${escapeHtml(course.name)}"
-                                                        data-university-id="${program.university_id}"
-                                                        data-university="${escapeHtml(universityName)}"
-                                                        ${alreadySelected ? 'disabled' : ''}
-                                                    >
-                                                        <i class="ri-add-line"></i>
-                                                    </button>
-
-                                                </div>
-                                            `;
+                                                `;
                                         });
 
                                     } else {
@@ -2152,38 +2163,38 @@
                                             });
 
                                         html += `
-                                            <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                                <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
 
-                                                <div>
-                                                    <div class="fw-semibold">
-                                                        ${escapeHtml(department.name)}
+                                                    <div>
+                                                        <div class="fw-semibold">
+                                                            ${escapeHtml(department.name)}
+                                                        </div>
+
+                                                        <div class="small text-muted">
+                                                            ${escapeHtml(universityName)}
+                                                            &nbsp; • &nbsp;
+                                                            ${escapeHtml(levelName)}
+                                                        </div>
                                                     </div>
 
-                                                    <div class="small text-muted">
-                                                        ${escapeHtml(universityName)}
-                                                        &nbsp; • &nbsp;
-                                                        ${escapeHtml(levelName)}
-                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-success btn-sm add-program-btn"
+                                                        data-program-id="${program.id}"
+                                                        data-program-level="${escapeHtml(levelName)}"
+                                                        data-department-id="${department.id}"
+                                                        data-department="${escapeHtml(department.name)}"
+                                                        data-course-id=""
+                                                        data-course=""
+                                                        data-university-id="${program.university_id}"
+                                                        data-university="${escapeHtml(universityName)}"
+                                                        ${alreadySelected ? 'disabled' : ''}
+                                                    >
+                                                        <i class="ri-add-line"></i>
+                                                    </button>
+
                                                 </div>
-
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-success btn-sm add-program-btn"
-                                                    data-program-id="${program.id}"
-                                                    data-program-level="${escapeHtml(levelName)}"
-                                                    data-department-id="${department.id}"
-                                                    data-department="${escapeHtml(department.name)}"
-                                                    data-course-id=""
-                                                    data-course=""
-                                                    data-university-id="${program.university_id}"
-                                                    data-university="${escapeHtml(universityName)}"
-                                                    ${alreadySelected ? 'disabled' : ''}
-                                                >
-                                                    <i class="ri-add-line"></i>
-                                                </button>
-
-                                            </div>
-                                        `;
+                                            `;
                                     }
 
                                 });
@@ -2198,10 +2209,10 @@
                             console.error(xhr);
 
                             $('#programResults').html(`
-                                <div class="alert alert-danger">
-                                    Unable to search programs. Please try again.
-                                </div>
-                            `);
+                                    <div class="alert alert-danger">
+                                        Unable to search programs. Please try again.
+                                    </div>
+                                `);
                         }
                     });
 
@@ -2254,12 +2265,12 @@
                 if (!selectedPrograms.length) {
 
                     tbody.html(`
-                        <tr class="text-muted text-center" id="noDataRow">
-                            <td colspan="6">
-                                No programs added yet
-                            </td>
-                        </tr>
-                    `);
+                            <tr class="text-muted text-center" id="noDataRow">
+                                <td colspan="6">
+                                    No programs added yet
+                                </td>
+                            </tr>
+                        `);
 
                     return;
                 }
@@ -2267,39 +2278,39 @@
                 selectedPrograms.forEach(function (item, index) {
 
                     tbody.append(`
-                        <tr>
+                            <tr>
 
-                            <td>
-                                ${index + 1}
-                            </td>
+                                <td>
+                                    ${index + 1}
+                                </td>
 
-                            <td>
-                                ${escapeHtml(item.program_level)}
-                            </td>
+                                <td>
+                                    ${escapeHtml(item.program_level)}
+                                </td>
 
-                            <td>
-                                ${escapeHtml(item.course || '-')}
-                            </td>
+                                <td>
+                                    ${escapeHtml(item.course || '-')}
+                                </td>
 
-                            <td>
-                                ${escapeHtml(item.department)}
-                            </td>
+                                <td>
+                                    ${escapeHtml(item.department)}
+                                </td>
 
-                            <td>
-                                ${escapeHtml(item.university)}
-                            </td>
+                                <td>
+                                    ${escapeHtml(item.university)}
+                                </td>
 
-                            <td class="text-center">
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-danger remove-program-btn"
-                                    data-index="${index}">
-                                    <i class="ri-delete-bin-line"></i>
-                                </button>
-                            </td>
+                                <td class="text-center">
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-outline-danger remove-program-btn"
+                                        data-index="${index}">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
 
-                        </tr>
-                    `);
+                            </tr>
+                        `);
                 });
             }
 
@@ -3385,15 +3396,15 @@
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                                        <div class="success-message" id="successMessage">
-                                                            <div class="success-icon">
-                                                                <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                            <div class="success-message" id="successMessage">
+                                                                <div class="success-icon">
+                                                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                                </div>
+                                                                <h3>Registration Successful!</h3>
+                                                                <p>You can review and download documents from your dashboard. Thank You!
+                                                                </p>
                                                             </div>
-                                                            <h3>Registration Successful!</h3>
-                                                            <p>You can review and download documents from your dashboard. Thank You!
-                                                            </p>
-                                                        </div>
-                                                    `)
+                                                        `)
                         localStorage.clear();
                     },
                     error: function (err) {

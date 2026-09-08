@@ -355,8 +355,8 @@ class RegisterController extends Controller
                         'country_id' => $student->country_id,
                         'university_id' => $universityId,
                         'program_level_id' => $student->program_level_id,
-                        'course_name' => json_encode($courseNames),
-                        'department_id' => json_encode($departmentIds),
+                        'course_name' => $courseNames,
+                        'department_id' => $departmentIds,
                     ]);
                 }
             }

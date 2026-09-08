@@ -105,15 +105,9 @@
             text-align: center;
         }
 
-        .notes-box {
-            width: 100%;
-            min-height: 120px;
-            border: 1px dashed #dee2e6;
-            padding: 10px;
-            box-sizing: border-box;
-            background: #ffffff;
-            color: #212529;
-            line-height: 1.5;
+        .table.notes tr td {
+            border: 1px solid #4b4a4a;
+            padding: 20px;
         }
 
         /* ===== FOOTER ===== */
@@ -380,13 +374,44 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
+    <div class="page">
         <div class="section">
             <div class="section-title">Information / Notes</div>
 
-            <div class="notes-box">
-                {{ $student->notes ?? '' }}
-            </div>
+            <table class="table notes">
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
         </div>
     </div>
 

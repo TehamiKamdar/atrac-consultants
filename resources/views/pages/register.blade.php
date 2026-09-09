@@ -1931,7 +1931,7 @@
                     department_name: departmentName,
                     course_name: courseName,
                     country_id: countryId,
-                    program_level_id: programLevelId,q
+                    program_level_id: programLevelId,
                 },
                 beforeSend: function(){
                     $("#saveNewProgram").text("Saving...").prop("disabled", true)

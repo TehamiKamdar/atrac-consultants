@@ -25,6 +25,10 @@ class students extends Model
         return $this->hasMany(studentapplication::class);
     }
 
+    public function application_details(){
+        return $this->hasMany(studentapplicationdetail::class, 'student_id');
+    }
+
     public function english_tests(){
         return $this->hasMany(studentenglishtests::class);
     }

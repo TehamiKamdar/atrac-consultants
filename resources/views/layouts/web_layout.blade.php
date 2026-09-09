@@ -244,22 +244,6 @@
                 </div>
             </div>
     </footer>
-    {{--
-    <script>
-        // Disable right-click
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Disable keyboard shortcuts (Ctrl+U, Ctrl+C, Ctrl+S, F12)
-        document.addEventListener('keydown', function (e) {
-            if (
-                (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c')) ||
-                e.key === 'F12'
-            ) {
-                e.preventDefault();
-            }
-        });
-    </script> --}}
-    
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

@@ -1949,7 +1949,9 @@
                             .text("Add Program")
                             .prop("disabled", false);
 
-                        $("#universityName").prop("disabled", false);
+                        $("#universityName").val("").prop("disabled", false);
+                        $("#departmentName").val("");
+                        $("#courseName").val("");
 
                     }, 1000);
                 },

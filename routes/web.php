@@ -66,6 +66,7 @@ Route::get('/check-student-passport', [RegisterController::class , 'checkPasspor
 Route::get('/check-student-phone', [RegisterController::class, 'checkPhone'])->name('student-phone-check');
 Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
+Route::post('save-new-university-department-course', [RegisterController::class , 'storeNewUniversityDepartmentCourse'])->name('student.new.university.department.course');
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);

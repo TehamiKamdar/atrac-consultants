@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\country;
+use App\Models\course;
 use App\Models\sim_codes;
 use App\Models\students;
 use App\Models\university;
@@ -39,26 +40,25 @@ class RegisterController extends Controller
     public function departments(Request $request)
     {
         $request->validate([
-            'country_id' => 'required|integer',
+            'university_name' => 'required|string',
             'program_level_id' => 'required|integer',
-            'search' => 'nullable|string|max:255',
         ]);
 
-        $departments = departments::whereHas('program', function ($q) use ($request) {
-            $q->where('program_level_id', $request->program_level_id)
-                ->whereHas('university', function ($q2) use ($request) {
-                    $q2->where('country_id', $request->country_id);
-                });
-        })
-            ->when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'LIKE', '%' . $request->search . '%');
-            })
-            ->select('id', 'name')
-            ->distinct()
-            ->orderBy('name')
-            ->get()
-            ->unique('name')
-            ->values();
+        $university = university::where('name', $request->university_name)->first();
+
+        if (!$university) {
+            return response()->json([]);
+        }
+
+        $departments = DB::table('programs as p')
+            ->join('departments as d', 'd.program_id', '=', 'p.id')
+            ->where('p.university_id', $university->id)
+            ->where('p.program_level_id', $request->program_level_id)
+            ->select(
+                'd.id',
+                'd.name'
+            )
+            ->get();
 
         return response()->json($departments);
     }
@@ -66,99 +66,77 @@ class RegisterController extends Controller
     public function universities(Request $request)
     {
         $request->validate([
-            'department_name' => 'required|string',
             'country_id' => 'required|integer',
-            'program_level_id' => 'required|integer',
         ]);
 
-        // Find all department IDs with this name for selected country + program level
-        $departmentIds = departments::where('name', $request->department_name)
-            ->whereHas('program', function ($q) use ($request) {
-                $q->where('program_level_id', $request->program_level_id)
-                    ->whereHas('university', function ($q2) use ($request) {
-                        $q2->where('country_id', $request->country_id);
-                    });
-            })
-            ->pluck('id');
-
-        // Fetch universities for all those department IDs
-        $universities = university::whereHas('programs', function ($q) use ($departmentIds) {
-            $q->whereHas('departments', function ($q2) use ($departmentIds) {
-                $q2->whereIn('id', $departmentIds);
-            });
-        })
-            ->where('country_id', $request->country_id)
-            ->select('id', 'name')
-            ->distinct()
-            ->orderBy('name')
-            ->get();
+        $universities = university::where('country_id', '=', $request->country_id)->get();
 
         return response()->json($universities);
     }
 
     public function searchPrograms(Request $request)
-{
-    $request->validate([
-        'country_id' => 'required|integer',
-        'program_level_id' => 'required|integer',
-        'search' => 'required|string|min:2|max:255',
-    ]);
+    {
+        $request->validate([
+            'country_id' => 'required|integer',
+            'program_level_id' => 'required|integer',
+            'search' => 'required|string|min:2|max:255',
+        ]);
 
-    $search = trim($request->search);
+        $search = trim($request->search);
 
-    $programs = program::with([
-        'level:id,name',
-        'university:id,name',
+        $programs = program::with([
+            'level:id,name',
+            'university:id,name',
 
-        'departments' => function ($query) use ($search) {
-            $query->select('id', 'program_id', 'name')
-                ->with([
-                    'courses' => function ($query) use ($search) {
-                        $query->select(
-                            'id',
-                            'department_id',
-                            'name',
-                        )
-                        ->where('name', 'LIKE', "%{$search}%");
-                    }
-                ])
-                ->whereHas('courses', function ($query) use ($search) {
-                    $query->where('name', 'LIKE', "%{$search}%");
-                });
-        }
-    ])
-        ->where('program_level_id', $request->program_level_id)
+            'departments' => function ($query) use ($search) {
+                $query->select('id', 'program_id', 'name')
+                    ->with([
+                        'courses' => function ($query) use ($search) {
+                            $query->select(
+                                'id',
+                                'department_id',
+                                'name',
+                            )
+                                ->where('name', 'LIKE', "%{$search}%");
+                        }
+                    ])
+                    ->whereHas('courses', function ($query) use ($search) {
+                        $query->where('name', 'LIKE', "%{$search}%");
+                    });
+            }
+        ])
+            ->where('program_level_id', $request->program_level_id)
 
-        // Country filter
-        ->whereHas('university', function ($query) use ($request) {
-            $query->where('country_id', $request->country_id);
-        })
-
-        // Search ONLY course name OR university name
-        ->where(function ($query) use ($search) {
-
-            // University search
-            $query->whereHas('university', function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%");
+            // Country filter
+            ->whereHas('university', function ($query) use ($request) {
+                $query->where('country_id', $request->country_id);
             })
 
-            // Course search
-            ->orWhereHas('departments.courses', function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%");
-            });
+            // Search ONLY course name OR university name
+            ->where(function ($query) use ($search) {
 
-        })
+                // University search
+                $query->whereHas('university', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                })
 
-        ->select(
-            'id',
-            'university_id',
-            'program_level_id'
-        )
-        ->limit(20)
-        ->get();
+                    // Course search
+                    ->orWhereHas('departments.courses', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                });
 
-    return response()->json($programs);
-}
+            })
+
+            ->select(
+                'id',
+                'university_id',
+                'program_level_id'
+            )
+            ->limit(20)
+            ->get();
+
+        return response()->json($programs);
+    }
 
     public function checkEmail(Request $request)
     {
@@ -378,6 +356,141 @@ class RegisterController extends Controller
                 'message' => 'Registration failed',
                 'error' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function storeNewUniversityDepartmentCourse(Request $request)
+    {
+        $request->validate([
+            'university_name' => 'required|string',
+            'department_name' => 'required|string',
+            'course_name' => 'required|string',
+            'country_id' => 'required|integer',
+            'program_level_id' => 'required|integer',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+
+            /*
+            |--------------------------------------------------------------------------
+            | 1. Find University
+            |--------------------------------------------------------------------------
+            */
+
+            $university = university::where('name', $request->university_name)
+                ->where('country_id', $request->country_id)
+                ->first();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 2. If University doesn't exist, create University
+            |--------------------------------------------------------------------------
+            */
+
+            if (!$university) {
+
+                $university = university::create([
+                    'name' => $request->university_name,
+                    'slug' => Str::slug($request->university_name),
+                    'country_id' => $request->country_id,
+                ]);
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 3. Find Program for this University + Program Level
+            |--------------------------------------------------------------------------
+            */
+
+            $program = program::where('university_id', $university->id)
+                ->where('program_level_id', $request->program_level_id)
+                ->first();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 4. If Program doesn't exist, create it
+            |--------------------------------------------------------------------------
+            */
+
+            if (!$program) {
+
+                $program = program::create([
+                    'university_id' => $university->id,
+                    'program_level_id' => $request->program_level_id,
+                ]);
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 5. Find Department
+            |--------------------------------------------------------------------------
+            */
+
+            $department = departments::where('program_id', $program->id)
+                ->where('name', $request->department_name)
+                ->first();
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 6. If Department doesn't exist, create it
+            |--------------------------------------------------------------------------
+            */
+
+            if (!$department) {
+
+                $department = departments::create([
+                    'program_id' => $program->id,
+                    'name' => $request->department_name,
+                ]);
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | 7. Course
+            |--------------------------------------------------------------------------
+            |
+            | Course table/columns ka structure abhi provided nahi hai.
+            | Yahan course insert karna hoga.
+            |
+            */
+            $course = course::where('department_id', $department->id)
+                ->where('name', $request->course_name)
+                ->first();
+
+            if(!$course){
+                $course = course::create([
+                    'department_id' => $department->id,
+                    'name' => $request->course_name,
+                ]);
+            }
+
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Saved',
+            ]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+
         }
     }
 }

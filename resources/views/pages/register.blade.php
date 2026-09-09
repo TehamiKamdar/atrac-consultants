@@ -1747,10 +1747,43 @@
                                     placeholder="Search for a program..." autocomplete="off">
 
 
+                                <!-- Search Results -->
                                 <div id="programResults" class="program-results d-none"></div>
                             </div>
 
-                            <!-- Search Results -->
+                            <div class="mt-3"> 
+                                <button type="button" class="btn btn-link p-0" id="addNewProgramBtn"> <i class="ri-add-line"></i> Add New Program </button> 
+                            </div> <!-- New Program Form -->
+                            <div id="newProgramForm" class="mt-3 d-none">
+                                <div class="row g-3"> 
+                                    <!-- University -->
+                                    <div class="col-md-4"> 
+                                        <label for="universityName" class="form-label"> University Name </label> 
+                                        <input type="text" class="form-control" id="universityName" name="university_name" list="universityList" placeholder="Select or enter university" autocomplete="off"> 
+                                        <datalist id="universityList"> 
+                                            
+                                        </datalist> 
+                                    </div>
+                                    <!-- Department -->
+                                    <div class="col-md-4"> 
+                                        <label for="departmentName" class="form-label"> Department Name </label> 
+                                        <input type="text" class="form-control" id="departmentName" name="department_name" list="departmentList" placeholder="Select or enter department" autocomplete="off"> 
+                                        <datalist id="departmentList">
+
+                                        </datalist> 
+                                    </div> 
+                                    <!-- Course -->
+                                    <div class="col-md-4"> 
+                                        <label for="courseName" class="form-label"> Program Name </label>
+                                        <input type="text" class="form-control" id="courseName" name="course_name" placeholder="Enter course name" autocomplete="off"> 
+                                    </div>
+                                </div>
+                                <div class="mt-3"> 
+                                    <button type="button" class="btn btn-primary" id="saveNewProgram"> Add Program </button> 
+                                    <button type="button" class="btn btn-light ms-2" id="cancelNewProgram"> Cancel </button> 
+                                </div>
+                            </div>
+
 
                         </div>
 
@@ -1815,6 +1848,127 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        document.getElementById('addNewProgramBtn').addEventListener('click', function () { 
+            $("#departmentName").val("Select University").prop("disabled", true)
+            $("#courseName").val("Select Department").prop("disabled", true)
+            const step1 = JSON.parse(localStorage.getItem('student_step1'));
+            let countryId = step1.country;
+
+            $.ajax({
+                url: '/get-universities',
+                method: 'GET',
+                data: {
+                    country_id: countryId
+                },
+                beforeSend:function(){
+                    $("#universityList").empty()
+                    $("#universityName").val("Loading...").prop("disabled", true);
+                },
+                success: function(data){
+                    $.each(data, function(index, university){
+                        $("#universityList").append(`<option value="${university.name}">`)
+                    })
+                    $("#universityName").val("").prop("disabled", false);
+                },
+                error: function(xhr){
+                    console.log(xhr.responseJSON);
+                },
+
+            })
+
+            $("#universityName").on('input', function(){
+                $.ajax({
+                    url: '/get-departments',
+                    method: 'GET',
+                    data: {
+                        university_name: $('#universityName').val(),
+                        program_level_id: step1.applying,
+                    },
+                    beforeSend: function(){
+                        $("#departmentList").empty()
+                        $("#departmentName").val("").prop("disabled", true);
+                    },
+                    success: function(data){
+                        $.each(data, function(index, department){
+                            $("#departmentList").append(`<option value="${department.name}">`)
+                        });
+                        $("#courseName").val("Select Department").prop("disabled", true);
+                        $("#departmentName").val("").prop("disabled", false);
+                    },
+                    error: function(xhr){
+                        console.log(xhr.responseJSON)
+                    },
+                })
+            })
+
+            $("#departmentName").on("input", function(){
+                $("#courseName").val("").prop("disabled", false)
+            })
+            
+            document.getElementById('newProgramForm').classList.remove('d-none'); 
+            this.classList.add('d-none'); 
+        }); 
+        document.getElementById('cancelNewProgram').addEventListener('click', function () { 
+            document.getElementById('newProgramForm').classList.add('d-none'); 
+            document.getElementById('addNewProgramBtn').classList.remove('d-none'); 
+        });
+        $("#saveNewProgram").on("click", function(){
+            const step1 = JSON.parse(localStorage.getItem('student_step1'));
+            let universityName = $("#universityName").val();
+            let departmentName = $("#departmentName").val();
+            let courseName = $("#courseName").val();
+            let countryId = step1.country;
+            let programLevelId = step1.applying;
+
+            $.ajax({
+                url: '/save-new-university-department-course',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    university_name: universityName,
+                    department_name: departmentName,
+                    course_name: courseName,
+                    country_id: countryId,
+                    program_level_id: programLevelId,q
+                },
+                beforeSend: function(){
+                    $("#saveNewProgram").text("Saving...").prop("disabled", true)
+                    $("#universityName").prop("disabled", true);
+                    $("#departmentName").prop("disabled", true);
+                    $("#courseName").prop("disabled", true)
+                },
+                success: function(response){
+                    console.log(response.message);
+
+                    $("#saveNewProgram").text(response.message);
+
+                    setTimeout(function () {
+                        $("#saveNewProgram")
+                            .text("Add Program")
+                            .prop("disabled", false);
+
+                        $("#universityName").prop("disabled", false);
+
+                    }, 1000);
+                },
+                error: function(xhr){
+
+                    console.log(xhr.responseJSON);
+
+                    $("#saveNewProgram")
+                        .text("Error")
+                        .prop("disabled", false);
+
+                    $("#universityName").prop("disabled", false);
+                    $("#departmentName").prop("disabled", false);
+                    $("#courseName").prop("disabled", false);
+
+                },
+
+            })
+        })
         $(document).ready(function () {
             $('#applying').prop('disabled', true)
             function validateDateInputs() {
@@ -1915,93 +2069,6 @@
                 });
             }
 
-
-            $('#applying').on('change', function () {
-                const countryId = $('#country').val();
-                const programLevelId = $(this).val();
-
-                console.log(countryId)
-                console.log(programLevelId)
-
-                $('#departmentSelect').prop('disabled', true).html('<option>Select Department</option>');
-                $('#universitySelect').prop('disabled', true).html('<option>Select University</option>');
-
-                $.get('/get-departments', {
-                    country_id: countryId,
-                    program_level_id: programLevelId
-                }, function (data) {
-
-                    console.log(data)
-
-                    let options = '<option value="" disabled selected>Select Department</option>';
-
-                    data.forEach(dep => {
-                        options += `<option value="${dep.id}">${dep.name}</option>`;
-                    });
-
-                    $('#departmentSelect').html(options).prop('disabled', false);
-                });
-            });
-
-            // $('#departmentSelect').select2({
-            //     placeholder: 'Search Department',
-            //     allowClear: true,
-            //     width: '100%',
-            //     ajax: {
-            //         url: '/get-departments',
-            //         dataType: 'json',
-            //         delay: 300,
-
-            //         data: function (params) {
-            //             return {
-            //                 search: params.term,
-            //                 country_id: $('#country').val(),
-            //                 program_level_id: $('#applying').val()
-            //             };
-            //         },
-
-            //         processResults: function (data) {
-            //             return {
-            //                 results: data.map(function (department) {
-            //                     return {
-            //                         id: department.id,
-            //                         text: department.name
-            //                     };
-            //                 })
-            //             };
-            //         },
-
-            //         cache: true
-            //     }
-            // });
-
-            // $('#departmentSelect').on('change', function () {
-            //     const departmentId = $(this).val();
-            //     const countryId = $('#country').val();
-            //     const programLevelId = $('#applying').val();
-
-            //     $('#universitySelect').prop('disabled', true).html('<option>Select University</option>');
-
-            //     $.get('/get-universities', {
-            //         department_id: departmentId,
-            //         country_id: countryId,
-            //         program_level_id: programLevelId
-            //     }, function (data) {
-
-            //         if (!data.length) {
-            //             $('#universitySelect').html('<option>No university found</option>');
-            //         }
-
-            //         let options = '<option value="" disabled selected>Select University</option>';
-
-            //         data.forEach(u => {
-            //             options += `<option value="${u.id}">${u.name}</option>`;
-            //         });
-
-            //         $('#universitySelect').html(options).prop('disabled', false);
-            //     });
-            // });
-
             let selectedPrograms = [];
 
             const PROGRAM_STORAGE_KEY = 'selected_programs';
@@ -2057,18 +2124,18 @@
 
                     if (!countryId || !programLevelId) {
                         $('#programResults').html(`
-                                <div class="alert alert-warning">
-                                    Please select Country and Program Level first.
-                                </div>
-                            `);
+                                    <div class="alert alert-warning">
+                                        Please select Country and Program Level first.
+                                    </div>
+                                `);
                         return;
                     }
 
                     $('#programResults').html(`
-                            <div class="text-muted p-3">
-                                Searching...
-                            </div>
-                        `);
+                                <div class="text-muted p-3">
+                                    Searching...
+                                </div>
+                            `);
 
                     $.ajax({
                         url: '/get-programs',
@@ -2083,10 +2150,10 @@
 
                             if (!data.length) {
                                 $('#programResults').html(`
-                                        <div class="text-muted p-3 border rounded">
-                                            No matching program, course, department or university found.
-                                        </div>
-                                    `);
+                                            <div class="text-muted p-3 border rounded">
+                                                No matching program, course, department or university found.
+                                            </div>
+                                        `);
                                 return;
                             }
 
@@ -2116,40 +2183,40 @@
                                                 });
 
                                             html += `
-                                                    <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                                        <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
 
-                                                        <div>
-                                                            <div class="fw-semibold">
-                                                                ${escapeHtml(course.name)}
+                                                            <div>
+                                                                <div class="fw-semibold">
+                                                                    ${escapeHtml(course.name)}
+                                                                </div>
+
+                                                                <div class="small text-muted">
+                                                                    ${escapeHtml(department.name)}
+                                                                    &nbsp; • &nbsp;
+                                                                    ${escapeHtml(universityName)}
+                                                                    &nbsp; • &nbsp;
+                                                                    ${escapeHtml(levelName)}
+                                                                </div>
                                                             </div>
 
-                                                            <div class="small text-muted">
-                                                                ${escapeHtml(department.name)}
-                                                                &nbsp; • &nbsp;
-                                                                ${escapeHtml(universityName)}
-                                                                &nbsp; • &nbsp;
-                                                                ${escapeHtml(levelName)}
-                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-success btn-sm add-program-btn"
+                                                                data-program-id="${program.id}"
+                                                                data-program-level="${escapeHtml(levelName)}"
+                                                                data-department-id="${department.id}"
+                                                                data-department="${escapeHtml(department.name)}"
+                                                                data-course-id="${course.id}"
+                                                                data-course="${escapeHtml(course.name)}"
+                                                                data-university-id="${program.university_id}"
+                                                                data-university="${escapeHtml(universityName)}"
+                                                                ${alreadySelected ? 'disabled' : ''}
+                                                            >
+                                                                <i class="ri-add-line"></i>
+                                                            </button>
+
                                                         </div>
-
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-success btn-sm add-program-btn"
-                                                            data-program-id="${program.id}"
-                                                            data-program-level="${escapeHtml(levelName)}"
-                                                            data-department-id="${department.id}"
-                                                            data-department="${escapeHtml(department.name)}"
-                                                            data-course-id="${course.id}"
-                                                            data-course="${escapeHtml(course.name)}"
-                                                            data-university-id="${program.university_id}"
-                                                            data-university="${escapeHtml(universityName)}"
-                                                            ${alreadySelected ? 'disabled' : ''}
-                                                        >
-                                                            <i class="ri-add-line"></i>
-                                                        </button>
-
-                                                    </div>
-                                                `;
+                                                    `;
                                         });
 
                                     } else {
@@ -2163,38 +2230,38 @@
                                             });
 
                                         html += `
-                                                <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                                    <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
 
-                                                    <div>
-                                                        <div class="fw-semibold">
-                                                            ${escapeHtml(department.name)}
+                                                        <div>
+                                                            <div class="fw-semibold">
+                                                                ${escapeHtml(department.name)}
+                                                            </div>
+
+                                                            <div class="small text-muted">
+                                                                ${escapeHtml(universityName)}
+                                                                &nbsp; • &nbsp;
+                                                                ${escapeHtml(levelName)}
+                                                            </div>
                                                         </div>
 
-                                                        <div class="small text-muted">
-                                                            ${escapeHtml(universityName)}
-                                                            &nbsp; • &nbsp;
-                                                            ${escapeHtml(levelName)}
-                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-success btn-sm add-program-btn"
+                                                            data-program-id="${program.id}"
+                                                            data-program-level="${escapeHtml(levelName)}"
+                                                            data-department-id="${department.id}"
+                                                            data-department="${escapeHtml(department.name)}"
+                                                            data-course-id=""
+                                                            data-course=""
+                                                            data-university-id="${program.university_id}"
+                                                            data-university="${escapeHtml(universityName)}"
+                                                            ${alreadySelected ? 'disabled' : ''}
+                                                        >
+                                                            <i class="ri-add-line"></i>
+                                                        </button>
+
                                                     </div>
-
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-success btn-sm add-program-btn"
-                                                        data-program-id="${program.id}"
-                                                        data-program-level="${escapeHtml(levelName)}"
-                                                        data-department-id="${department.id}"
-                                                        data-department="${escapeHtml(department.name)}"
-                                                        data-course-id=""
-                                                        data-course=""
-                                                        data-university-id="${program.university_id}"
-                                                        data-university="${escapeHtml(universityName)}"
-                                                        ${alreadySelected ? 'disabled' : ''}
-                                                    >
-                                                        <i class="ri-add-line"></i>
-                                                    </button>
-
-                                                </div>
-                                            `;
+                                                `;
                                     }
 
                                 });
@@ -2209,10 +2276,10 @@
                             console.error(xhr);
 
                             $('#programResults').html(`
-                                    <div class="alert alert-danger">
-                                        Unable to search programs. Please try again.
-                                    </div>
-                                `);
+                                        <div class="alert alert-danger">
+                                            Unable to search programs. Please try again.
+                                        </div>
+                                    `);
                         }
                     });
 
@@ -2265,12 +2332,12 @@
                 if (!selectedPrograms.length) {
 
                     tbody.html(`
-                            <tr class="text-muted text-center" id="noDataRow">
-                                <td colspan="6">
-                                    No programs added yet
-                                </td>
-                            </tr>
-                        `);
+                                <tr class="text-muted text-center" id="noDataRow">
+                                    <td colspan="6">
+                                        No programs added yet
+                                    </td>
+                                </tr>
+                            `);
 
                     return;
                 }
@@ -2278,39 +2345,39 @@
                 selectedPrograms.forEach(function (item, index) {
 
                     tbody.append(`
-                            <tr>
+                                <tr>
 
-                                <td>
-                                    ${index + 1}
-                                </td>
+                                    <td>
+                                        ${index + 1}
+                                    </td>
 
-                                <td>
-                                    ${escapeHtml(item.program_level)}
-                                </td>
+                                    <td>
+                                        ${escapeHtml(item.program_level)}
+                                    </td>
 
-                                <td>
-                                    ${escapeHtml(item.course || '-')}
-                                </td>
+                                    <td>
+                                        ${escapeHtml(item.course || '-')}
+                                    </td>
 
-                                <td>
-                                    ${escapeHtml(item.department)}
-                                </td>
+                                    <td>
+                                        ${escapeHtml(item.department)}
+                                    </td>
 
-                                <td>
-                                    ${escapeHtml(item.university)}
-                                </td>
+                                    <td>
+                                        ${escapeHtml(item.university)}
+                                    </td>
 
-                                <td class="text-center">
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-danger remove-program-btn"
-                                        data-index="${index}">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </td>
+                                    <td class="text-center">
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-outline-danger remove-program-btn"
+                                            data-index="${index}">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
 
-                            </tr>
-                        `);
+                                </tr>
+                            `);
                 });
             }
 
@@ -3090,47 +3157,6 @@
                 })
             })
 
-            // When department changes, load universities
-            // $('#departmentSelect').on('change', function () {
-            //     const departmentName = $(this).find('option:selected').text();
-            //     const step1 = JSON.parse(localStorage.getItem('student_step1') || null);
-            //     if (!step1) return;
-
-            //     const country_id = step1.country;
-            //     const program_level_id = step1.applying;
-
-            //     $.get('/get-universities', {
-            //         department_name: departmentName,
-            //         country_id,
-            //         program_level_id
-            //     }, function (universities) {
-            //         let uniOptions = '<option value="" disabled selected>Select University</option>';
-            //         universities.forEach(u => {
-            //             uniOptions += `<option value="${u.id}">${u.name}</option>`;
-            //         });
-
-            //         $('#universitySelect')
-            //             .html(uniOptions)
-            //             .prop('disabled', false);
-            //     });
-            // });
-
-
-            /* -----------------------------
-                REVIEW STEP DATA
-            ------------------------------*/
-            // function fillReview() {
-            //     $('#reviewName').text($('#firstName').val() + ' ' + $('#lastName').val());
-            //     $('#reviewDOB').text($('#dob').val());
-            //     $('#reviewGender').text($('#gender').val() || 'N/A');
-
-            //     $('#reviewEmail').text($('#email').val());
-            //     $('#reviewPhone').text($('#phone').val());
-            //     $('#reviewCity').text($('#cob').val());
-
-            //     $('#reviewPreferredContact').text($('#preferredContact').val() || 'N/A');
-            // }
-
             /* -----------------------------
                 NEXT BUTTON
             ------------------------------*/
@@ -3396,15 +3422,15 @@
                         $('.form-wrapper').addClass('d-none');
 
                         $('body').append(`
-                                                            <div class="success-message" id="successMessage">
-                                                                <div class="success-icon">
-                                                                    <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                                <div class="success-message" id="successMessage">
+                                                                    <div class="success-icon">
+                                                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
+                                                                    </div>
+                                                                    <h3>Registration Successful!</h3>
+                                                                    <p>You can review and download documents from your dashboard. Thank You!
+                                                                    </p>
                                                                 </div>
-                                                                <h3>Registration Successful!</h3>
-                                                                <p>You can review and download documents from your dashboard. Thank You!
-                                                                </p>
-                                                            </div>
-                                                        `)
+                                                            `)
                         localStorage.clear();
                     },
                     error: function (err) {

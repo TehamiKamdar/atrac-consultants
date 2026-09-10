@@ -31,7 +31,6 @@ class GenerateSitemap extends Command
      */
     public function handle()
     {
-        Log::info('Started Generating Sitemap');
         $sitemap = Sitemap::create();
         $sitemap->add(Url::create(route('home'))->setLastModificationDate(now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(1.0));
         $sitemap->add(Url::create(route('about'))->setLastModificationDate(now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(0.6));
@@ -52,7 +51,5 @@ class GenerateSitemap extends Command
         }
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
-
-        Log::info('Finished Generating Sitemap');
     }
 }

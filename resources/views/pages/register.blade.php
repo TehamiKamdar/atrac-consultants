@@ -881,10 +881,10 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="intake" required>
                                     <option value="" selected disabled>Select Intake</option>
-                                    <option value="Spring 26'">Spring 26'</option>
-                                    <option value="Summer 26'">Summer 26'</option>
                                     <option value="Fall 26'">Fall 26'</option>
                                     <option value="Spring 27'">Spring 27'</option>
+                                    <option value="Summer 27'">Summer 27'</option>
+                                    <option value="Fall 27'">Fall 27'</option>
                                 </select>
                             </div>
 

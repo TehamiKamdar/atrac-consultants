@@ -1608,15 +1608,15 @@ $(document).ready(function () {
                 $('.form-wrapper').addClass('d-none');
 
                 $('body').append(`
-                                                                <div class="success-message" id="successMessage">
-                                                                    <div class="success-icon">
-                                                                        <img src="{{ asset('website/success-check-2.gif') }}" alt="">
-                                                                    </div>
-                                                                    <h3>Registration Successful!</h3>
-                                                                    <p>You can review and download documents from your dashboard. Thank You!
-                                                                    </p>
-                                                                </div>
-                                                            `)
+                    <div class="success-message" id="successMessage">
+                        <div class="success-icon">
+                            <img src="/website/success-check-2.gif" alt="">
+                        </div>
+                        <h3>Registration Successful!</h3>
+                        <p>You can review and download documents from your dashboard. Thank You!
+                        </p>
+                    </div>
+                `)
                 localStorage.clear();
             },
             error: function (err) {

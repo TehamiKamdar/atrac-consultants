@@ -32,4 +32,9 @@ class students extends Model
     public function english_tests(){
         return $this->hasMany(studentenglishtests::class);
     }
+
+    public function country()
+    {
+        return $this->belongsTo(country::class, 'country_id');
+    }
 }

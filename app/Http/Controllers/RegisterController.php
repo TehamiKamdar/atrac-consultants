@@ -262,41 +262,91 @@ class RegisterController extends Controller
             }
 
             // 4. Documents
-            $studentFolder = 'documents/' . $student->email . '_documents';
+            $studentFolder = 'documents/' . strtolower($student->first_name) . '_' . strtolower($student->last_name) . '_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
 
             if (!Storage::disk('public')->exists($studentFolder)) {
                 Storage::disk('public')->makeDirectory($studentFolder);
             }
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Single File Documents
+            |--------------------------------------------------------------------------
+            */
+
             $documentFields = [
-                'cnic-front',
-                'cnic-back',
+                'cnic',
                 'passport',
                 'photograph',
                 'cv-resume',
-                'experience-letter',
                 'proficiency-letter',
                 'motivation-letter',
-                'matric-front',
-                'matric-back',
-                'intermediate-front',
-                'intermediate-back',
+                'matric-marksheet',
+                'matric-certificate',
+                'intermediate-marksheet',
+                'intermediate-certificate',
                 'bachelors-transcript',
                 'bachelors-degree',
                 'masters-transcript',
                 'masters-degree',
-                'ielts',
-                'toefl',
-                'pte',
+                'ielts-certificate',
+                'toefl-certificate',
+                'pte-certificate'
             ];
 
             foreach ($documentFields as $field) {
-                if ($request->hasFile("step3.$field")) {
 
-                    $file = $request->file("step3.$field");
-                    $fileName = $field . '_' . $student->first_name . '.' . $file->getClientOriginalExtension();
+                if (!$request->hasFile("step3.$field")) {
+                    continue;
+                }
 
-                    $path = $file->storeAs($studentFolder, $fileName, 'public');
+                $file = $request->file("step3.$field");
+
+                $fileName = $field . '.' . $file->getClientOriginalExtension();
+
+                $path = $file->storeAs(
+                    $studentFolder,
+                    $fileName,
+                    'public'
+                );
+
+                \App\Models\studentdocument::create([
+                    'student_id' => $student->id,
+                    'document_type' => $field,
+                    'file_path' => $path,
+                ]);
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Multiple File Documents
+            |--------------------------------------------------------------------------
+            */
+
+            $multipleDocumentFields = [
+                'recommendation-letters',
+                'experience-letters',
+            ];
+
+            foreach ($multipleDocumentFields as $field) {
+
+                if (!$request->hasFile("step3.$field")) {
+                    continue;
+                }
+
+                $files = $request->file("step3.$field");
+
+                foreach ($files as $index => $file) {
+
+                    $fileName = $field . '_' . ($index + 1) . '.' . $file->getClientOriginalExtension();
+
+                    $path = $file->storeAs(
+                        $studentFolder,
+                        $fileName,
+                        'public'
+                    );
 
                     \App\Models\studentdocument::create([
                         'student_id' => $student->id,
@@ -468,7 +518,7 @@ class RegisterController extends Controller
                 ->where('name', $request->course_name)
                 ->first();
 
-            if(!$course){
+            if (!$course) {
                 $course = course::create([
                     'department_id' => $department->id,
                     'name' => $request->course_name,

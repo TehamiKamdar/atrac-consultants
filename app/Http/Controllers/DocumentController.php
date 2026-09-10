@@ -60,7 +60,7 @@ class DocumentController extends Controller
             $student = students::findOrFail($id);
 
             // --- Delete storage folder ---
-            $folderName = 'documents/' . $student->email . '_documents';
+            $folderName = 'documents/' . strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->country->name)) .'_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
             if (Storage::disk('public')->exists($folderName)) {
                 Storage::disk('public')->deleteDirectory($folderName);
             }

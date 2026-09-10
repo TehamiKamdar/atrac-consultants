@@ -529,23 +529,23 @@
                                 <div class="row">
                                     <div class="col-6 col-md-3">
                                         <label for="">Listening</label>
-                                        <input type="number" min="0" max="30" step="1" id="listeningPTE"
+                                        <input type="number" min="0" max="120" step="1" id="listeningPTE"
                                             class="form-control" placeholder="26">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Reading</label>
-                                        <input type="number" min="0" max="30" step="1" id="readingPTE" class="form-control"
+                                        <input type="number" min="0" max="120" step="1" id="readingPTE" class="form-control"
                                             placeholder="21">
                                     </div>
                                     {{-- To be updated by JS --}}
                                     <div class="col-6 col-md-3">
                                         <label for="">Speaking</label>
-                                        <input type="number" min="0" max="30" step="1" id="speakingPTE" max="4"
+                                        <input type="number" min="0" max="120" step="1" id="speakingPTE" max="4"
                                             class="form-control" placeholder="23">
                                     </div>
                                     <div class="col-6 col-md-3">
                                         <label for="">Writing</label>
-                                        <input type="number" min="0" max="30" step="1" id="writingPTE" class="form-control"
+                                        <input type="number" min="0" max="120" step="1" id="writingPTE" class="form-control"
                                             placeholder="22">
                                     </div>
                                     <div class="row mb-3">

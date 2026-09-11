@@ -257,6 +257,31 @@
             box-shadow: 0 0 0 0.25rem rgba(43, 182, 115, 0.25);
         }
 
+        .select2-container--default .select2-selection--multiple {
+            font-family: 'Bambino-Light';
+            border: solid #e1e5e9 1px;
+            outline: 0;
+            border-radius: 8px;
+            padding-bottom: 21px;
+        }
+
+        .select2-container .select2-search{
+            vertical-align: middle;
+        }
+
+        .select2-container #select2-country-container{
+            vertical-align: sub;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--primary-light);
+            border: 1px solid var(--primary-dark);
+            border-radius: 6px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: var(--bs-danger);
+        }
+
         .input-group-text {
             background-color: var(--primary-light);
             border: 1.5px solid #e1e5e9;

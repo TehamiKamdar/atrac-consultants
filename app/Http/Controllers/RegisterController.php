@@ -231,7 +231,13 @@ class RegisterController extends Controller
                 'english_test_list' => 'required|array',
                 'english_tests' => 'sometimes|array',
             ]);
-            $countryIds = explode(',', $data['step1']['country']);
+            
+            $countryIds = $data['step1']['country'];
+
+            if (!is_array($countryIds)) {
+                $countryIds = [$countryIds];
+            }
+            
             // 1. Save student
             $student = students::create([
                 'first_name' => $data['step1']['firstName'],
@@ -251,7 +257,7 @@ class RegisterController extends Controller
                 'qualification' => $data['step1']['qualification'],
                 'percentage' => $data['step1']['percentage'],
                 'intake' => $data['step1']['intake'],
-                'country_id' => json_encode($countryIds),
+                'country_id' =>  $countryIds,
                 'program_level_id' => $data['step1']['applying'],
                 'english_test' => json_encode($data['english_test_list']),
                 'english_proficiency' => $data['step1']['proficiency'],

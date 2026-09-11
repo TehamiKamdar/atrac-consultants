@@ -21,7 +21,7 @@ class students extends Model
     {
         $countryIds = $this->country_id ?? [];
 
-        return \App\Models\Country::whereIn('id', $countryIds)
+        return \App\Models\country::whereIn('id', $countryIds)
             ->pluck('name')
             ->implode(', ');
     }

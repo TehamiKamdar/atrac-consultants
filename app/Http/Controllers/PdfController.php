@@ -17,7 +17,11 @@ class PdfController extends Controller
     public function downloadPdf($id)
     {
         $student = students::findOrFail($id);
-        $country = country::where('id', $student->country_id)->value('name');
+        $countryIds = $student->country_id ?? [];
+
+        $country = country::whereIn('id', $countryIds)
+            ->pluck('name')
+            ->implode(', ');
         $program_level = program_level::where('id', $student->program_level_id)->value('name');
         $education_details = studenteducation::where('student_id', $id)->get();
         $english_test_details = studentenglishtests::where('student_id', $id)->get();

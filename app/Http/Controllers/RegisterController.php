@@ -298,7 +298,7 @@ class RegisterController extends Controller
             }
 
             // 4. Documents
-            $studentFolder = 'documents/' . strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . '_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
+            $studentFolder = 'documents/' . strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
 
             if (!Storage::disk('public')->exists($studentFolder)) {
                 Storage::disk('public')->makeDirectory($studentFolder);

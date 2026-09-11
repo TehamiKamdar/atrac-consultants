@@ -124,20 +124,8 @@
                             </div>
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="phone" class="form-label">Phone # <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <!-- Prefix dropdown 25% -->
-                                    <select id="phonePrefix" class="form-select" style="flex: 0 0 25%; max-width: 25%;"
-                                        required>
-                                        @foreach ($sim_codes as $sim)
-                                            <option value="0{{$sim->code}}">0{{$sim->code}}</option>
-                                        @endforeach
-                                    </select>
-
-                                    <!-- Main number input 75% -->
-                                    <input type="text" id="phoneNumber" class="form-control"
-                                        style="flex: 0 0 75%; max-width: 75%;" placeholder="1234567" maxlength="7" required>
-                                    <div id="phone-error" class="invalid-feedback"></div>
-                                </div>
+                                <input type="text" id="phoneNumber" class="form-control"  placeholder="03331234567" required>
+                                <div id="phone-error" class="invalid-feedback"></div>
                             </div>
 
 
@@ -190,8 +178,7 @@
                             <div class="col-md-6 mb-3 mb-sm-2">
                                 <label for="country" class="form-label">Country to Apply for <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="country" required>
-                                    <option value="" selected disabled>Select Country</option>
+                                <select class="form-select" id="country" required multiple>
                                     @foreach ($activeCountries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
@@ -203,6 +190,9 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-select" id="applying" required>
                                     <option value="" selected disabled>Select Program..</option>
+                                    @foreach ($program_levels as $applying)
+                                        <option value="{{ $applying->id }}">{{ $applying->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -1116,8 +1106,22 @@
                             </div> <!-- New Program Form -->
                             <div id="newProgramForm" class="mt-3 d-none">
                                 <div class="row g-3">
+                                    <!-- Country -->
+                                    <div class="col-md-3">
+                                        <label for="country" class="form-label">
+                                            Country
+                                        </label>
+
+                                        <input type="text" class="form-control" id="countryName"
+                                            list="countryList" placeholder="Select country" 
+                                            autocomplete="off">
+
+                                        <datalist id="countryList">
+                                            
+                                        </datalist>
+                                    </div>
                                     <!-- University -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="universityName" class="form-label"> University Name </label>
                                         <input type="text" class="form-control" id="universityName" name="university_name"
                                             list="universityList" placeholder="Select or enter university"
@@ -1127,7 +1131,7 @@
                                         </datalist>
                                     </div>
                                     <!-- Department -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="departmentName" class="form-label"> Department Name </label>
                                         <input type="text" class="form-control" id="departmentName" name="department_name"
                                             list="departmentList" placeholder="Select or enter department"
@@ -1137,7 +1141,7 @@
                                         </datalist>
                                     </div>
                                     <!-- Course -->
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="courseName" class="form-label"> Program Name </label>
                                         <input type="text" class="form-control" id="courseName" name="course_name"
                                             placeholder="Enter course name" autocomplete="off">
@@ -1160,6 +1164,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>#</th>
+                                        <th>Country</th>
                                         <th>Program</th>
                                         <th>Course</th>
                                         <th>Department</th>

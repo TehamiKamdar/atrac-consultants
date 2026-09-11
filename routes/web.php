@@ -58,6 +58,7 @@ Route::get('/404', function(){
 Route::get('/checkEmails', [HomeController::class , 'checkEmail'])->name('email.check');
 Route::get('get-country-programs/{country}', action: [RegisterController::class, 'getCountryPrograms']);
 Route::get('/get-programs', [RegisterController::class, 'searchPrograms'])->name('get.programs');
+Route::get('/get-countries', [RegisterController::class, 'countries']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
 Route::get('/check-student-email', [RegisterController::class , 'checkEmail'])->name('student-email-check');

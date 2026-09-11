@@ -13,6 +13,19 @@ class students extends Model
 
     protected $fillable = ['first_name','last_name','father_name','mother_name','dob','email','phone','city','address','postal_code','cnic','english_test','english_proficiency','passport_number','passport_valid_from','passport_valid_thru','account_created','status','country_id','program_level_id','intake','qualification','percentage','secondary_email','secondary_password'];
 
+    protected $casts = [
+        'country_id' => 'array',
+    ];
+
+    public function getCountryNamesAttribute()
+    {
+        $countryIds = $this->country_id ?? [];
+
+        return \App\Models\Country::whereIn('id', $countryIds)
+            ->pluck('name')
+            ->implode(', ');
+    }
+
     public function educations(){
         return $this->hasMany(studenteducation::class);
     }

@@ -1,29 +1,74 @@
 document.getElementById('addNewProgramBtn').addEventListener('click', function () {
+    $("#universityName").val("Select Country").prop("disabled", true)
     $("#departmentName").val("Select University").prop("disabled", true)
     $("#courseName").val("Select Department").prop("disabled", true)
     const step1 = JSON.parse(localStorage.getItem('student_step1'));
-    let countryId = step1.country;
+
+    if (!step1 || !step1.country || !step1.country.length) {
+        return;
+    }
+    const countryIds = step1.country;
 
     $.ajax({
-        url: '/get-universities',
+        url: '/get-countries',
         method: 'GET',
         data: {
-            country_id: countryId
-        },
-        beforeSend: function () {
-            $("#universityList").empty()
-            $("#universityName").val("Loading...").prop("disabled", true);
-        },
-        success: function (data) {
-            $.each(data, function (index, university) {
-                $("#universityList").append(`<option value="${university.name}">`)
-            })
-            $("#universityName").val("").prop("disabled", false);
-        },
-        error: function (xhr) {
-            console.log(xhr.responseJSON);
+            country_ids: countryIds
         },
 
+        beforeSend: function () {
+            $('#countryList')
+                .val('Loading...')
+                .prop('disabled', true);
+        },
+
+        success: function (data) {
+
+            $('#countryList')
+                .val('')
+                .prop('disabled', false);
+
+            $('#countryList').empty();
+
+            $.each(data, function (index, country) {
+
+                $("#countryList").append(`<option value="${country.name}">`)
+
+            });
+        },
+
+        error: function (xhr) {
+
+            console.log(xhr.responseJSON);
+
+            $('#countryList')
+                .val('')
+                .prop('disabled', false);
+        }
+    });
+
+    $('#countryName').on('input', function(){
+        $.ajax({
+            url: '/get-universities',
+            method: 'GET',
+            data: {
+                country_name: $('#countryName').val()
+            },
+            beforeSend: function () {
+                $("#universityList").empty()
+                $("#universityName").val("Loading...").prop("disabled", true);
+            },
+            success: function (data) {
+                $.each(data, function (index, university) {
+                    $("#universityList").append(`<option value="${university.name}">`)
+                })
+                $("#universityName").val("").prop("disabled", false);
+            },
+            error: function (xhr) {
+                console.log(xhr.responseJSON);
+            },
+
+        })
     })
 
     $("#universityName").on('input', function () {
@@ -67,7 +112,7 @@ $("#saveNewProgram").on("click", function () {
     let universityName = $("#universityName").val();
     let departmentName = $("#departmentName").val();
     let courseName = $("#courseName").val();
-    let countryId = step1.country;
+    let countryName = $("#countryName").val();
     let programLevelId = step1.applying;
 
     $.ajax({
@@ -80,11 +125,12 @@ $("#saveNewProgram").on("click", function () {
             university_name: universityName,
             department_name: departmentName,
             course_name: courseName,
-            country_id: countryId,
+            country_name: countryName,
             program_level_id: programLevelId,
         },
         beforeSend: function () {
             $("#saveNewProgram").text("Saving...").prop("disabled", true)
+            $("#countryName").prop("disabled", true);
             $("#universityName").prop("disabled", true);
             $("#departmentName").prop("disabled", true);
             $("#courseName").prop("disabled", true)
@@ -99,7 +145,8 @@ $("#saveNewProgram").on("click", function () {
                     .text("Add Program")
                     .prop("disabled", false);
 
-                $("#universityName").val("").prop("disabled", false);
+                $("#countryName").val("").prop("disabled", false);
+                $("#universityName").val("");
                 $("#departmentName").val("");
                 $("#courseName").val("");
 
@@ -109,10 +156,13 @@ $("#saveNewProgram").on("click", function () {
 
             console.log(xhr.responseJSON);
 
-            $("#saveNewProgram")
-                .text("Error")
-                .prop("disabled", false);
+            setTimeout(function(){
+                $("#saveNewProgram")
+                .text("Error");
+            },2000)
 
+            $("#saveNewProgram").text("Add Program").prop("disabled", false);
+            $("#countryName").prop("disabled", false);
             $("#universityName").prop("disabled", false);
             $("#departmentName").prop("disabled", false);
             $("#courseName").prop("disabled", false);
@@ -122,7 +172,10 @@ $("#saveNewProgram").on("click", function () {
     })
 })
 $(document).ready(function () {
-    $('#applying').prop('disabled', true)
+    $('#country').select2({
+        placeholder: 'Select countries',
+        width: '100%'
+    })
     function validateDateInputs() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -193,34 +246,6 @@ $(document).ready(function () {
         validateDateInputs();
     });
 
-
-    $('#country').on('change', function () {
-        loadProgramsByCountry($(this).val());
-    });
-
-    function loadProgramsByCountry(countryId) {
-        if (!countryId) {
-            $('#applying')
-                .empty()
-                .append('<option value="">Select Program..</option>')
-                .prop('disabled', true);
-            return $.Deferred().resolve(); // safe fallback
-        }
-
-        return $.get('/get-country-programs/' + countryId, function (data) {
-            var $dropdown = $('#applying');
-            $dropdown.empty().append('<option value="">Select Program</option>');
-
-            $.each(data, function (i, program) {
-                $dropdown.append(
-                    '<option value="' + program.id + '">' + program.name + '</option>'
-                );
-            });
-
-            $dropdown.prop('disabled', false);
-        });
-    }
-
     let selectedPrograms = [];
 
     const PROGRAM_STORAGE_KEY = 'selected_programs';
@@ -263,6 +288,11 @@ $(document).ready(function () {
         clearTimeout(searchTimeout);
 
         // 2 characters se kam par results hide
+        if (search.length == 0) {
+            $('#programResults').addClass('d-none');
+            return;
+        }
+
         if (search.length < 2) {
             $('#programResults').html('');
             return;
@@ -271,30 +301,30 @@ $(document).ready(function () {
         searchTimeout = setTimeout(function () {
 
 
-            const countryId = step1.country;
+            const countryIds = step1.country;
             const programLevelId = step1.applying;
 
-            if (!countryId || !programLevelId) {
+            if (!countryIds || !countryIds.length || !programLevelId) {
                 $('#programResults').html(`
-                                    <div class="alert alert-warning">
-                                        Please select Country and Program Level first.
-                                    </div>
-                                `);
+                    <div class="alert alert-warning">
+                        Please select Country and Program Level first.
+                    </div>
+                `);
                 return;
             }
 
             $('#programResults').html(`
-                                <div class="text-muted p-3">
-                                    Searching...
-                                </div>
-                            `);
+                <div class="text-muted p-3">
+                    Searching...
+                </div>
+            `);
 
             $.ajax({
                 url: '/get-programs',
                 type: 'GET',
                 data: {
                     search: search,
-                    country_id: countryId,
+                    country_ids: countryIds,
                     program_level_id: programLevelId
                 },
 
@@ -302,10 +332,10 @@ $(document).ready(function () {
 
                     if (!data.length) {
                         $('#programResults').html(`
-                                            <div class="text-muted p-3 border rounded">
-                                                No matching program, course, department or university found.
-                                            </div>
-                                        `);
+                            <div class="text-muted p-3 border rounded">
+                                No matching program, course, department or university found.
+                            </div>
+                        `);
                         return;
                     }
 
@@ -320,6 +350,8 @@ $(document).ready(function () {
                         const universityName = program.university
                             ? program.university.name
                             : '';
+
+                        const countryName = program.university?.country?.name || '';
 
                         program.departments.forEach(function (department) {
 
@@ -348,6 +380,8 @@ $(document).ready(function () {
                                                                     ${escapeHtml(universityName)}
                                                                     &nbsp; • &nbsp;
                                                                     ${escapeHtml(levelName)}
+                                                                    &nbsp; • &nbsp;
+                                                                    ${escapeHtml(countryName)}
                                                                 </div>
                                                             </div>
 
@@ -355,11 +389,14 @@ $(document).ready(function () {
                                                                 type="button"
                                                                 class="btn btn-success btn-sm add-program-btn"
                                                                 data-program-id="${program.id}"
+                                                                data-program-level-id="${program.program_level_id}"
                                                                 data-program-level="${escapeHtml(levelName)}"
                                                                 data-department-id="${department.id}"
                                                                 data-department="${escapeHtml(department.name)}"
                                                                 data-course-id="${course.id}"
                                                                 data-course="${escapeHtml(course.name)}"
+                                                                data-country="${escapeHtml(countryName)}"
+                                                                data-country-id="${program.university.country_id}"
                                                                 data-university-id="${program.university_id}"
                                                                 data-university="${escapeHtml(universityName)}"
                                                                 ${alreadySelected ? 'disabled' : ''}
@@ -400,9 +437,12 @@ $(document).ready(function () {
                                                             type="button"
                                                             class="btn btn-success btn-sm add-program-btn"
                                                             data-program-id="${program.id}"
+                                                            data-program-level-id="${program.program_level_id}"
                                                             data-program-level="${escapeHtml(levelName)}"
                                                             data-department-id="${department.id}"
                                                             data-department="${escapeHtml(department.name)}"
+                                                            data-country="${escapeHtml(countryName)}"
+                                                            data-country-id="${program.university.country_id}"
                                                             data-course-id=""
                                                             data-course=""
                                                             data-university-id="${program.university_id}"
@@ -444,13 +484,16 @@ $(document).ready(function () {
 
         const item = {
             program_id: button.data('program-id'),
+            program_level_id: button.data('program-level-id'),
             program_level: button.data('program-level'),
             department_id: button.data('department-id'),
             department: button.data('department'),
             course_id: button.data('course-id') || null,
             course: button.data('course') || '',
             university_id: button.data('university-id'),
-            university: button.data('university')
+            university: button.data('university'),
+            country: button.data('country'),
+            country_id: button.data('country-id'),
         };
 
         // Duplicate check
@@ -485,7 +528,7 @@ $(document).ready(function () {
 
             tbody.html(`
                                 <tr class="text-muted text-center" id="noDataRow">
-                                    <td colspan="6">
+                                    <td colspan="7">
                                         No programs added yet
                                     </td>
                                 </tr>
@@ -501,6 +544,10 @@ $(document).ready(function () {
 
                                     <td>
                                         ${index + 1}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(item.country)}
                                     </td>
 
                                     <td>
@@ -1006,6 +1053,7 @@ $(document).ready(function () {
         STEP 1 LOCAL STORAGE
     ------------------------------*/
     function saveStep1ToLocal() {
+
         const data = {};
 
         $('#step1Form')
@@ -1018,29 +1066,19 @@ $(document).ready(function () {
         localStorage.setItem(STEP1_KEY, JSON.stringify(data));
     }
 
+
     function loadStep1FromLocal() {
         const data = localStorage.getItem(STEP1_KEY);
+
         if (!data) return false;
 
         const step1 = JSON.parse(data);
 
-        // 1️⃣ Simple fields
-        Object.keys(step1).forEach(key => {
-            if (!['country', 'applying'].includes(key)) {
-                $('#' + key).val(step1[key]);
-            }
+        Object.keys(step1).forEach(function (key) {
+            const element = $('#' + key);
+            if (!element.length) return;
+            element.val(step1[key]).trigger('change');
         });
-
-        // 2️⃣ Country → Programs → Applying (SEQUENCE MATTERS)
-        if (step1.country) {
-            $('#country').val(step1.country);
-
-            loadProgramsByCountry(step1.country).done(function () {
-                if (step1.applying) {
-                    $('#applying').val(step1.applying);
-                }
-            });
-        }
 
         return true;
     }
@@ -1189,10 +1227,8 @@ $(document).ready(function () {
         })
     })
 
-    const phoneNumberRegex = /^[0-9]{7}$/;
-
     function resetPhone() {
-        $('#phonePrefix, #phoneNumber')
+        $('#phoneNumber')
             .removeClass('is-valid is-invalid');
         $('#phone-error').text('');
     }
@@ -1218,26 +1254,13 @@ $(document).ready(function () {
     });
 
     // final validation
-    $('#phonePrefix, #phoneNumber').on('input', function () {
-
-        const prefix = $('#phonePrefix').val();
+    $('#phoneNumber').on('input', function () {
         const number = $('#phoneNumber').val();
-
-        if (!prefix) {
-            phoneInvalid('Select phone prefix');
-            return;
-        }
-
-        if (!phoneNumberRegex.test(number)) {
-            phoneInvalid('Phone number must be 7 digits');
-            return;
-        }
 
         $.ajax({
             url: "/check-student-phone",
             type: "GET",
             data: {
-                phone_prefix: prefix,
                 phone_number: number
             },
             success: function (res) {
@@ -1592,6 +1615,7 @@ $(document).ready(function () {
         formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
         console.log(step2);
+        console.log(step4);
 
         // AJAX call
         $.ajax({
@@ -1620,6 +1644,8 @@ $(document).ready(function () {
                 localStorage.clear();
             },
             error: function (err) {
+
+                console.log(err.responseJSON)
 
                 $('#submitBtn').prop('disabled', false);
                 $('#submitBtn').html(`<i class="ri-send-plane-fill"></i> Submit Form`);

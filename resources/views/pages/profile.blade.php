@@ -209,7 +209,7 @@
                 </tr>
                 <tr>
                     <td class="label">Interested Country </td>
-                    <td>{{ $country ?? '-' }}</td>
+                    <td>{{ $student->country_names ?? '-' }}</td>
                     <td class="label">Interested Program</td>
                     <td>{{ $program_level ?? '-' }}</td>
                 </tr>

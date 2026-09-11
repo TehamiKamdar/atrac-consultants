@@ -9,6 +9,7 @@ use App\Models\students;
 use App\Models\university;
 use App\Models\departments;
 use App\Models\program;
+use App\Models\program_level;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\studenteducation;
@@ -22,8 +23,9 @@ class RegisterController extends Controller
     public function index()
     {
         $activeCountries = country::where('status', 'active')->orderBy('name', 'ASC')->get();
+        $program_levels = program_level::all();
         $sim_codes = sim_codes::all();
-        return view('pages.register', compact('activeCountries', 'sim_codes'));
+        return view('pages.register', compact('activeCountries', 'sim_codes', 'program_levels'));
     }
 
     public function getCountryPrograms($country_id)
@@ -35,6 +37,20 @@ class RegisterController extends Controller
             ->get();
 
         return response()->json($programs);
+    }
+
+    public function countries(Request $request)
+    {
+        $request->validate([
+            'country_ids' => 'required|array',
+            'country_ids.*' => 'integer',
+        ]);
+
+        $countries = country::whereIn('id', $request->country_ids)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json($countries);
     }
 
     public function departments(Request $request)
@@ -66,10 +82,17 @@ class RegisterController extends Controller
     public function universities(Request $request)
     {
         $request->validate([
-            'country_id' => 'required|integer',
+            'country_name' => 'required|string',
         ]);
 
-        $universities = university::where('country_id', '=', $request->country_id)->get();
+        $country = country::where('name', $request->country_name)->first();
+
+        if (!$country) {
+            return response()->json([]);
+        }
+
+        $universities = university::where('country_id', $country->id)
+            ->get();
 
         return response()->json($universities);
     }
@@ -77,7 +100,8 @@ class RegisterController extends Controller
     public function searchPrograms(Request $request)
     {
         $request->validate([
-            'country_id' => 'required|integer',
+            'country_ids' => 'required|array',
+            'country_ids.*' => 'required|integer',
             'program_level_id' => 'required|integer',
             'search' => 'required|string|min:2|max:255',
         ]);
@@ -86,12 +110,15 @@ class RegisterController extends Controller
 
         $programs = program::with([
             'level:id,name',
-            'university:id,name',
+            'university:id,name,country_id',
+            'university.country:id,name',
 
             'departments' => function ($query) use ($search) {
+
                 $query->select('id', 'program_id', 'name')
                     ->with([
                         'courses' => function ($query) use ($search) {
+
                             $query->select(
                                 'id',
                                 'department_id',
@@ -101,15 +128,20 @@ class RegisterController extends Controller
                         }
                     ])
                     ->whereHas('courses', function ($query) use ($search) {
+
                         $query->where('name', 'LIKE', "%{$search}%");
+
                     });
             }
         ])
+
             ->where('program_level_id', $request->program_level_id)
 
-            // Country filter
+            // Multiple country filter
             ->whereHas('university', function ($query) use ($request) {
-                $query->where('country_id', $request->country_id);
+
+                $query->whereIn('country_id', $request->country_ids);
+
             })
 
             // Search ONLY course name OR university name
@@ -117,14 +149,17 @@ class RegisterController extends Controller
 
                 // University search
                 $query->whereHas('university', function ($q) use ($search) {
+
                     $q->where('name', 'LIKE', "%{$search}%");
+
                 })
 
                     // Course search
                     ->orWhereHas('departments.courses', function ($q) use ($search) {
-                    $q->where('name', 'LIKE', "%{$search}%");
-                });
 
+                    $q->where('name', 'LIKE', "%{$search}%");
+
+                });
             })
 
             ->select(
@@ -132,6 +167,7 @@ class RegisterController extends Controller
                 'university_id',
                 'program_level_id'
             )
+
             ->limit(20)
             ->get();
 
@@ -195,7 +231,7 @@ class RegisterController extends Controller
                 'english_test_list' => 'required|array',
                 'english_tests' => 'sometimes|array',
             ]);
-
+            $countryIds = explode(',', $data['step1']['country']);
             // 1. Save student
             $student = students::create([
                 'first_name' => $data['step1']['firstName'],
@@ -208,14 +244,14 @@ class RegisterController extends Controller
                 'passport_number' => $data['step1']['passport'],
                 'passport_valid_from' => $data['step1']['passportValidFrom'],
                 'passport_valid_thru' => $data['step1']['passportValidThru'],
-                'phone' => $data['step1']['phonePrefix'] . $data['step1']['phoneNumber'],
+                'phone' => $data['step1']['phoneNumber'],
                 'email' => $data['step1']['email'],
                 'address' => $data['step1']['address'],
                 'postal_code' => $data['step1']['postalCode'],
                 'qualification' => $data['step1']['qualification'],
                 'percentage' => $data['step1']['percentage'],
                 'intake' => $data['step1']['intake'],
-                'country_id' => $data['step1']['country'],
+                'country_id' => json_encode($countryIds),
                 'program_level_id' => $data['step1']['applying'],
                 'english_test' => json_encode($data['english_test_list']),
                 'english_proficiency' => $data['step1']['proficiency'],
@@ -262,7 +298,7 @@ class RegisterController extends Controller
             }
 
             // 4. Documents
-            $studentFolder = 'documents/' . strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->country->name)) .'_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
+            $studentFolder = 'documents/' . strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->intake)) . '_documents';
 
             if (!Storage::disk('public')->exists($studentFolder)) {
                 Storage::disk('public')->makeDirectory($studentFolder);
@@ -380,9 +416,9 @@ class RegisterController extends Controller
 
                     \App\Models\studentapplication::create([
                         'student_id' => $student->id,
-                        'country_id' => $student->country_id,
+                        'country_id' => $firstApp['country_id'],
                         'university_id' => $universityId,
-                        'program_level_id' => $student->program_level_id,
+                        'program_level_id' => $firstApp['program_level_id'],
                         'course_name' => $courseNames,
                         'department_id' => $departmentIds,
                     ]);
@@ -415,7 +451,7 @@ class RegisterController extends Controller
             'university_name' => 'required|string',
             'department_name' => 'required|string',
             'course_name' => 'required|string',
-            'country_id' => 'required|integer',
+            'country_name' => 'required|string',
             'program_level_id' => 'required|integer',
         ]);
 
@@ -425,18 +461,26 @@ class RegisterController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | 1. Find University
+            | Find Country
+            |--------------------------------------------------------------------------
+            */
+
+            $country = country::where('name', $request->country_name)->first();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Find University
             |--------------------------------------------------------------------------
             */
 
             $university = university::where('name', $request->university_name)
-                ->where('country_id', $request->country_id)
+                ->where('country_id', $country->id)
                 ->first();
 
 
             /*
             |--------------------------------------------------------------------------
-            | 2. If University doesn't exist, create University
+            | If University doesn't exist, create University
             |--------------------------------------------------------------------------
             */
 
@@ -445,15 +489,14 @@ class RegisterController extends Controller
                 $university = university::create([
                     'name' => $request->university_name,
                     'slug' => Str::slug($request->university_name),
-                    'country_id' => $request->country_id,
+                    'country_id' => $country->id,
                 ]);
-
             }
 
 
             /*
             |--------------------------------------------------------------------------
-            | 3. Find Program for this University + Program Level
+            | Find Program for this University + Program Level
             |--------------------------------------------------------------------------
             */
 
@@ -464,7 +507,7 @@ class RegisterController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | 4. If Program doesn't exist, create it
+            | If Program doesn't exist, create it
             |--------------------------------------------------------------------------
             */
 
@@ -474,13 +517,12 @@ class RegisterController extends Controller
                     'university_id' => $university->id,
                     'program_level_id' => $request->program_level_id,
                 ]);
-
             }
 
 
             /*
             |--------------------------------------------------------------------------
-            | 5. Find Department
+            | Find Department
             |--------------------------------------------------------------------------
             */
 
@@ -491,7 +533,7 @@ class RegisterController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | 6. If Department doesn't exist, create it
+            | If Department doesn't exist, create it
             |--------------------------------------------------------------------------
             */
 
@@ -501,24 +543,22 @@ class RegisterController extends Controller
                     'program_id' => $program->id,
                     'name' => $request->department_name,
                 ]);
-
             }
 
 
             /*
             |--------------------------------------------------------------------------
-            | 7. Course
+            | Course
             |--------------------------------------------------------------------------
-            |
-            | Course table/columns ka structure abhi provided nahi hai.
-            | Yahan course insert karna hoga.
-            |
             */
+
             $course = course::where('department_id', $department->id)
                 ->where('name', $request->course_name)
                 ->first();
 
+
             if (!$course) {
+
                 $course = course::create([
                     'department_id' => $department->id,
                     'name' => $request->course_name,
@@ -536,11 +576,11 @@ class RegisterController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollBack();
+
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage(),
             ], 500);
-
         }
     }
 }

@@ -317,7 +317,57 @@ class RegisterController extends Controller
             |--------------------------------------------------------------------------
             */
 
-            $documentFields = [
+            // $documentFields = [
+            //     'cnic',
+            //     'passport',
+            //     'photograph',
+            //     'cv-resume',
+            //     'proficiency-letter',
+            //     'motivation-letter',
+            //     'matric-marksheet',
+            //     'matric-certificate',
+            //     'intermediate-marksheet',
+            //     'intermediate-certificate',
+            //     'bachelors-transcript',
+            //     'bachelors-degree',
+            //     'masters-transcript',
+            //     'masters-degree',
+            //     'ielts-certificate',
+            //     'toefl-certificate',
+            //     'pte-certificate',
+            // ];
+
+            // foreach ($documentFields as $field) {
+
+            //     if (!$request->hasFile("step3.$field")) {
+            //         continue;
+            //     }
+
+            //     $file = $request->file("step3.$field");
+
+            //     $fileName = $field . '.' . $file->getClientOriginalExtension();
+
+            //     $path = $file->storeAs(
+            //         $studentFolder,
+            //         $fileName,
+            //         'public'
+            //     );
+
+            //     \App\Models\studentdocument::create([
+            //         'student_id' => $student->id,
+            //         'document_type' => $field,
+            //         'file_path' => $path,
+            //     ]);
+            // }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Multiple File Documents
+            |--------------------------------------------------------------------------
+            */
+
+            $multipleDocumentFields = [
                 'cnic',
                 'passport',
                 'photograph',
@@ -334,40 +384,7 @@ class RegisterController extends Controller
                 'masters-degree',
                 'ielts-certificate',
                 'toefl-certificate',
-                'pte-certificate'
-            ];
-
-            foreach ($documentFields as $field) {
-
-                if (!$request->hasFile("step3.$field")) {
-                    continue;
-                }
-
-                $file = $request->file("step3.$field");
-
-                $fileName = $field . '.' . $file->getClientOriginalExtension();
-
-                $path = $file->storeAs(
-                    $studentFolder,
-                    $fileName,
-                    'public'
-                );
-
-                \App\Models\studentdocument::create([
-                    'student_id' => $student->id,
-                    'document_type' => $field,
-                    'file_path' => $path,
-                ]);
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Multiple File Documents
-            |--------------------------------------------------------------------------
-            */
-
-            $multipleDocumentFields = [
+                'pte-certificate',
                 'recommendation-letters',
                 'experience-letters',
             ];

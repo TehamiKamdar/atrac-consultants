@@ -47,7 +47,7 @@ document.getElementById('addNewProgramBtn').addEventListener('click', function (
         }
     });
 
-    $('#countryName').on('input', function(){
+    $('#countryName').on('input', function () {
         $.ajax({
             url: '/get-universities',
             method: 'GET',
@@ -156,10 +156,10 @@ $("#saveNewProgram").on("click", function () {
 
             console.log(xhr.responseJSON);
 
-            setTimeout(function(){
+            setTimeout(function () {
                 $("#saveNewProgram")
-                .text("Error");
-            },2000)
+                    .text("Error");
+            }, 2000)
 
             $("#saveNewProgram").text("Add Program").prop("disabled", false);
             $("#countryName").prop("disabled", false);
@@ -608,7 +608,7 @@ $(document).ready(function () {
     const STEP3_KEY = 'student_step3';
 
     const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
-    const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
     let currentStep = 1;
 
@@ -791,7 +791,6 @@ $(document).ready(function () {
             .removeClass('d-none')
             .find('input[type="file"]')
             .prop({
-                required: true,
                 disabled: false
             });
 
@@ -1113,15 +1112,20 @@ $(document).ready(function () {
     }
 
     /* -----------------------------
-        STEP 3 LOCAL STORAGE
-    ------------------------------*/
+    STEP 3 LOCAL STORAGE
+------------------------------*/
 
     $('#step3Form input[type="file"]').on("change", function () {
+
         const file = this.files[0];
         const $card = $(this).closest('.upload-card');
         const $badge = $card.find('.badge');
 
-        $badge.removeClass('bg-success bg-danger').addClass('bg-secondary').text('Pending');
+        $badge
+            .removeClass('bg-success bg-danger')
+            .addClass('bg-secondary')
+            .text('Pending');
+
         $(this).removeClass('is-invalid');
 
         if (!file) return;
@@ -1134,71 +1138,67 @@ $(document).ready(function () {
         }
 
         if (file.size > MAX_SIZE) {
-            alert('File size exceeds 2MB limit!')
+            alert('File size exceeds 5MB limit!');
             this.value = '';
             $(this).addClass('is-invalid');
             return;
         }
 
-        $badge.removeClass('bg-secondary').addClass('bg-success').text('Uploaded')
-    })
+        $badge
+            .removeClass('bg-secondary')
+            .addClass('bg-success')
+            .text('Uploaded');
+
+        saveStep3ToLocal();
+    });
+
 
     function validateStep3() {
-        let isValid = true;
-        let firstInvalid = null;
-
-        $('#step3Form input[type="file"][required]:enabled').each(function () {
-
-            if (this.files.length === 0) {
-                isValid = false;
-
-                if (!firstInvalid) firstInvalid = this;
-
-                $(this)
-                    .closest('.upload-card')
-                    .find('.badge')
-                    .removeClass('bg-secondary bg-success')
-                    .addClass('bg-danger')
-                    .text('Required');
-            }
-        });
-
-        if (!isValid) {
-            alert('Please upload required documents before proceeding.');
-
-            // 🔥 optional: auto scroll to first missing document
-            $('html, body').animate({
-                scrollTop: $(firstInvalid).closest('.upload-card').offset().top - 120
-            }, 400);
-        }
-
-        return isValid;
+        // Documents are optional
+        return true;
     }
+
 
     function saveStep3ToLocal() {
         const docs = {};
-        $('#step3Form input[type="file"]').each(function () {
-            const id = $(this).attr('id'); // BUT input ke paas id hi nahi
 
-            docs[id] = this.files.length > 0;
-        })
+        $('#step3Form input[type="file"]').each(function () {
+
+            // Input ke paas id nahi hai, isliye name use kar sakte ho
+            const key = $(this).attr('name');
+
+            if (key) {
+                docs[key] = this.files.length > 0;
+            }
+        });
 
         localStorage.setItem(STEP3_KEY, JSON.stringify(docs));
     }
 
+
     function loadStep3FromLocal() {
+
         const data = localStorage.getItem(STEP3_KEY);
 
         if (!data) return;
 
         const docs = JSON.parse(data);
 
-        Object.keys(docs).forEach(id => {
-            if (docs[id]) {
-                $('#' + id).closest('.upload-card').addClass('uploaded').find('.badge').removeClass(
-                    'bg-secondary bg-danger').addClass('bg-success').text('Uploaded');
+        Object.keys(docs).forEach(key => {
+
+            if (docs[key]) {
+
+                const $input = $(`#step3Form input[name="${key}"]`);
+
+                $input
+                    .closest('.upload-card')
+                    .addClass('uploaded')
+                    .find('.badge')
+                    .removeClass('bg-secondary bg-danger')
+                    .addClass('bg-success')
+                    .text('Uploaded');
             }
-        })
+        });
 
         return true;
     }
@@ -1561,41 +1561,28 @@ $(document).ready(function () {
                 formData.append(`english_tests[${test}][${field}]`, value);
             }
         }
-
-        // Step3 files
-        const step3Files = [
-            'cnic',
-            'passport',
-            'photograph',
-            'cv-resume',
-            'proficiency-letter',
-            'motivation-letter',
-            'matric-marksheet',
-            'matric-certificate',
-            'intermediate-marksheet',
-            'intermediate-certificate',
-            'bachelors-transcript',
-            'bachelors-degree',
-            'masters-transcript',
-            'masters-degree',
-            'ielts-certificate',
-            'toefl-certificate',
-            'pte-certificate'
-        ];
-
+        
         const multipleStep3Files = [
+            'cnic[]',
+            'passport[]',
+            'photograph[]',
+            'cv-resume[]',
+            'proficiency-letter[]',
+            'motivation-letter[]',
+            'matric-marksheet[]',
+            'matric-certificate[]',
+            'intermediate-marksheet[]',
+            'intermediate-certificate[]',
+            'bachelors-transcript[]',
+            'bachelors-degree[]',
+            'masters-transcript[]',
+            'masters-degree[]',
+            'ielts-certificate[]',
+            'toefl-certificate[]',
+            'pte-certificate[]',
             'recommendation-letters[]',
             'experience-letters[]'
         ];
-
-        step3Files.forEach(name => {
-
-            const input = document.querySelector(`input[name="${name}"]`);
-
-            if (input && input.files.length > 0) {
-                formData.append(`step3[${name}]`, input.files[0]);
-            }
-        });
 
         multipleStep3Files.forEach(name => {
 

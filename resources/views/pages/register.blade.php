@@ -585,12 +585,12 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png;" name="cnic"
-                                            id="cnic" hidden required>
+                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png;" name="cnic[]"
+                                            id="cnic" hidden multiple >
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -611,12 +611,12 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="passport"
-                                            id="passport" hidden required>
+                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="passport[]"
+                                            id="passport" hidden multiple >
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -637,12 +637,12 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="photograph"
-                                            id="photograph" hidden required>
+                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="photograph[]"
+                                            id="photograph" hidden multiple >
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -663,12 +663,12 @@
                                     </div>
 
                                     <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf" name="cv-resume"
-                                            id="cv-resume" hidden required>
+                                        <input type="file" class="document-upload" accept=".pdf" name="cv-resume[]"
+                                            id="cv-resume" hidden multiple >
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF | Max 2MB</small>
+                                            <small>PDF | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -693,7 +693,7 @@
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -715,12 +715,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="recommendation-letters[]" id="recommendation-letter" hidden
-                                            multiple>
+                                            name="recommendation-letters[]" id="recommendation-letter" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -742,11 +741,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="proficiency-letter" id="proficiency-letter" hidden>
+                                            name="proficiency-letter[]" id="proficiency-letter" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -768,11 +767,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="motivation-letter" id="motivation-letter" hidden>
+                                            name="motivation-letter[]" id="motivation-letter" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -795,11 +794,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="matric-marksheet" id="matric-marksheet" hidden>
+                                            name="matric-marksheet[]" id="matric-marksheet" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -822,11 +821,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="matric-certificate" id="matric-certificate" hidden>
+                                            name="matric-certificate[]" id="matric-certificate" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -849,11 +848,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="intermediate-marksheet" id="intermediate-marksheet" hidden>
+                                            name="intermediate-marksheet[]" id="intermediate-marksheet" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -876,11 +875,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="intermediate-certificate" id="intermediate-certificate" hidden>
+                                            name="intermediate-certificate[]" id="intermediate-certificate" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -903,11 +902,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="bachelors-transcript" id="bachelors-transcript" hidden>
+                                            name="bachelors-transcript[]" id="bachelors-transcript" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -930,11 +929,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="bachelors-degree" id="bachelors-degree" hidden>
+                                            name="bachelors-degree[]" id="bachelors-degree" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -957,11 +956,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="masters-transcript" id="masters-transcript" hidden>
+                                            name="masters-transcript[]" id="masters-transcript" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -984,11 +983,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="masters-degree" id="masters-degree" hidden>
+                                            name="masters-degree[]" id="masters-degree" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -1010,11 +1009,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="ielts-certificate" id="ielts-certificate" hidden>
+                                            name="ielts-certificate[]" id="ielts-certificate" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -1036,11 +1035,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="toefl-certificate" id="toefl-certificate" hidden>
+                                            name="toefl-certificate[]" id="toefl-certificate" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>
@@ -1062,11 +1061,11 @@
 
                                     <label class="upload-box">
                                         <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="pte-certificate" id="pte-certificate" hidden>
+                                            name="pte-certificate[]" id="pte-certificate" hidden multiple>
                                         <div class="upload-placeholder">
                                             <i class="ri-upload-cloud-line"></i>
                                             <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 2MB</small>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
                                         </div>
                                         <div class="uploaded-files"></div>
                                     </label>

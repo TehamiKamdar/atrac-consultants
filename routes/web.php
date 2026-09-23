@@ -71,3 +71,8 @@ Route::post('save-new-university-department-course', [RegisterController::class 
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);
+
+
+// Admin ROUTES
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

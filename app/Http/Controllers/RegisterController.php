@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\country;
 use App\Models\course;
+use App\Models\departments;
+use App\Models\program_level;
+use App\Models\program;
 use App\Models\sim_codes;
+use App\Models\studenteducation;
+use App\Models\studentenglishtests;
 use App\Models\students;
 use App\Models\university;
-use App\Models\departments;
-use App\Models\program;
-use App\Models\program_level;
-use Illuminate\Support\Str;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\studenteducation;
 use Illuminate\Support\Facades\DB;
-use App\Models\studentenglishtests;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -237,9 +239,30 @@ class RegisterController extends Controller
             if (!is_array($countryIds)) {
                 $countryIds = [$countryIds];
             }
-            
-            // 1. Save student
+
+            // First + Last Name
+            $firstName = ucfirst(strtolower(trim($data['step1']['firstName'])));
+            $lastName  = ucfirst(strtolower(trim($data['step1']['lastName'])));
+
+            $fullName = $firstName . ' ' . $lastName;
+
+            // Username: lowercase firstname + lastname
+            $username = strtolower($firstName . $lastName);
+
+            // Random password
+            $password = Str::random(12);
+
+            // 1. Create User
+            $user = User::create([
+                'name' => $fullName,
+                'email' => $data['step1']['email'],
+                'username' => $username,
+                'password' => Hash::make($password),
+                'status' => 2,
+            ]);
+            // 2. Save student
             $student = students::create([
+                'user_id' => $user->id,
                 'first_name' => $data['step1']['firstName'],
                 'last_name' => $data['step1']['lastName'],
                 'father_name' => $data['step1']['fatherName'],
@@ -309,57 +332,6 @@ class RegisterController extends Controller
             if (!Storage::disk('public')->exists($studentFolder)) {
                 Storage::disk('public')->makeDirectory($studentFolder);
             }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Single File Documents
-            |--------------------------------------------------------------------------
-            */
-
-            // $documentFields = [
-            //     'cnic',
-            //     'passport',
-            //     'photograph',
-            //     'cv-resume',
-            //     'proficiency-letter',
-            //     'motivation-letter',
-            //     'matric-marksheet',
-            //     'matric-certificate',
-            //     'intermediate-marksheet',
-            //     'intermediate-certificate',
-            //     'bachelors-transcript',
-            //     'bachelors-degree',
-            //     'masters-transcript',
-            //     'masters-degree',
-            //     'ielts-certificate',
-            //     'toefl-certificate',
-            //     'pte-certificate',
-            // ];
-
-            // foreach ($documentFields as $field) {
-
-            //     if (!$request->hasFile("step3.$field")) {
-            //         continue;
-            //     }
-
-            //     $file = $request->file("step3.$field");
-
-            //     $fileName = $field . '.' . $file->getClientOriginalExtension();
-
-            //     $path = $file->storeAs(
-            //         $studentFolder,
-            //         $fileName,
-            //         'public'
-            //     );
-
-            //     \App\Models\studentdocument::create([
-            //         'student_id' => $student->id,
-            //         'document_type' => $field,
-            //         'file_path' => $path,
-            //     ]);
-            // }
-
 
             /*
             |--------------------------------------------------------------------------

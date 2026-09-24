@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('students')->group(function(){
         Route::get('', [StudentController::class , 'index'])->name('admin-students-index');
         Route::get('search', [StudentController::class , 'search'])->name('admin-students-search');
+        Route::get('/{studentId}/countries', [StudentController::class, 'getStudentCountriesandProgramLevel']);
+        Route::get('/{studentId}/programs', [StudentController::class, 'getStudentPrograms']);
         Route::get('/{studentId}/universities', [StudentController::class , 'getUniversityByStudent'])->name('admin-students-get-university');
         Route::get('/{studentId}/applications', [StudentController::class , 'getApplications'])->name('admin-students-get-applications');
         Route::get('/application-details/{id}', [StudentController::class, 'editApplication'])->name('students.applications.edit');

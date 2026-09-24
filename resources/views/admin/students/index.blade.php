@@ -1,6 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <style>
         input.form-control,
         select.form-control {
@@ -14,12 +15,147 @@
             border: none;
             border-bottom: 1px solid #fff
         }
-        td{
+
+        td {
             vertical-align: middle;
         }
+
         .programs-column {
             max-width: 280px;
             white-space: pre-wrap;
+        }
+
+        .select2-container {
+            color: black;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            border: solid #e1e5e9 1px;
+            outline: 0;
+            border-radius: 8px;
+            padding-bottom: 6px;
+        }
+
+        .select2-container .select2-search {
+            vertical-align: middle;
+        }
+
+        .select2-container #select2-country-container {
+            vertical-align: sub;
+        }
+
+        .select2-container .select2-search--inline .select2-search__field {
+            margin-top: 0px;
+            height: 24px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--primary-light);
+            border: 1px solid var(--primary-dark);
+            color: #212529;
+            border-radius: 6px;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: var(--bs-danger);
+        }
+
+
+        .program-search {
+            position: relative;
+        }
+
+        .program-search i.ri-search-line {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b95a5;
+            font-size: 18px;
+            z-index: 2;
+        }
+
+        .program-search input {
+            height: 46px;
+            padding-left: 42px;
+        }
+
+        /* Search Results */
+        .program-results {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 100%;
+            max-height: 250px;
+            overflow-y: auto;
+
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #212529;
+
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .program-result {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .program-result:last-child {
+            border-bottom: 0;
+        }
+
+        .program-result:hover {
+            background: #f8f9fa;
+        }
+
+        .program-info {
+            min-width: 0;
+        }
+
+        .program-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+
+        .program-meta {
+            font-size: 12px;
+            color: #7b8491;
+        }
+
+        .add-program {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #2bb673;
+            border-radius: 6px;
+            background: #fff;
+            color: #2bb673;
+            font-size: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .add-program:hover {
+            background: #2bb673;
+            color: #fff;
+        }
+
+        .program-empty {
+            padding: 15px;
+            text-align: center;
+            color: #8b95a5;
+            font-size: 13px;
+        }
+
+        small,
+        .small {
+            color: #c0c0c0;
         }
     </style>
 @endsection
@@ -185,10 +321,150 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true" data-bs-theme="dark">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+
+                <form id="detailsForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="ri-information-line me-2"></i>
+                            Details
+                        </h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="hidden" id="student_id">
+                        <!-- Countries -->
+                        <div class="mb-3">
+                            <label for="countries" class="form-label">
+                                Countries
+                            </label>
+
+                            <select id="countries" name="countries[]" class="form-select" multiple>
+                            </select>
+                        </div>
+
+                        <div class="mb-4 d-none" id="universityForm">
+
+                            <div class="program-search">
+                                <i class="ri-search-line"></i>
+
+                                <input type="text" class="form-control" id="programSearch"
+                                    placeholder="Search for a program..." autocomplete="off">
+
+
+                                <!-- Search Results -->
+                                <div id="programResults" class="program-results d-none"></div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-link p-0" id="addNewProgramBtn"> <i
+                                        class="ri-add-line"></i> Add New Program </button>
+                            </div> <!-- New Program Form -->
+                            <div id="newProgramForm" class="mt-3 d-none">
+                                <div class="row g-3">
+                                    <!-- Country -->
+                                    <div class="col-md-3">
+                                        <label for="country" class="form-label">
+                                            Country
+                                        </label>
+
+                                        <input type="text" class="form-control" id="countryName" list="countryList"
+                                            placeholder="Select country" autocomplete="off">
+
+                                        <datalist id="countryList">
+
+                                        </datalist>
+                                    </div>
+                                    <!-- University -->
+                                    <div class="col-md-3">
+                                        <label for="universityName" class="form-label"> University Name </label>
+                                        <input type="text" class="form-control" id="universityName" name="university_name"
+                                            list="universityList" placeholder="Select or enter university"
+                                            autocomplete="off">
+                                        <datalist id="universityList">
+
+                                        </datalist>
+                                    </div>
+                                    <!-- Department -->
+                                    <div class="col-md-3">
+                                        <label for="departmentName" class="form-label"> Department Name </label>
+                                        <input type="text" class="form-control" id="departmentName" name="department_name"
+                                            list="departmentList" placeholder="Select or enter department"
+                                            autocomplete="off">
+                                        <datalist id="departmentList">
+
+                                        </datalist>
+                                    </div>
+                                    <!-- Course -->
+                                    <div class="col-md-3">
+                                        <label for="courseName" class="form-label"> Program Name </label>
+                                        <input type="text" class="form-control" id="courseName" name="course_name"
+                                            placeholder="Enter course name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" id="saveNewProgram"> Add Program </button>
+                                    <button type="button" class="btn btn-light ms-2" id="cancelNewProgram"> Cancel </button>
+                                </div>
+                            </div>
+
+                            <!-- Selected Programs -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Country</th>
+                                            <th>Program</th>
+                                            <th>Course</th>
+                                            <th>Department</th>
+                                            <th>University</th>
+                                            <th width="60">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="departmentTable">
+
+                                        <tr class="text-muted text-center" id="noDataRow">
+                                            <td colspan="7">
+                                                No programs added yet
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Save Details
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -231,6 +507,237 @@
                 window.open(url, '_blank');
             });
 
+            /* ===============================
+            DETAILS MODAL
+            =============================== */
+            const modalDetailsEl = $('#detailsModal');
+            const modalDetails = new bootstrap.Modal(modalDetailsEl[0]);
+
+            // Outer scope state (pehle andar declared thay, isliye scope bug tha)
+            let studentId, selectedCountries = [], selectedPrograms = [], applying;
+            let searchTimeout = null;
+
+            function escapeHtml(value) {
+                return $('<div>').text(value ?? '').html();
+            }
+
+            function renderSelectedPrograms() {
+                const tbody = $('#departmentTable').empty();
+
+                if (!selectedPrograms.length) {
+                    tbody.html(`<tr class="text-muted text-center" id="noDataRow"><td colspan="7">No programs added yet</td></tr>`);
+                    return;
+                }
+
+                selectedPrograms.forEach((item, i) => {
+                    tbody.append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${escapeHtml(item.country)}</td>
+                    <td>${escapeHtml(item.program_level)}</td>
+                    <td>${escapeHtml(item.course || '-')}</td>
+                    <td>${escapeHtml(item.department)}</td>
+                    <td>${escapeHtml(item.university)}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-program-btn" data-index="${i}">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                    </td>
+                </tr>
+            `);
+                });
+            }
+
+            // Modal open hote hi pehle existing student applications load karo
+            function loadExistingPrograms() {
+                selectedPrograms = [];
+
+                $.ajax({
+                    url: `/students/${studentId}/programs`,
+                    method: 'GET',
+                    success: function (data) {
+                        console.log(data)
+                        selectedPrograms = data.flatMap(app =>
+                            (app.course_name || []).map((course, i) => ({
+                                program_id: app.program_id ?? null,
+                                program_level_id: app.program_level_id,
+                                program_level: app.program_level?.name ?? '',
+                                department_id: app.department_id?.[i] ?? null,
+                                department: app.departments?.[i]?.name ?? '',
+                                course_id: null,
+                                course,
+                                university_id: app.university_id,
+                                university: app.university?.name ?? '',
+                                country_id: app.country_id,
+                                country: app.country?.name ?? ''
+                            }))
+                        );
+                        renderSelectedPrograms();
+                    },
+                    error: xhr => console.error(xhr)
+                });
+            }
+
+            function refreshSearchResults() {
+                $('#programSearch').trigger('input');
+            }
+
+            /* ===============================
+               OPEN MODAL -> LOAD COUNTRIES
+            =============================== */
+            $(document).on('click', '.detailsBtn', function () {
+                studentId = $(this).data('id');
+
+                $.ajax({
+                    url: `/students/${studentId}/countries`,
+                    method: 'GET',
+                    success: function (response) {
+                        let $select = $('#countries');
+
+                        if ($select.hasClass('select2-hidden-accessible')) $select.select2('destroy');
+                        $select.empty();
+
+                        $.each(response.countries, (i, c) => $select.append(new Option(c.name, String(c.id), false, false)));
+
+                        selectedCountries = (response.selected || []).map(String);
+                        applying = response.applying;
+
+                        $select.val(selectedCountries);
+                        $select.select2({ width: '100%', dropdownParent: $('#detailsModal'), placeholder: 'Select countries' });
+                        $select.trigger('change');
+
+                        modalDetails.show();
+                        $('#universityForm').removeClass('d-none');
+                    },
+                    error: xhr => console.log(xhr.responseText)
+                });
+            });
+
+            // Modal fully open hote hi existing programs table mein show karo
+            $('#detailsModal').on('shown.bs.modal', loadExistingPrograms);
+
+            /* ===============================
+               SEARCH PROGRAMS
+            =============================== */
+            $('#programSearch').on('input', function () {
+                $('#programResults').removeClass('d-none');
+                const search = $(this).val().trim();
+                clearTimeout(searchTimeout);
+
+                if (!search.length) { $('#programResults').addClass('d-none'); return; }
+                if (search.length < 2) { $('#programResults').html(''); return; }
+
+                searchTimeout = setTimeout(function () {
+                    if (!selectedCountries.length || !applying) {
+                        $('#programResults').html(`<div class="alert alert-warning">Please select Country and Program Level first.</div>`);
+                        return;
+                    }
+
+                    $('#programResults').html(`<div class="text-muted p-3">Searching...</div>`);
+
+                    $.ajax({
+                        url: '/get-programs',
+                        type: 'GET',
+                        data: { search, country_ids: selectedCountries, program_level_id: applying },
+                        success: function (data) {
+                            if (!data.length) {
+                                $('#programResults').html(`<div class="text-muted p-3 border rounded">No matching program, course, department or university found.</div>`);
+                                return;
+                            }
+
+                            let html = '';
+
+                            data.forEach(program => {
+                                const levelName = program.level?.name || '';
+                                const universityName = program.university?.name || '';
+                                const countryName = program.university?.country?.name || '';
+
+                                program.departments.forEach(department => {
+                                    const courses = department.courses?.length ? department.courses : [null];
+
+                                    courses.forEach(course => {
+                                        const alreadySelected = selectedPrograms.some(item =>
+                                            item.program_id == program.id &&
+                                            item.department_id == department.id &&
+                                            item.course_id == (course?.id ?? null)
+                                        );
+
+                                        html += `
+                                    <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                        <div>
+                                            <div class="fw-semibold">${escapeHtml(course ? course.name : department.name)}</div>
+                                            <div class="small text-muted">
+                                                ${course ? escapeHtml(department.name) + ' &nbsp;•&nbsp; ' : ''}
+                                                ${escapeHtml(universityName)} &nbsp;•&nbsp; ${escapeHtml(levelName)} &nbsp;•&nbsp; ${escapeHtml(countryName)}
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success btn-sm add-program-btn"
+                                            data-program-id="${program.id}"
+                                            data-program-level-id="${program.program_level_id}"
+                                            data-program-level="${escapeHtml(levelName)}"
+                                            data-department-id="${department.id}"
+                                            data-department="${escapeHtml(department.name)}"
+                                            data-course-id="${course ? course.id : ''}"
+                                            data-course="${course ? escapeHtml(course.name) : ''}"
+                                            data-country="${escapeHtml(countryName)}"
+                                            data-country-id="${program.university.country_id}"
+                                            data-university-id="${program.university_id}"
+                                            data-university="${escapeHtml(universityName)}"
+                                            ${alreadySelected ? 'disabled' : ''}>
+                                            <i class="ri-add-line"></i>
+                                        </button>
+                                    </div>
+                                `;
+                                    });
+                                });
+                            });
+
+                            $('#programResults').html(html);
+                        },
+                        error: function (xhr) {
+                            console.error(xhr);
+                            $('#programResults').html(`<div class="alert alert-danger">Unable to search programs. Please try again.</div>`);
+                        }
+                    });
+                }, 300);
+            });
+
+            /* ===============================
+               ADD / REMOVE PROGRAM (existing wali list mein append hota hai)
+            =============================== */
+            $(document).on('click', '.add-program-btn', function () {
+                const button = $(this);
+
+                const item = {
+                    program_id: button.data('program-id'),
+                    program_level_id: button.data('program-level-id'),
+                    program_level: button.data('program-level'),
+                    department_id: button.data('department-id'),
+                    department: button.data('department'),
+                    course_id: button.data('course-id') || null,
+                    course: button.data('course') || '',
+                    university_id: button.data('university-id'),
+                    university: button.data('university'),
+                    country: button.data('country'),
+                    country_id: button.data('country-id'),
+                };
+
+                const exists = selectedPrograms.some(s =>
+                    s.program_id == item.program_id && s.department_id == item.department_id && s.course_id == item.course_id
+                );
+                if (exists) return;
+
+                selectedPrograms.push(item);
+                renderSelectedPrograms();
+                button.prop('disabled', true);
+                $('#programSearch').val('').trigger('input');
+            });
+
+            $(document).on('click', '.remove-program-btn', function () {
+                selectedPrograms.splice($(this).data('index'), 1);
+                renderSelectedPrograms();
+                refreshSearchResults();
+            });
 
             /* ===============================
                DELETE STUDENT + ALL RECORDS
@@ -371,93 +878,93 @@
                     } else {
                         $.each(applications, function (_, app) {
                             tbody.append(`
-                            <tr>
-                                <td style="width: 250px;">${app.university_name}</td>
-                                <td class="programs-column">${app.course_names.join(', ')}</td>
-                                <td>${app.uni_user_id ?? ''}</td>
-                                <td>${app.uni_user_password ?? ''}</td>
-                                <td><a href="${app.uni_url ?? ''}" target="_blank">${app.uni_url ?? '-'}</a></td>
-                                <td>
-                                    <select class="status-dropdown col-9" data-id="${app.id}">
-                                        <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>
-                                            Applied
-                                        </option>
-                                        <option value="under-evaluation" ${app.status === 'under-evaluation' ? 'selected' : ''}>
-                                            Under Evaluation
-                                        </option>
-                                        <option value="offer-received" ${app.status === 'offer-received' ? 'selected' : ''}>
-                                            Offer Received
-                                        </option>
-                                        <option value="acceptance-applied" ${app.status === 'acceptance-applied' ? 'selected' : ''}>
-                                            Acceptance Applied
-                                        </option>
-                                        <option value="acceptance-received" ${app.status === 'acceptance-received' ? 'selected' : ''}>
-                                            Acceptance Received
-                                        </option>
-                                        <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
-                                            Pre-Enrollment Applied
-                                        </option>
-                                        <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
-                                            Pre-Enrollment Applied
-                                        </option>
-                                        <option value="visa-file-preparation" ${app.status === 'visa-file-preparation' ? 'selected' : ''}>
-                                            Visa File Preparation
-                                        </option>
-                                        <option value="scholarship-application-done" ${app.status === 'scholarship-application-done' ? 'selected' : ''}>
-                                            Scholarship Application Done
-                                        </option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <button title="Delete" class="btn btn-sm btn-danger deleteApplicationBtn" data-id="${app.id}" data-bs-target="#deleteApplicationModal" data-bs-toggle="modal"><i class="ri-delete-bin-2-line"></i></button>
-                                    <button title="Edit" class="btn btn-sm btn-info editApplicationBtn" data-bs-target="#editApplicationModal" data-bs-toggle="modal" data-id="${app.id}"><i class="ri-pencil-line"></i></button>
-                                </td>
-                            </tr>
-                        `);
+                                    <tr>
+                                        <td style="width: 250px;">${app.university_name}</td>
+                                        <td class="programs-column">${app.course_names.join(', ')}</td>
+                                        <td>${app.uni_user_id ?? ''}</td>
+                                        <td>${app.uni_user_password ?? ''}</td>
+                                        <td><a href="${app.uni_url ?? ''}" target="_blank">${app.uni_url ?? '-'}</a></td>
+                                        <td>
+                                            <select class="status-dropdown col-9" data-id="${app.id}">
+                                                <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>
+                                                    Applied
+                                                </option>
+                                                <option value="under-evaluation" ${app.status === 'under-evaluation' ? 'selected' : ''}>
+                                                    Under Evaluation
+                                                </option>
+                                                <option value="offer-received" ${app.status === 'offer-received' ? 'selected' : ''}>
+                                                    Offer Received
+                                                </option>
+                                                <option value="acceptance-applied" ${app.status === 'acceptance-applied' ? 'selected' : ''}>
+                                                    Acceptance Applied
+                                                </option>
+                                                <option value="acceptance-received" ${app.status === 'acceptance-received' ? 'selected' : ''}>
+                                                    Acceptance Received
+                                                </option>
+                                                <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
+                                                    Pre-Enrollment Applied
+                                                </option>
+                                                <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
+                                                    Pre-Enrollment Applied
+                                                </option>
+                                                <option value="visa-file-preparation" ${app.status === 'visa-file-preparation' ? 'selected' : ''}>
+                                                    Visa File Preparation
+                                                </option>
+                                                <option value="scholarship-application-done" ${app.status === 'scholarship-application-done' ? 'selected' : ''}>
+                                                    Scholarship Application Done
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button title="Delete" class="btn btn-sm btn-danger deleteApplicationBtn" data-id="${app.id}" data-bs-target="#deleteApplicationModal" data-bs-toggle="modal"><i class="ri-delete-bin-2-line"></i></button>
+                                            <button title="Edit" class="btn btn-sm btn-info editApplicationBtn" data-bs-target="#editApplicationModal" data-bs-toggle="modal" data-id="${app.id}"><i class="ri-pencil-line"></i></button>
+                                        </td>
+                                    </tr>
+                                `);
                             $('body').append(`
-                            <div
-                                class="modal fade"
-                                id="deleteApplicationModal"
-                                data-bs-backdrop="static"
-                                tabindex="-1"
-                                aria-hidden="true"
-                            >
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content bg-dark text-light border-secondary">
+                                    <div
+                                        class="modal fade"
+                                        id="deleteApplicationModal"
+                                        data-bs-backdrop="static"
+                                        tabindex="-1"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content bg-dark text-light border-secondary">
 
-                                        <div class="modal-header border-secondary py-2 px-4">
-                                            <h5 class="modal-title">Delete Record</h5>
+                                                <div class="modal-header border-secondary py-2 px-4">
+                                                    <h5 class="modal-title">Delete Record</h5>
 
-                                            <button
-                                                type="button"
-                                                class="btn-sm btn-danger py-0 px-1 rounded"
-                                                data-bs-dismiss="modal"
-                                            >
-                                                <i class="ri-close-line"></i>
-                                            </button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn-sm btn-danger py-0 px-1 rounded"
+                                                        data-bs-dismiss="modal"
+                                                    >
+                                                        <i class="ri-close-line"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body py-2 px-4">
+                                                    <p style="font-size: 14px;">
+                                                        Are you sure you want to remove this application record?
+                                                    </p>
+                                                </div>
+
+                                                <div class="modal-footer border-secondary">
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-sm btn-danger"
+                                                        id="confirmDeleteApplication"
+                                                    >
+                                                        <i class="ri-delete-bin-2-line me-2"></i>
+                                                        Delete
+                                                    </button>
+                                                </div>
+
+                                            </div>
                                         </div>
-
-                                        <div class="modal-body py-2 px-4">
-                                            <p style="font-size: 14px;">
-                                                Are you sure you want to remove this application record?
-                                            </p>
-                                        </div>
-
-                                        <div class="modal-footer border-secondary">
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-danger"
-                                                id="confirmDeleteApplication"
-                                            >
-                                                <i class="ri-delete-bin-2-line me-2"></i>
-                                                Delete
-                                            </button>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </div>
-                        `);
+                                `);
                         });
                     }
                 }).fail(function () {
@@ -491,7 +998,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    beforeSend: function(){
+                    beforeSend: function () {
                         $('.saveGmailPass').text('Saving..').prop("disabled", true);
                     },
                     success: function (data) {
@@ -561,50 +1068,50 @@
                         }
 
                         tbody.append(`
-                        <tr>
-                            <td style="width: 250px;">${$('#universitySelect option:selected').text()}</td>
-                            <td class="programs-column">${$('#programs').val()}</td>
-                            <td>${$('#uniUserId').val()}</td>
-                            <td>${$('#uniPassword').val()}</td>
-                            <td><a href="${$('#uniUrl').val()}" target="_blank">${$('#uniUrl').val() ?? '-'}</a></td>
-                            <td>
-                                <select class="status-dropdown col-9" data-id="${data.id ?? ''}" disabled>
-                                    <option value="applied" ${$('#status').val() === 'applied' ? 'selected' : ''}>
-                                        Applied
-                                    </option>
+                                <tr>
+                                    <td style="width: 250px;">${$('#universitySelect option:selected').text()}</td>
+                                    <td class="programs-column">${$('#programs').val()}</td>
+                                    <td>${$('#uniUserId').val()}</td>
+                                    <td>${$('#uniPassword').val()}</td>
+                                    <td><a href="${$('#uniUrl').val()}" target="_blank">${$('#uniUrl').val() ?? '-'}</a></td>
+                                    <td>
+                                        <select class="status-dropdown col-9" data-id="${data.id ?? ''}" disabled>
+                                            <option value="applied" ${$('#status').val() === 'applied' ? 'selected' : ''}>
+                                                Applied
+                                            </option>
 
-                                    <option value="under-evaluation" ${$('#status').val() === 'under-evaluation' ? 'selected' : ''}>
-                                        Under Evaluation
-                                    </option>
+                                            <option value="under-evaluation" ${$('#status').val() === 'under-evaluation' ? 'selected' : ''}>
+                                                Under Evaluation
+                                            </option>
 
-                                    <option value="offer-received" ${$('#status').val() === 'offer-received' ? 'selected' : ''}>
-                                        Offer Received
-                                    </option>
+                                            <option value="offer-received" ${$('#status').val() === 'offer-received' ? 'selected' : ''}>
+                                                Offer Received
+                                            </option>
 
-                                    <option value="acceptance-applied" ${$('#status').val() === 'acceptance-applied' ? 'selected' : ''}>
-                                        Acceptance Applied
-                                    </option>
+                                            <option value="acceptance-applied" ${$('#status').val() === 'acceptance-applied' ? 'selected' : ''}>
+                                                Acceptance Applied
+                                            </option>
 
-                                    <option value="acceptance-received" ${$('#status').val() === 'acceptance-received' ? 'selected' : ''}>
-                                        Acceptance Received
-                                    </option>
+                                            <option value="acceptance-received" ${$('#status').val() === 'acceptance-received' ? 'selected' : ''}>
+                                                Acceptance Received
+                                            </option>
 
-                                    <option value="pre-enrollment-applied" ${$('#status').val() === 'pre-enrollment-applied' ? 'selected' : ''}>
-                                        Pre-Enrollment Applied
-                                    </option>
+                                            <option value="pre-enrollment-applied" ${$('#status').val() === 'pre-enrollment-applied' ? 'selected' : ''}>
+                                                Pre-Enrollment Applied
+                                            </option>
 
-                                    <option value="visa-file-preparation" ${$('#status').val() === 'visa-file-preparation' ? 'selected' : ''}>
-                                        Visa File Preparation
-                                    </option>
+                                            <option value="visa-file-preparation" ${$('#status').val() === 'visa-file-preparation' ? 'selected' : ''}>
+                                                Visa File Preparation
+                                            </option>
 
-                                    <option value="scholarship-application-done" ${$('#status').val() === 'scholarship-application-done' ? 'selected' : ''}>
-                                        Scholarship Application Done
-                                    </option>
-                                </select>
-                            </td>
-                            <td></td>
-                        </tr>
-                    `);
+                                            <option value="scholarship-application-done" ${$('#status').val() === 'scholarship-application-done' ? 'selected' : ''}>
+                                                Scholarship Application Done
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            `);
 
                         $('#programs, #uniUserId, #uniPassword, #uniUrl').val('');
                         $('#status').val('applied');
@@ -719,45 +1226,45 @@
 
             });
 
-            $(document).on('click', '.editApplicationBtn', function(){
+            $(document).on('click', '.editApplicationBtn', function () {
                 let applicationId = $(this).data("id");
                 $.ajax({
                     url: '/students/application-details/' + applicationId,
                     method: 'GET',
-                    success: function(response){
+                    success: function (response) {
                         $('#editApplicationId').val(response.data.id);
                         $('#editUserId').val(response.data.uni_user_id);
                         $('#editPassword').val(response.data.uni_user_password);
                         $('#editUrl').val(response.data.uni_url);
                     },
-                    error: function(xhr){
+                    error: function (xhr) {
                         console.log(xhr.responseJSON);
                     },
                 })
             })
 
-            $(document).on('click', '#saveApplicationChanges', function(){
+            $(document).on('click', '#saveApplicationChanges', function () {
                 let applicationId = $('#editApplicationId').val()
                 let userId = $('#editUserId').val()
                 let password = $('#editPassword').val()
                 let url = $('#editUrl').val()
                 $.ajax({
                     url: '/students/application-details/update',
-                    method:'POST',
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         'X-Requested-With': 'XMLHttpRequest'
                     },
-                    data:{
+                    data: {
                         id: applicationId,
                         uni_user_id: userId,
                         uni_user_password: password,
                         uni_url: url,
                     },
-                    beforeSend: function(){
+                    beforeSend: function () {
                         $('#saveApplicationChanges').text('Saving..').prop('disabled', true);
                     },
-                    success: function(response){
+                    success: function (response) {
                         iziToast.success({
                             title: 'Success',
                             message: response.message,
@@ -769,7 +1276,7 @@
                         $('body').css('overflow', '');
                         $('#editApplicationModal').hide()
                     },
-                    error: function(xhr){
+                    error: function (xhr) {
                         console.log(xhr.responseJSON)
                         iziToast.error({
                             title: 'Error',

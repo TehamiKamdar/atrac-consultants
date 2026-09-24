@@ -40,12 +40,12 @@ class studentapplication extends Model
         return $this->belongsTo(country::class);
     }
 
-    public function program()
+    public function programLevel()
     {
-        return $this->belongsTo(program::class);
+        return $this->belongsTo(program_level::class);
     }
 
-    public function department()
+    public function departments()
     {
         return $this->belongsTo(departments::class);
     }

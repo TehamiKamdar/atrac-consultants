@@ -1527,9 +1527,20 @@ $(document).ready(function () {
         const englishTestList = JSON.parse(localStorage.getItem('english_tests'));
         const formData = new FormData();
 
+        console.log(`Step 1: ${step1}`)
+        console.log(`Step 1 Country: ${JSON.stringify(step1.country)}`)
+        console.log('Country Type:', typeof step1.country);
+        console.log('Is Array:', Array.isArray(step1.country));
+
         // Step1
         for (const key in step1) {
-            formData.append(`step1[${key}]`, step1[key]);
+            if (Array.isArray(step1[key])) {
+                step1[key].forEach(value => {
+                    formData.append(`step1[${key}][]`, value);
+                });
+            } else {
+                formData.append(`step1[${key}]`, step1[key]);
+            }
         }
 
         // Step2

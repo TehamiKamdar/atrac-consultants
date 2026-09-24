@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\country;
+use App\Models\departments;
 use App\Models\studentapplication;
 use App\Models\studentapplicationdetail;
 use App\Models\students;
@@ -30,6 +32,57 @@ class StudentController extends Controller
         })->orderBy('first_name')->get();
 
         return view('admin.students.partials.table', compact('students'));
+    }
+
+    public function getStudentCountriesandProgramLevel($studentId)
+    {
+        $student = students::findOrFail($studentId);
+
+        $countries = country::where('status', "active")
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        return response()->json([
+            'countries' => $countries,
+            'selected' => $student->country_id ?? [],
+            'applying' => $student->program_level_id,
+        ]);
+    }
+
+    public function getStudentPrograms($studentId)
+    {
+        $applications = studentapplication::with([
+            'country',
+            'university',
+            'programLevel',
+        ])
+            ->where('student_id', $studentId)
+            ->get();
+
+        // Sab applications ke department_id collect karke ek hi query mein names fetch karo
+        $allDepartmentIds = $applications
+            ->pluck('department_id')
+            ->flatten()
+            ->filter()
+            ->unique()
+            ->values();
+
+        $departmentsMap = departments::whereIn('id', $allDepartmentIds)
+            ->get(['id', 'name'])
+            ->keyBy('id');
+
+        $applications->transform(function ($app) use ($departmentsMap) {
+            $ids = $app->department_id ?? [];
+
+            $app->departments = collect($ids)
+                ->map(fn($id) => $departmentsMap->get($id))
+                ->filter()
+                ->values();
+
+            return $app;
+        });
+
+        return response()->json($applications);
     }
 
     public function getUniversityByStudent($id)
@@ -84,8 +137,8 @@ class StudentController extends Controller
                         'id' => $app->id,
 
                         'university_name' => $app->university
-                        ? $app->university->name . ' - ' . ($app->university->country->name ?? '')
-                        : '',
+                            ? $app->university->name . ' - ' . ($app->university->country->name ?? '')
+                            : '',
 
                         'course_names' => $app->application
                             ? ($app->application->course_name ?? [])
@@ -243,7 +296,8 @@ class StudentController extends Controller
         ]);
     }
 
-    public function editApplication($id){
+    public function editApplication($id)
+    {
         try {
 
             $applicationDetail = studentapplicationdetail::find($id);
@@ -258,8 +312,7 @@ class StudentController extends Controller
                 'success' => true,
                 'data' => $applicationDetail,
             ]);
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
 
             return response()->json([
                 'success' => false,
@@ -268,16 +321,17 @@ class StudentController extends Controller
         }
     }
 
-    public function updateApplication(Request $request){
+    public function updateApplication(Request $request)
+    {
         $request->validate([
             'uni_user_id' => 'nullable|string',
             'uni_user_password' => 'nullable|string',
             'uni_url' => 'nullable|string',
         ]);
-        
+
         $applicationDetail = studentapplicationdetail::findOrFail($request->id);
 
-        if(!$applicationDetail){
+        if (!$applicationDetail) {
             return response()->json([
                 'success' => false,
                 'message' => 'Application not Found'

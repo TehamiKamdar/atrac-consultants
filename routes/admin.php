@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function(){
     });
     Route::get('programs', [AdminController::class , 'activePrograms'])->name('admin-programs');
     Route::get('contacts', [ContactController::class , 'index'])->name('admin-contacts');
-    Route::prefix('faqs')->group(function(){
+    Route::prefix('afaqs')->group(function(){
         Route::get('', [FaqController::class , 'index'])->name('admin-faqs');
         Route::get('create', [FaqController::class , 'create'])->name('admin-faqs-create');
         Route::post('store', [FaqController::class , 'store'])->name('admin-faqs-store');

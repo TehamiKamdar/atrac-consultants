@@ -702,6 +702,176 @@
                 }, 300);
             });
 
+            document.getElementById('addNewProgramBtn').addEventListener('click', function () {
+                $("#universityName").val("Select Country").prop("disabled", true)
+                $("#departmentName").val("Select University").prop("disabled", true)
+                $("#courseName").val("Select Department").prop("disabled", true)
+                const countryIds = $('#countries').val();
+
+                $.ajax({
+                    url: '/get-countries',
+                    method: 'GET',
+                    data: {
+                        country_ids: countryIds
+                    },
+
+                    beforeSend: function () {
+                        $('#countryList')
+                            .val('Loading...')
+                            .prop('disabled', true);
+                    },
+
+                    success: function (data) {
+
+                        $('#countryList')
+                            .val('')
+                            .prop('disabled', false);
+
+                        $('#countryList').empty();
+
+                        $.each(data, function (index, country) {
+
+                            $("#countryList").append(`<option value="${country.name}">`)
+
+                        });
+                    },
+
+                    error: function (xhr) {
+
+                        console.log(xhr.responseJSON);
+
+                        $('#countryList')
+                            .val('')
+                            .prop('disabled', false);
+                    }
+                });
+
+                $('#countryName').on('input', function () {
+                    $.ajax({
+                        url: '/get-universities',
+                        method: 'GET',
+                        data: {
+                            country_name: $('#countryName').val()
+                        },
+                        beforeSend: function () {
+                            $("#universityList").empty()
+                            $("#universityName").val("Loading...").prop("disabled", true);
+                        },
+                        success: function (data) {
+                            $.each(data, function (index, university) {
+                                $("#universityList").append(`<option value="${university.name}">`)
+                            })
+                            $("#universityName").val("").prop("disabled", false);
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseJSON);
+                        },
+
+                    })
+                })
+
+                $("#universityName").on('input', function () {
+                    $.ajax({
+                        url: '/get-departments',
+                        method: 'GET',
+                        data: {
+                            university_name: $('#universityName').val(),
+                            program_level_id: applying,
+                        },
+                        beforeSend: function () {
+                            $("#departmentList").empty()
+                            $("#departmentName").val("").prop("disabled", true);
+                        },
+                        success: function (data) {
+                            $.each(data, function (index, department) {
+                                $("#departmentList").append(`<option value="${department.name}">`)
+                            });
+                            $("#courseName").val("Select Department").prop("disabled", true);
+                            $("#departmentName").val("").prop("disabled", false);
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseJSON)
+                        },
+                    })
+                })
+
+                $("#departmentName").on("input", function () {
+                    $("#courseName").val("").prop("disabled", false)
+                })
+
+                document.getElementById('newProgramForm').classList.remove('d-none');
+                this.classList.add('d-none');
+            });
+
+            document.getElementById('cancelNewProgram').addEventListener('click', function () {
+                document.getElementById('newProgramForm').classList.add('d-none');
+                document.getElementById('addNewProgramBtn').classList.remove('d-none');
+            });
+
+            $("#saveNewProgram").on("click", function () {
+                let universityName = $("#universityName").val();
+                let departmentName = $("#departmentName").val();
+                let courseName = $("#courseName").val();
+                let countryName = $("#countryName").val();
+                let programLevelId = applying;
+
+                $.ajax({
+                    url: '/save-new-university-department-course',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        university_name: universityName,
+                        department_name: departmentName,
+                        course_name: courseName,
+                        country_name: countryName,
+                        program_level_id: programLevelId,
+                    },
+                    beforeSend: function () {
+                        $("#saveNewProgram").text("Saving...").prop("disabled", true)
+                        $("#countryName").prop("disabled", true);
+                        $("#universityName").prop("disabled", true);
+                        $("#departmentName").prop("disabled", true);
+                        $("#courseName").prop("disabled", true)
+                    },
+                    success: function (response) {
+                        console.log(response.message);
+
+                        $("#saveNewProgram").text(response.message);
+
+                        setTimeout(function () {
+                            $("#saveNewProgram")
+                                .text("Add Program")
+                                .prop("disabled", false);
+
+                            $("#countryName").val("").prop("disabled", false);
+                            $("#universityName").val("");
+                            $("#departmentName").val("");
+                            $("#courseName").val("");
+
+                        }, 1000);
+                    },
+                    error: function (xhr) {
+
+                        console.log(xhr.responseJSON);
+
+                        setTimeout(function () {
+                            $("#saveNewProgram")
+                                .text("Error");
+                        }, 2000)
+
+                        $("#saveNewProgram").text("Add Program").prop("disabled", false);
+                        $("#countryName").prop("disabled", false);
+                        $("#universityName").prop("disabled", false);
+                        $("#departmentName").prop("disabled", false);
+                        $("#courseName").prop("disabled", false);
+
+                    },
+
+                })
+            })
+
             /* ===============================
                ADD / REMOVE PROGRAM (existing wali list mein append hota hai)
             =============================== */

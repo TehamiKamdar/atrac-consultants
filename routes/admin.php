@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/{studentId}/university/{universityId}/programs',  [StudentController::class, 'getUniversityprograms'])->name('students.university.programs');
         Route::post('/emailpass/store', [StudentController::class , 'gmailPassStore'])->name('admin-students-set-emailpass');
         Route::post('/applications/store', [StudentController::class , 'store'])->name('admin-students-set-applications');
+        Route::post('/store-applications', [StudentController::class , 'storeApplications'])->name('admin-students-store-applications');
         Route::put('/applications/{studentId}/status', [StudentController::class, 'updateStatus'])->name('student-applications.update-status');
         Route::delete('/{studentId}/delete', [StudentController::class , 'destroy'])->name('admin-students-delete-applications');
     });

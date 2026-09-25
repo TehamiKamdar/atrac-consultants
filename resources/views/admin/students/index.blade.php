@@ -350,7 +350,8 @@
 
                         <div class="mb-4 d-none" id="universityForm">
 
-                            <div class="program-search">
+                            <div class="row align-items-center justify-content-between my-3" id="searchBar">
+                                <div class="program-search col-10">
                                 <i class="ri-search-line"></i>
 
                                 <input type="text" class="form-control" id="programSearch"
@@ -361,14 +362,15 @@
                                 <div id="programResults" class="program-results d-none"></div>
                             </div>
 
-                            <div class="mt-3">
-                                <button type="button" class="btn btn-link p-0" id="addNewProgramBtn"> <i
-                                        class="ri-add-line"></i> Add New Program </button>
-                            </div> <!-- New Program Form -->
-                            <div id="newProgramForm" class="mt-3 d-none">
-                                <div class="row g-3">
+                            <div class="col-2 d-flex justify-content-end">
+                                <button type="button" class="btn btn-dark text-end" id="addNewProgramBtn"> <i class="ri-add-line"></i> Add New Program </button>
+                            </div>
+                            </div>
+                            <!-- New Program Form -->
+                            <div id="newProgramForm" class="my-3 d-none">
+                                <div class="row g-3 align-items-end">
                                     <!-- Country -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label for="country" class="form-label">
                                             Country
                                         </label>
@@ -381,7 +383,7 @@
                                         </datalist>
                                     </div>
                                     <!-- University -->
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label for="universityName" class="form-label"> University Name </label>
                                         <input type="text" class="form-control" id="universityName" name="university_name"
                                             list="universityList" placeholder="Select or enter university"
@@ -406,10 +408,10 @@
                                         <input type="text" class="form-control" id="courseName" name="course_name"
                                             placeholder="Enter course name" autocomplete="off">
                                     </div>
-                                </div>
-                                <div class="mt-3">
-                                    <button type="button" class="btn btn-primary" id="saveNewProgram"> Add Program </button>
-                                    <button type="button" class="btn btn-light ms-2" id="cancelNewProgram"> Cancel </button>
+                                    <div class="mt-3 col-md-2">
+                                        <button type="button" class="btn btn-primary" id="saveNewProgram"> Add Program </button>
+                                        <button type="button" class="btn btn-light ms-2" id="cancelNewProgram"> Cancel </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -546,6 +548,8 @@
                 </tr>
             `);
                 });
+
+                console.log(selectedPrograms)
             }
 
             // Modal open hote hi pehle existing student applications load karo
@@ -559,7 +563,6 @@
                         console.log(data)
                         selectedPrograms = data.flatMap(app =>
                             (app.course_name || []).map((course, i) => ({
-                                program_id: app.program_id ?? null,
                                 program_level_id: app.program_level_id,
                                 program_level: app.program_level?.name ?? '',
                                 department_id: app.department_id?.[i] ?? null,
@@ -800,12 +803,12 @@
                 })
 
                 document.getElementById('newProgramForm').classList.remove('d-none');
-                this.classList.add('d-none');
+                $('#searchBar').addClass('d-none');
             });
 
             document.getElementById('cancelNewProgram').addEventListener('click', function () {
                 document.getElementById('newProgramForm').classList.add('d-none');
-                document.getElementById('addNewProgramBtn').classList.remove('d-none');
+                document.getElementById('searchBar').classList.remove('d-none');
             });
 
             $("#saveNewProgram").on("click", function () {
@@ -844,6 +847,8 @@
                             $("#saveNewProgram")
                                 .text("Add Program")
                                 .prop("disabled", false);
+                            $('#searchBar').removeClass("d-none")
+                            $('#newProgramForm').addClass("d-none")
 
                             $("#countryName").val("").prop("disabled", false);
                             $("#universityName").val("");
@@ -879,7 +884,6 @@
                 const button = $(this);
 
                 const item = {
-                    program_id: button.data('program-id'),
                     program_level_id: button.data('program-level-id'),
                     program_level: button.data('program-level'),
                     department_id: button.data('department-id'),
@@ -893,15 +897,45 @@
                 };
 
                 const exists = selectedPrograms.some(s =>
-                    s.program_id == item.program_id && s.department_id == item.department_id && s.course_id == item.course_id
+                    s.department_id == item.department_id && s.course == item.course
                 );
-                if (exists) return;
+                if (exists) {alert('Program already added'); return;}
 
                 selectedPrograms.push(item);
                 renderSelectedPrograms();
                 button.prop('disabled', true);
                 $('#programSearch').val('').trigger('input');
             });
+
+            $(document).on('submit', '#detailsForm', saveSelectedPrograms);
+
+            function saveSelectedPrograms(e) {
+                e.preventDefault()
+                $.ajax({
+                    url: '/students/store-applications',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        student_id: studentId,
+                        selectedPrograms: selectedPrograms
+                    },
+                    success: function(response) {
+                        iziToast.success({
+                            title: 'Updated',
+                            message: response.message ?? 'Student applications record updated',
+                            position: 'topRight'
+                        });
+                    },
+                    error: function(xhr) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: xhr.message ?? 'Error Occured',
+                            position: 'topRight'
+                        });
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            }
 
             $(document).on('click', '.remove-program-btn', function () {
                 selectedPrograms.splice($(this).data('index'), 1);
@@ -914,7 +948,7 @@
             =============================== */
             $(document).on('click', '.deleteBtn', function () {
 
-                let studentId = $(this).data('id');
+                studentId = $(this).data('id');
 
                 $.ajax({
                     url: `https://atracconsultants.com/api/delete/student/document/${studentId}`,

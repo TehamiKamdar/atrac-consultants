@@ -85,6 +85,45 @@ class StudentController extends Controller
         return response()->json($applications);
     }
 
+    public function storeApplications(Request $request)
+    {
+        $studentId = $request->student_id;
+        $selectedPrograms = $request->selectedPrograms;
+
+        $groupedPrograms = collect($selectedPrograms)->groupBy('university_id');
+
+        foreach ($groupedPrograms as $universityId => $programs) {
+
+            $firstProgram = $programs->first();
+
+            studentapplication::updateOrCreate(
+                [
+                    'student_id' => $studentId,
+                    'university_id' => $universityId,
+                ],
+                [
+                    'country_id' => $firstProgram['country_id'],
+                    'program_level_id' => $firstProgram['program_level_id'],
+
+                    'course_name' => $programs
+                        ->pluck('course')
+                        ->values()
+                        ->toArray(),
+
+                    'department_id' => $programs
+                        ->pluck('department_id')
+                        ->values()
+                        ->toArray(),
+                ]
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Applications saved successfully.'
+        ]);
+    }
+
     public function getUniversityByStudent($id)
     {
         $university_ids = studentapplication::where('student_id', $id)

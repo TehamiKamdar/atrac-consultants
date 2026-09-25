@@ -45,7 +45,7 @@
                         <li>
                             <button type="button" class="dropdown-item detailsBtn" data-id="{{ $student->id }}">
                                 <i class="ri-information-line me-2"></i>
-                                Details
+                                Program Details
                             </button>
                         </li>
 

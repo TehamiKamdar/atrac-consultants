@@ -88,6 +88,13 @@ class StudentController extends Controller
     public function storeApplications(Request $request)
     {
         $studentId = $request->student_id;
+
+        // Update student countries
+        $student = students::findOrFail($studentId);
+
+        $student->country_id = $request->selectedCountries;
+        $student->save();
+
         $selectedPrograms = $request->selectedPrograms;
 
         $groupedPrograms = collect($selectedPrograms)->groupBy('university_id');

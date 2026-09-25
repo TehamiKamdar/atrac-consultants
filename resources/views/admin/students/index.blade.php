@@ -616,6 +616,13 @@
                 });
             });
 
+
+            $('#countries').on('change', function () {
+                selectedCountries = $(this).val() || [];
+
+                console.log(selectedCountries);
+            });
+
             // Modal fully open hote hi existing programs table mein show karo
             $('#detailsModal').on('shown.bs.modal', loadExistingPrograms);
 
@@ -709,7 +716,7 @@
                 $("#universityName").val("Select Country").prop("disabled", true)
                 $("#departmentName").val("Select University").prop("disabled", true)
                 $("#courseName").val("Select Department").prop("disabled", true)
-                const countryIds = $('#countries').val();
+                const countryIds = selectedCountries;
 
                 $.ajax({
                     url: '/get-countries',
@@ -917,7 +924,8 @@
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         student_id: studentId,
-                        selectedPrograms: selectedPrograms
+                        selectedPrograms: selectedPrograms,
+                        selectedCountries: selectedCountries
                     },
                     success: function(response) {
                         iziToast.success({

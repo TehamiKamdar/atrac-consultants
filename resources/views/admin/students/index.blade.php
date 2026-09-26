@@ -499,16 +499,6 @@
                 window.open(url, '_blank');
             });
 
-
-            /* ===============================
-               DOWNLOAD DOCUMENTS
-            =============================== */
-            $(document).on('click', '.documentBtn', function () {
-                let folderName = $(this).data('folder');
-                let url = `https://atracconsultants.com/download/student/documents/${folderName}`;
-                window.open(url, '_blank');
-            });
-
             /* ===============================
             DETAILS MODAL
             =============================== */

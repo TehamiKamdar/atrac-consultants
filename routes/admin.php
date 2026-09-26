@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/{studentId}/programs', [StudentController::class, 'getStudentPrograms']);
         Route::get('/{studentId}/universities', [StudentController::class , 'getUniversityByStudent'])->name('admin-students-get-university');
         Route::get('/{studentId}/applications', [StudentController::class , 'getApplications'])->name('admin-students-get-applications');
+        Route::get('/{studentId}/documents', [StudentController::class, 'getDocuments'])->name('admin-students-get-documents');
+        Route::get('/documents/{documentId}/view', [StudentController::class, 'viewDocument'])->name('admin-students-view-document');
         Route::get('/application-details/{id}', [StudentController::class, 'editApplication'])->name('students.applications.edit');
         Route::post('/application-details/update', [StudentController::class, 'updateApplication'])->name('students.applications.update');
         Route::delete('/applications/{id}', [StudentController::class, 'deleteApplication'])->name('students.applications.delete');

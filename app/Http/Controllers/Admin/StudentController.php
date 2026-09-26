@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\country;
 use App\Models\departments;
 use App\Models\studentapplication;
 use App\Models\studentapplicationdetail;
+use App\Models\studentdocument;
 use App\Models\students;
 use App\Models\university;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -129,6 +131,143 @@ class StudentController extends Controller
             'success' => true,
             'message' => 'Applications saved successfully.'
         ]);
+    }
+
+    public function getDocuments($id)
+    {
+        $student = students::findOrFail($id);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Common Documents
+        |--------------------------------------------------------------------------
+        */
+
+        $commonDocuments = [
+            'cnic' => 'CNIC',
+            'passport' => 'Passport',
+            'photograph' => 'Photograph',
+            'cv-resume' => 'CV / Resume',
+            'proficiency-letter' => 'Proficiency Letter',
+            'motivation-letter' => 'Motivation Letter',
+            'ielts-certificate' => 'IELTS Certificate',
+            'toefl-certificate' => 'TOEFL Certificate',
+            'pte-certificate' => 'PTE Certificate',
+            'recommendation-letters' => 'Recommendation Letters',
+            'experience-letters' => 'Experience Letters',
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Qualification Documents
+        |--------------------------------------------------------------------------
+        */
+
+        $qualificationDocuments = [
+            'matric' => [
+                'matric-marksheet' => 'Matric Marksheet',
+                'matric-certificate' => 'Matric Certificate',
+            ],
+
+            'intermediate' => [
+                'intermediate-marksheet' => 'Intermediate Marksheet',
+                'intermediate-certificate' => 'Intermediate Certificate',
+            ],
+
+            'bachelors' => [
+                'bachelors-transcript' => 'Bachelors Transcript',
+                'bachelors-degree' => 'Bachelors Degree',
+            ],
+
+            'masters' => [
+                'masters-transcript' => 'Masters Transcript',
+                'masters-degree' => 'Masters Degree',
+            ],
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Determine documents according to student's qualification
+        |--------------------------------------------------------------------------
+        */
+
+        $qualification = strtolower(trim($student->qualification));
+
+        $requiredDocuments = $commonDocuments;
+
+        if ($qualification === 'intermediate') {
+
+            $requiredDocuments = array_merge(
+                $requiredDocuments,
+                $qualificationDocuments['matric'],
+                $qualificationDocuments['intermediate']
+            );
+
+        } elseif ($qualification === 'bachelors') {
+
+            $requiredDocuments = array_merge(
+                $requiredDocuments,
+                $qualificationDocuments['matric'],
+                $qualificationDocuments['intermediate'],
+                $qualificationDocuments['bachelors']
+            );
+
+        } elseif ($qualification === 'masters') {
+
+            $requiredDocuments = array_merge(
+                $requiredDocuments,
+                $qualificationDocuments['matric'],
+                $qualificationDocuments['intermediate'],
+                $qualificationDocuments['bachelors'],
+                $qualificationDocuments['masters']
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get uploaded documents
+        |--------------------------------------------------------------------------
+        */
+
+        $uploadedDocuments = studentdocument::where('student_id', $student->id)
+            ->get()
+            ->groupBy('document_type');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Build final document list
+        |--------------------------------------------------------------------------
+        */
+
+        $documents = collect($requiredDocuments)->map(function ($name, $type) use ($uploadedDocuments) {
+
+            $files = $uploadedDocuments->get($type, collect());
+
+            return [
+                'type' => $type,
+                'name' => $name,
+                'uploaded' => $files->isNotEmpty(),
+                'files' => $files,
+            ];
+        });
+
+        return view('admin.students.documents', compact(
+            'student',
+            'documents'
+        ));
+    }
+
+    public function viewDocument($documentId)
+    {
+        $document = studentdocument::findOrFail($documentId);
+
+        if (!Storage::disk('public')->exists($document->file_path)) {
+            abort(404);
+        }
+
+        return response()->file(
+            Storage::disk('public')->path($document->file_path)
+        );
     }
 
     public function getUniversityByStudent($id)

@@ -23,14 +23,7 @@
                     </i>
                     <span>Student Portal</span></div>
                 <nav>
-                    <button class="nav-item active" data-target="dashboard"><svg viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.7">
-                            <rect x="3" y="3" width="7.5" height="9" rx="1.5" />
-                            <rect x="13.5" y="3" width="7.5" height="5" rx="1.5" />
-                            <rect x="13.5" y="11" width="7.5" height="10" rx="1.5" />
-                            <rect x="3" y="15" width="7.5" height="6" rx="1.5" />
-                        </svg><span class="label">Dashboard</span></button>
-                    <button class="nav-item" data-target="profile"><svg viewBox="0 0 24 24" fill="none"
+                    <button class="nav-item active" data-target="profile"><svg viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="1.7">
                             <circle cx="12" cy="8" r="3.5" />
                             <path d="M4.5 20c1.5-4 4.2-6 7.5-6s6 2 7.5 6" />
@@ -72,10 +65,12 @@
                     <button class="theme-btn" data-theme-toggle>Light / Dark</button>
                     <div class="profile-chip">
                         <div class="who">
-                            <div class="name">Ayesha Khan</div>
-                            <div class="email">ayesha.khan@university.edu</div>
+                            <div class="name">{{ $student->first_name.' '.$student->last_name }}</div>
+                            <div class="email">{{ $student->email }}</div>
                         </div>
-                        <div class="avatar">AK</div>
+                        <div class="avatar">
+                            {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
+                        </div>
                     </div>
                 </div>
             </header>

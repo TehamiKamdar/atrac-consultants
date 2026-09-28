@@ -300,6 +300,7 @@
             });
             
         });
+
         /* ===============================
             EDIT DOCUMENTS
         =============================== */
@@ -354,5 +355,54 @@
                 }
             });
         });
+        
+        /* ===============================
+            EDIT DOCUMENTS
+        =============================== */
+        $(document).on('change', '.document-upload-input', function () {
+
+        let input = this;
+        let files = input.files;
+
+        if (!files.length) {
+            return;
+        }
+
+        let documentType = $(input).data('document-type');
+        let studentId = '{{ $student->id }}';
+
+        let formData = new FormData();
+
+        formData.append('student_id', studentId);
+        formData.append('document_type', documentType);
+        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+        $.each(files, function (index, file) {
+            formData.append('files[]', file);
+        });
+
+        $.ajax({
+            url: '/students/documents/upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (response) {
+
+                if (response.success) {
+                    alert("Document Uploaded");
+                    window.location.reload();
+                }
+            },
+
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+
+                alert('Something went wrong while uploading documents.');
+            }
+        });
+    });
     </script>
 @endsection

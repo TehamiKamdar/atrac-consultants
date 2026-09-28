@@ -337,6 +337,64 @@ class StudentController extends Controller
         ]);
     }
 
+    public function uploadDocument(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'document_type' => 'required|string',
+            'files' => 'required',
+            'files.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ]);
+
+        $student = students::findOrFail($request->student_id);
+
+        // Existing document ka folder le lo
+        $existingDocument = studentdocument::where('student_id', $student->id)
+            ->where('document_type', $request->document_type)
+            ->first();
+
+        if ($existingDocument) {
+            $directory = dirname($existingDocument->file_path);
+        } else {
+            // Agar is type ki koi file pehle nahi hai
+            $directory = 'documents/' .
+                strtolower(str_replace(' ', '', $student->first_name)) . '_' .
+                strtolower(str_replace(' ', '', $student->last_name)) . '_' .
+                strtolower(str_replace(' ', '', $student->intake)) . '_documents';
+        }
+
+        // Existing files ka count
+        $existingCount = studentdocument::where('student_id', $student->id)
+            ->where('document_type', $request->document_type)
+            ->count();
+
+        foreach ($request->file('files') as $index => $file) {
+
+            $number = $existingCount + $index + 1;
+
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = $request->document_type . '_' . $number . '.' . $extension;
+
+            $path = $file->storeAs(
+                $directory,
+                $filename,
+                'public'
+            );
+
+            studentdocument::create([
+                'student_id' => $student->id,
+                'document_type' => $request->document_type,
+                'file_path' => $path,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Documents uploaded successfully.',
+        ]);
+    }
+
     public function getUniversityByStudent($id)
     {
         $university_ids = studentapplication::where('student_id', $id)

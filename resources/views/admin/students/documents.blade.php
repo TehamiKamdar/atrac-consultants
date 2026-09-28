@@ -6,214 +6,250 @@
 
 @section('content')
 
-<div class="container-fluid py-4">
+    <div class="container-fluid py-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="mb-1"></h4>
-        </div>
-
-        <button 
-            data-folder="{{ strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->intake)) }}_documents" 
-            class="btn btn-info documentBtn">
-            Download All Documents
-        </button>
-    </div>
-
-
-    @php
-        $uploadedCount = $documents->where('uploaded', true)->count();
-        $pendingCount = $documents->where('uploaded', false)->count();
-    @endphp
-
-
-    {{-- Summary --}}
-
-    <div class="row g-3 mb-4">
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body bg-dark">
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-                            <div class="text-light small">
-                                Uploaded
-                            </div>
-
-                            <h3 class="mb-0 text-success">
-                                {{ $uploadedCount }}
-                            </h3>
-                        </div>
-
-                        <div class="fs-2 text-success">
-                            <i class="ri-checkbox-circle-line"></i>
-                        </div>
-
-                    </div>
-                </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="mb-1"></h4>
             </div>
+
+
         </div>
 
 
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body bg-dark">
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-                            <div class="text-light small">
-                                Pending
-                            </div>
-
-                            <h3 class="mb-0 text-warning">
-                                {{ $pendingCount }}
-                            </h3>
-                        </div>
-
-                        <div class="fs-2 text-warning">
-                            <i class="ri-time-line"></i>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="table-responsive">
-
-        <table class="table table-dark-custom table-primary table-hover">
-
-            <thead class="table-light">
-
-                <tr>
-                    <th style="width: 60px;">#</th>
-                    <th>Document</th>
-                    <th>Status</th>
-                    <th>Files</th>
-                    <th class="text-end">Action</th>
-                </tr>
-
-            </thead>
+        @php
+            $uploadedCount = $documents->where('uploaded', true)->count();
+            $pendingCount = $documents->where('uploaded', false)->count();
+        @endphp
 
 
-            <tbody>
+        {{-- Summary --}}
 
-                @forelse($documents as $document)
+        <div class="row g-3 mb-4">
 
-                    <tr>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body bg-dark">
+                        <div class="d-flex justify-content-between align-items-center">
 
-                        <td>
-                            {{ $loop->iteration }}
-                        </td>
-
-
-                        <td>
-
-                            <div class="fw-semibold">
-                                {{ $document['name'] }}
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            @if($document['uploaded'])
-
-                                <span class="badge bg-success">
-                                    <i class="ri-check-line"></i>
+                            <div>
+                                <div class="text-light small">
                                     Uploaded
-                                </span>
+                                </div>
 
-                            @else
+                                <h3 class="mb-0 text-success">
+                                    {{ $uploadedCount }}
+                                </h3>
+                            </div>
 
-                                <span class="badge bg-warning text-dark">
-                                    <i class="ri-time-line"></i>
+                            <div class="fs-2 text-success">
+                                <i class="ri-checkbox-circle-line"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body bg-dark">
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <div class="text-light small">
                                     Pending
-                                </span>
+                                </div>
 
-                            @endif
+                                <h3 class="mb-0 text-warning">
+                                    {{ $pendingCount }}
+                                </h3>
+                            </div>
 
-                        </td>
+                            <div class="fs-2 text-warning">
+                                <i class="ri-time-line"></i>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <td>
+        </div>
 
-                            @if($document['uploaded'])
+        <div class="table-responsive">
 
-                                {{ $document['files']->count() }}
+            <table class="table table-dark-custom table-primary table-hover">
 
-                                {{ $document['files']->count() == 1 ? 'file' : 'files' }}
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>Document</th>
+                        <th>Status</th>
+                        <th>Files</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
 
-                            @else
+                <tbody>
 
-                                <span class="">
-                                    No file uploaded
-                                </span>
+                    @forelse($documents as $document)
 
-                            @endif
+                        <tr>
 
-                        </td>
+                            {{-- # --}}
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
 
+                            {{-- Document --}}
+                            <td>
+                                <div class="fw-semibold">
+                                    {{ $document['name'] }}
+                                </div>
+                            </td>
 
-                        <td class="text-end">
+                            {{-- Status --}}
+                            <td>
 
-                            @if($document['uploaded'])
+                                @if($document['uploaded'])
 
-                                @foreach($document['files'] as $file)
+                                    <span class="badge bg-success">
+                                        <i class="ri-check-line"></i>
+                                        Uploaded
+                                    </span>
 
-                                    <a href="{{ asset('storage/' . $file->file_path) }}"
+                                @else
+
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="ri-time-line"></i>
+                                        Pending
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            {{-- Files --}}
+                            <td>
+
+                                @if($document['uploaded'])
+
+                                    1 file
+
+                                @else
+
+                                    <span>
+                                        No file uploaded
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            {{-- Action --}}
+                            <td class="text-end">
+
+                                @if($document['uploaded'])
+
+                                    <a href="{{ asset('storage/' . $document['file']->file_path) }}"
                                         target="_blank"
-                                        class="btn btn-sm btn-outline-primary me-1">
+                                        class="btn btn-sm btn-outline-primary"
+                                        title="View">
 
                                         <i class="ri-eye-line"></i>
-                                        View
+
                                     </a>
 
-                                @endforeach
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-warning edit-document"
+                                            data-id="{{ $document['file']->id }}"
+                                            data-type="{{ $document['type'] }}"
+                                            title="Edit">
 
-                            @else
+                                        <i class="ri-pencil-line"></i>
 
-                                <span class="text-muted">
-                                    
-                                </span>
+                                    </button>
 
-                            @endif
+                                    <input type="file"
+                                        id="editDocumentInput"
+                                        class="d-none"
+                                        accept=".pdf,.jpg,.jpeg,.png">
 
-                        </td>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger delete-document"
+                                            data-id="{{ $document['file']->id }}"
+                                            title="Delete">
 
-                    </tr>
+                                        <i class="ri-delete-bin-2-line"></i>
 
-                @empty
+                                    </button>
+
+                                @else
+
+                                    <input type="file" class="d-none document-upload-input" id="document_{{ $document['type'] }}"
+                                        data-document-type="{{ $document['type'] }}" accept=".pdf,.jpg,.jpeg,.png" multiple>
+
+                                    <label for="document_{{ $document['type'] }}" class="btn btn-sm btn-outline-success" title="Upload">
+
+                                        <i class="ri-upload-2-line"></i>
+                                        
+
+                                    </label>
+
+                                @endif
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+
+                                <i class="ri-file-warning-line fs-1 text-muted"></i>
+
+                                <div class="mt-2 text-muted">
+                                    No documents found.
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+                <tfoot>
 
                     <tr>
 
-                        <td colspan="5" class="text-center py-5">
+                        <td colspan="5" class="text-end">
 
-                            <i class="ri-file-warning-line fs-1 text-muted"></i>
+                            <button
+                                data-folder="{{ strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->intake)) }}_documents"
+                                class="btn btn-sm btn-info documentBtn">
 
-                            <div class="mt-2 text-muted">
-                                No documents found.
-                            </div>
+                                <i class="ri-download-2-line"></i>
+                                Download All Documents
+
+                            </button>
 
                         </td>
 
                     </tr>
 
-                @endforelse
+                </tfoot>
 
-            </tbody>
+            </table>
 
-        </table>
+        </div>
+
+
 
     </div>
-
-
-
-</div>
 
 @endsection
 
@@ -226,6 +262,97 @@
             let folderName = $(this).data('folder');
             let url = `https://atracconsultants.com/download/student/documents/${folderName}`;
             window.open(url, '_blank');
+        });
+        
+        /* ===============================
+            DELETE DOCUMENTS
+        =============================== */
+        $(document).on('click', '.delete-document', function () {
+            
+            let button = $(this);
+            let documentId = button.data('id');
+
+            if (!confirm('Are you sure you want to delete this document?')) {
+                return;
+            }
+
+            $.ajax({
+                url: `/students/documents/${documentId}/delete`,
+                type: 'DELETE',
+
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                
+                success: function (response) {
+                    
+                    alert(response.message);
+                    
+                    window.location.reload();
+                },
+                
+                error: function (xhr) {
+                    
+                    console.log(xhr.responseText);
+                    
+                    alert('Something went wrong while deleting the document.');
+                }
+            });
+            
+        });
+        /* ===============================
+            EDIT DOCUMENTS
+        =============================== */
+        let editDocumentId = null;
+
+        $(document).on('click', '.edit-document', function () {
+
+            editDocumentId = $(this).data('id');
+
+            $('#editDocumentInput').val('');
+
+            $('#editDocumentInput').click();
+        });
+
+
+        $('#editDocumentInput').on('change', function () {
+
+            let file = this.files[0];
+
+            if (!file || !editDocumentId) {
+                return;
+            }
+
+            let formData = new FormData();
+
+            formData.append('file', file);
+            formData.append(
+                '_token',
+                $('meta[name="csrf-token"]').attr('content')
+            );
+
+            $.ajax({
+                url: `/students/documents/${editDocumentId}/edit`,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (response) {
+
+                    if (response.success) {
+                        alert("Document Updated");
+                        window.location.reload();
+                    }
+                },
+
+                error: function (xhr) {
+
+                    console.log(xhr.responseText);
+
+                    alert('Something went wrong while updating the document. Check console for more info.');
+                }
+            });
         });
     </script>
 @endsection

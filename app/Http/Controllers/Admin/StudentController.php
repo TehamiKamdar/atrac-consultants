@@ -229,27 +229,39 @@ class StudentController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $uploadedDocuments = studentdocument::where('student_id', $student->id)
-            ->get()
-            ->groupBy('document_type');
+        $uploadedDocuments = studentdocument::where('student_id', $student->id)->get();
 
-        /*
-        |--------------------------------------------------------------------------
-        | Build final document list
-        |--------------------------------------------------------------------------
-        */
+        $documents = collect();
 
-        $documents = collect($requiredDocuments)->map(function ($name, $type) use ($uploadedDocuments) {
+        foreach ($requiredDocuments as $type => $name) {
 
-            $files = $uploadedDocuments->get($type, collect());
+            $files = $uploadedDocuments->where('document_type', $type);
 
-            return [
-                'type' => $type,
-                'name' => $name,
-                'uploaded' => $files->isNotEmpty(),
-                'files' => $files,
-            ];
-        });
+            if ($files->count() > 0) {
+
+                // Har DB record ki separate row
+                foreach ($files as $file) {
+
+                    $documents->push([
+                        'type' => $type,
+                        'name' => $name,
+                        'uploaded' => true,
+                        'file' => $file,
+                    ]);
+
+                }
+
+            } else {
+
+                // Agar koi file nahi hai to ek Pending row
+                $documents->push([
+                    'type' => $type,
+                    'name' => $name,
+                    'uploaded' => false,
+                    'file' => null,
+                ]);
+            }
+        }
 
         return view('admin.students.documents', compact(
             'student',
@@ -268,6 +280,61 @@ class StudentController extends Controller
         return response()->file(
             Storage::disk('public')->path($document->file_path)
         );
+    }
+
+    public function deleteDocument($id)
+    {
+        $document = studentdocument::findOrFail($id);
+
+        if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
+        $document->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Document deleted successfully.'
+        ]);
+    }
+
+    public function editDocument(Request $request, $documentId)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ]);
+
+        $document = studentdocument::findOrFail($documentId);
+
+        $oldPath = $document->file_path;
+
+        // Purane path se filename nikaal lo
+        $filename = basename($oldPath);
+
+        // Same folder
+        $directory = dirname($oldPath);
+
+        // Purani file delete karo
+        if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
+        }
+
+        // New file ko purane filename ke saath save karo
+        $newPath = $request->file('file')->storeAs(
+            $directory,
+            $filename,
+            'public'
+        );
+
+        // DB path same rahega
+        $document->update([
+            'file_path' => $newPath,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Document updated successfully.',
+        ]);
     }
 
     public function getUniversityByStudent($id)

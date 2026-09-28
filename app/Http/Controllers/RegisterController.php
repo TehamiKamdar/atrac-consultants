@@ -176,45 +176,57 @@ class RegisterController extends Controller
         return response()->json($programs);
     }
 
-    public function checkEmail(Request $request)
+    public function checkEmail(Request $request, $studentId = null)
     {
-        $email = $request->email;
+        $query = students::where('email', $request->email);
 
-        $exists = Students::where('email', $email)->exists();
+        if ($studentId) {
+            $query->where('id', '!=', $studentId);
+        }
 
         return response()->json([
-            'exists' => $exists
+            'exists' => $query->exists()
         ]);
     }
 
-    public function checkCNIC(Request $request)
+    public function checkCNIC(Request $request, $studentId = null)
     {
-        $cnic = $request->cnic;
+        $query = students::where('cnic', $request->cnic);
 
-        $exists = Students::where('cnic', $cnic)->exists();
+        if ($studentId) {
+            $query->where('id', '!=', $studentId);
+        }
 
         return response()->json([
-            'exists' => $exists
+            'exists' => $query->exists()
         ]);
     }
 
-    public function checkPassport(Request $request)
+    public function checkPassport(Request $request, $studentId = null)
     {
-        $passport = $request->passport;
+        $query = students::where('passport_number', $request->passport);
 
-        $exists = Students::where('passport_number', $passport)->exists();
+        if ($studentId) {
+            $query->where('id', '!=', $studentId);
+        }
 
         return response()->json([
-            'exists' => $exists
+            'exists' => $query->exists()
         ]);
     }
 
-    public function checkPhone(Request $request)
+    public function checkPhone(Request $request, $studentId = null)
     {
-        $exists = Students::where('phone', $request->phone_prefix . $request->phone_number)->exists();
+        $phone = $request->phone_number;
+
+        $query = students::where('phone', $phone);
+
+        if ($studentId) {
+            $query->where('id', '!=', $studentId);
+        }
 
         return response()->json([
-            'exists' => $exists
+            'exists' => $query->exists()
         ]);
     }
 
@@ -233,7 +245,7 @@ class RegisterController extends Controller
                 'english_test_list' => 'required|array',
                 'english_tests' => 'sometimes|array',
             ]);
-            
+
             $countryIds = $data['step1']['country'];
 
             if (!is_array($countryIds)) {
@@ -242,7 +254,7 @@ class RegisterController extends Controller
 
             // First + Last Name
             $firstName = ucfirst(strtolower(trim($data['step1']['firstName'])));
-            $lastName  = ucfirst(strtolower(trim($data['step1']['lastName'])));
+            $lastName = ucfirst(strtolower(trim($data['step1']['lastName'])));
 
             $fullName = $firstName . ' ' . $lastName;
 
@@ -280,7 +292,7 @@ class RegisterController extends Controller
                 'qualification' => $data['step1']['qualification'],
                 'percentage' => $data['step1']['percentage'],
                 'intake' => $data['step1']['intake'],
-                'country_id' =>  $countryIds,
+                'country_id' => $countryIds,
                 'program_level_id' => $data['step1']['applying'],
                 'english_test' => json_encode($data['english_test_list']),
                 'english_proficiency' => $data['step1']['proficiency'],

@@ -19,55 +19,64 @@
                 <div class="form-grid">
                     <div class="field">
                         <label>First Name</label>
-                        <input id="first_name" value="{{ $student->first_name }}">
+                        <input class="profile-field" data-original="{{ $student->first_name }}" id="first_name" value="{{ $student->first_name }}">
                     </div>
                     <div class="field">
                         <label>Last Name</label>
-                        <input id="last_name" value="{{ $student->last_name }}">
+                        <input class="profile-field" data-original="{{ $student->last_name }}" id="last_name" value="{{ $student->last_name }}">
                     </div>
                     <div class="field">
                         <label>Email</label>
-                        <input id="email" type="email" value="{{ $student->email }}">
+                        <input class="profile-field" data-original="{{ $student->email }}" id="email" type="email" value="{{ $student->email }}">
+                        <div id="email-error" class="invalid-feedback">
+                            Email Already Exists.
+                        </div>
                     </div>
                     <div class="field">
                         <label>Father's Name</label>
-                        <input id="father_name" value="{{ $student->father_name }}">
+                        <input class="profile-field" data-original="{{ $student->father_name }}" id="father_name" value="{{ $student->father_name }}">
                     </div>
                     <div class="field">
                         <label>Mother's Name</label>
-                        <input id="mother_name" value="{{ $student->mother_name }}">
+                        <input class="profile-field" data-original="{{ $student->mother_name }}" id="mother_name" value="{{ $student->mother_name }}">
                     </div>
                     <div class="field">
                         <label>City</label>
-                        <input id="city" value="{{ $student->city }}">
+                        <input class="profile-field" data-original="{{ $student->city }}" id="city" value="{{ $student->city }}">
                     </div>
                     <div class="field">
                         <label>Phone</label>
-                        <input id="phone" value="{{ $student->phone }}">
+                        <input class="profile-field" data-original="{{ $student->phone }}" id="phoneNumber" value="{{ $student->phone }}">
+                        <div id="phone-error" class="invalid-feedback"></div>
                     </div>
                     <div class="field">
                         <label>Date of Birth</label>
-                        <input id="dob" type="date" value="{{ $student->dob }}">
+                        <input class="profile-field" data-original="{{ $student->dob }}" id="dob" type="date" value="{{ $student->dob }}">
                     </div>
                     <div class="field">
                         <label>NIC Number</label>
-                        <input id="cnic" value="{{ $student->cnic }}">
+                        <input class="profile-field" data-original="{{ $student->cnic }}" id="cnic" value="{{ $student->cnic }}">
+                        <div class="invalid-feedback" id="cnic-error">
+                            CNIC Number Already Exists.
+                        </div>
                     </div>
                     <div class="field">
                         <label>Passport Number</label>
-                        <input id="passport_number" value="{{ $student->passport_number }}">
+                        <input class="profile-field" data-original="{{ $student->passport_number }}" id="passport" value="{{ $student->passport_number }}">
+                        <div id="passport-error" class="invalid-feedback"></div>
                     </div>
                     <div class="field">
                         <label>Passport Valid From</label>
-                        <input id="passport_valid_from" type="date" value="{{ $student->passport_valid_from }}">
+                        <input class="profile-field" data-original="{{ $student->passport_valid_from }}" id="passport_valid_from" type="date" value="{{ $student->passport_valid_from }}">
                     </div>
                     <div class="field">
                         <label>Passport Valid Thru</label>
-                        <input id="passport_valid_thru" type="date" value="{{ $student->passport_valid_thru }}">
+                        <input class="profile-field" data-original="{{ $student->passport_valid_thru }}" id="passport_valid_thru" type="date" value="{{ $student->passport_valid_thru }}">
                     </div>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn primary">Save changes</button>
+                    <small>*Edited field will be highlighted green</small>
                     <span
                         class="save-msg" id="saveMsg">Saved
                     </span>
@@ -75,4 +84,35 @@
             </form>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/student-validation.js') }}"></script>
+    <script>
+        initStudentValidation({{ $student->id }})
+
+        $(document).on('input change', '.profile-field', function () {
+
+            let originalValue = $(this).attr('data-original');
+            let currentValue = $(this).val();
+
+            if (currentValue !== originalValue) {
+                $(this).addClass('is-changed');
+            } else {
+                $(this).removeClass('is-changed');
+            }
+
+        });
+
+        // Page close / refresh / browser navigation
+        window.addEventListener('beforeunload', function (e) {
+
+            if ($('.profile-field.is-changed').length > 0) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+
+        });
+        
+    </script>
 @endsection

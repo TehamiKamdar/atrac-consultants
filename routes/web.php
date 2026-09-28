@@ -61,10 +61,10 @@ Route::get('/get-programs', [RegisterController::class, 'searchPrograms'])->name
 Route::get('/get-countries', [RegisterController::class, 'countries']);
 Route::get('/get-departments', [RegisterController::class, 'departments']);
 Route::get('/get-universities', [RegisterController::class, 'universities']);
-Route::get('/check-student-email', [RegisterController::class , 'checkEmail'])->name('student-email-check');
-Route::get('/check-student-cnic', [RegisterController::class , 'checkCNIC'])->name('student-cnic-check');
-Route::get('/check-student-passport', [RegisterController::class , 'checkPassport'])->name('student-passport-check');
-Route::get('/check-student-phone', [RegisterController::class, 'checkPhone'])->name('student-phone-check');
+Route::get('/check-student-email/{studentId?}', [RegisterController::class , 'checkEmail'])->name('student-email-check');
+Route::get('/check-student-cnic/{studentId?}', [RegisterController::class , 'checkCNIC'])->name('student-cnic-check');
+Route::get('/check-student-passport/{studentId?}', [RegisterController::class , 'checkPassport'])->name('student-passport-check');
+Route::get('/check-student-phone/{studentId?}', [RegisterController::class, 'checkPhone'])->name('student-phone-check');
 Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::post('save-new-university-department-course', [RegisterController::class , 'storeNewUniversityDepartmentCourse'])->name('student.new.university.department.course');

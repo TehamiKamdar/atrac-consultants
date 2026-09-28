@@ -83,3 +83,5 @@
 </body>
 
 </html>
+<script src="{{ asset('website/lib/js/jquery.min.js') }}"></script>
+@yield('scripts')

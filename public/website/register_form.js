@@ -172,6 +172,8 @@ $("#saveNewProgram").on("click", function () {
     })
 })
 $(document).ready(function () {
+    initStudentValidation();
+    
     $('#country').select2({
         placeholder: 'Select countries',
         width: '100%'
@@ -849,26 +851,6 @@ $(document).ready(function () {
         )
     })
 
-    $('#cnic').on('input', function () {
-        var val = $(this).val();
-
-        // Remove anything besides digits
-        val = val.replace(/\D/g, '');
-
-        // Add hyphens at the correct positions
-        if (val.length > 5 && val.length <= 12) {
-            val = val.slice(0, 5) + '-' + val.slice(5);
-        } else if (val.length > 12) {
-            val = val.slice(0, 5) + '-' + val.slice(5, 12) + '-' + val.slice(12, 13);
-        }
-
-        $(this).val(val);
-    });
-
-    $('#phoneNumber, #postalCode').on('input', function () {
-        this.value = this.value.replace(/\D/g, '');
-    });
-
     const overallTOEFL = calculateTOEFLScore(
         $('#listeningTOEFL'),
         $('#readingTOEFL'),
@@ -1202,135 +1184,6 @@ $(document).ready(function () {
 
         return true;
     }
-
-
-    $('#cnic').on('input', function () {
-        let cnic = $(this).val();
-
-        $.ajax({
-            url: "/check-student-cnic",
-            method: "GET",
-            data: { cnic: cnic },
-            success: function (response) {
-                if (response.exists) {
-                    $('#cnic')
-                        .removeClass('is-valid')
-                        .addClass('is-invalid');
-                    $('#cnic-error').css('display', 'block')
-                } else {
-                    $('#cnic')
-                        .removeClass('is-invalid')
-                        .addClass('is-valid');
-                    $('#cnic-error').css('display', 'none')
-                }
-            }
-        })
-    })
-
-    function resetPhone() {
-        $('#phoneNumber')
-            .removeClass('is-valid is-invalid');
-        $('#phone-error').text('');
-    }
-
-    function phoneInvalid(msg) {
-        $('#phoneNumber')
-            .removeClass('is-valid')
-            .addClass('is-invalid');
-        $('#phone-error').text(msg);
-    }
-
-    function phoneValid() {
-        $('#phoneNumber')
-            .removeClass('is-invalid')
-            .addClass('is-valid');
-        $('#phone-error').text('');
-    }
-
-    // digits only
-    $('#phoneNumber').on('input', function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-        resetPhone();
-    });
-
-    // final validation
-    $('#phoneNumber').on('input', function () {
-        const number = $('#phoneNumber').val();
-
-        $.ajax({
-            url: "/check-student-phone",
-            type: "GET",
-            data: {
-                phone_number: number
-            },
-            success: function (res) {
-                if (res.exists) {
-                    phoneInvalid('Phone number already exists');
-                } else {
-                    phoneValid();
-                }
-            }
-        });
-    });
-
-    const passportRegex = /^[A-Z]{2}[0-9]{7}$/;
-
-    $('#passport').on('input', function () {
-        let value = $(this).val().toUpperCase();
-        value = value.replace(/[^A-Z0-9]/g, '');
-        $(this).val(value);
-        $(this).removeClass('is-valid is-invalid');
-        $('#passport-error').text('');
-    });
-
-    $('#passport').on('input', function () {
-
-        let passport = $(this).val();
-
-        if (!passportRegex.test(passport)) {
-            $(this).addClass('is-invalid').removeClass('is-valid');
-            $('#passport-error').text('Invalid passport format');
-            return;
-        }
-
-        $.ajax({
-            url: "/check-student-passport",
-            type: "GET",
-            data: { passport: passport },
-            success: function (response) {
-                if (response.exists) {
-                    $('#passport').addClass('is-invalid').removeClass('is-valid');
-                    $('#passport-error').text('Passport already exists');
-                } else {
-                    $('#passport').addClass('is-valid').removeClass('is-invalid');
-                    $('#passport-error').text('');
-                }
-            }
-        });
-    });
-
-    $('#email').on('input', function () {
-        let email = $(this).val();
-
-        $.ajax({
-            url: "/check-student-email",
-            method: "GET",
-            data: { email: email },
-            success: function (response) {
-                if (response.exists) {
-                    $('#email')
-                        .removeClass('is-valid')
-                        .addClass('is-invalid');
-                    $('#email-error').css('display', 'block')
-                } else {
-                    $('#email')
-                        .removeClass('is-invalid')
-                        .addClass('is-valid');
-                    $('#email-error').css('display', 'none')
-                }
-            }
-        })
-    })
 
     /* -----------------------------
         NEXT BUTTON

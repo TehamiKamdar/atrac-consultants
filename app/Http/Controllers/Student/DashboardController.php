@@ -12,4 +12,25 @@ class DashboardController extends Controller
         $student = $user->student;
         return view('student.dashboard.index', compact('student'));
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $student = $user->student;
+
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:30',
+        ]);
+
+        $student->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile updated successfully.'
+        ]);
+    }
 }

@@ -28,6 +28,13 @@
                         </li>
 
                         <li>
+                            <a type="button" class="dropdown-item detailsBtn" href="{{ route('admin-students-get-documents', $student->id) }}">
+                                <i class="ri-file-zip-line me-2"></i>
+                                View Documents
+                            </a>
+                        </li>
+
+                        <li>
                             <button type="button" class="dropdown-item credentialsBtn" data-id="{{ $student->id }}">
                                 <i class="ri-key-2-fill me-2"></i>
                                 Credentials
@@ -39,13 +46,6 @@
                                 <i class="ri-information-line me-2"></i>
                                 Program Details
                             </button>
-                        </li>
-
-                        <li>
-                            <a type="button" class="dropdown-item detailsBtn" href="{{ route('admin-students-get-documents', $student->id) }}">
-                                <i class="ri-information-line me-2"></i>
-                                View Documents
-                            </a>
                         </li>
 
                         <li>

@@ -170,7 +170,7 @@
         <!-- Header with Search Box -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <a class="btn btn-sm btn-primary" href="https://atracconsultants.com/student/form/ajax">
+                <a class="btn btn-sm btn-primary" href="{{ route("register") }}">
                     Add New
                 </a>
             </div>
@@ -565,7 +565,7 @@
             =============================== */
             $(document).on('click', '.profileBtn', function () {
                 let id = $(this).data('id');
-                let url = `https://atracconsultants.com/generate/student/profile/${id}`;
+                let url = `/generate/student/profile/${id}`;
                 window.open(url, '_blank');
             });
 
@@ -1019,7 +1019,7 @@
                 studentId = $(this).data('id');
 
                 $.ajax({
-                    url: `https://atracconsultants.com/api/delete/student/document/${studentId}`,
+                    url: `/api/delete/student/document/${studentId}`,
                     type: 'DELETE',
                     xhrFields: {
                         withCredentials: true // if using cookies/session

@@ -260,7 +260,7 @@
         =============================== */
         $(document).on('click', '.documentBtn', function () {
             let folderName = $(this).data('folder');
-            let url = `https://atracconsultants.com/download/student/documents/${folderName}`;
+            let url = `/download/student/documents/${folderName}`;
             window.open(url, '_blank');
         });
         

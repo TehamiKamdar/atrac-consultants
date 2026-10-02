@@ -300,7 +300,7 @@
             let formData = $(this).serialize();
 
             $.ajax({
-                url: '/details/update',
+                url: '/admin/details/update',
                 method: 'POST',
                 data: formData,
                 success: function(response) {

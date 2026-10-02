@@ -49,6 +49,13 @@
                         </li>
 
                         <li>
+                            <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item detailsBtn">
+                                <i class="ri-login-box-line me-2"></i>
+                                Login as Student
+                            </a>
+                        </li>
+
+                        <li>
                             <hr class="dropdown-divider">
                         </li>
 
@@ -96,6 +103,6 @@
     @endforeach
 @else
     <tr>
-        <td colspan="7" class="text-center">Student Record Not Found. Add one from <a href="https://atracconsultants.com/student/form/ajax">here</a></td>
+        <td colspan="7" class="text-center">Student Record Not Found. Add one from <a href="{{ route('register') }}">here</a></td>
     </tr>
 @endif

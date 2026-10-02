@@ -1,20 +1,12 @@
-@extends('layouts.admin_layout')
+@extends('layouts.student_layout')
 
 @section('title')
-    {{ $student->first_name ?? '' }} {{ $student->last_name ?? '' }} Documents
+    My Documents
 @endsection
 
 @section('content')
 
-    <div class="container-fluid py-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h4 class="mb-1"></h4>
-            </div>
-
-
-        </div>
+    <div class="container-fluid">
 
 
         @php
@@ -28,7 +20,7 @@
         <div class="row g-3 mb-4">
 
             <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
+                <div class="card border-0 p-0 shadow-sm">
                     <div class="card-body bg-dark">
                         <div class="d-flex justify-content-between align-items-center">
 
@@ -53,7 +45,7 @@
 
 
             <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
+                <div class="card border-0 p-0 shadow-sm">
                     <div class="card-body bg-dark">
                         <div class="d-flex justify-content-between align-items-center">
 
@@ -80,9 +72,9 @@
 
         <div class="table-responsive">
 
-            <table class="table table-dark-custom table-primary table-hover">
+            <table class="table table-dark">
 
-                <thead class="table-light">
+                <thead class="table-dark">
                     <tr>
                         <th style="width: 60px;">#</th>
                         <th>Document</th>
@@ -277,7 +269,7 @@
             }
 
             $.ajax({
-                url: `/admin/students/documents/${documentId}/delete`,
+                url: `/documents/${documentId}/delete`,
                 type: 'DELETE',
 
                 data: {
@@ -333,7 +325,7 @@
             );
 
             $.ajax({
-                url: `/admin/students/documents/${editDocumentId}/edit`,
+                url: `/documents/${editDocumentId}/edit`,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -382,7 +374,7 @@
         });
 
         $.ajax({
-            url: '/admin/students/documents/upload',
+            url: '/documents/upload',
             type: 'POST',
             data: formData,
             processData: false,

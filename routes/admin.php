@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 
 //Admin Routes
 
-Route::middleware(['auth'])->group(function(){
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
     Route::get('dashboard' , [DashboardController::class , 'index'])->name('admin-home');
     Route::get('/get-states/{country_id}', [DashboardController::class, 'getStates']);
     Route::get('/get-cities/{state_id}', [DashboardController::class, 'getCities']);
@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post( 'update' , [AdminController::class , 'countryUpdate'])->name('country-update');
         Route::post( 'active/{id}' , [AdminController::class , 'countryActive'])->name('country-active');
         Route::post( 'inactive/{id}' , [AdminController::class , 'countryInactive'])->name('country-inactive');
-        Route::get('get-countries/{id}', [AdminController::class, 'getCountries']);
+        Route::get('get-countries/{id}', [AdminController::class, 'getCountries'])->name('admin-get-countries-ajax');
         Route::post('/update-country-program', [AdminController::class, 'countryProgramLevelsUpdate'])->name('update.country.program');
     });
     Route::get('program-levels', [AdminController::class, 'countryProgramLevelsPage'])->name('admin-program-levels-index');
@@ -78,6 +78,9 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/store-applications', [StudentController::class , 'storeApplications'])->name('admin-students-store-applications');
         Route::put('/applications/{studentId}/status', [StudentController::class, 'updateStatus'])->name('student-applications.update-status');
         Route::delete('/{studentId}/delete', [StudentController::class , 'destroy'])->name('admin-students-delete-applications');
+
+        Route::get('/{student}/login-as', [StudentController::class , 'loginAsStudent'])->name('admin.students.login-as');
+        Route::post('/students/create-users', [StudentController::class , 'createStudentUsers'])->name('admin.students.create-users');
     });
     Route::get('programs', [AdminController::class , 'activePrograms'])->name('admin-programs');
     Route::get('contacts', [ContactController::class , 'index'])->name('admin-contacts');
@@ -126,3 +129,5 @@ Route::middleware(['auth'])->group(function(){
         // Route::post('destroy', [OfficeController::class , "destroy"])->name('admin-offices-destroy');
     });
 });
+
+Route::get('/admin/stop-impersonation', [StudentController::class , 'stopImpersonation'])->name('admin.students.stop-impersonation');

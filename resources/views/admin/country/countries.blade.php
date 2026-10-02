@@ -112,7 +112,7 @@
             var id = $(this).attr('data-id');
             console.log(id);
             $.ajax({
-                url: 'countries/get-countries/' + id,
+                url: '/admin/countries/get-countries/' + id,
                 method: 'GET',
                 success: function (response) {
                     $('#modalUpdate').modal('show');

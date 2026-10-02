@@ -181,11 +181,38 @@
                 <a class="btn btn-sm btn-primary" href="{{ route("register") }}">
                     Add New
                 </a>
+                @if($studentsWithoutAccounts > 0)
+
+                    <form action="{{ route('admin.students.create-users') }}"
+                        method="POST"
+                        class="d-inline"
+                        onsubmit="return confirm('Create accounts for all students who do not have an account?')">
+
+                        @csrf
+
+                        <button type="submit" class="btn btn-sm btn-info">
+                            <i class="ri-user-add-line"></i>
+                            Create Student Accounts
+                            <span class="badge bg-light text-primary ms-1">
+                                {{ $studentsWithoutAccounts }}
+                            </span>
+                        </button>
+
+                    </form>
+
+                @endif
             </div>
 
             @if(session('error'))
                 <div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert" data-bs-theme="dark">
                     {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-sm alert-success alert-dismissible fade show" role="alert" data-bs-theme="dark">
+                    {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif

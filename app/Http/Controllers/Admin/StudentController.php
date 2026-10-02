@@ -10,10 +10,13 @@ use App\Models\studentapplicationdetail;
 use App\Models\studentdocument;
 use App\Models\students;
 use App\Models\university;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -21,7 +24,9 @@ class StudentController extends Controller
     {
         $students = students::all();
 
-        return view('admin.students.index', compact('students'));
+        $studentsWithoutAccounts = $students->whereNull('user_id')->count();
+
+        return view('admin.students.index', compact('students', 'studentsWithoutAccounts'));
     }
 
     public function search(Request $request)
@@ -726,5 +731,57 @@ class StudentController extends Controller
         auth()->loginUsingId($adminId);
 
         return redirect()->route('admin-students-index');
+    }
+
+
+    public function createStudentUsers()
+    {
+        $students = students::whereNull('user_id')->get();
+
+        if ($students->isEmpty()) {
+            return back()->with('info', 'All students already have user accounts.');
+        }
+
+        $created = 0;
+
+        foreach ($students as $student) {
+
+            // Generate unique username
+            do {
+                $username = Str::random(10);
+            } while (User::where('username', $username)->exists());
+
+            // Email
+            $email = $student->email;
+
+            // Agar email already kisi user ke paas hai
+            if ($email && User::where('email', $email)->exists()) {
+                $email = null;
+            }
+
+            $user = User::create([
+                'name' => trim(
+                    $student->first_name . ' ' . $student->last_name
+                ),
+                'username' => $username,
+                'email' => $email,
+                'password' => Hash::make('Students@atrac$12345'),
+                'status' => 'active',
+                'user_type' => 'student',
+            ]);
+
+            $student->update([
+                'user_id' => $user->id,
+                'status' => 'active',
+                'account_created' => 1,
+            ]);
+
+            $created++;
+        }
+
+        return back()->with(
+            'success',
+            "{$created} student user account(s) created successfully."
+        );
     }
 }

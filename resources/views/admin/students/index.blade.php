@@ -1124,7 +1124,7 @@
                     .html('<option value="">Loading universities...</option>')
                     .prop('disabled', true);
 
-                $.get(`/students/${studentId}/universities`, function (data) {
+                $.get(`/admin/students/${studentId}/universities`, function (data) {
 
                     let options = '<option value="">Select University</option>';
 

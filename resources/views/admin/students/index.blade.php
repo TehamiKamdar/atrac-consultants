@@ -1153,7 +1153,7 @@
                     }
 
                     $.get(
-                        `/students/${studentId}/university/${universityId}/programs`,
+                        `/admin/students/${studentId}/university/${universityId}/programs`,
                         function (response) {
 
                             let programs = response.programs;
@@ -1183,7 +1183,7 @@
 
 
                 /* --- Load Applications --- */
-                $.get(`/students/${studentId}/applications`, function (applications) {
+                $.get(`/admin/students/${studentId}/applications`, function (applications) {
 
                     let tbody = $('#applicationsTableBody');
                     tbody.empty();
@@ -1292,7 +1292,7 @@
 
 
                 /* --- Load Gmail Credentials --- */
-                $.get(`/students/${studentId}/credentials`, function (data) {
+                $.get(`/admin/students/${studentId}/credentials`, function (data) {
                     $('#gmailId').val(data.secondary_email ?? '');
                     $('#gmailPassword').val(data.secondary_password ?? '');
                 });
@@ -1469,7 +1469,7 @@
                 let dropdown = $(this);
 
                 $.ajax({
-                    url: `/students/applications/${applicationId}/status`,
+                    url: `/admin/students/applications/${applicationId}/status`,
                     type: 'PUT',
                     data: {
                         status: status,
@@ -1517,7 +1517,7 @@
                 }
 
                 $.ajax({
-                    url: `/students/applications/${deleteApplicationId}`,
+                    url: `/admin/students/applications/${deleteApplicationId}`,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

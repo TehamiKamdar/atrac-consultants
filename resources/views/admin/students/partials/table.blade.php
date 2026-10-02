@@ -96,6 +96,6 @@
     @endforeach
 @else
     <tr>
-        <td colspan="7" class="text-center">Student Record Not Found. Add one from <a href="https://atracconsultants.com/student/form/ajax">here</a></td>
+        <td colspan="7" class="text-center">Student Record Not Found. Add one from <a href="{{ route('register') }}">here</a></td>
     </tr>
 @endif

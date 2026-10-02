@@ -47,12 +47,12 @@ class studentapplication extends Model
 
     public function departments()
     {
-        return $this->belongsTo(departments::class);
+        return $this->hasMany(departments::class, 'id', 'department_id');
     }
 
-    public function detail()
+    public function details()
     {
-        return $this->hasOne(
+        return $this->hasMany(
             studentapplicationdetail::class,
             'student_application_id'
         );

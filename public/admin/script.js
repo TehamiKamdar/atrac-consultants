@@ -65,7 +65,7 @@ $(function () {
 
     function updateInquiryStatus(id, status, extraData = {}) {
         $.ajax({
-            url: `/inquiries/update/${id}`,
+            url: `/admin/inquiries/update/${id}`,
             method: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
@@ -150,7 +150,7 @@ $(function () {
         }
 
         $.ajax({
-            url: '/inquiries/delete',
+            url: '/admin/inquiries/delete',
             type: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
@@ -170,7 +170,7 @@ $(function () {
     function makeAllConsultsSeen(){
         console.log('Executing Scripts');
         $.ajax({
-            url: '/inquiries/makeconsultsseen',
+            url: '/admin/inquiries/makeconsultsseen',
             method: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),

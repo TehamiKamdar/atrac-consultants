@@ -61,7 +61,7 @@
             if(!question || !answer) {alert("Both Question and Answer are required!");return;};
 
             $.ajax({
-                url:"/faqs/store",
+                url: "/admin/faqs/store",
                 method:"POST",
                 data:{
                     question: question,

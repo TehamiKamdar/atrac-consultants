@@ -133,7 +133,7 @@ $(function(){
         let button = form.find('.add-btn');
 
         $.ajax({
-            url:'/users/create',
+            url: '/admin/users/create',
             method:'POST',
             data:form.serialize(),
 

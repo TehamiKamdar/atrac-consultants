@@ -13,6 +13,23 @@
     --warn: #e0b04a;
     --shirt: #f4f6f5;
     --onaccent: #04140c;
+    
+    --btn-hold-background-color: #120925;
+    --btn-hold-color: #9966ff;
+    --btn-hold-border-color: #9966ff;
+    --btn-update-background-color: #202000;
+    --btn-update-color: #ffc107;
+    --btn-update-border-color: #ffc107;
+    --btn-success-primary-background-color: #002e18;
+    --btn-success-primary-color: #2bb673;
+    --btn-success-primary-border-color: #2bb673;
+    --btn-secondary-background-color: #222222;
+    --btn-secondary-color: #fff;
+    --btn-secondary-border-color: #6c757d;
+    --btn-info-background-color: #001b20;
+    --btn-info-color: #0dcaf0;
+    --btn-info-border-color: #0dcaf0;
+    
     --shadow: 0 10px 30px rgba(0, 0, 0, .35);
     --glow1: rgba(43, 177, 115, .20);
     --glow2: rgba(43, 177, 115, .08);
@@ -77,16 +94,19 @@ svg.ill {
     height: 100%
 }
 
+a {
+    text-decoration: none;
+}
+
 /* shared */
 .btn {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--surface2);
-    color: var(--text);
-    padding: 11px 18px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: .15s
+    font-size: 13.6px;
+}
+
+.btn-sm {
+    --bs-btn-padding-y: 0.15rem;
+    --bs-btn-font-size: 0.775rem;
+    --bs-btn-padding-x: 0.35rem
 }
 
 .btn:hover {
@@ -114,6 +134,86 @@ svg.ill {
 
 .btn.sm {
     padding: 8px 14px
+}
+
+
+.btn-hold {
+    background-color: var(--btn-hold-background-color);
+    color: var(--btn-hold-color);
+    border: 1px solid var(--btn-hold-border-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.btn-hold:hover {
+    background-color: #120925d2;
+    color: #8155da;
+    border: 1px solid #8155da;
+    transform: translateY(-2px);
+    transition: transform 0.3s;
+}
+
+.btn-update{
+    background-color: var(--btn-update-background-color);
+    color: var(--btn-update-color);
+    border: 1px solid var(--btn-update-border-color);
+}
+
+.btn-update:hover{
+    background-color: #202000d0;
+    color: #fccb39;
+    border: 1px solid #fccb39;
+    transform: translateY(-2px);
+    transition: transform 0.3s;
+}
+
+.btn-success, .btn-primary{
+    background-color: var(--btn-success-primary-background-color) !important;
+    color: var(--btn-success-primary-color) !important;
+    border: 1px solid var(--btn-success-primary-border-color) !important;
+}
+
+.btn-success:hover, .btn-primary:hover{
+    background-color: #002e18d0 !important;
+    color: #26aa6a !important;
+    border: 1px solid #26aa6a !important;
+    transform: translateY(-2px) !important;
+    transition: transform 0.3s !important;
+}
+
+
+.btn-secondary{
+    background-color: var(--btn-secondary-background-color) !important;
+    color: var(--btn-secondary-color) !important;
+    border: 1px solid var(--btn-secondary-border-color) !important;
+}
+
+.btn-secondary:hover{
+    background-color: #222222d0 !important;
+    color: #e2e2e2 !important;
+    border: 1px solid #6c757d !important;
+    transform: translateY(-2px) !important;
+    transition: transform 0.3s !important;
+}
+
+.btn-delete {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    /* or even smaller */
+    line-height: 1;
+}
+
+.btn-delete i {
+    font-size: 18px;
+    /* try 10px if still overflowing */
 }
 
 .field label {
@@ -220,6 +320,7 @@ svg.ill {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     position: relative;
     overflow: hidden
 }
@@ -1065,7 +1166,8 @@ nav {
     align-items: center;
     gap: 18px;
     margin-bottom: 16px;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .p-head .avatar {

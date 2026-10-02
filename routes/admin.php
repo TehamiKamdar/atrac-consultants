@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 
 //Admin Routes
 
-Route::middleware(['auth'])->group(function(){
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(){
     Route::get('dashboard' , [DashboardController::class , 'index'])->name('admin-home');
     Route::get('/get-states/{country_id}', [DashboardController::class, 'getStates']);
     Route::get('/get-cities/{state_id}', [DashboardController::class, 'getCities']);
@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post( 'update' , [AdminController::class , 'countryUpdate'])->name('country-update');
         Route::post( 'active/{id}' , [AdminController::class , 'countryActive'])->name('country-active');
         Route::post( 'inactive/{id}' , [AdminController::class , 'countryInactive'])->name('country-inactive');
-        Route::get('get-countries/{id}', [AdminController::class, 'getCountries']);
+        Route::get('get-countries/{id}', [AdminController::class, 'getCountries'])->name('admin-get-countries-ajax');
         Route::post('/update-country-program', [AdminController::class, 'countryProgramLevelsUpdate'])->name('update.country.program');
     });
     Route::get('program-levels', [AdminController::class, 'countryProgramLevelsPage'])->name('admin-program-levels-index');

@@ -46,11 +46,11 @@
         $('#deleteFaqBtn').on("click", function(){
             const id = $(this).data("id");
             $.ajax({
-                url: "/faqs/delete/"+id ,
+                url: "/admin/faqs/delete/"+id ,
                 method:"POST",
                 success:function(res){
                     alert(res.message);
-                    window.location.href = "/faqs"
+                    window.location.href = "/admin/faqs"
                 },
                 error:function(err){
                     console.log(err)

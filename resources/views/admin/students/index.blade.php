@@ -276,7 +276,7 @@
                                     <option value="acceptance-applied">Acceptance Applied</option>
                                     <option value="acceptance-received">Acceptance Received</option>
                                     <option value="pre-enrollment-applied">Pre-Enrollment Applied</option>
-                                    <option value="pre-enrollment-applied">Pre-Enrollment Applied</option>
+                                    <option value="pre-enrollment-received">pre-enrollment Received</option>
                                     <option value="visa-file-preparation">Visa File Preparation</option>
                                     <option value="scholarship-application-done">Scholarship Application Done</option>
                                 </select>
@@ -706,7 +706,7 @@
                     $('#programResults').html(`<div class="text-muted p-3">Searching...</div>`);
 
                     $.ajax({
-                        url: '/get-programs',
+                        url: '/admin/get-programs',
                         type: 'GET',
                         data: { search, country_ids: selectedCountries, program_level_id: applying },
                         success: function (data) {
@@ -779,7 +779,7 @@
                 const countryIds = selectedCountries;
 
                 $.ajax({
-                    url: '/get-countries',
+                    url: '/admin/get-countries',
                     method: 'GET',
                     data: {
                         country_ids: countryIds
@@ -818,7 +818,7 @@
 
                 $('#countryName').on('input', function () {
                     $.ajax({
-                        url: '/get-universities',
+                        url: '/admin/get-universities',
                         method: 'GET',
                         data: {
                             country_name: $('#countryName').val()
@@ -842,7 +842,7 @@
 
                 $("#universityName").on('input', function () {
                     $.ajax({
-                        url: '/get-departments',
+                        url: '/admin/get-departments',
                         method: 'GET',
                         data: {
                             university_name: $('#universityName').val(),
@@ -886,7 +886,7 @@
                 let programLevelId = applying;
 
                 $.ajax({
-                    url: '/save-new-university-department-course',
+                    url: '/admin/save-new-university-department-course',
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -979,7 +979,7 @@
             function saveSelectedPrograms(e) {
                 e.preventDefault()
                 $.ajax({
-                    url: '/students/store-applications',
+                    url: '/admin/students/store-applications',
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
@@ -1176,14 +1176,17 @@
                                                 <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
                                                     Pre-Enrollment Applied
                                                 </option>
-                                                <option value="pre-enrollment-applied" ${app.status === 'pre-enrollment-applied' ? 'selected' : ''}>
-                                                    Pre-Enrollment Applied
+                                                <option value="pre-enrollment-received" ${app.status === 'pre-enrollment-received' ? 'selected' : ''}>
+                                                    Pre-Enrollment Received
                                                 </option>
                                                 <option value="visa-file-preparation" ${app.status === 'visa-file-preparation' ? 'selected' : ''}>
                                                     Visa File Preparation
                                                 </option>
                                                 <option value="scholarship-application-done" ${app.status === 'scholarship-application-done' ? 'selected' : ''}>
                                                     Scholarship Application Done
+                                                </option>
+                                                <option value="application-rejected" ${app.status === 'application-rejected' ? 'selected' : ''}>
+                                                    Application Rejected
                                                 </option>
                                             </select>
                                         </td>
@@ -1262,7 +1265,7 @@
                 }
 
                 $.ajax({
-                    url: '/students/emailpass/store',
+                    url: '/admin/students/emailpass/store',
                     method: 'POST',
                     data: JSON.stringify(payload),
                     contentType: 'application/json',
@@ -1317,7 +1320,7 @@
                 }
 
                 $.ajax({
-                    url: '/students/applications/store',
+                    url: '/admin/students/applications/store',
                     method: 'POST',
                     data: JSON.stringify(payload),
                     contentType: 'application/json',
@@ -1372,12 +1375,20 @@
                                                 Pre-Enrollment Applied
                                             </option>
 
+                                            <option value="pre-enrollment-received" ${$('#status').val() === 'pre-enrollment-received' ? 'selected' : ''}>
+                                                pre-enrollment Received
+                                            </option>
+
                                             <option value="visa-file-preparation" ${$('#status').val() === 'visa-file-preparation' ? 'selected' : ''}>
                                                 Visa File Preparation
                                             </option>
 
                                             <option value="scholarship-application-done" ${$('#status').val() === 'scholarship-application-done' ? 'selected' : ''}>
                                                 Scholarship Application Done
+                                            </option>
+
+                                            <option value="application-rejected" ${$('#status').val() === 'application-rejected' ? 'selected' : ''}>
+                                                Application Rejected
                                             </option>
                                         </select>
                                     </td>
@@ -1501,7 +1512,7 @@
             $(document).on('click', '.editApplicationBtn', function () {
                 let applicationId = $(this).data("id");
                 $.ajax({
-                    url: '/students/application-details/' + applicationId,
+                    url: '/admin/students/application-details/' + applicationId,
                     method: 'GET',
                     success: function (response) {
                         $('#editApplicationId').val(response.data.id);
@@ -1521,7 +1532,7 @@
                 let password = $('#editPassword').val()
                 let url = $('#editUrl').val()
                 $.ajax({
-                    url: '/students/application-details/update',
+                    url: '/admin/students/application-details/update',
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

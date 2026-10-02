@@ -1,5 +1,9 @@
 @extends('layouts.student_layout')
 
+@section('title')
+Profile
+@endsection
+
 @section('content')
     <section class="section active" id="profile">
         <div class="card p-head">

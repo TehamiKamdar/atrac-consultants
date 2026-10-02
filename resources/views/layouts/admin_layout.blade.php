@@ -7,13 +7,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('admin/images/favicon.svg')}}" type="image/x-icon">
-    <!-- RemixIcon -->
-    <link href="{{ asset('admin/remixicons/remixicon.css') }}" rel="stylesheet">
-    <!-- Bootstrap 5 CSS -->
-    <link href="{{asset('admin/bootstrap.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('admin/style.css') }}"><!-- IziToast CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.svg')}}" type="image/x-icon">
+    <!-- Global Assets -->
+    <link href="{{ asset('assets/remixicons/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/iziToast/iziToast.min.css') }}" rel="stylesheet">
+    {{-- Theme Assets --}}
+    <link rel="stylesheet" href="{{ asset('admin/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <img src="{{ asset('admin/images/logo.svg') }}" class="img-fluid" width="90" alt="">
+            <img src="{{ asset('assets/images/logo.svg') }}" class="img-fluid" width="90" alt="">
         </div>
 
         <ul class="nav flex-column px-2">
@@ -144,9 +144,9 @@
         });
     }
 </script>
-<script src="{{ asset('admin/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('admin/jqueryui/external/jquery/jquery.js') }}"></script>
 <script src="{{ asset('admin/forms.js') }}"></script>
+<script src="{{ asset('assets/iziToast/iziToast.min.js') }}"></script>
 <!-- IziToast JS -->
-<script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
 @yield('scripts')

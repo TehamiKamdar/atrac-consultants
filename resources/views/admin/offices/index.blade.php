@@ -238,7 +238,7 @@ $(function () {
         console.log(countryId);
 
         $.ajax({
-            url:'/get-states/' + countryId,
+            url: '/admin/get-states/' + countryId,
             method:'GET',
             beforeSend:function(){
                 $('#state').html('<option value="">Loading...</option>');
@@ -295,7 +295,7 @@ $(function () {
         let button = form.find('.add-btn');
 
         $.ajax({
-            url: '/offices/store',
+            url: '/admin/offices/store',
             method: 'POST',
             data: form.serialize(),
 
@@ -347,7 +347,7 @@ $(function () {
         let button = form.find('.update-btn');
 
         $.ajax({
-            url: '/offices/update',
+            url: '/admin/offices/update',
             method: 'POST',
             data: form.serialize(),
 
@@ -392,7 +392,7 @@ $(function () {
         if (!deleteId) return;
 
         $.ajax({
-            url: '/offices/destroy',
+            url: '/admin/offices/destroy',
             method: 'POST',
             data: { id: deleteId },
 
@@ -429,7 +429,7 @@ $(function () {
         // console.log('New Status will be: '+statusToUpdate);
 
         $.ajax({
-            url: '/offices/status',
+            url: '/admin/offices/status',
             method: 'POST',
             data:{
                 id: id,

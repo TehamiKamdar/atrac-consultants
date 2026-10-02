@@ -28,40 +28,29 @@
     </noscript>
 
     <!-- Favicon (no problem) -->
-    <link rel="shortcut icon" href="{{ asset('website/favicon.svg') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon">
 
-    <!-- Custom Font -->
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/bambino-2">
 
-    <!-- Remix Icons -->
-    <link rel="stylesheet" href="{{ asset('website/lib/remixicons-fonts/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/remixicons/remixicon.css') }}">
 
-    <!-- iziToast CSS -->
-    <link rel="stylesheet" href="{{ asset('website/lib/iziToast/iziToast.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/iziToast/iziToast.min.css') }}">
 
-    <!-- Your Main CSS -->
     <link rel="stylesheet" href="{{ asset('website/style.css') }}">
 
-    <!-- jQuery (must be first) -->
     <script src="{{ asset('website/lib/js/jquery.min.js') }}"></script>
 
-    <!-- Bootstrap Bundle -->
     <script src="{{ asset('website/lib/bootstrap/bootstrap.bundle.min.js') }}" defer></script>
 
-    <!-- Slick Carousel -->
     <script src="{{ asset('website/lib/js/slick.min.js') }}" defer></script>
 
-    <!-- Typed.js -->
     <script src="{{ asset('website/lib/js/typed.js') }}" defer></script>
 
-    <!-- Owl Carousel -->
     <script src="{{ asset('website/lib/js/owl.carousel.min.js') }}" defer></script>
 
-    {{-- Swiper --}}
     <script src="{{ asset('website/lib/js/swiper-bundle.min.js') }}" defer></script>
 
-    <!-- iziToast JS -->
-    <script src="{{ asset('website/lib/iziToast/iziToast.min.js') }}" defer></script>
+    <script src="{{ asset('assets/iziToast/iziToast.min.js') }}" defer></script>
 
     <title>Atrac Consultants | @stack('title')</title>
     <style>
@@ -88,7 +77,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="/">
-                <img src="{{asset('website/logo.svg')}}" alt="Atrac Consultants" class="navbar-logo">
+                <img src="{{asset('assets/images/logo.svg')}}" alt="Atrac Consultants" class="navbar-logo">
             </a>
 
             <!-- Mobile Toggle Button -->

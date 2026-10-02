@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Student Portal</title>
     <link rel="stylesheet" href="{{ asset('student/css/style.css') }}">
-
+    <link rel="shortcut icon" href="{{ asset('website/favicon.svg') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -93,11 +93,16 @@
     <!-- ================= LOGIN ================= -->
     <div id="login">
         <div class="l-left">
-            <div class="logo"><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+            <div class="logo">
+                <i>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2 9l10-5 10 5-10 5z" />
                         <path d="M6 11.5V16c3 2 9 2 12 0v-4.5" />
-                    </svg></i>Student Portal</div>
+                    </svg>
+                </i>
+                Student Portal
+            </div>
             <div>
                 <h2>Your future starts with <em>one login.</em></h2>
                 <p class="sub">Complete your profile, upload documents and track every program application from one

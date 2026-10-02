@@ -81,6 +81,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 
         Route::get('/{student}/login-as', [StudentController::class , 'loginAsStudent'])->name('admin.students.login-as');
         Route::post('/students/create-users', [StudentController::class , 'createStudentUsers'])->name('admin.students.create-users');
+        Route::post('/students/{student}/create-user', [StudentController::class , 'createStudentUser'])->name('admin.students.create-user');
     });
     Route::get('programs', [AdminController::class , 'activePrograms'])->name('admin-programs');
     Route::get('contacts', [ContactController::class , 'index'])->name('admin-contacts');

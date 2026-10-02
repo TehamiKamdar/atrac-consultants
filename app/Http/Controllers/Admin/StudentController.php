@@ -784,4 +784,52 @@ class StudentController extends Controller
             "{$created} student user account(s) created successfully."
         );
     }
+
+    public function createStudentUser($studentId)
+    {
+        $student = students::findOrFail($studentId);
+
+        // Already account bana hua hai
+        if ($student->user_id) {
+            return back()->with(
+                'info',
+                'This student already has a user account.'
+            );
+        }
+
+        // Generate unique username
+        do {
+            $username = Str::random(10);
+        } while (User::where('username', $username)->exists());
+
+        // Email
+        $email = $student->email;
+
+        // Agar email already kisi user ke paas hai
+        if ($email && User::where('email', $email)->exists()) {
+            $email = null;
+        }
+
+        $user = User::create([
+            'name' => trim(
+                $student->first_name . ' ' . $student->last_name
+            ),
+            'username' => $username,
+            'email' => $email,
+            'password' => Hash::make('Students@atrac$12345'),
+            'status' => 'active',
+            'user_type' => 'student',
+        ]);
+
+        $student->update([
+            'user_id' => $user->id,
+            'status' => 'active',
+            'account_created' => 1,
+        ]);
+
+        return back()->with(
+            'success',
+            "Account created successfully. Username: {$username}"
+        );
+    }
 }

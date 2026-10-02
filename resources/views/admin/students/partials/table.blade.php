@@ -13,6 +13,23 @@
                     : 'Not applied yet' }}
             </td>
             <td>
+                @if(!$student->user_id)
+
+                    <form action="{{ route('admin.students.create-user', $student->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Create an account for this student?')">
+
+                        @csrf
+
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-success"
+                                title="Create Account">
+                            <i class="ri-user-add-line"></i>
+                        </button>
+
+                    </form>
+
+                @endif
+            </td>
+            <td>
                 <div class="dropdown">
                     <button type="button" class="btn btn-sm text-light" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="ri-arrow-down-s-fill"></i>
@@ -48,12 +65,14 @@
                             </button>
                         </li>
 
-                        <li>
-                            <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item detailsBtn">
-                                <i class="ri-login-box-line me-2"></i>
-                                Login as Student
-                            </a>
-                        </li>
+                        @if (!empty($student->user_id))
+                            <li>
+                                <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item detailsBtn">
+                                    <i class="ri-login-box-line me-2"></i>
+                                    Login as Student
+                                </a>
+                            </li>
+                        @endif
 
                         <li>
                             <hr class="dropdown-divider">

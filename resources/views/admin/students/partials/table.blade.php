@@ -49,6 +49,13 @@
                         </li>
 
                         <li>
+                            <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item detailsBtn">
+                                <i class="ri-login-box-line me-2"></i>
+                                Login as Student
+                            </a>
+                        </li>
+
+                        <li>
                             <hr class="dropdown-divider">
                         </li>
 

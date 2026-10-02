@@ -3,6 +3,14 @@
 @section('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     <style>
+        .alert-sm{
+            padding: 0.25rem 0.5rem;
+            padding-right: 2rem;
+            font-size: 0.875rem;
+        }
+        .alert-dismissible .btn-close {
+            padding: 0.5rem;
+        }
         input.form-control,
         select.form-control {
             background-color: #363636 !important;
@@ -174,6 +182,14 @@
                     Add New
                 </a>
             </div>
+
+            @if(session('error'))
+                <div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert" data-bs-theme="dark">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <!-- Search Box on Right -->
             <div style="max-width: 500px;">
                 <div class="input-group" data-bs-theme="dark">

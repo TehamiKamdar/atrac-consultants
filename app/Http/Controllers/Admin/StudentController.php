@@ -691,4 +691,40 @@ class StudentController extends Controller
             ], 500);
         }
     }
+
+    public function loginAsStudent(students $student)
+    {
+        if (!$student->user_id) {
+            return back()->with('error', 'This student does not have a login account.');
+        }
+
+        $adminId = auth()->id();
+
+        session([
+            'impersonating_student' => true,
+            'impersonating_admin_id' => $adminId,
+        ]);
+
+        auth()->loginUsingId($student->user_id);
+
+        return redirect()->route('student.dashboard');
+    }
+
+    public function stopImpersonation()
+    {
+        if (!session('impersonating_student')) {
+            abort(403);
+        }
+
+        $adminId = session('impersonating_admin_id');
+
+        session()->forget([
+            'impersonating_student',
+            'impersonating_admin_id',
+        ]);
+
+        auth()->loginUsingId($adminId);
+
+        return redirect()->route('admin-students-index');
+    }
 }

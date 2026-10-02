@@ -62,15 +62,24 @@
                 </nav>
             </div>
             <div class="sidebar-foot">
-                <button class="nav-item" id="logout">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.7">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <path d="M16 17l5-5-5-5" />
-                        <path d="M21 12H9" />
-                    </svg>
-                    <span class="label">Log out</span>
-                </button>
+                <form action="{{ route('student.logout') }}" method="post">
+
+                    @csrf
+
+                    <button class="nav-item" id="logout">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <path d="M16 17l5-5-5-5" />
+                            <path d="M21 12H9" />
+                        </svg>
+
+
+                        <span class="label">Log out</span>
+                        
+                    </button>            
+                </form>
+
             </div>
         </aside>
 
@@ -78,6 +87,14 @@
             <header class="topbar">
                 <h1 id="pageTitle">@yield('title')</h1>
                 <div class="top-right">
+                    @if(session('impersonating_student'))
+
+                        <a href="{{ route('admin.students.stop-impersonation') }}" class="theme-btn">
+                            <i class="ri-arrow-go-back-line"></i>
+                            Back to Admin
+                        </a>
+
+                    @endif
                     <div class="profile-chip">
                         <div class="who">
                             <div class="name">{{ $student->first_name.' '.$student->last_name }}</div>

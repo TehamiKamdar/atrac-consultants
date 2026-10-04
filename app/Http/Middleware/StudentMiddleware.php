@@ -10,7 +10,7 @@ class StudentMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->user_type !== 'student') {
+        if (!auth()->check() || auth()->user()->user_type !== 'student' || auth()->user()->status !== "active") {
             abort(403);
         }
 

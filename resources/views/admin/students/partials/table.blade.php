@@ -27,6 +27,36 @@
 
                     </form>
 
+                @else
+                    @if ($student->status === 'active')
+
+                        <form action="{{ route('admin.students.disable-user', $student->user_id) }}" method="POST" class="d-inline" onsubmit="return confirm('Disable account of this student?')">
+
+                            @csrf
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-outline-warning"
+                                    title="Disable Account">
+                                <i class="ri-user-unfollow-line"></i>
+                            </button>
+
+                        </form>
+
+                    @else
+
+                    <form action="{{ route('admin.students.enable-user', $student->user_id) }}" method="POST" class="d-inline" onsubmit="return confirm('Enable account of this student?')">
+
+                        @csrf
+
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-info"
+                                title="Enable Account">
+                            <i class="ri-user-follow-line"></i>
+                        </button>
+
+                    </form>
+
+                    @endif
                 @endif
             </td>
             <td>

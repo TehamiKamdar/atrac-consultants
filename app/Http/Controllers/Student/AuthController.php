@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        if (auth()->check() && auth()->user()->user_type === 'student') {
+        if (auth()->check() && auth()->user()->user_type === 'student' && auth()->user()->status === 'active') {
             return redirect()->route('student.dashboard');
         }
         return view('student.auth.login');

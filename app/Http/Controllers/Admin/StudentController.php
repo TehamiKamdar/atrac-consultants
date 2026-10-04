@@ -832,4 +832,64 @@ class StudentController extends Controller
             "Account created successfully. Username: {$username}"
         );
     }
+
+    public function disableStudentUser($studentId)
+    {
+        $user = User::where('id', $studentId)->first();
+
+        $student = students::where('user_id', $studentId)->first();
+
+        $username = $user->name;
+
+        // Already account bana hua hai
+        if ($student->status === "inactive") {
+            return back()->with(
+                'info',
+                'Student account is already disabled'
+            );
+        }
+
+        $student->update([
+            'status' => 'inactive',
+        ]);
+
+        $user->update([
+            'status' => 'inactive',
+        ]);
+
+        return back()->with(
+            'success',
+            "Account Disabled for Student: {$username}"
+        );
+    }
+
+    public function enableStudentUser($studentId)
+    {
+        $user = User::where('id', $studentId)->first();
+
+        $student = students::where('user_id', $studentId)->first();
+
+        $username = $user->name;
+
+        // Already account bana hua hai
+        if ($student->status === "active") {
+            return back()->with(
+                'info',
+                'Student account is already enabled'
+            );
+        }
+
+        $student->update([
+            'status' => 'active',
+        ]);
+
+        $user->update([
+            'status' => 'active',
+        ]);
+
+        return back()->with(
+            'success',
+            "Account Enabled for Student: {$username}"
+        );
+    }
 }

@@ -192,7 +192,7 @@
 
                         <button type="submit" class="btn btn-sm btn-info">
                             <i class="ri-user-add-line"></i>
-                            Create Student Accounts
+                            Create All Student Accounts
                             <span class="badge bg-light text-primary ms-1">
                                 {{ $studentsWithoutAccounts }}
                             </span>
@@ -203,19 +203,7 @@
                 @endif
             </div>
 
-            @if(session('error'))
-                <div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert" data-bs-theme="dark">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            @if(session('success'))
-                <div class="alert alert-sm alert-success alert-dismissible fade show" role="alert" data-bs-theme="dark">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            @include('include.alert')
 
             <!-- Search Box on Right -->
             <div style="max-width: 500px;">
@@ -239,8 +227,8 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Country</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th>Student Portal Action</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="studentsTable">

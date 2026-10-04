@@ -8,11 +8,6 @@
             <td>{{ $student->phone }}</td>
             <td>{{ $student->country_names }}</td>
             <td>
-                {{ $student->application_details->first()?->status
-                    ? ucfirst($student->application_details->first()->status)
-                    : 'Not applied yet' }}
-            </td>
-            <td>
                 @if(!$student->user_id)
 
                     <form action="{{ route('admin.students.create-user', $student->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Create an account for this student?')">
@@ -20,9 +15,8 @@
                         @csrf
 
                         <button type="submit"
-                                class="btn btn-sm btn-outline-success"
-                                title="Create Account">
-                            <i class="ri-user-add-line"></i>
+                                class="btn btn-sm btn-outline-success text-white">
+                            Create Student Portal Account
                         </button>
 
                     </form>
@@ -35,9 +29,8 @@
                             @csrf
 
                             <button type="submit"
-                                    class="btn btn-sm btn-outline-warning"
-                                    title="Disable Account">
-                                <i class="ri-user-unfollow-line"></i>
+                                    class="btn btn-sm btn-outline-warning text-white">
+                                Disable Account
                             </button>
 
                         </form>
@@ -49,9 +42,8 @@
                         @csrf
 
                         <button type="submit"
-                                class="btn btn-sm btn-outline-info"
-                                title="Enable Account">
-                            <i class="ri-user-follow-line"></i>
+                                class="btn btn-sm btn-outline-primary text-white">
+                            Enable Account
                         </button>
 
                     </form>

@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->status === "active") {
             return redirect()->route('student.dashboard');
         }
         return view('student.auth.login');
@@ -32,13 +32,22 @@ class AuthController extends Controller
         if (Auth::attempt([
             $field => $login,
             'password' => $request->password,
-            'status' => 'active',
             'user_type' => 'student',
         ])) {
+            if(Auth::user()->status === "active"){
 
-            $request->session()->regenerate();
+                $request->session()->regenerate();
 
-            return redirect()->route('student.dashboard');
+                return redirect()->route('student.dashboard');
+
+            }else{
+                return back()
+                ->withErrors([
+                    'login' => 'Your account status is inactive. Contact Us for more details',
+                ])
+                ->withInput($request->only('login'));
+                
+            }
         }
 
         return back()

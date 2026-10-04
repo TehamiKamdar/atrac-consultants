@@ -10,6 +10,9 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (auth()->check() && auth()->user()->user_type === 'admin' && auth()->user()->status === 'active') {
+            return redirect()->route('admin-home');
+        }
         return view('auth.login');
     }
 

@@ -50,7 +50,7 @@
                         </svg>
                         <span class="label">Application Details</span>
                     </a>
-                    {{-- <a href="" class="nav-item" data-target="settings">
+                    <a href="{{ route('student.settings') }}" class="nav-item {{ Route::is('student.settings') ? 'active' : '' }}" data-target="settings">
                         <svg viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="1.7">
                             <circle cx="12" cy="12" r="2.6" />
@@ -58,7 +58,7 @@
                                 d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14.2 3H9.8l-.4 2.6a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9c.6.5 1.3.9 2 1.2l.4 2.6h4.4l.4-2.6c.7-.3 1.4-.7 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2Z" />
                         </svg>
                         <span class="label">Settings</span>
-                    </a> --}}
+                    </a>
                 </nav>
             </div>
             <div class="sidebar-foot">

@@ -8,6 +8,7 @@ use App\Models\studentdocument;
 use App\Models\students;
 use App\Services\StudentDocumentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
@@ -194,5 +195,41 @@ class DashboardController extends Controller
             'student.dashboard.applications.index',
             compact('student', 'applications')
         );
+    }
+
+    public function getSettings()
+    {
+        $student = auth()->user()->student;
+
+        return view('student.dashboard.settings.index', compact('student'));
+    }
+
+    public function updatePassword(Request $request){
+        
+        $request->validate([
+            'current' => 'required|string',
+            'new1' => [
+                'required',
+                'string',
+                'min:8',
+                'max:64',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[^A-Za-z0-9]/',
+            ],
+        ]);
+
+        $user = auth()->user();
+
+        if (!\Hash::check($request->current, $user->password)) {
+            return back()->withErrors(['current' => 'Current password is incorrect.']);
+        }
+
+        $user->password = Hash::make($request->new1);
+        $user->must_change_password = 0;
+        $user->save();
+
+        return back()->with('success', 'Password updated successfully.');
     }
 }

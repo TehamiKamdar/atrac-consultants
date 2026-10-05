@@ -38,6 +38,10 @@ class AuthController extends Controller
 
                 $request->session()->regenerate();
 
+                if (Auth::user()->must_change_password === 1) {
+                    return redirect()->route('student.settings')->with('warning', 'For security reasons, you are required to change your password before proceeding.');
+                }
+
                 return redirect()->route('student.dashboard');
 
             }else{

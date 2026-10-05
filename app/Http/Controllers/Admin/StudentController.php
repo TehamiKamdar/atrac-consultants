@@ -768,6 +768,7 @@ class StudentController extends Controller
                 'password' => Hash::make('Students@atrac$12345'),
                 'status' => 'active',
                 'user_type' => 'student',
+                'must_change_password' => 1,
             ]);
 
             $student->update([
@@ -819,6 +820,7 @@ class StudentController extends Controller
             'password' => Hash::make('Students@atrac$12345'),
             'status' => 'active',
             'user_type' => 'student',
+            'must_change_password' => 1,
         ]);
 
         $student->update([

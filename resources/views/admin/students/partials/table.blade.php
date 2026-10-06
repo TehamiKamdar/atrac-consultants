@@ -96,6 +96,17 @@
                             </li>
                         @endif
 
+                        @if (!empty($student->user_id))
+                            <form action="{{ route('admin.students.send-login-details', $student->id) }}" method="POST" style="display:inline;">
+                                @csrf
+
+                                <button type="submit" class="dropdown-item detailsBtn" onclick="return confirm('Send login details to this student?')">
+                                    <i class="ri-mail-send-line me-1"></i>
+                                    Send Login Details
+                                </button>
+                            </form>
+                        @endif
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>

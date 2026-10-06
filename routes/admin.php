@@ -78,6 +78,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         Route::post('/store-applications', [StudentController::class , 'storeApplications'])->name('admin-students-store-applications');
         Route::put('/applications/{studentId}/status', [StudentController::class, 'updateStatus'])->name('student-applications.update-status');
         Route::delete('/{studentId}/delete', [StudentController::class , 'destroy'])->name('admin-students-delete-applications');
+        Route::post('/{student}/send-login-details',[StudentController::class, 'sendLoginDetails'])->name('admin.students.send-login-details');
 
         Route::get('/{student}/login-as', [StudentController::class , 'loginAsStudent'])->name('admin.students.login-as');
         Route::post('/students/create-users', [StudentController::class , 'createStudentUsers'])->name('admin.students.create-users');

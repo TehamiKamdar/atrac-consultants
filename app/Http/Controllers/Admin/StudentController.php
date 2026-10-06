@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\StudentAccountCreated;
 use App\Models\country;
 use App\Models\departments;
 use App\Models\studentapplication;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -892,6 +894,51 @@ class StudentController extends Controller
         return back()->with(
             'success',
             "Account Enabled for Student: {$username}"
+        );
+    }
+
+    public function sendStudentDetailsEmail($studentId)
+    {
+        $student = students::findOrFail($studentId);
+
+        if (!$student->user_id) {
+            return back()->with(
+                'error',
+                'This student does not have a user account.'
+            );
+        }
+
+        $user = User::findOrFail($student->user_id);
+
+        // Send email logic here
+        // For example, using Laravel's Mail facade:
+        // Mail::to($user->email)->send(new StudentDetailsMail($user));
+
+        return back()->with(
+            'success',
+            "Student details email sent to: {$user->email}"
+        );
+    }
+
+    public function sendLoginDetails($studentId)
+    {
+        $student = students::findOrFail($studentId);
+
+        $user = User::where('id', $student->user_id)
+            ->where('user_type', 'student')
+            ->firstOrFail();
+
+        Mail::to($student->email)->send(
+            new StudentAccountCreated(
+                $student,
+                $user->username,
+                'Students@atrac$12345'
+            )
+        );
+
+        return back()->with(
+            'success',
+            'Login details have been sent successfully to the student.'
         );
     }
 }

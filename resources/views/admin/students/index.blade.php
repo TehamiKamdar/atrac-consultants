@@ -737,7 +737,7 @@
                     $('#programResults').html(`<div class="text-muted p-3">Searching...</div>`);
 
                     $.ajax({
-                        url: '/admin/get-programs',
+                        url: '/get-programs',
                         type: 'GET',
                         data: { search, country_ids: selectedCountries, program_level_id: applying },
                         success: function (data) {
@@ -810,7 +810,7 @@
                 const countryIds = selectedCountries;
 
                 $.ajax({
-                    url: '/admin/get-countries',
+                    url: '/get-countries',
                     method: 'GET',
                     data: {
                         country_ids: countryIds
@@ -849,7 +849,7 @@
 
                 $('#countryName').on('input', function () {
                     $.ajax({
-                        url: '/admin/get-universities',
+                        url: '/get-universities',
                         method: 'GET',
                         data: {
                             country_name: $('#countryName').val()
@@ -873,7 +873,7 @@
 
                 $("#universityName").on('input', function () {
                     $.ajax({
-                        url: '/admin/get-departments',
+                        url: '/get-departments',
                         method: 'GET',
                         data: {
                             university_name: $('#universityName').val(),

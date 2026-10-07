@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\studentapplication;
+use App\Models\studentapplicationdetail;
 use App\Models\studentdocument;
 use App\Models\students;
 use App\Services\StudentDocumentService;
@@ -212,8 +213,7 @@ class DashboardController extends Controller
     {
         $student = auth()->user()->student;
 
-        $applications = studentapplication::with('details')
-            ->where('student_id', $student->id)
+        $applications = studentapplicationdetail::where('student_id', $student->id)
             ->latest()
             ->get();
 

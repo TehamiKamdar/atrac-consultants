@@ -648,7 +648,7 @@
                 selectedPrograms = [];
 
                 $.ajax({
-                    url: `/students/${studentId}/programs`,
+                    url: `/admin/students/${studentId}/programs`,
                     method: 'GET',
                     success: function (data) {
                         console.log(data)

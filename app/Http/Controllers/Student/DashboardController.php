@@ -235,6 +235,7 @@ class DashboardController extends Controller
 
         $request->validate([
             'current' => 'required|string',
+
             'new1' => [
                 'required',
                 'string',
@@ -245,6 +246,18 @@ class DashboardController extends Controller
                 'regex:/[0-9]/',
                 'regex:/[^A-Za-z0-9]/',
             ],
+
+            'new2' => 'required|string|same:new1',
+
+        ], [
+            'new1.required' => 'New password is required.',
+            'new1.min' => 'New password must be at least 8 characters.',
+            'new1.max' => 'New password cannot exceed 64 characters.',
+
+            'new1.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+
+            'new2.required' => 'Please confirm your new password.',
+            'new2.same' => 'New password and confirm password do not match.',
         ]);
 
         $user = auth()->user();

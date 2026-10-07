@@ -683,7 +683,7 @@
                 studentId = $(this).data('id');
 
                 $.ajax({
-                    url: `/students/${studentId}/countries`,
+                    url: `/admin/students/${studentId}/countries`,
                     method: 'GET',
                     success: function (response) {
                         let $select = $('#countries');

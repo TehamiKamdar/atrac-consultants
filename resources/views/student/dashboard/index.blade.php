@@ -176,6 +176,7 @@
 
                         setTimeout(function () {
                             $('#saveMsg').removeClass('show');
+                            $('.is-changed').removeClass('is-changed');
                         }, 3000);
 
                         button.prop('disabled', false).text('Save changes');

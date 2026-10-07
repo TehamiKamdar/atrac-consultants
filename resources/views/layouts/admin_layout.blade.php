@@ -13,7 +13,7 @@
     <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/iziToast/iziToast.min.css') }}" rel="stylesheet">
     {{-- Theme Assets --}}
-    <link rel="stylesheet" href="{{ asset('admin/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/admin-style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
@@ -148,5 +148,14 @@
 <script src="{{ asset('admin/jqueryui/external/jquery/jquery.js') }}"></script>
 <script src="{{ asset('admin/forms.js') }}"></script>
 <script src="{{ asset('assets/iziToast/iziToast.min.js') }}"></script>
+<script>
+    console.log('doc height:', document.documentElement.scrollHeight, 'viewport:', innerHeight);
+[...document.querySelectorAll('body *')]
+  .filter(e => getComputedStyle(e).position !== 'fixed')
+  .map(e => ({ e, bottom: Math.round(e.getBoundingClientRect().bottom + scrollY) }))
+  .sort((a, b) => b.bottom - a.bottom)
+  .slice(0, 5)
+  .forEach(x => console.log(x.bottom, x.e));
+</script>
 <!-- IziToast JS -->
 @yield('scripts')

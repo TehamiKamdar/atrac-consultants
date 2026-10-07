@@ -1436,30 +1436,692 @@ nav {
     max-width: 30ch
 }
 
-@media (max-width:860px) {
+/* =====================================================================
+   MOBILE-FIRST OPTIMIZATION LAYER
+   (desktop styles above are untouched; everything below only adds/overrides)
+   Breakpoints: 860px (tablet/phone layout) · 560px (phones) · 380px (small phones)
+   ===================================================================== */
+
+:root {
+    --bar-bg: #101211;          /* opaque bar colour (no blur needed on mobile) */
+    --nav-h: 68px;              /* bottom navigation height */
+}
+
+:root[data-theme="light"] {
+    --bar-bg: #ffffff;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a, button, .btn, .nav-item, .cta {
+    touch-action: manipulation;   /* removes 300ms tap delay / double-tap zoom */
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- touch devices: no sticky hover, add tap feedback ---------- */
+@media (hover: none) {
+    .btn:hover,
+    .btn-hold:hover,
+    .btn-update:hover,
+    .btn-success:hover,
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .cta:hover,
+    .prog:hover {
+        transform: none !important;
+    }
+
+    .cta:hover .art {
+        transform: none;
+    }
+
+    .btn:active,
+    .cta:active,
+    .nav-item:active,
+    .prog:active {
+        transform: scale(.97);
+        transition: transform .1s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+    }
+}
+
+/* =====================================================================
+   ≤ 860px  — phone + small tablet layout
+   ===================================================================== */
+@media (max-width: 860px) {
+
+    /* ----- page scroll: let the BODY scroll (smooth, URL bar collapses) ----- */
+    html, body {
+        height: auto;
+        min-height: 100%;
+    }
+
+    body {
+        overflow-x: hidden;
+        background-attachment: scroll;   /* fixed backgrounds are janky on iOS */
+        background-image: radial-gradient(420px 300px at 90% -5%, var(--glow1), transparent 70%);
+    }
+
+    #app {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-left: max(12px, env(safe-area-inset-left, 0px));
+        padding-right: max(12px, env(safe-area-inset-right, 0px));
+        padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 16px);
+        gap: 0;
+    }
+
+    /* ----- sidebar  →  bottom tab bar ----- */
+    .sidebar,
+    .sidebar:hover {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        z-index: 100;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 2px;
+        padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+        border-width: 1px 0 0;
+        border-radius: 20px 20px 0 0;
+        background: var(--bar-bg);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, .28);
+        transition: none;
+        overflow: visible;
+    }
+
+    .sidebar > div:first-child {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .brand {
+        display: none;
+    }
+
+    nav {
+        display: flex;
+        gap: 2px;
+        padding: 0;
+    }
+
+    nav .nav-item {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .sidebar-foot {
+        display: flex;
+        padding: 0;
+    }
+
+    .sidebar-foot form {
+        display: flex;
+    }
+
+    .sidebar-foot .nav-item {
+        width: 62px;
+    }
+
+    .nav-item {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        height: auto;
+        min-height: 54px;
+        padding: 6px 2px;
+        margin: 0;
+        border-radius: 14px;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .nav-item .label,
+    .sidebar:hover .nav-item .label {
+        margin: 0;
+        opacity: 1;
+        font-size: 10px;
+        line-height: 1.15;
+        font-weight: 600;
+    }
+
+    .nav-item.active {
+        box-shadow: 0 4px 12px rgba(43, 177, 115, .35);
+    }
+
+    /* ----- top bar (sticky) ----- */
+    .main {
+        display: block;
+    }
+
+    .topbar {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 50;
+        height: 56px;
+        margin: 8px 0 12px;
+        padding: 0 12px 0 16px;
+        gap: 10px;
+        border-radius: 16px;
+        background: var(--bar-bg);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    .topbar h1 {
+        flex: 1;
+        min-width: 0;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .top-right {
+        flex-shrink: 0;
+        gap: 8px;
+    }
+
+    .top-right .theme-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        min-height: 36px;
+        padding: 6px 10px;
+        white-space: nowrap;
+    }
+
+    .who {
+        display: none;
+    }
+
+    .content {
+        flex: none;
+        overflow: visible;
+        padding: 0;
+    }
+
+    /* ----- cheaper rendering: kill blur on every glass surface ----- */
+    .card,
+    .login-card,
+    .chip,
+    .ring {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    /* ----- stacking ----- */
     #login {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
     }
 
     .l-left {
-        display: none
+        display: none;
+    }
+
+    .l-right {
+        padding: calc(env(safe-area-inset-top, 0px) + 56px) 16px calc(env(safe-area-inset-bottom, 0px) + 24px);
+        align-items: flex-start;
+    }
+
+    .l-right .theme-btn {
+        top: calc(env(safe-area-inset-top, 0px) + 14px);
+        right: 16px;
+    }
+
+    .login-card {
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 26px 22px;
+        border-radius: 22px;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     .hero {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+        border-radius: 22px;
+        margin-bottom: 14px;
+    }
+
+    .hero::before {
+        width: 200px;
+        height: 200px;
+        right: -70px;
+        top: -70px;
+    }
+
+    .hero::after {
+        display: none;
     }
 
     .hero-art {
-        display: none
+        display: none;
+    }
+
+    .hero h2 {
+        font-size: 22px;
+    }
+
+    .hero p {
+        max-width: none;
+        margin-bottom: 16px;
     }
 
     .grid2,
     .doc-cols,
     .set-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
+        gap: 14px;
     }
 
-    .who {
-        display: none
+    .set-grid {
+        max-width: none;
+    }
+
+    .ctas,
+    .stats,
+    .prog-grid {
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .ctas {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    }
+
+    .stats {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+        gap: 14px;
+    }
+
+    .prog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    }
+
+    /* ----- cards & content blocks ----- */
+    .card {
+        padding: 16px;
+        border-radius: 16px;
+        overflow-x: auto;                 /* wide tables scroll inside the card */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .cta {
+        min-height: 128px;
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .cta .art {
+        width: 76px;
+        height: 64px;
+    }
+
+    .stat {
+        padding: 12px;
+        gap: 10px;
+        border-radius: 16px;
+    }
+
+    .stat .ic {
+        width: 36px;
+        height: 36px;
+    }
+
+    .p-head {
+        gap: 14px;
+    }
+
+    .p-head .avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        font-size: 18px;
+    }
+
+    .p-head .meta {
+        min-width: 0;
+    }
+
+    .drop,
+    .banner {
+        padding: 16px;
+        gap: 14px;
+        border-radius: 18px;
+    }
+
+    .drop .art,
+    .banner .art {
+        width: 84px;
+        height: 70px;
+    }
+
+    .drop div.t,
+    .banner div.t {
+        min-width: 0;
+        flex: 1 1 180px;
+    }
+
+    .doc-row {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .doc-row .fn {
+        flex: 1 1 140px;
+        overflow-wrap: anywhere;
+    }
+
+    .feed li {
+        flex-wrap: wrap;
+        gap: 4px 10px;
+    }
+
+    .feed small {
+        white-space: normal;
+    }
+
+    .deadline,
+    .apply {
+        padding: 12px;
+    }
+
+    .sec-card .art {
+        width: 110px;
+        height: 100px;
+    }
+
+    .card h3,
+    .prog .name,
+    .doc-row .fn,
+    .email {
+        overflow-wrap: anywhere;
+    }
+
+    /* ----- forms: 16px stops iOS auto-zoom, 44px = comfortable tap target ----- */
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+    select,
+    textarea,
+    .form-control,
+    .form-select {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    .field input {
+        padding: 11px 13px;
+    }
+
+    .field label {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    .invalid-feedback {
+        font-size: 12px;
+    }
+
+    /* ----- buttons ----- */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 42px;
+        font-size: 14px;
+    }
+
+    .btn-sm,
+    .btn.sm {
+        min-height: 36px;
+    }
+
+    .btn-delete {
+        width: 40px;
+        height: 40px;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+
+    .hero .btns .btn {
+        flex: 1 1 auto;
+    }
+
+    /* ----- bootstrap tables / modals / toasts ----- */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .content table {
+        font-size: 12px;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: .55rem .6rem;
+    }
+
+    .modal-dialog {
+        margin: 12px auto;
+        max-width: calc(100% - 24px);
+    }
+
+    .modal-content {
+        border-radius: 18px;
+    }
+
+    .modal-footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        flex: 1 1 auto;
+    }
+
+    .iziToast-wrapper {
+        padding: 0 8px;
+    }
+
+    .iziToast {
+        max-width: 100%;
+    }
+}
+
+/* =====================================================================
+   ≤ 560px  — phones
+   ===================================================================== */
+@media (max-width: 560px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ctas,
+    .prog-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 20px 16px;
+    }
+
+    .hero h2 {
+        font-size: 20px;
+        letter-spacing: -.4px;
+    }
+
+    .hero .btns {
+        flex-direction: column;
+    }
+
+    .hero .btns .btn {
+        width: 100%;
+    }
+
+    .drop,
+    .banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .drop div.t,
+    .banner div.t {
+        flex: none;
+        width: 100%;
+    }
+
+    .drop .btn,
+    .banner .btn {
+        width: 100%;
+    }
+
+    .p-head .meta {
+        flex: 1 1 100%;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .save-msg {
+        text-align: center;
+    }
+
+    .login-card {
+        padding: 22px 18px;
+    }
+
+    .l-feats {
+        gap: 12px;
+    }
+
+    .modal-dialog {
+        margin: 8px auto;
+    }
+
+    /* "Back to Admin" button: keep it compact */
+    .top-right .theme-btn {
+        padding: 6px 9px;
+        font-size: 10.5px;
+    }
+}
+
+/* =====================================================================
+   ≤ 380px  — small phones (iPhone SE, Galaxy A-series, etc.)
+   ===================================================================== */
+@media (max-width: 380px) {
+
+    #app {
+        padding-left: max(8px, env(safe-area-inset-left, 0px));
+        padding-right: max(8px, env(safe-area-inset-right, 0px));
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        padding: 0 10px 0 12px;
+    }
+
+    .topbar h1 {
+        font-size: 14px;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    .nav-item .label {
+        font-size: 9px;
+    }
+
+    .sidebar-foot .nav-item {
+        width: 54px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+}
+
+/* =====================================================================
+   Landscape phones — vertical space is precious: icons-only bottom bar
+   ===================================================================== */
+@media (max-width: 920px) and (max-height: 480px) and (orientation: landscape) {
+    :root {
+        --nav-h: 52px;
+    }
+
+    .nav-item {
+        min-height: 40px;
+    }
+
+    .nav-item .label {
+        display: none;
+    }
+
+    .topbar {
+        position: static;
+        height: 50px;
+    }
+
+    .l-right {
+        align-items: center;
     }
 }

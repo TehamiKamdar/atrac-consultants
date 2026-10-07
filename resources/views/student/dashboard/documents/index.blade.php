@@ -7,73 +7,54 @@
 @section('content')
 
     <div class="container-fluid">
-
-
         @php
             $uploadedCount = $documents->where('uploaded', true)->count();
             $pendingCount = $documents->where('uploaded', false)->count();
         @endphp
-
-
         {{-- Summary --}}
-
         <div class="row g-3 mb-4">
-
             <div class="col-md-3">
                 <div class="card border-0 p-0 shadow-sm">
                     <div class="card-body bg-dark">
                         <div class="d-flex justify-content-between align-items-center">
-
                             <div>
                                 <div class="text-light small">
                                     Uploaded
                                 </div>
-
                                 <h3 class="mb-0 text-success">
                                     {{ $uploadedCount }}
                                 </h3>
                             </div>
-
                             <div class="fs-2 text-success">
                                 <i class="ri-checkbox-circle-line"></i>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <div class="col-md-3">
                 <div class="card border-0 p-0 shadow-sm">
                     <div class="card-body bg-dark">
                         <div class="d-flex justify-content-between align-items-center">
-
                             <div>
                                 <div class="text-light small">
                                     Pending
                                 </div>
-
                                 <h3 class="mb-0 text-warning">
                                     {{ $pendingCount }}
                                 </h3>
                             </div>
-
                             <div class="fs-2 text-warning">
                                 <i class="ri-time-line"></i>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="table-responsive">
-
             <table class="table table-dark">
-
                 <thead class="table-dark">
                     <tr>
                         <th style="width: 60px;">#</th>
@@ -83,166 +64,107 @@
                         <th class="text-end">Action</th>
                     </tr>
                 </thead>
-
                 <tbody>
-
                     @forelse($documents as $document)
-
                         <tr>
-
                             {{-- # --}}
                             <td>
                                 {{ $loop->iteration }}
                             </td>
-
                             {{-- Document --}}
                             <td>
                                 <div class="fw-semibold">
                                     {{ $document['name'] }}
                                 </div>
                             </td>
-
                             {{-- Status --}}
                             <td>
-
                                 @if($document['uploaded'])
-
                                     <span class="badge bg-success">
                                         <i class="ri-check-line"></i>
                                         Uploaded
                                     </span>
-
                                 @else
-
                                     <span class="badge bg-warning text-dark">
                                         <i class="ri-time-line"></i>
                                         Pending
                                     </span>
-
                                 @endif
-
                             </td>
-
                             {{-- Files --}}
                             <td>
-
                                 @if($document['uploaded'])
-
                                     1 file
-
                                 @else
-
                                     <span>
                                         No file uploaded
                                     </span>
-
                                 @endif
-
                             </td>
-
                             {{-- Action --}}
                             <td class="text-end">
-
                                 @if($document['uploaded'])
-
                                     <a href="{{ asset('storage/' . $document['file']->file_path) }}"
                                         target="_blank"
                                         class="btn btn-sm btn-outline-primary"
                                         title="View">
-
                                         <i class="ri-eye-line"></i>
-
                                     </a>
-
                                     <button type="button"
                                             class="btn btn-sm btn-outline-warning edit-document"
                                             data-id="{{ $document['file']->id }}"
                                             data-type="{{ $document['type'] }}"
                                             title="Edit">
-
                                         <i class="ri-pencil-line"></i>
-
                                     </button>
 
                                     <input type="file"
                                         id="editDocumentInput"
                                         class="d-none"
                                         accept=".pdf,.jpg,.jpeg,.png">
-
                                     <button type="button"
                                             class="btn btn-sm btn-outline-danger delete-document"
                                             data-id="{{ $document['file']->id }}"
                                             title="Delete">
 
                                         <i class="ri-delete-bin-2-line"></i>
-
                                     </button>
 
                                 @else
-
                                     <input type="file" class="d-none document-upload-input" id="document_{{ $document['type'] }}"
                                         data-document-type="{{ $document['type'] }}" accept=".pdf,.jpg,.jpeg,.png" multiple>
-
                                     <label for="document_{{ $document['type'] }}" class="btn btn-sm btn-outline-success" title="Upload">
-
                                         <i class="ri-upload-2-line"></i>
-                                        
-
                                     </label>
-
                                 @endif
-
                             </td>
-
                         </tr>
-
                     @empty
-
                         <tr>
                             <td colspan="5" class="text-center py-5">
-
                                 <i class="ri-file-warning-line fs-1 text-muted"></i>
-
                                 <div class="mt-2 text-muted">
                                     No documents found.
                                 </div>
-
                             </td>
                         </tr>
-
                     @endforelse
-
                 </tbody>
-
                 <tfoot>
-
                     <tr>
-
                         <td colspan="5" class="text-end">
-
                             <button
                                 data-folder="{{ strtolower(str_replace(' ', '', $student->first_name)) . '_' . strtolower(str_replace(' ', '', $student->last_name)) . '_' . strtolower(str_replace(' ', '', $student->intake)) }}_documents"
                                 class="btn btn-sm btn-info documentBtn">
-
                                 <i class="ri-download-2-line"></i>
                                 Download All Documents
-
                             </button>
-
                         </td>
-
                     </tr>
-
                 </tfoot>
-
             </table>
-
         </div>
-
-
-
     </div>
-
 @endsection
 
 @section('scripts')

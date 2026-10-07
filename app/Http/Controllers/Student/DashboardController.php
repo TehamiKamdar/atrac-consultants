@@ -23,21 +23,47 @@ class DashboardController extends Controller
     public function updateProfile(Request $request)
     {
         $user = auth()->user();
-
         $student = $user->student;
 
+        if (!$student) {
+            return response()->json([
+                'message' => 'Student profile not found.'
+            ], 404);
+        }
+
         $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => 'required|email|max:255|unique:students,email,' . $student->id,
+            'father_name' => 'nullable|string|max:100',
+            'mother_name' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
             'phone' => 'nullable|string|max:30',
+            'dob' => 'nullable|date',
+            'cnic' => 'nullable|string|max:30|unique:students,cnic,' . $student->id,
+            'passport' => 'nullable|string|max:50',
+            'passport_valid_from' => 'nullable|date',
+            'passport_valid_thru' => 'nullable|date',
         ]);
 
-        $student->update($validated);
+        $student->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'father_name' => $validated['father_name'] ?? null,
+            'mother_name' => $validated['mother_name'] ?? null,
+            'city' => $validated['city'] ?? null,
+            'phone' => $validated['phone'] ?? null,
+            'dob' => $validated['dob'] ?? null,
+            'cnic' => $validated['cnic'] ?? null,
+            'passport_number' => $validated['passport'] ?? null,
+            'passport_valid_from' => $validated['passport_valid_from'] ?? null,
+            'passport_valid_thru' => $validated['passport_valid_thru'] ?? null,
+        ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Profile updated successfully.'
+            'message' => 'Profile updated successfully.',
         ]);
     }
 
@@ -54,7 +80,7 @@ class DashboardController extends Controller
 
     }
 
-    
+
 
     public function viewDocument($documentId)
     {
@@ -204,8 +230,9 @@ class DashboardController extends Controller
         return view('student.dashboard.settings.index', compact('student'));
     }
 
-    public function updatePassword(Request $request){
-        
+    public function updatePassword(Request $request)
+    {
+
         $request->validate([
             'current' => 'required|string',
             'new1' => [

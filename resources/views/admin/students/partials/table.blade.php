@@ -76,7 +76,7 @@
                         <li>
                             <button type="button" class="dropdown-item credentialsBtn" data-id="{{ $student->id }}">
                                 <i class="ri-key-2-fill me-2"></i>
-                                Credentials
+                                Applications
                             </button>
                         </li>
 

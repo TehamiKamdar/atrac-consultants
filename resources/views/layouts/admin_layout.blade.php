@@ -93,7 +93,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ Route::is(patterns: 'admin-blogs-index') || Route::is('admin-blogs-show') || Route::is('admin-blogs-create') || Route::is('admin-blogs-edit') ? 'active' : '' }}" href="{{route('admin-blogs-index')}}">
                     <i class="ri-blogger-line"></i>
-                    <span class="nav-link-text">Blogs (Not Ready)</span>
+                    <span class="nav-link-text">Blogs</span>
                 </a>
             </li>
             <li class="nav-item">

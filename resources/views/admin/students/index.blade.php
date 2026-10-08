@@ -261,7 +261,7 @@
                                 <label for="">Password</label>
                                 <input type="password" id="gmailPassword" class="form-control">
                                 <i id="toggleGmailPassword" class="ri-eye-line"
-                                    style="position:absolute; right:25px; top:33px; cursor:pointer;"></i>
+                                    style=""></i>
                             </div>
                             <div class="col-md-1">
                                 <button type="button" class="btn btn-success w-100 saveGmailPass">Save</button>

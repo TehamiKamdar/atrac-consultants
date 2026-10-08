@@ -882,6 +882,10 @@ a, button, .btn, .nav-link {
     touch-action: manipulation;
 }
 
+.position-relative i {
+    position:absolute; right:25px; top:33px; cursor:pointer;
+}
+
 /* ---------------------------------------------------------------------
    Visibility helpers
    .not-show-on-mobile   → hidden on phones, visible on desktop/tablet
@@ -1317,7 +1321,19 @@ a, button, .btn, .nav-link {
     }
 
     .form-control, .form-select {
-        min-height: 24px;
+        min-height: 30px;
         padding: 0.2rem 0.45rem;
+        border-radius: 4px;
+    }
+
+    label {
+        font-size: 8px;
+    }
+
+    .position-relative i{
+        position: absolute;
+        right: 17px;
+        top: 28px;
+        cursor: pointer;
     }
 }

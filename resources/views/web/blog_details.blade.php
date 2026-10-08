@@ -603,7 +603,7 @@
             color: var(--text-color);
             padding: 6px 16px;
             border-radius: 40px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-decoration: none;
             transition: var(--transition);
         }

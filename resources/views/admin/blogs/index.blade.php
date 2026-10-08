@@ -4,7 +4,12 @@
 
 @section('content')
     <div class="container-fluid">
-        <a href="{{ route('admin-blogs-create') }}" class="btn btn-sm btn-primary">Create New Blog</a>
+        <div class="row g-3">
+            <div>
+                <a href="{{ route('admin-blogs-create') }}" class="btn btn-sm btn-primary">Create New Blog</a>
+            </div>
+            @include('include.alert')
+        </div>
         <div class="table-responsive mt-4">
             <table class="table table-dark-custom table-primary table-hover">
                 <thead>
@@ -19,15 +24,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Countries tha offers 100% Scholarships in Study</td>
-                        <td>countries-that-offers-100%-scholarships-in-study</td>
-                        <td>21 Mar 2026</td>
-                        <td>200</td>
-                        <td><a href="" class="btn btn-sm btn-update"><i class="ri-external-link-line"></i></a></td>
-                        <td><a href="" class="btn btn-sm btn-info me-2"><i class="ri-pencil-line"></i></a><a href="" class="btn btn-sm btn-danger"><i class="ri-delete-bin-2-line"></i></a></td>
-                    </tr>
+                    @foreach ($blogs as $blog)
+                        <tr>
+                            <td>{{ $blog->id }}</td>
+                            <td>{{ $blog->title }}</td>
+                            <td>{{ $blog->slug }}</td>
+                            <td>{{ $blog->created_at->format('Y-m-d') }}</td>
+                            <td>{{ $blog->views }}</td>
+                            <td>
+                                @if ($blog->status === 'published')
+                                    {{-- <a href="{{ route('blogs-show', $blog->id) }}" class="btn btn-sm btn-info">View</a> --}}
+                                    <span class="btn btn-sm btn-info">View</span>
+                                @else
+                                    <form action="{{ route('admin-blogs-publish', $blog->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-success">Publish</button>
+                                    </form>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin-blogs-edit', $blog->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form action="{{ route('admin-blogs-destroy', $blog->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this blog?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

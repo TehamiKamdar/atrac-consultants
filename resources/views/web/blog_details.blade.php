@@ -296,8 +296,10 @@
             margin: 32px 0 40px;
             border-radius: 0px;
             overflow: hidden;
-            aspect-ratio: 16/9;
-            background: #f0f0f0; /* Placeholder background */
+            min-height: 300px;
+            height: auto;
+            background: var(--primary-dark); /* Placeholder background */
+
         }
 
         .featured-image {
@@ -305,6 +307,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 0px;
+            color: white;
         }
 
         /* Content Layout */
@@ -883,12 +886,12 @@
 <!-- Hero Section -->
 <section class="hero-blog">
     <div class="container">
-        <div class="category-badge">
+        {{-- <div class="category-badge">
             <i class="ri-flight-takeoff-line"></i>
             @foreach ($details->categories as $category)
                 {{ strtoupper($category->name) }} ·
             @endforeach
-        </div>
+        </div> --}}
 
         <h1 class="blog-title">
             {{ $details->title }}
@@ -921,7 +924,7 @@
 
             <div class="meta-item">
                 <i class="ri-eye-line"></i>
-                <span>2.5k views</span>
+                <span>{{ $details->views }} views</span>
             </div>
         </div>
     </div>
@@ -931,7 +934,7 @@
 <section class="container">
     <!-- Featured Image - Fixed Aspect Ratio -->
     <div class="featured-image-wrapper">
-        <img src="http://localhost:8000{{ $details->featured_image }}" alt="{{ $details->slug }}-image" class="featured-image" loading="lazy" fetchpriority="high">
+        <img src="../storage/{{ $details->featured_image }}" alt="{{ $details->slug }}-image" class="featured-image" loading="lazy" fetchpriority="high">
     </div>
 
     <!-- Content Grid -->
@@ -960,7 +963,7 @@
                 </div>
             </div> --}}
             <!-- Comment Form -->
-            <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: var(--card-shadow); " class="custom-accordion">
+            {{-- <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: var(--card-shadow); " class="custom-accordion">
                 <h4 style="margin-bottom: 40px;">FAQs related to {{ $details->title }}</h4>
                 @forelse ($details->faqs as $key => $faq)
                     <div class="accordion-item">
@@ -1003,7 +1006,7 @@
                         </div>
                     </div>
                 @endforelse
-            </div>
+            </div> --}}
 
             <!-- Comment Form -->
             <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: var(--card-shadow); margin-top: 40px;">
@@ -1088,8 +1091,8 @@
                     <i class="ri-price-tag-line"></i> Popular Tags
                 </h4>
                 <div class="tags-cloud">
-                    @foreach ($details->tags as $tag)
-                        <a href="#" class="tag">{{ ucwords($tag->name) }}</a>
+                    @foreach ($tags as $tag)
+                        <a href="#" class="tag">{{ ucwords($tag) }}</a>
                     @endforeach
                 </div>
             </div>

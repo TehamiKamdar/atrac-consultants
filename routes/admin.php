@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         Route::get('', [BlogsController::class , "index"])->name('admin-blogs-index');
         Route::get('create', [BlogsController::class , "create"])->name('admin-blogs-create');
         Route::post('store', [BlogsController::class , "store"])->name('admin-blogs-store');
-        Route::get('show/{id}', [BlogsController::class , "show"])->name('admin-blogs-show');
+        Route::post('publish/{id}', [BlogsController::class , "publish"])->name('admin-blogs-publish');
         Route::get('edit/{id}', [BlogsController::class , "edit"])->name('admin-blogs-edit');
         Route::post('update/{id}', [BlogsController::class , "update"])->name('admin-blogs-update');
         Route::post('destroy/{id}', [BlogsController::class , "destroy"])->name('admin-blogs-destroy');

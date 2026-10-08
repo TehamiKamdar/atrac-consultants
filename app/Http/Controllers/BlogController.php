@@ -13,6 +13,7 @@ class BlogController extends Controller
         $blogs = Post::where('is_published', '1')->get();
         return view('web.blog', compact('blogs'));
     }
+
     public function show($slug)
     {
         $details = Post::where('slug', $slug)->first();
@@ -24,9 +25,11 @@ class BlogController extends Controller
                             }
                         })->take(4)->get();
 
+        $tags = $details->meta_keywords ? explode(',', $details->meta_keywords) : [];
 
 
-        return view('web.blog_details', compact('details', 'relatedPosts'));
+
+        return view('web.blog_details', compact('details', 'relatedPosts', 'tags'));
     }
     public function question(Request $request){
         $validated = $request->validate([

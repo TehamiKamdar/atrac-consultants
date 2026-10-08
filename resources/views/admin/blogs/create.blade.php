@@ -73,6 +73,7 @@
 @endsection
 @section('content')
     <div class="container-fluid" data-bs-theme="dark">
+        @include('include.alert')
         <div class="row justify-content-center">
 
             <form action="{{ route('admin-blogs-store') }}" method="POST" enctype="multipart/form-data">
@@ -93,8 +94,14 @@
 
                         <!-- Content -->
                         <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea name="content" id="content" class="form-control bg-secondary text-light" rows="10" required></textarea>
+                            <label for="excerpt" class="form-label">Excerpt</label>
+                            <textarea name="excerpt" id="excerpt" class="form-control bg-secondary text-light" rows="2"></textarea>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-3">
+                            <label for="blog_content" class="form-label">Content</label>
+                            <textarea name="blog_content" id="blog_content" class="form-control bg-secondary text-light" rows="30"></textarea>
                         </div>
 
                         <!-- Featured Image -->
@@ -105,14 +112,14 @@
                         </div>
 
                         <!-- Categories -->
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="categories" class="form-label">Categories</label>
                             <select name="categories[]" id="categories" class="form-select bg-secondary text-light border-0" multiple required>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
                         <!-- Keywords / Tags -->
                         <div class="mb-3">
@@ -155,15 +162,34 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script>
-        const categoriesSelect = document.getElementById('categories');
-        const choices = new Choices(categoriesSelect, {
-            removeItemButton: true,    // show x to remove selection
-            maxItemCount: 10,
-            searchEnabled: true,
-            itemSelectText: '',
-            shouldSort: false,
-        });
-    </script>
+<!-- Place the first <script> tag in your HTML's <head> -->
+<script src="https://cdn.tiny.cloud/1/m03e66aoghs5a2zrlqdcyt1gcvmxg6xpsd1veqrqil819ni9/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
+<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+<script>
+  tinymce.init({
+    selector: '#content',
+    plugins: [
+      // Core editing features
+      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+      // Premium features
+      'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'tinymceai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+    ],
+    toolbar: 'undo redo | tinymceai-chat tinymceai-quickactions tinymceai-review | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+    mergetags_list: [
+      { value: 'First.Name', title: 'First Name' },
+      { value: 'Email', title: 'Email' },
+    ],
+    tinymceai_token_provider: async () => {
+      await fetch(`https://demo.api.tiny.cloud/1/m03e66aoghs5a2zrlqdcyt1gcvmxg6xpsd1veqrqil819ni9/auth/random`, { method: "POST", credentials: "include" });
+      return { token: await fetch(`https://demo.api.tiny.cloud/1/m03e66aoghs5a2zrlqdcyt1gcvmxg6xpsd1veqrqil819ni9/jwt/tinymceai`, { credentials: "include" }).then(r => r.text()) };
+    },
+    uploadcare_public_key: '3adb344debacfd9ce388',
+  });
+</script>
+<textarea>
+  Welcome to TinyMCE!
+</textarea>
 @endsection

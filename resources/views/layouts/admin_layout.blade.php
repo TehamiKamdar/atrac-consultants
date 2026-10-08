@@ -148,14 +148,6 @@
 <script src="{{ asset('admin/jqueryui/external/jquery/jquery.js') }}"></script>
 <script src="{{ asset('admin/forms.js') }}"></script>
 <script src="{{ asset('assets/iziToast/iziToast.min.js') }}"></script>
-<script>
-    console.log('doc height:', document.documentElement.scrollHeight, 'viewport:', innerHeight);
-[...document.querySelectorAll('body *')]
-  .filter(e => getComputedStyle(e).position !== 'fixed')
-  .map(e => ({ e, bottom: Math.round(e.getBoundingClientRect().bottom + scrollY) }))
-  .sort((a, b) => b.bottom - a.bottom)
-  .slice(0, 5)
-  .forEach(x => console.log(x.bottom, x.e));
-</script>
+
 <!-- IziToast JS -->
 @yield('scripts')

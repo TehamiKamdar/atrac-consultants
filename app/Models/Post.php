@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'content', 'excerpt', 'featured_image', 'thumbnail', 'image_alt', 'user_id', 'published_at', 'is_published','meta_title', 'meta_description', 'meta_keywords'
+        'title', 'slug', 'content', 'excerpt', 'featured_image', 'user_id', 'published_at', 'is_published','meta_title', 'meta_description', 'meta_keywords'
     ];
 
     protected $casts = [
@@ -16,24 +16,24 @@ class Post extends Model
     ];
 
     // Relations
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'post_category');
-    }
+    // public function categories()
+    // {
+    //     return $this->belongsToMany(Category::class, 'post_category');
+    // }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
+    // public function tags()
+    // {
+    //     return $this->belongsToMany(Tag::class);
+    // }
 
-    public function faqs(){
-        return $this->hasMany(PostFaq::class);
-    }
+    // public function faqs(){
+    //     return $this->hasMany(PostFaq::class);
+    // }
 
     // SEO ke liye helpful accessors (blade mein easy use)
     public function getMetaTitleAttribute($value)

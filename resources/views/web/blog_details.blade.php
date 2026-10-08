@@ -298,7 +298,7 @@
             overflow: hidden;
             min-height: 300px;
             height: auto;
-            background: var(--primary-dark); /* Placeholder background */
+            background: #FFF; /* Placeholder background */
 
         }
 
@@ -307,7 +307,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 0px;
-            color: white;
+            color: black;
         }
 
         /* Content Layout */
@@ -724,6 +724,7 @@
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
             transition: var(--transition);
             z-index: 99;
+            text-decoration: none;
         }
 
         .whatsapp-float:hover {
@@ -880,7 +881,7 @@
 @endsection
 
 @section('content')
-<a href="https://wa.me/1234567890?text=Hi%20I%20need%20study%20abroad%20consultation" class="whatsapp-float" target="_blank">
+<a href="https://wa.me/+923353434907?text=Hi%20I%20need%20study%20abroad%20consultation" class="whatsapp-float" target="_blank">
     <i class="ri-whatsapp-line"></i>
 </a>
 <!-- Hero Section -->

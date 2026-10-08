@@ -2,50 +2,7 @@
 
 @section('title', "Create New Blog")
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <style>
-        /* Your dark theme overrides must come AFTER default Choices.css */
-        .choices {
-            background-color: #ffffff0d !important;
-            color: #f5f5f5 !important;
-            border: 1px solid #ffffff1a !important;
-            border-radius: 0.75rem;
-        }
-
-        .choices__inner {
-            background-color: #ffffff0d !important;
-            border: 1px solid #ffffff1a !important;
-            border-radius: 0.75rem;
-        }
-
-        .choices__list--multiple .choices__item {
-            background-color: #444 !important;
-            color: #f5f5f5 !important;
-            border-radius: 4px !important;
-            margin-right: 0.25rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .choices__list--dropdown {
-            background-color: #2a2a2a !important;
-            border: 1px solid #444 !important;
-            color: #f5f5f5 !important;
-        }
-
-        .choices__list--dropdown .choices__item--selectable {
-            color: #f5f5f5 !important;
-        }
-
-        .choices__list--dropdown .choices__item--selectable.is-highlighted {
-            background-color: #555 !important;
-            color: #fff !important;
-        }
-
-        .choices__input {
-            background-color: #2a2a2a !important;
-            color: #f5f5f5 !important;
-            border: none !important;
-        }
 
         textarea.form-control,
         input.form-control,
@@ -168,7 +125,7 @@
 <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
 <script>
   tinymce.init({
-    selector: '#content',
+    selector: '#blog_content',
     plugins: [
       // Core editing features
       'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',

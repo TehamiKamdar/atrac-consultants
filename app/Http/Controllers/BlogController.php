@@ -17,25 +17,30 @@ class BlogController extends Controller
     public function show($slug)
     {
         $details = Post::where('slug', $slug)->first();
-        $keywords = explode(' ', $details->title);
-        $relatedPosts = Post::where('id', '!=', $details->id)
-                        ->where(function($q) use ($keywords){
-                            foreach($keywords as $word){
-                                $q->orWhere('title', 'LIKE', '%'.$word.'%');
-                            }
-                        })->take(4)->get();
+        if($details && $details->is_published)
+        {
+            $keywords = explode(' ', $details->title);
+            $relatedPosts = Post::where('id', '!=', $details->id)
+                            ->where(function($q) use ($keywords){
+                                foreach($keywords as $word){
+                                    $q->orWhere('title', 'LIKE', '%'.$word.'%');
+                                }
+                            })->take(4)->get();
 
-        $tags = $details->meta_keywords ? explode(',', $details->meta_keywords) : [];
+            $tags = $details->meta_keywords ? explode(',', $details->meta_keywords) : [];
 
-        $viewKey = 'post_viewed_' . $details->id;
+            $viewKey = 'post_viewed_' . $details->id;
 
-        if (!session()->has($viewKey)) {
-            $details->increment('views');
+            if (!session()->has($viewKey)) {
+                $details->increment('views');
 
-            session()->put($viewKey, true);
+                session()->put($viewKey, true);
+            }
+
+            return view('web.blog_details', compact('details', 'relatedPosts', 'tags'));
+        } else {
+            return redirect()->route('error-404');
         }
-
-        return view('web.blog_details', compact('details', 'relatedPosts', 'tags'));
     }
     public function question(Request $request){
         $validated = $request->validate([

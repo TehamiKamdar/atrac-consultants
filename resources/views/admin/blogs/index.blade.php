@@ -2,9 +2,22 @@
 
 @section('title', 'Blogs List')
 
+@section('styles')
+<style>
+        .alert-sm{
+            padding: 0.15rem 0.5rem;
+            padding-right: 2rem;
+            font-size: 0.875rem;
+        }
+        .alert-dismissible .btn-close {
+            padding: 0.3rem;
+        }
+</style>
+@endsection
+
 @section('content')
     <div class="container-fluid">
-        <div class="row g-3">
+        <div class="d-flex gap-3">
             <div>
                 <a href="{{ route('admin-blogs-create') }}" class="btn btn-sm btn-primary">Create New Blog</a>
             </div>
@@ -32,9 +45,9 @@
                             <td>{{ $blog->created_at->format('Y-m-d') }}</td>
                             <td>{{ $blog->views }}</td>
                             <td>
-                                @if ($blog->status === 'published')
-                                    {{-- <a href="{{ route('blogs-show', $blog->id) }}" class="btn btn-sm btn-info">View</a> --}}
-                                    <span class="btn btn-sm btn-info">View</span>
+                                @if ($blog->is_published)
+                                    <a href="{{ route('blog.show', $blog->slug) }}" class="btn btn-sm btn-info">View</a>
+                                    {{-- <span class="btn btn-sm btn-info">View</span> --}}
                                 @else
                                     <form action="{{ route('admin-blogs-publish', $blog->id) }}" method="POST" style="display:inline;">
                                         @csrf
@@ -46,7 +59,6 @@
                                 <a href="{{ route('admin-blogs-edit', $blog->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('admin-blogs-destroy', $blog->id) }}" method="POST" style="display:inline;">
                                     @csrf
-                                    @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this blog?')">Delete</button>
                                 </form>
                             </td>

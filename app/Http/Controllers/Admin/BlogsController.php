@@ -141,6 +141,9 @@ class BlogsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return redirect()->route('admin-blogs-index')->with('error', 'Blog deleted successfully.');
     }
 }

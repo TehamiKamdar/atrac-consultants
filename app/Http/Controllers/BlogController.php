@@ -27,7 +27,7 @@ class BlogController extends Controller
 
         $tags = $details->meta_keywords ? explode(',', $details->meta_keywords) : [];
 
-
+        $details->increment('views'); // Increment the view count
 
         return view('web.blog_details', compact('details', 'relatedPosts', 'tags'));
     }

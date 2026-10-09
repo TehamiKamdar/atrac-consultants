@@ -98,9 +98,9 @@
                 <tbody>
                     @forelse($countries as $item)
                         <tr>
-                            <td>{{ $item->country ?: 'Unknown' }}</td>
-                            <td>{{ $item->country_code ?: '-' }}</td>
-                            <td>{{ number_format($item->total) }}</td>
+                            <td>{{ $item->country }}</td>
+                            <td>{{ $item->country_code }}</td>
+                            <td>{{ $item->total }}</td>
                         </tr>
                     @empty
                         <tr>

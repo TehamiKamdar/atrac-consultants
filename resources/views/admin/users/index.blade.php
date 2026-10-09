@@ -46,7 +46,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->username }}</td>
-                    <td>{{ $user->city }}</td>
+                    <td>{{ ucfirst($user->office->city->name) }}</td>
                     <td></td>
                 </tr>
                 @endforeach

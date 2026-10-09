@@ -20,7 +20,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <div>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createNewOfficeModal">
+                <button class="btn btn-sm btn-primary" id="new-office" data-bs-toggle="modal" data-bs-target="#createNewOfficeModal">
                     Add New
                 </button>
             </div>
@@ -94,12 +94,12 @@
                 </div>
                 <form id="officeForm">
                     <div class="modal-body">
-                        <select name="country_id" class="form-control form-control-sm mb-3" id="country">
+                        {{-- <select name="country_id" class="form-control form-control-sm mb-3" id="country">
                             <option selected disabled>Select Country..</option>
                             @foreach ($countries as $country)
                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                             @endforeach
-                        </select>
+                        </select> --}}
                         <select name="state_id" id="state" class="form-control form-control-sm mb-3" disabled>
 
                         </select>
@@ -134,12 +134,20 @@
 
                         <input type="hidden" name="id">
 
-                        <input type="text" name="phone" class="form-control form-control-sm mb-3" placeholder="Phone: +92 xxx xxxxxxx">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" name="phone" class="form-control form-control-sm mb-3" placeholder="Phone: +92 xxx xxxxxxx">
+                        </div>
 
-                        <input type="text" name="address" class="form-control form-control-sm mb-3" placeholder="Address">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" name="address" class="form-control form-control-sm mb-3" placeholder="Address">
+                        </div>
 
-                        <textarea name="map_location" class="form-control form-control-sm mb-3"
-                            placeholder="Map Location (URL)" rows="6"></textarea>
+                        <div class="form-group">
+                            <label for="map_location">Map Location</label>
+                            <textarea name="map_location" class="form-control form-control-sm mb-3" placeholder="Map Location (URL)" rows="6"></textarea>
+                        </div>
 
                     </div>
 
@@ -233,8 +241,8 @@ $(function () {
     /* ----------------------------------------
        POPULATING STATES
     ---------------------------------------- */
-    $(document).on('change', '#country', function(){
-        let countryId = $(this).val();
+    $(document).on('click', '#new-office', function(){
+        let countryId = 166;
         console.log(countryId);
 
         $.ajax({
@@ -265,7 +273,7 @@ $(function () {
         console.log(stateId);
 
         $.ajax({
-            url:'/get-cities/' + stateId,
+            url:'/admin/get-cities/' + stateId,
             method:'GET',
             beforeSend:function(){
                 $('#city').html('<option value="">Loading...</option>');

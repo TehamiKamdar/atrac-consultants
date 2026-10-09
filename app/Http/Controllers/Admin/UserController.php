@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::where('user_type', '!=', 'student')->get();
         $offices = Office::where('status', '1')->get();
         return view('admin.users.index', compact('users', 'offices'));
     }

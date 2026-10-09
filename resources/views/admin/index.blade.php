@@ -87,7 +87,7 @@
         <h5>Countries</h5>
 
         <div class="table-responsive">
-            <table class="table table-dark-custom">
+            <table class="table table-dark-custom test-country-table">
                 <thead>
                     <tr>
                         <th>Country</th>
@@ -97,7 +97,7 @@
                 </thead>
                 <tbody>
                     @forelse($countries as $item)
-                        <tr>
+                        <tr class="country-debug-row">
                             <td>{{ $item->country }}</td>
                             <td>{{ $item->country_code }}</td>
                             <td>{{ $item->total }}</td>

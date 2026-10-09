@@ -37,11 +37,14 @@ class DashboardController extends Controller
 
         // Countries ke hisaab se counts
         $countries = PageVisit::selectRaw(
-            'country, country_code, COUNT(*) as total'
-        )
+                'country, country_code, COUNT(*) as total'
+            )
+            ->whereNotNull('country')
             ->groupBy('country', 'country_code')
             ->orderByDesc('total')
             ->get();
+
+        dd($countries->toArray());
 
 
         return view('admin.index', compact(

@@ -19,6 +19,11 @@ class PageVisit extends Model
         'referer',
         'source',
         'visited_at',
+        'country',
+        'country_code',
+        'device_type',
+        'browser',
+        'operating_system',
     ];
 
     protected function casts(): array

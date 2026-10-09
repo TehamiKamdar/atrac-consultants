@@ -43,8 +43,6 @@ class DashboardController extends Controller
             ->orderByDesc('total')
             ->get();
 
-            
-
 
         return view('admin.index', compact(
             'totalViews',

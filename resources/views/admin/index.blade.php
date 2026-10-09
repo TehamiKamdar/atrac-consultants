@@ -1,72 +1,117 @@
 @extends('layouts.admin_layout')
 
+@section('title', 'Website Analytics')
+
 @section('content')
     <div class="container-fluid py-4">
-        <!-- Your content goes here -->
-        <div class="row g-4">
-            <!-- Card 1: Total Revenue -->
-            <div class="col-12 col-md-6 col-lg-3 mt-0 mb-3">
-                <div class="stats-card card shadow">
-                    <div class="card-body p-4">
-                        <div class="card-icon icon-1">
-                            <i class="ri-money-dollar-circle-line"></i>
-                        </div>
-                        <h6 class="card-title">TOTAL REVENUE</h6>
-                        <h3 class="card-value">$24,780</h3>
-                        <div class="card-change change-up">
-                            <i class="ri-arrow-up-line"></i> 12.5% vs last month
-                        </div>
+        <h3 class="mb-4"></h3> {{-- Date filter --}}
+        {{-- <form method="GET" class="row g-3 mb-4">
+            <div class="col-md-3"> <label class="form-label">From</label> <input type="date" name="from"
+                    value="{{ request('from') }}" class="form-control"> </div>
+            <div class="col-md-3"> <label class="form-label">To</label> <input type="date" name="to"
+                    value="{{ request('to') }}" class="form-control"> </div>
+        </form>  --}}
+        {{-- Summary cards --}}
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm" data-bs-theme="dark">
+                    <div class="card-body">
+                        <h6>Total Page Views</h6>
+                        <h2>{{ number_format($totalViews) }}</h2>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 2: New Users -->
-            <div class="col-12 col-md-6 col-lg-3 mt-0 mb-3">
-                <div class="stats-card card shadow">
-                    <div class="card-body p-4">
-                        <div class="card-icon icon-2">
-                            <i class="ri-user-add-line"></i>
-                        </div>
-                        <h6 class="card-title">NEW USERS</h6>
-                        <h3 class="card-value">1,254</h3>
-                        <div class="card-change change-up">
-                            <i class="ri-arrow-up-line"></i> 7.2% vs last month
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Total Orders -->
-            <div class="col-12 col-md-6 col-lg-3 mt-0 mb-3">
-                <div class="stats-card card shadow">
-                    <div class="card-body p-4">
-                        <div class="card-icon icon-3">
-                            <i class="ri-shopping-basket-line"></i>
-                        </div>
-                        <h6 class="card-title">TOTAL ORDERS</h6>
-                        <h3 class="card-value">3,142</h3>
-                        <div class="card-change change-down">
-                            <i class="ri-arrow-down-line"></i> 3.1% vs last month
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4: Conversion Rate -->
-            <div class="col-12 col-md-6 col-lg-3 mt-0 mb-3">
-                <div class="stats-card card shadow">
-                    <div class="card-body p-4">
-                        <div class="card-icon icon-4">
-                            <i class="ri-line-chart-line"></i>
-                        </div>
-                        <h6 class="card-title">CONVERSION RATE</h6>
-                        <h3 class="card-value">3.42%</h3>
-                        <div class="card-change change-up">
-                            <i class="ri-arrow-up-line"></i> 1.6% vs last month
-                        </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm" data-bs-theme="dark">
+                    <div class="card-body">
+                        <h6>Unique Visitors</h6>
+                        <h2>{{ number_format($uniqueVisitors) }}</h2>
                     </div>
                 </div>
             </div>
         </div>
+
+        {{-- Traffic sources --}}
+        <h5>Traffic Sources</h5>
+
+        <div class="table-responsive">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Total Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($sources as $item)
+                        <tr>
+                            <td>{{ $item->source ?: 'Unknown' }}</td>
+                            <td>{{ number_format($item->total) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">No data found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+
+        <h5>Devices</h5>
+
+        <div class="table-responsive">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Device</th>
+                        <th>Total Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($devices as $item)
+                        <tr>
+                            <td>{{ $item->device_type ?: 'Unknown' }}</td>
+                            <td>{{ number_format($item->total) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="2">No data found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Countries --}}
+        <h5>Countries</h5>
+
+        <div class="table-responsive">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Country Code</th>
+                        <th>Total Visits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($countries as $item)
+                        <tr>
+                            <td>{{ $item->country ?: 'Unknown' }}</td>
+                            <td>{{ $item->country_code ?: '-' }}</td>
+                            <td>{{ number_format($item->total) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3">No data found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+
+        {{-- <div class="mt-3"> {{ $recentVisits->links() }} </div> --}}
     </div>
 @endsection

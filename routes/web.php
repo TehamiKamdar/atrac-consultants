@@ -27,29 +27,33 @@ use App\Http\Controllers\RegisterController;
 //     return view('maintenance');
 // })->name('home');
 //Web Routes
-Route::get('/', [HomeController::class , 'index'])->name('home');
+Route::middleware(['tracking'])->group(function (){
+    Route::get('/', [HomeController::class , 'index'])->name('home');
 
-Route::get('/about', [HomeController::class , 'about'])->name('about');
+    Route::get('/about', [HomeController::class , 'about'])->name('about');
 
-Route::get('/blogs', [BlogController::class , 'index'])->name('blog');
-Route::get('/blog/{id}', [BlogController::class , 'show'])->name('blog.show');
-Route::post('/post/question', [BlogController::class , 'question']);
+    Route::get('/blogs', [BlogController::class , 'index'])->name('blog');
 
-Route::get('/faqs', [HomeController::class , 'faqs'])->name('faqs');
+    Route::get('/blog/{id}', [BlogController::class , 'show'])->name('blog.show');
+    
+    Route::post('/post/question', [BlogController::class , 'question']);
 
-Route::get('/contact', [HomeController::class , 'showContactForm'])->name('contact');
+    Route::get('/faqs', [HomeController::class , 'faqs'])->name('faqs');
 
-Route::post('/contact', [HomeController::class , 'contact'])->name('contact.submit');
+    Route::get('/contact', [HomeController::class , 'showContactForm'])->name('contact');
 
-Route::get('/study-in-{slug}', [HomeController::class , 'detailsShow'])->name('country-details');
+    Route::post('/contact', [HomeController::class , 'contact'])->name('contact.submit');
 
-Route::post('/consult' , [HomeController::class , 'consultRequest'])->name('consultation');
+    Route::get('/study-in-{slug}', [HomeController::class , 'detailsShow'])->name('country-details');
 
-Route::get('/university/list/{slug?}', [HomeController::class , 'getUniversities'])->name('university.list');
+    Route::post('/consult' , [HomeController::class , 'consultRequest'])->name('consultation');
 
-Route::get('/university/details/{name}/{slug}', [HomeController::class ,'uniDetails'])->name('university.details');
+    Route::get('/university/list/{slug?}', [HomeController::class , 'getUniversities'])->name('university.list');
 
-Route::post('/reviews', [HomeController::class, 'store'])->name('reviews.store');
+    Route::get('/university/details/{name}/{slug}', [HomeController::class ,'uniDetails'])->name('university.details');
+
+    Route::post('/reviews', [HomeController::class, 'store'])->name('reviews.store');
+});
 
 Route::get('/404', function(){
     return view('errors.404');

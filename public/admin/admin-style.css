@@ -792,7 +792,7 @@ body {
 
     /* Custom Dark Table for Bootstrap 5 */
 .table-dark-custom {
-    --bs-table-bg: var(--dark-card);
+    --bs-table-bg: #111;
     --bs-table-striped-bg: var(--dark-sidebar);
     --bs-table-striped-color: #fff;
     --bs-table-active-bg: var(--primary-light);

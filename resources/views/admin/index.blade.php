@@ -14,7 +14,7 @@
         {{-- Summary cards --}}
         <div class="row g-3 mb-4">
             <div class="col-md-6">
-                <div class="card shadow-sm" data-bs-theme="dark">
+                <div class="card-dark" style="padding: 12px 20px 8px; border: 1px solid var(--dark-sidebar)" data-bs-theme="dark">
                     <div class="card-body">
                         <h6>Total Page Views</h6>
                         <h2>{{ number_format($totalViews) }}</h2>
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card shadow-sm" data-bs-theme="dark">
+                <div class="card-dark" style="padding: 12px 20px 8px; border: 1px solid var(--dark-sidebar)" data-bs-theme="dark">
                     <div class="card-body">
                         <h6>Unique Visitors</h6>
                         <h2>{{ number_format($uniqueVisitors) }}</h2>
@@ -35,7 +35,7 @@
         <h5>Traffic Sources</h5>
 
         <div class="table-responsive">
-            <table class="table table-dark">
+            <table class="table table-dark-custom">
                 <thead>
                     <tr>
                         <th>Source</th>
@@ -61,7 +61,7 @@
         <h5>Devices</h5>
 
         <div class="table-responsive">
-            <table class="table table-dark">
+            <table class="table table-dark-custom">
                 <thead>
                     <tr>
                         <th>Device</th>
@@ -87,7 +87,7 @@
         <h5>Countries</h5>
 
         <div class="table-responsive">
-            <table class="table table-dark">
+            <table class="table table-dark-custom">
                 <thead>
                     <tr>
                         <th>Country</th>

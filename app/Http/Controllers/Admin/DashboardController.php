@@ -13,12 +13,12 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $query = PageVisit::query();
-        if ($request->filled('from')) {
-            $query->whereDate('visited_at', '>=', $request->from);
-        }
-        if ($request->filled('to')) {
-            $query->whereDate('visited_at', '<=', $request->to);
-        }
+        // if ($request->filled('from')) {
+        //     $query->whereDate('visited_at', '>=', $request->from);
+        // }
+        // if ($request->filled('to')) {
+        //     $query->whereDate('visited_at', '<=', $request->to);
+        // }
 
         $totalViews = (clone $query)->count();
         $uniqueVisitors = (clone $query)->distinct('visitor_id')->count('visitor_id');

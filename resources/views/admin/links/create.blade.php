@@ -31,7 +31,7 @@
                             </label>
                             <input type="text" id="utm_source" class="form-control" placeholder="facebook" required>
                             <small class="text-muted">
-                                Link jahan promote karni hai, uska naam likhein, jaise ke facebook ya instagram
+                                Link jahan promote karni hai, uska naam likhein, jaise ke facebook ya instagram even if any link is posted in a blog, write blog
                             </small>
                         </div>
 

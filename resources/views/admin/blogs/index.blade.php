@@ -47,6 +47,9 @@
                             <td>
                                 @if ($blog->is_published)
                                     <a href="{{ route('blog.show', $blog->slug) }}" class="btn btn-sm btn-info">View</a>
+                                    <button type="button" class="btn btn-sm btn-primary copy-blog-link" data-url="{{ route('blog.show', $blog->slug) }}">
+                                        <i class="ri-link"></i> Copy Link
+                                    </button>
                                     {{-- <span class="btn btn-sm btn-info">View</span> --}}
                                 @else
                                     <form action="{{ route('admin-blogs-publish', $blog->id) }}" method="POST" style="display:inline;">
@@ -68,4 +71,29 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('click', async function (event) {
+        const button = event.target.closest('.copy-blog-link');
+
+        if (!button) return;
+
+        const url = new URL(button.dataset.url);
+
+        try {
+            await navigator.clipboard.writeText(url.toString());
+
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="ri-check-line"></i> Copied!';
+
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        } catch (error) {
+            prompt('Copy this tracking link:', url.toString());
+        }
+    });
+</script>
 @endsection

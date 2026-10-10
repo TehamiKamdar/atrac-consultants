@@ -97,6 +97,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ Route::is(patterns: 'admin-links-create') ? 'active' : '' }}" href="{{route('admin-links-create')}}">
+                    <i class="ri-links-line"></i>
+                    <span class="nav-link-text">UTM Link Generator</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ Route::is(patterns: 'admin-offices-index') ? 'active' : '' }}" href="{{route('admin-offices-index')}}">
                     <i class="ri-building-2-line"></i>
                     <span class="nav-link-text">Offices</span>

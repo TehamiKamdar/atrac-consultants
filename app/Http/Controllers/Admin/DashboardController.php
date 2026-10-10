@@ -44,7 +44,7 @@ class DashboardController extends Controller
             ->orderByDesc('total')
             ->get();
 
-        dd($countries->toArray());
+        // dd($countries->toArray());
 
 
         return view('admin.index', compact(

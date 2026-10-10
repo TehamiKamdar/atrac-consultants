@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\LinkController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BlogsController;
@@ -131,6 +132,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         // Route::get('edit', [OfficeController::class , "edit"])->name('admin-offices-edit');
         // Route::post('update', [OfficeController::class , "update"])->name('admin-offices-update');
         // Route::post('destroy', [OfficeController::class , "destroy"])->name('admin-offices-destroy');
+    });
+    Route::prefix('links')->group(function(){
+        Route::get('create', [LinkController::class , 'create'])->name('admin-links-create');
     });
 });
 

@@ -1077,7 +1077,7 @@
                                 <div class="upload-card">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Other Certificates </h6>
+                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Additional Documents </h6>
                                             <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
                                                 aren't allowed)</small>
                                         </div>

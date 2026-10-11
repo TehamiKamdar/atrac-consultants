@@ -221,6 +221,64 @@ class StudentController extends Controller
         ]);
     }
 
+    public function addDocument(Request $request, $studentId)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+        ]);
+
+        $student = students::findOrFail($studentId);
+
+        // Same student ke existing documents check karne ke liye
+        $existingDocument = studentdocument::where('student_id', $student->id)
+            ->latest()
+            ->first();
+
+        // File ko existing document folder mein save karo
+        $file = $request->file('file');
+
+        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $folderName = strtolower(
+            str_replace(' ', '_', $student->first_name . '_' . $student->last_name)
+        );
+
+        $filePath = $file->storeAs(
+            "documents/{$folderName}_documents",
+            $fileName,
+            'public'
+        );
+
+        /*
+         * Important:
+         * Additional document ko uske original document_type
+         * ke saath save karna chahiye.
+         */
+
+        $documentType = $request->input('document_type');
+
+        if (!$documentType) {
+            Storage::disk('public')->delete($filePath);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Document type is required.',
+            ], 422);
+        }
+
+        $document = studentdocument::create([
+            'student_id' => $student->id,
+            'document_type' => $documentType,
+            'file_path' => $filePath,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Additional document uploaded successfully.',
+            'document' => $document,
+        ]);
+    }
+
     public function uploadDocument(Request $request)
     {
         $request->validate([

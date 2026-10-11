@@ -68,6 +68,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         Route::delete('/documents/{documentId}/delete', [StudentController::class, 'deleteDocument'])->name('admin-students-delete-documents');
         Route::post('/documents/{documentId}/edit', [StudentController::class, 'editDocument'])->name('admin-students-edit-documents');
         Route::get('/documents/{documentId}/view', [StudentController::class, 'viewDocument'])->name('admin-students-view-document');
+        Route::post('/documents/{studentId}/add', [StudentController::class, 'addDocument'])->name('admin-students-add-document');
         Route::post('/documents/upload', [StudentController::class, 'uploadDocument'])->name('admin-students-upload-documents');
         Route::get('/application-details/{id}', [StudentController::class, 'editApplication'])->name('students.applications.edit');
         Route::post('/application-details/update', [StudentController::class, 'updateApplication'])->name('students.applications.update');

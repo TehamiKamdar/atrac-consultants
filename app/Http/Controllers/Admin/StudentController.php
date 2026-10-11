@@ -12,6 +12,7 @@ use App\Models\studentdocument;
 use App\Models\students;
 use App\Models\university;
 use App\Models\User;
+use App\Services\StudentDocumentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -140,136 +141,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function getDocuments($id)
+    public function getDocuments(StudentDocumentService $documentService, $id)
     {
         $student = students::findOrFail($id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Common Documents
-        |--------------------------------------------------------------------------
-        */
-
-        $commonDocuments = [
-            'cnic' => 'CNIC',
-            'passport' => 'Passport',
-            'photograph' => 'Photograph',
-            'cv-resume' => 'CV / Resume',
-            'proficiency-letter' => 'Proficiency Letter',
-            'motivation-letter' => 'Motivation Letter',
-            'ielts-certificate' => 'IELTS Certificate',
-            'toefl-certificate' => 'TOEFL Certificate',
-            'pte-certificate' => 'PTE Certificate',
-            'recommendation-letters' => 'Recommendation Letters',
-            'experience-letters' => 'Experience Letters',
-            'other-certificates' => 'Other Certificates',
-        ];
-
-        /*
-        |--------------------------------------------------------------------------
-        | Qualification Documents
-        |--------------------------------------------------------------------------
-        */
-
-        $qualificationDocuments = [
-            'matric' => [
-                'matric-marksheet' => 'Matric Marksheet',
-                'matric-certificate' => 'Matric Certificate',
-            ],
-
-            'intermediate' => [
-                'intermediate-marksheet' => 'Intermediate Marksheet',
-                'intermediate-certificate' => 'Intermediate Certificate',
-            ],
-
-            'bachelors' => [
-                'bachelors-transcript' => 'Bachelors Transcript',
-                'bachelors-degree' => 'Bachelors Degree',
-            ],
-
-            'masters' => [
-                'masters-transcript' => 'Masters Transcript',
-                'masters-degree' => 'Masters Degree',
-            ],
-        ];
-
-        /*
-        |--------------------------------------------------------------------------
-        | Determine documents according to student's qualification
-        |--------------------------------------------------------------------------
-        */
-
-        $qualification = strtolower(trim($student->qualification));
-
-        $requiredDocuments = $commonDocuments;
-
-        if ($qualification === 'intermediate') {
-
-            $requiredDocuments = array_merge(
-                $requiredDocuments,
-                $qualificationDocuments['matric'],
-                $qualificationDocuments['intermediate']
-            );
-
-        } elseif ($qualification === 'bachelors') {
-
-            $requiredDocuments = array_merge(
-                $requiredDocuments,
-                $qualificationDocuments['matric'],
-                $qualificationDocuments['intermediate'],
-                $qualificationDocuments['bachelors']
-            );
-
-        } elseif ($qualification === 'masters') {
-
-            $requiredDocuments = array_merge(
-                $requiredDocuments,
-                $qualificationDocuments['matric'],
-                $qualificationDocuments['intermediate'],
-                $qualificationDocuments['bachelors'],
-                $qualificationDocuments['masters']
-            );
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Get uploaded documents
-        |--------------------------------------------------------------------------
-        */
-
-        $uploadedDocuments = studentdocument::where('student_id', $student->id)->get();
-
-        $documents = collect();
-
-        foreach ($requiredDocuments as $type => $name) {
-
-            $files = $uploadedDocuments->where('document_type', $type);
-
-            if ($files->count() > 0) {
-
-                // Har DB record ki separate row
-                foreach ($files as $file) {
-
-                    $documents->push([
-                        'type' => $type,
-                        'name' => $name,
-                        'uploaded' => true,
-                        'file' => $file,
-                    ]);
-
-                }
-
-            } else {
-
-                // Agar koi file nahi hai to ek Pending row
-                $documents->push([
-                    'type' => $type,
-                    'name' => $name,
-                    'uploaded' => false,
-                    'file' => null,
-                ]);
-            }
-        }
+        $documents = $documentService->getDocuments($student);
 
         return view('admin.students.documents', compact(
             'student',

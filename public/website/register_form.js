@@ -719,7 +719,7 @@ $(document).ready(function () {
             '.doc-intermediate-marksheet, .doc-intermediate-certificate,' +
             '.doc-bachelors-transcript, .doc-bachelors-degree,' +
             '.doc-masters-transcript, .doc-masters-degree,' +
-            '.doc-ielts, .doc-toefl, .doc-pte'
+            '.doc-ielts, .doc-toefl, .doc-pte', 
         );
 
         allDocs
@@ -1445,7 +1445,8 @@ $(document).ready(function () {
             'toefl-certificate[]',
             'pte-certificate[]',
             'recommendation-letters[]',
-            'experience-letters[]'
+            'experience-letters[]',
+            'other-certificates[]'
         ];
 
         multipleStep3Files.forEach(name => {

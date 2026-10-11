@@ -162,6 +162,7 @@ class StudentController extends Controller
             'pte-certificate' => 'PTE Certificate',
             'recommendation-letters' => 'Recommendation Letters',
             'experience-letters' => 'Experience Letters',
+            'other-certificates' => 'Other Certificates',
         ];
 
         /*

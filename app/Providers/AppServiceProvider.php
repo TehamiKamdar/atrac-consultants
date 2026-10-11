@@ -24,10 +24,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(200);
-
-        // Har view ke liye countries share karna
-        View::composer('*', function ($view) {
-            $view->with('countries', country::where('status', '=', 'active')->get());
-        });
     }
 }

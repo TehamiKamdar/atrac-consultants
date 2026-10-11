@@ -251,7 +251,7 @@ class RegisterController extends Controller
             if (!is_array($countryIds)) {
                 $countryIds = [$countryIds];
             }
-            
+
             // 2. Save student
             $student = students::create([
                 'first_name' => $data['step1']['firstName'],
@@ -350,6 +350,7 @@ class RegisterController extends Controller
                 'pte-certificate',
                 'recommendation-letters',
                 'experience-letters',
+                'other-certificates'
             ];
 
             foreach ($multipleDocumentFields as $field) {
@@ -360,9 +361,9 @@ class RegisterController extends Controller
 
                 $files = $request->file("step3.$field");
 
-                foreach ($files as $index => $file) {
+                foreach ($files as $file) {
 
-                    $fileName = $field . '_' . ($index + 1) . '.' . $file->getClientOriginalExtension();
+                    $fileName = $file->getClientOriginalName();
 
                     $path = $file->storeAs(
                         $studentFolder,

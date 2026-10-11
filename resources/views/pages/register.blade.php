@@ -1071,6 +1071,31 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <!-- Masters Transcript Back -->
+                            <div class="col-md-6 doc-other">
+                                <div class="upload-card">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="card-head-images">
+                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Other Certificates </h6>
+                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
+                                                aren't allowed)</small>
+                                        </div>
+                                        <span class="badge bg-secondary">Pending</span>
+                                    </div>
+
+                                    <label class="upload-box">
+                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
+                                            name="other-certificates[]" id="other-certificate" hidden multiple>
+                                        <div class="upload-placeholder">
+                                            <i class="ri-upload-cloud-line"></i>
+                                            <span>Click or drop file here</span>
+                                            <small>PDF / JPG / PNG | Max 5MB</small>
+                                        </div>
+                                        <div class="uploaded-files"></div>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -345,8 +345,8 @@
 
 
         /* ===============================
-    ADD DOCUMENT
-    =============================== */
+        ADD DOCUMENT
+        =============================== */
 
         let studentId = null;
         let documentType = null;

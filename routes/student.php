@@ -14,6 +14,7 @@ Route::middleware(['auth', 'student'])->group(function () {
     Route::delete('/documents/{documentId}/delete', [DashboardController::class, 'deleteDocument'])->name('students-delete-documents');
     Route::post('/documents/{documentId}/edit', [DashboardController::class, 'editDocument'])->name('students-edit-documents');
     Route::get('/documents/{documentId}/view', [DashboardController::class, 'viewDocument'])->name('students-view-document');
+    Route::post('/documents/add/{studentId}', [DashboardController::class, 'addDocument'])->name('students-add-documents');
     Route::post('/documents/upload', [DashboardController::class, 'uploadDocument'])->name('students-upload-documents');
     Route::post('/student/settings', [DashboardController::class, 'updatePassword'])->name('student.update-password');
 

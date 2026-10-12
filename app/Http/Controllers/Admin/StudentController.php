@@ -23,6 +23,14 @@ use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
+    protected StudentDocumentService $studentDocumentService;
+
+    public function __construct(
+        StudentDocumentService $studentDocumentService
+    ) {
+        $this->studentDocumentService = $studentDocumentService;
+    }
+
     public function index()
     {
         $students = students::all();
@@ -141,11 +149,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function getDocuments(StudentDocumentService $documentService, $id)
+    public function getDocuments($id)
     {
         $student = students::findOrFail($id);
 
-        $documents = $documentService->getDocuments($student);
+        $documents = $this->studentDocumentService->getDocuments($student);
 
         return view('admin.students.documents', compact(
             'student',
@@ -155,188 +163,27 @@ class StudentController extends Controller
 
     public function viewDocument($documentId)
     {
-        $document = studentdocument::findOrFail($documentId);
-
-        if (!Storage::disk('public')->exists($document->file_path)) {
-            abort(404);
-        }
-
-        return response()->file(
-            Storage::disk('public')->path($document->file_path)
-        );
+        return $this->studentDocumentService->viewDocument($documentId);
     }
 
     public function deleteDocument($id)
     {
-        $document = studentdocument::findOrFail($id);
-
-        if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
-            Storage::disk('public')->delete($document->file_path);
-        }
-
-        $document->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Document deleted successfully.'
-        ]);
+        return $this->studentDocumentService->deleteDocument($id);
     }
 
     public function editDocument(Request $request, $documentId)
     {
-        $request->validate([
-            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
-
-        $document = studentdocument::findOrFail($documentId);
-
-        $oldPath = $document->file_path;
-
-        // Purane path se filename nikaal lo
-        $filename = basename($oldPath);
-
-        // Same folder
-        $directory = dirname($oldPath);
-
-        // Purani file delete karo
-        if ($oldPath && Storage::disk('public')->exists($oldPath)) {
-            Storage::disk('public')->delete($oldPath);
-        }
-
-        // New file ko purane filename ke saath save karo
-        $newPath = $request->file('file')->storeAs(
-            $directory,
-            $filename,
-            'public'
-        );
-
-        // DB path same rahega
-        $document->update([
-            'file_path' => $newPath,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Document updated successfully.',
-        ]);
+        return $this->studentDocumentService->editDocument($request, $documentId);
     }
 
     public function addDocument(Request $request, $studentId)
     {
-        $request->validate([
-            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'document_type' => 'required|string|max:255',
-        ]);
-
-        $student = students::findOrFail($studentId);
-
-        $file = $request->file('file');
-
-        // Original filename
-        $fileName = $file->getClientOriginalName();
-
-        // Student folder
-        $folderName = strtolower(
-            str_replace(
-                ' ',
-                '_',
-                $student->first_name . '_' . $student->last_name
-            )
-        );
-
-        $studentFolder = "documents/{$folderName}_documents";
-
-        // Duplicate filename se bachao
-        if (
-            Storage::disk('public')
-                ->exists("{$studentFolder}/{$fileName}")
-        ) {
-
-            $originalName = pathinfo($fileName, PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-
-            $fileName = $originalName
-                . '_' . time()
-                . '.' . $extension;
-        }
-
-        // File upload
-        $filePath = $file->storeAs(
-            $studentFolder,
-            $fileName,
-            'public'
-        );
-
-        // Same document type ke saath database mein save
-        $document = studentdocument::create([
-            'student_id' => $student->id,
-            'document_type' => $request->input('document_type'),
-            'file_path' => $filePath,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Document uploaded successfully.',
-            'document' => $document,
-        ]);
+        return $this->studentDocumentService->addDocument($request, $studentId);
     }
 
     public function uploadDocument(Request $request)
     {
-        $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'document_type' => 'required|string',
-            'files' => 'required',
-            'files.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
-
-        $student = students::findOrFail($request->student_id);
-
-        // Existing document ka folder le lo
-        $existingDocument = studentdocument::where('student_id', $student->id)
-            ->where('document_type', $request->document_type)
-            ->first();
-
-        if ($existingDocument) {
-            $directory = dirname($existingDocument->file_path);
-        } else {
-            // Agar is type ki koi file pehle nahi hai
-            $directory = 'documents/' .
-                strtolower(str_replace(' ', '', $student->first_name)) . '_' .
-                strtolower(str_replace(' ', '', $student->last_name)) . '_' .
-                strtolower(str_replace(' ', '', $student->intake)) . '_documents';
-        }
-
-        // Existing files ka count
-        $existingCount = studentdocument::where('student_id', $student->id)
-            ->where('document_type', $request->document_type)
-            ->count();
-
-        foreach ($request->file('files') as $index => $file) {
-
-            $number = $existingCount + $index + 1;
-
-            $extension = $file->getClientOriginalExtension();
-
-            $filename = $request->document_type . '_' . $number . '.' . $extension;
-
-            $path = $file->storeAs(
-                $directory,
-                $filename,
-                'public'
-            );
-
-            studentdocument::create([
-                'student_id' => $student->id,
-                'document_type' => $request->document_type,
-                'file_path' => $path,
-            ]);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Documents uploaded successfully.',
-        ]);
+        return $this->studentDocumentService->uploadDocument($request);
     }
 
     public function getUniversityByStudent($id)

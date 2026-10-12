@@ -130,6 +130,16 @@
                                         <i class="ri-delete-bin-2-line"></i>
                                     </button>
 
+
+                                    <button type="button" class="btn btn-sm btn-outline-success add-document"
+                                        data-student-id="{{ $student->id }}" data-type="{{ $document['type'] }}"
+                                        title="Add Another Document">
+
+                                        <i class="ri-add-line"></i>
+                                    </button>
+
+                                    <input type="file" id="addDocumentInput" class="d-none" accept=".pdf,.jpg,.jpeg,.png">
+
                                 @else
                                     <input type="file" class="d-none document-upload-input" id="document_{{ $document['type'] }}"
                                         data-document-type="{{ $document['type'] }}" accept=".pdf,.jpg,.jpeg,.png" multiple>
@@ -269,9 +279,71 @@
                 }
             });
         });
+
+        /* ===============================
+        ADD DOCUMENT
+        =============================== */
+
+        let studentId = null;
+        let documentType = null;
+
+        $(document).on('click', '.add-document', function () {
+
+            studentId = $(this).data('student-id');
+            documentType = $(this).data('type');
+
+            $('#addDocumentInput').val('');
+            $('#addDocumentInput').click();
+        });
+
+        $(document).on('change', '#addDocumentInput', function () {
+
+            let file = this.files[0];
+
+            if (!file || !studentId || !documentType) {
+                return;
+            }
+
+            let formData = new FormData();
+
+            formData.append('file', file);
+            formData.append('document_type', documentType);
+            formData.append(
+                '_token',
+                $('meta[name="csrf-token"]').attr('content')
+            );
+
+            $.ajax({
+                url: `/documents/add/${studentId}`,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (response) {
+
+                    if (response.success) {
+                        alert('Document uploaded successfully.');
+                        window.location.reload();
+                    } else {
+                        alert(response.message || 'Document upload failed.');
+                    }
+                },
+
+                error: function (xhr) {
+
+                    console.log(xhr.responseJSON || xhr.responseText);
+
+                    alert(
+                        xhr.responseJSON?.message ||
+                        'Document upload failed.'
+                    );
+                }
+            });
+        });
         
         /* ===============================
-            EDIT DOCUMENTS
+            UPLOAD DOCUMENTS
         =============================== */
         $(document).on('change', '.document-upload-input', function () {
 

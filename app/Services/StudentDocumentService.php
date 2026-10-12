@@ -217,24 +217,40 @@ class StudentDocumentService
         $document = studentdocument::findOrFail($documentId);
 
         $oldPath = $document->file_path;
-
-        $filename = basename($oldPath);
         $directory = dirname($oldPath);
 
-        // Purani file delete karo
+        // Uploaded file ka original name
+        $file = $request->file('file');
+        $filename = $file->getClientOriginalName();
+
+        // Agar same folder mein filename already exist karta hai
+        $existingPath = $directory . '/' . $filename;
+
         if (
-            $oldPath &&
-            Storage::disk('public')->exists($oldPath)
+            $existingPath !== $oldPath &&
+            Storage::disk('public')->exists($existingPath)
         ) {
-            Storage::disk('public')->delete($oldPath);
+            $name = pathinfo($filename, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = $name . '_' . time() . '.' . $extension;
         }
 
-        // Same filename aur folder mein new file save karo
-        $newPath = $request->file('file')->storeAs(
+        // New file save karo
+        $newPath = $file->storeAs(
             $directory,
             $filename,
             'public'
         );
+
+        // New file save hone ke baad purani file delete karo
+        if (
+            $oldPath &&
+            $oldPath !== $newPath &&
+            Storage::disk('public')->exists($oldPath)
+        ) {
+            Storage::disk('public')->delete($oldPath);
+        }
 
         $document->update([
             'file_path' => $newPath,
@@ -248,8 +264,8 @@ class StudentDocumentService
 
 
     /* ===============================
-        ADD DOCUMENT
-    =============================== */
+    ADD DOCUMENT
+=============================== */
 
     public function addDocument(Request $request, $studentId)
     {
@@ -263,40 +279,32 @@ class StudentDocumentService
         $file = $request->file('file');
 
         // Original filename
-        $fileName = $file->getClientOriginalName();
+        $filename = $file->getClientOriginalName();
 
         // Student folder
         $folderName = strtolower(
             str_replace(
                 ' ',
-                '_',
-                $student->first_name . '_' . $student->last_name
+                '',
+                $student->first_name . '_' . $student->last_name . '_' . $student->intake
             )
         );
 
-        $studentFolder = "documents/{$folderName}_documents";
+        $directory = "documents/{$folderName}_documents";
 
         // Duplicate filename se bachao
-        if (
-            Storage::disk('public')->exists(
-                "{$studentFolder}/{$fileName}"
-            )
-        ) {
-            $originalName = pathinfo(
-                $fileName,
-                PATHINFO_FILENAME
-            );
+        $path = "{$directory}/{$filename}";
 
+        if (Storage::disk('public')->exists($path)) {
+            $name = pathinfo($filename, PATHINFO_FILENAME);
             $extension = $file->getClientOriginalExtension();
 
-            $fileName = $originalName
-                . '_' . time()
-                . '.' . $extension;
+            $filename = $name . '_' . time() . '.' . $extension;
         }
 
         $filePath = $file->storeAs(
-            $studentFolder,
-            $fileName,
+            $directory,
+            $filename,
             'public'
         );
 
@@ -315,8 +323,8 @@ class StudentDocumentService
 
 
     /* ===============================
-        UPLOAD MULTIPLE DOCUMENTS
-    =============================== */
+    UPLOAD MULTIPLE DOCUMENTS
+=============================== */
 
     public function uploadDocument(Request $request)
     {
@@ -340,32 +348,31 @@ class StudentDocumentService
         if ($existingDocument) {
             $directory = dirname($existingDocument->file_path);
         } else {
-            $directory = 'documents/' .
-                strtolower(str_replace(' ', '', $student->first_name)) . '_' .
-                strtolower(str_replace(' ', '', $student->last_name)) . '_' .
-                strtolower(str_replace(' ', '', $student->intake)) .
-                '_documents';
+            $folderName = strtolower(
+                str_replace(' ', '', $student->first_name) . '_' .
+                str_replace(' ', '', $student->last_name) . '_' .
+                str_replace(' ', '', $student->intake)
+            );
+
+            $directory = "documents/{$folderName}_documents";
         }
 
-        // Existing files ka count
-        $existingCount = studentdocument::where(
-            'student_id',
-            $student->id
-        )
-            ->where('document_type', $request->document_type)
-            ->count();
+        foreach ($request->file('files') as $file) {
 
-        foreach ($request->file('files') as $index => $file) {
+            // Uploaded file ka original filename
+            $filename = $file->getClientOriginalName();
 
-            $number = $existingCount + $index + 1;
+            $path = "{$directory}/{$filename}";
 
-            $extension = $file->getClientOriginalExtension();
+            // Duplicate filename se bachao
+            if (Storage::disk('public')->exists($path)) {
+                $name = pathinfo($filename, PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
 
-            $filename = $request->document_type
-                . '_' . $number
-                . '.' . $extension;
+                $filename = $name . '_' . uniqid() . '.' . $extension;
+            }
 
-            $path = $file->storeAs(
+            $filePath = $file->storeAs(
                 $directory,
                 $filename,
                 'public'
@@ -374,7 +381,7 @@ class StudentDocumentService
             studentdocument::create([
                 'student_id' => $student->id,
                 'document_type' => $request->document_type,
-                'file_path' => $path,
+                'file_path' => $filePath,
             ]);
         }
 

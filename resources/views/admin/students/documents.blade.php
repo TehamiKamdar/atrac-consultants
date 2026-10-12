@@ -150,15 +150,13 @@
                                     </a>
 
                                     <button type="button" class="btn btn-sm btn-outline-warning edit-document"
-                                        data-id="{{ $document['file']->id }}" data-type="{{ $document['type'] }}"
-                                        title="Edit">
+                                        data-id="{{ $document['file']->id }}" data-type="{{ $document['type'] }}" title="Edit">
 
                                         <i class="ri-pencil-line"></i>
 
                                     </button>
 
-                                    <input type="file" id="editDocumentInput" class="d-none"
-                                        accept=".pdf,.jpg,.jpeg,.png">
+                                    <input type="file" id="editDocumentInput" class="d-none" accept=".pdf,.jpg,.jpeg,.png">
 
                                     <button type="button" class="btn btn-sm btn-outline-danger delete-document"
                                         data-id="{{ $document['file']->id }}" title="Delete">
@@ -168,8 +166,6 @@
                                     </button>
 
 
-                                    <input type="file" id="addDocumentInput" class="d-none"
-                                        accept=".pdf,.jpg,.jpeg,.png">
 
                                     <button type="button" class="btn btn-sm btn-outline-success add-document"
                                         data-student-id="{{ $student->id }}" data-type="{{ $document['type'] }}"
@@ -177,10 +173,11 @@
 
                                         <i class="ri-add-line"></i>
                                     </button>
+
+                                    <input type="file" id="addDocumentInput" class="d-none" accept=".pdf,.jpg,.jpeg,.png">
                                 @else
-                                    <input type="file" class="d-none document-upload-input"
-                                        id="document_{{ $document['type'] }}" data-document-type="{{ $document['type'] }}"
-                                        accept=".pdf,.jpg,.jpeg,.png" multiple>
+                                    <input type="file" class="d-none document-upload-input" id="document_{{ $document['type'] }}"
+                                        data-document-type="{{ $document['type'] }}" accept=".pdf,.jpg,.jpeg,.png" multiple>
 
                                     <label for="document_{{ $document['type'] }}" class="btn btn-sm btn-outline-success"
                                         title="Upload">
@@ -247,7 +244,7 @@
         /* ===============================
                 DOWNLOAD DOCUMENTS
             =============================== */
-        $(document).on('click', '.documentBtn', function() {
+        $(document).on('click', '.documentBtn', function () {
             let folderName = $(this).data('folder');
             let url = `/download/student/documents/${folderName}`;
             window.open(url, '_blank');
@@ -256,7 +253,7 @@
         /* ===============================
             DELETE DOCUMENTS
         =============================== */
-        $(document).on('click', '.delete-document', function() {
+        $(document).on('click', '.delete-document', function () {
 
             let button = $(this);
             let documentId = button.data('id');
@@ -273,14 +270,14 @@
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
 
-                success: function(response) {
+                success: function (response) {
 
                     alert(response.message);
 
                     window.location.reload();
                 },
 
-                error: function(xhr) {
+                error: function (xhr) {
 
                     console.log(xhr.responseText);
 
@@ -295,7 +292,7 @@
         =============================== */
         let editDocumentId = null;
 
-        $(document).on('click', '.edit-document', function() {
+        $(document).on('click', '.edit-document', function () {
 
             editDocumentId = $(this).data('id');
 
@@ -305,7 +302,7 @@
         });
 
 
-        $('#editDocumentInput').on('change', function() {
+        $('#editDocumentInput').on('change', function () {
 
             let file = this.files[0];
 
@@ -328,7 +325,7 @@
                 processData: false,
                 contentType: false,
 
-                success: function(response) {
+                success: function (response) {
 
                     if (response.success) {
                         alert("Document Updated");
@@ -336,7 +333,7 @@
                     }
                 },
 
-                error: function(xhr) {
+                error: function (xhr) {
 
                     console.log(xhr.responseText);
 
@@ -348,30 +345,33 @@
 
 
         /* ===============================
-            ADD DOCUMENT
-        =============================== */
+    ADD DOCUMENT
+    =============================== */
 
         let studentId = null;
+        let documentType = null;
 
-        $(document).on('click', '.add-document', function() {
+        $(document).on('click', '.add-document', function () {
 
             studentId = $(this).data('student-id');
+            documentType = $(this).data('type');
 
             $('#addDocumentInput').val('');
             $('#addDocumentInput').click();
         });
 
-        $(document).on('change', '#addDocumentInput', function() {
+        $(document).on('change', '#addDocumentInput', function () {
 
             let file = this.files[0];
 
-            if (!file || !studentId) {
+            if (!file || !studentId || !documentType) {
                 return;
             }
 
             let formData = new FormData();
 
             formData.append('file', file);
+            formData.append('document_type', documentType);
             formData.append(
                 '_token',
                 $('meta[name="csrf-token"]').attr('content')
@@ -384,7 +384,8 @@
                 processData: false,
                 contentType: false,
 
-                success: function(response) {
+                success: function (response) {
+
                     if (response.success) {
                         alert('Document uploaded successfully.');
                         window.location.reload();
@@ -393,9 +394,14 @@
                     }
                 },
 
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                    alert('Document upload failed. Check console for details.');
+                error: function (xhr) {
+
+                    console.log(xhr.responseJSON || xhr.responseText);
+
+                    alert(
+                        xhr.responseJSON?.message ||
+                        'Document upload failed.'
+                    );
                 }
             });
         });
@@ -403,7 +409,7 @@
         /* ===============================
             UPLOAD DOCUMENTS
         =============================== */
-        $(document).on('change', '.document-upload-input', function() {
+        $(document).on('change', '.document-upload-input', function () {
 
             let input = this;
             let files = input.files;
@@ -421,7 +427,7 @@
             formData.append('document_type', documentType);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
-            $.each(files, function(index, file) {
+            $.each(files, function (index, file) {
                 formData.append('files[]', file);
             });
 
@@ -432,7 +438,7 @@
                 processData: false,
                 contentType: false,
 
-                success: function(response) {
+                success: function (response) {
 
                     if (response.success) {
                         alert("Document Uploaded");
@@ -440,7 +446,7 @@
                     }
                 },
 
-                error: function(xhr) {
+                error: function (xhr) {
 
                     console.log(xhr.responseText);
 

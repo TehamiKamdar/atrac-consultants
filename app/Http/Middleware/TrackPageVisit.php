@@ -73,34 +73,48 @@ class TrackPageVisit
         }
 
         // Device, browser aur operating system
-        $deviceType = null;
-        $browser = null;
-        $operatingSystem = null;
+        // Device, browser aur operating system
+        $deviceType = 'Unknown';
+        $browser = 'Unknown';
+        $operatingSystem = 'Unknown';
 
-        try {
-            $userAgent = $request->userAgent() ?? '';
+        $userAgent = $request->userAgent();
 
-            if ($userAgent !== '') {
-                $detector = new DeviceDetector($userAgent);
+        if (!empty($userAgent)) {
+            try {
+                $detector = new \DeviceDetector\DeviceDetector($userAgent);
                 $detector->parse();
 
-                $deviceType = $detector->getDeviceName() ?: 'Unknown';
+                // Device category: desktop, smartphone, tablet, etc.
+                $deviceType = $detector->getDeviceType() ?: 'Unknown';
 
+                // Browser
                 $client = $detector->getClient();
                 $browser = $client['name'] ?? 'Unknown';
 
+                // Operating system
                 $os = $detector->getOs();
                 $operatingSystem = $os['name'] ?? 'Unknown';
 
-                logger()->info('Visitor device detection', [
+                logger()->info('Visitor device detection result', [
                     'user_agent' => $userAgent,
                     'device_type' => $deviceType,
                     'browser' => $browser,
                     'operating_system' => $operatingSystem,
                 ]);
+
+            } catch (Throwable $e) {
+
+                logger()->error('Device detection failed', [
+                    'user_agent' => $userAgent,
+                    'error' => $e->getMessage(),
+                ]);
             }
-        } catch (Throwable $e) {
-            // Detection fail ho toh tracking continue rahe
+        } else {
+            logger()->warning('Visitor User-Agent is missing', [
+                'url' => $request->path(),
+                'ip' => $request->ip(),
+            ]);
         }
 
         $country = null;

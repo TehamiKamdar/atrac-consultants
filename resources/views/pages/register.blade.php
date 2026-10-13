@@ -110,6 +110,62 @@
             padding: 20px;
         }
 
+        /* Responsive table wrapper */
+        .table-responsive {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        /* Table layout */
+        .table-responsive table {
+            width: 100%;
+            min-width: 900px;
+            margin: 0;
+            border-collapse: collapse;
+        }
+
+        /* Cells */
+        .table-responsive th,
+        .table-responsive td {
+            padding: 10px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        /* Inputs should not force the page wider */
+        .table-responsive input,
+        .table-responsive select,
+        .table-responsive textarea {
+            box-sizing: border-box;
+            width: 165px;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        /* Focus on usability for smaller screens */
+        @media (max-width: 768px) {
+            .table-responsive table {
+                min-width: 850px;
+            }
+
+            .table-responsive th,
+            .table-responsive td {
+                padding: 8px;
+            }
+
+            .table-responsive input,
+            .table-responsive select,
+            .table-responsive textarea {
+                width: 120px;
+            }
+        }
+
         /* ===== FOOTER ===== */
         .footer {
             position: fixed;
@@ -289,7 +345,7 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="None" id="none">
+                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="None" id="none" checked>
                                     <label class="form-check-label" for="none">None</label>
                                 </div>
                             </div>
@@ -306,26 +362,31 @@
             <div class="section">
                 <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Educational Details</span>
-                    <button type="button" id="addEducation" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 10px; font-size: 20px;">+</button>
+                    <div>
+                        <button type="button" id="removeEducation" style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addEducation" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                    </div>
                 </div>
 
-                <table class="table" id="educationTable">
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Institute</th>
-                            <th>Board / University</th>
-                            <th>Subject</th>
-                            <th>Year</th>
-                            <th>Obtained Marks</th>
-                            <th>Total Marks</th>
-                            <th>Percentage / GPA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" id="educationTable">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Institute</th>
+                                <th>Board / University</th>
+                                <th>Subject</th>
+                                <th>Year</th>
+                                <th>Obtained Marks</th>
+                                <th>Total Marks</th>
+                                <th>Percentage / GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
@@ -333,41 +394,45 @@
                     <span>English Test Details</span>
                 </div>
 
-                <table class="table" id="englishTestTable">
-                    <thead>
-                        <tr>
-                            <th>Test</th>
-                            <th>Listening</th>
-                            <th>Reading</th>
-                            <th>Speaking</th>
-                            <th>Writing</th>
-                            <th>Score / Bands</th>
-                            <th>Cleared On</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" id="englishTestTable">
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Listening</th>
+                                <th>Reading</th>
+                                <th>Speaking</th>
+                                <th>Writing</th>
+                                <th>Score / Bands</th>
+                                <th>Cleared On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
                 <div class="section-title">Programs Applying for</div>
+                
+                <div class="table-responsive">
+                    <table class="table" id="programsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Program</th>
+                                <th>Department</th>
+                                <th>University</th>
+                                <th>Intake</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Program</th>
-                            <th>Department</th>
-                            <th>University</th>
-                            <th>Intake</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -454,10 +519,13 @@
 
 
         // NEW EDUCATION ROW LOGIC
-
         $('#addEducation').on('click', function () {
 
             let index = $('#educationTable tbody tr').length;
+
+            if (index >= 1) {
+                $('#removeEducation').show();
+            }
 
             let newRow = `
                 <tr data-index="${index}">
@@ -493,5 +561,19 @@
             $('#educationTable tbody').append(newRow);
 
         });
+
+        $('#removeEducation').on('click', function () {
+            let rows = $('#educationTable tbody tr');
+
+            // Kam az kam ek row rehne do
+            if (rows.length > 1) {
+                rows.last().remove();
+            }
+
+            if ($('#educationTable tbody tr').length <= 1) {
+                $('#removeEducation').hide();
+            }
+        });
+
     });
 </script>

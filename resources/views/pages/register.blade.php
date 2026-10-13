@@ -415,7 +415,13 @@
             </div>
 
             <div class="section">
-                <div class="section-title">Programs Applying for</div>
+                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Programs Applying For</span>
+                    <div>
+                        <button type="button" id="removeProgram" style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addProgram" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                    </div>
+                </div>
                 
                 <div class="table-responsive">
                     <table class="table" id="programsTable">

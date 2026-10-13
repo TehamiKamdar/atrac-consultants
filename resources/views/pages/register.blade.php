@@ -138,9 +138,7 @@
                         <td>
                             <img src="{{ asset('website/logo.png') }}" class="logo">
                         </td>
-                        <td id="downloadProfileTD" style="align-content: center; text-align: center;">
-                            <a id="downloadProfileBtn" data-id="{{ $student->id }}" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">Download Profile</a>
-                        </td>
+                        
                         <td class="title">
                             <h2>Student Profile</h2>
                             <p>Academic & Personal Information</p>
@@ -226,19 +224,9 @@
                     <tr>
                         <td class="label">Interested Country </td>
                         <td>
-                            @php
-                                $selectedCountries = $student->country_id;
-
-                                if (is_string($selectedCountries)) {
-                                    $selectedCountries = json_decode($selectedCountries, true) ?? [];
-                                }
-
-                                $selectedCountries = array_map('strval', $selectedCountries ?? []);
-                            @endphp
-
                             <select id="countries" name="countries[]" class="form-select" multiple>
-                                @foreach ($activeCountries as $id => $name)
-                                    <option value="{{ $id }}"> {{ $name }} </option>
+                                @foreach ($activeCountries as $country)
+                                    <option value="{{ $country->id }}"> {{ $country->name }} </option>
                                 @endforeach
                             </select>
                         </td>

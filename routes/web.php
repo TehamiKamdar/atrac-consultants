@@ -74,6 +74,7 @@ Route::post('student/register', [RegisterController::class , 'store'])->name('st
 Route::post('save-new-university-department-course', [RegisterController::class , 'storeNewUniversityDepartmentCourse'])->name('student.new.university.department.course');
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
 Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
+Route::put('/profile/update', [PdfController::class, 'update'])->name('profile.update');
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);
 
 

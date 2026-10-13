@@ -596,7 +596,7 @@
             =============================== */
             $(document).on('click', '.profileBtn', function () {
                 let id = $(this).data('id');
-                let url = `/generate/student/profile/${id}`;
+                let url = `/view/student/profile/${id}`;
                 window.open(url, '_blank');
             });
 

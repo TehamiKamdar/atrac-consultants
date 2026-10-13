@@ -62,7 +62,7 @@
                         <li>
                             <button type="button" class="dropdown-item profileBtn" data-id="{{ $student->id }}">
                                 <i class="ri-file-pdf-2-line me-2"></i>
-                                Download Profile
+                                View Profile
                             </button>
                         </li>
 

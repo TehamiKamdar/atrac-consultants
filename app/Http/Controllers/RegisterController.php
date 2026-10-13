@@ -238,15 +238,60 @@ class RegisterController extends Controller
         try {
 
             $data = $request->validate([
-                'step1' => 'required|array',
-                'step2' => 'required|array',
-                'step3' => 'sometimes|array',
-                'step4' => 'sometimes|array',
-                'english_test_list' => 'required|array',
-                'english_tests' => 'sometimes|array',
+                'first_name' => 'nullable|string',
+                'last_name' => 'nullable|string',
+                'father_name' => 'nullable|string',
+                'mother_name' => 'nullable|string',
+                'city' => 'nullable|string',
+                'dob' => 'nullable|string',
+                'cnic' => 'nullable|string',
+                'passport_number' => 'nullable|string',
+                'passport_valid_from' => 'nullable|string',
+                'passport_valid_thru' => 'nullable|string',
+                'phone' => 'nullable|string',
+                'email' => 'nullable|string',
+                'address' => 'nullable|string',
+                'postal_code' => 'nullable|string',
+                'qualification' => 'nullable|string',
+                'percentage' => 'nullable|string',
+                'intake' => 'nullable|string',
+
+                'countries' => 'nullable|array',
+                'countries.*' => 'integer',
+                
+                'program_level' => 'nullable|string',
+
+                'english_test' => 'nullable|array',
+                'english_proficiency' => 'nullable|string',
+
+                'education' => 'nullable|array',
+                'education.*.level' => 'required|string|max:255',
+                'education.*.institute' => 'required|string|max:255',
+                'education.*.board' => 'required|string|max:255',
+                'education.*.subject' => 'required|string|max:255',
+                'education.*.passing_year' => 'required|integer|min:1900|max:' . (date('Y') + 10),
+                'education.*.obtained_marks' => 'nullable|numeric',
+                'education.*.total_marks' => 'nullable|numeric',
+                'education.*.grade_or_cgpa' => 'nullable|string|max:100',
+
+                'english_tests' => 'nullable|array',
+                'english_tests.*.test_name' => 'required|string|max:100',
+                'english_tests.*.listening' => 'nullable|numeric',
+                'english_tests.*.reading' => 'nullable|numeric',
+                'english_tests.*.speaking' => 'nullable|numeric',
+                'english_tests.*.writing' => 'nullable|numeric',
+                'english_tests.*.score' => 'nullable|numeric',
+                'english_tests.*.test_date' => 'nullable|date',
+
+                'programs' => 'nullable|array',
+                'programs.*.program_level_id' => 'required_with:programs|integer',
+                'programs.*.country_id' => 'required_with:programs|integer',
+                'programs.*.university_id' => 'required_with:programs|integer',
+                'programs.*.department_id' => 'nullable|integer',
+                'programs.*.course_id' => 'nullable|integer',
             ]);
 
-            $countryIds = $data['step1']['country'];
+            $countryIds = $data['countries'];
 
             if (!is_array($countryIds)) {
                 $countryIds = [$countryIds];
@@ -254,34 +299,34 @@ class RegisterController extends Controller
 
             // 2. Save student
             $student = students::create([
-                'first_name' => $data['step1']['firstName'],
-                'last_name' => $data['step1']['lastName'],
-                'father_name' => $data['step1']['fatherName'],
-                'mother_name' => $data['step1']['motherName'],
-                'city' => $data['step1']['city'],
-                'dob' => $data['step1']['dob'],
-                'cnic' => $data['step1']['cnic'],
-                'passport_number' => $data['step1']['passport'],
-                'passport_valid_from' => $data['step1']['passportValidFrom'],
-                'passport_valid_thru' => $data['step1']['passportValidThru'],
-                'phone' => $data['step1']['phoneNumber'],
-                'email' => $data['step1']['email'],
-                'address' => $data['step1']['address'],
-                'postal_code' => $data['step1']['postalCode'],
-                'qualification' => $data['step1']['qualification'],
-                'percentage' => $data['step1']['percentage'],
-                'intake' => $data['step1']['intake'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'father_name' => $data['father_name'],
+                'mother_name' => $data['mother_name'],
+                'city' => $data['city'],
+                'dob' => $data['dob'],
+                'cnic' => $data['cnic'],
+                'passport_number' => $data['passport_number'],
+                'passport_valid_from' => $data['passport_valid_from'],
+                'passport_valid_thru' => $data['passport_valid_thru'],
+                'phone' => $data['phone'],
+                'email' => $data['email'],
+                'address' => $data['address'],
+                'postal_code' => $data['postal_code'],
+                'qualification' => $data['qualification'],
+                'percentage' => $data['percentage'],
+                'intake' => $data['intake'],
                 'country_id' => $countryIds,
-                'program_level_id' => $data['step1']['applying'],
-                'english_test' => json_encode($data['english_test_list']),
-                'english_proficiency' => $data['step1']['proficiency'],
+                'program_level_id' => $data['program_level'],
+                'english_test' => json_encode($data['english_test']),
+                'english_proficiency' => $data['english_proficiency'],
             ]);
 
             // 2. Save academics
-            foreach ($data['step2'] as $level => $academic) {
+            foreach ($data['education'] ?? [] as $academic) {
                 studenteducation::create([
                     'student_id' => $student->id,
-                    'level' => $level,
+                    'level' => $academic['level'],
                     'institute' => $academic['institute'] ?? null,
                     'board' => $academic['board'] ?? null,
                     'subject' => $academic['subject'] ?? null,
@@ -295,26 +340,30 @@ class RegisterController extends Controller
             }
 
             // 3. Save English tests
-            if (!empty($data['english_tests'])) {
-                foreach ($data['english_tests'] as $test => $values) {
+            foreach ($data['english_tests'] ?? [] as $test) {
+                $hasScores = collect([
+                    $test['listening'] ?? null,
+                    $test['reading'] ?? null,
+                    $test['speaking'] ?? null,
+                    $test['writing'] ?? null,
+                    $test['score'] ?? null,
+                    $test['test_date'] ?? null,
+                ])->contains(fn($value) => $value !== null && $value !== '');
 
-                    $hasData = collect($values)->filter(fn($v) => $v !== null && $v !== '')->isNotEmpty();
-                    if (!$hasData)
-                        continue;
-
-                    studentenglishtests::create([
-                        'student_id' => $student->id,
-                        'test_name' => strtoupper($test),
-                        'listening' => $values['listening'] ?? 0,
-                        'reading' => $values['reading'] ?? 0,
-                        'speaking' => $values['speaking'] ?? 0,
-                        'writing' => $values['writing'] ?? 0,
-                        'score' => $values['overall'] ?? 0,
-                        'test_date' => !empty($values['passing_year'])
-                            ? substr($values['passing_year'], 0, 4)
-                            : null,
-                    ]);
+                if (!$hasScores) {
+                    continue;
                 }
+
+                studentenglishtests::create([
+                    'student_id' => $student->id,
+                    'test_name' => strtoupper($test['test_name']),
+                    'listening' => $test['listening'] ?? 0,
+                    'reading' => $test['reading'] ?? 0,
+                    'speaking' => $test['speaking'] ?? 0,
+                    'writing' => $test['writing'] ?? 0,
+                    'score' => $test['score'] ?? 0,
+                    'test_date' => $test['test_date'] ?? null,
+                ]);
             }
 
             // 4. Documents
@@ -380,36 +429,43 @@ class RegisterController extends Controller
             }
 
             // 5. Department applications
-            if (!empty($data['step4'])) {
+            $programs = collect($data['programs'] ?? []);
 
-                $applications = collect($data['step4'])
-                    ->groupBy('university_id');
+            // Same university ko different countries/program levels mein
+            // accidentally combine hone se bachata hai.
+            $applications = $programs->groupBy(function ($program) {
+                return $program['country_id']
+                    . '_'
+                    . $program['university_id']
+                    . '_'
+                    . $program['program_level_id'];
+            });
 
-                foreach ($applications as $universityId => $apps) {
+            foreach ($applications as $apps) {
+                $firstApp = $apps->first();
 
-                    $firstApp = $apps->first();
+                $courseNames = $apps
+                    ->pluck('course')
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->toArray();
 
-                    $courseNames = $apps
-                        ->pluck('course')
-                        ->filter()
-                        ->values()
-                        ->toArray();
+                $departmentIds = $apps
+                    ->pluck('department_id')
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->toArray();
 
-                    $departmentIds = $apps
-                        ->pluck('department_id')
-                        ->filter()
-                        ->values()
-                        ->toArray();
-
-                    \App\Models\studentapplication::create([
-                        'student_id' => $student->id,
-                        'country_id' => $firstApp['country_id'],
-                        'university_id' => $universityId,
-                        'program_level_id' => $firstApp['program_level_id'],
-                        'course_name' => $courseNames,
-                        'department_id' => $departmentIds,
-                    ]);
-                }
+                \App\Models\studentapplication::create([
+                    'student_id' => $student->id,
+                    'country_id' => $firstApp['country_id'],
+                    'university_id' => $firstApp['university_id'],
+                    'program_level_id' => $firstApp['program_level_id'],
+                    'course_name' => $courseNames,
+                    'department_id' => $departmentIds,
+                ]);
             }
 
             DB::commit();

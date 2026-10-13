@@ -512,8 +512,7 @@
 
 <body>
 
-    <form action="#" method="post" id="studentProfileForm">
-        @csrf
+    <form method="post" id="studentForm">
         <!-- ================= PAGE 1 ================= -->
         <div class="page">
 
@@ -555,9 +554,9 @@
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" style="width: stretch" required></td>
+                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" required></td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" style="width: stretch" required></td>
+                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" maxlength="9" required></td>
                     </tr>
                     <tr>
                         <td class="label">Passport Valid From</td>
@@ -581,9 +580,9 @@
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="text" name="email" style="width: stretch" required></td>
+                        <td><input type="email" name="email" id="email" style="width: stretch" required></td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" style="width: stretch" required></td>
+                        <td><input type="text" name="phone" id="phone" style="width: stretch" required></td>
                     </tr>
                 </table>
             </div>
@@ -595,8 +594,7 @@
                         <td class="label">Qualification</td>
                         <td>
                             <select style="width: stretch;" name="qualification" id="qualification" required>
-                                <option value="" selected disabled>Select
-                                    qualification</option>
+                                <option value="" selected disabled>Select qualification</option>
                                 <option value="Matriculation">Matriculation</option>
                                 <option value="Intermediate">Intermediate</option>
                                 <option value="Bachelors">Bachelors</option>
@@ -604,7 +602,7 @@
                             </select>
                         </td>
                         <td class="label">Percentage / GPA</td>
-                        <td><input type="text" name="percentage" style="width: stretch"></td>
+                        <td><input type="number" step="0.01" name="percentage" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Interested Country </td>
@@ -617,7 +615,7 @@
                         </td>
                         <td class="label">Interested Program</td>
                         <td>
-                            <select style="width: stretch;" name="program_level_id" id="program_level" required>
+                            <select style="width: stretch;" name="program_level" id="program_level" required>
                                 <option value="" disabled selected>
                                     Select Program..
                                 </option>
@@ -682,6 +680,13 @@
                                     <label class="form-check-label" for="none">None</label>
                                 </div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">English Proficiency Letter Available?</td>
+                        <td>
+                            <input type="radio" name="english_proficiency" value="1">Yes
+                            <input type="radio" name="english_proficiency" value="0">No
                         </td>
                     </tr>
                 </table>
@@ -773,7 +778,7 @@
                         </span>
 
                         <input type="text" id="programSearch"
-                            placeholder="Search course, department or university..." autocomplete="off">
+                            placeholder="Search course..." autocomplete="off">
 
                         <button type="button" id="clearProgramSearch" aria-label="Clear search">
                             &times;
@@ -864,6 +869,7 @@
                         </tbody>
 
                     </table>
+                    <div id="selectedProgramsInputs"></div>
                 </div>
             </div>
         </div>
@@ -922,22 +928,22 @@
                                 <input type="hidden" name="english_tests[${index}][id]" value="">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][listening]" placeholder="Enter score">
+                                <input type="number" name="english_tests[${index}][listening]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][reading]" placeholder="Enter score">
+                                <input type="number" name="english_tests[${index}][reading]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                                <input type="number" name="english_tests[${index}][speaking]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][writing]" placeholder="Enter score">
+                                <input type="number" name="english_tests[${index}][writing]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][score]" placeholder="Enter score">
+                                <input type="number" name="english_tests[${index}][score]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
+                                <input type="number" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
                             </td>
                         </tr>
                     `;
@@ -983,13 +989,13 @@
                         <input type="number" name="education[${index}][passing_year]" placeholder="Passing Year" required>
                     </td>
                     <td>
-                        <input type="number" name="education[${index}][obtained_marks]" placeholder="Obtained Marks" step="any">
+                        <input type="number" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks" step="any">
                     </td>
                     <td>
-                        <input type="number" name="education[${index}][total_marks]" placeholder="Total Marks" step="any">
+                        <input type="number" class="total-marks" name="education[${index}][total_marks]" placeholder="Total Marks" step="any">
                     </td>
                     <td>
-                        <input type="text" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
+                        <input type="number" class="percentage-field" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
                     </td>
                 </tr>
             `;

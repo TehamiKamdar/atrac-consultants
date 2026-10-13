@@ -703,13 +703,13 @@ $(document).ready(function () {
 
     // Render selected programs
     function renderSelectedPrograms() {
-
         const tbody = $('#departmentTable');
+        const hiddenInputs = $('#selectedProgramsInputs');
 
         tbody.empty();
+        hiddenInputs.empty();
 
         if (!selectedPrograms.length) {
-
             tbody.html(`
             <tr id="noDataRow">
                 <td colspan="7" class="no-programs-message">
@@ -731,19 +731,40 @@ $(document).ready(function () {
                 <td>${escapeHtml(item.course || '-')}</td>
                 <td>${escapeHtml(item.department)}</td>
                 <td>${escapeHtml(item.university)}</td>
-
                 <td class="program-action-cell">
                     <button
                         type="button"
                         class="remove-program-btn"
                         data-index="${index}"
-                        aria-label="Remove program"
-                    >
+                        aria-label="Remove program">
                         <i class="ri-delete-bin-line"></i>
                     </button>
                 </td>
             </tr>
         `);
+
+            const fields = {
+                program_id: item.program_id,
+                program_level_id: item.program_level_id,
+                country_id: item.country_id,
+                country: item.country,
+                university_id: item.university_id,
+                university: item.university,
+                department_id: item.department_id,
+                department: item.department,
+                course_id: item.course_id || '',
+                course: item.course || ''
+            };
+
+            Object.entries(fields).forEach(function ([key, value]) {
+
+                $('<input>', {
+                    type: 'hidden',
+                    name: `programs[${index}][${key}]`,
+                    value: value ?? ''
+                }).appendTo(hiddenInputs);
+
+            });
         });
     }
 
@@ -1015,13 +1036,23 @@ $(document).ready(function () {
     });
 
     // Populating record in percentage box
-    $('#obtainedMarksMatric, #totalMarksMatric').on('input', function () {
-        calculatePercentage(
-            $('#obtainedMarksMatric'),
-            $('#totalMarksMatric'),
-            $('#percentageMatric')
-        )
-    })
+    $(document).on('input', '.obtained-marks, .total-marks', function () {
+
+        let row = $(this).closest('tr');
+
+        let obtained = parseFloat(row.find('.obtained-marks').val()) || 0;
+        let total = parseFloat(row.find('.total-marks').val()) || 0;
+
+        let percentage = total > 0
+            ? (obtained / total) * 100
+            : 0;
+
+        row.find('.percentage-field').val(
+            total > 0 ? percentage.toFixed(2) : ''
+        );
+
+    });
+
     $('#obtainedMarksIntermediate, #totalMarksIntermediate').on('input', function () {
         calculatePercentage(
             $('#obtainedMarksIntermediate'),
@@ -1546,65 +1577,53 @@ $(document).ready(function () {
     }
 
 
-    $('#studentForm').on('submit', function (e) {
-        e.preventDefault(); // prevent default submit
 
-        if (!confirm('Are you sure you want to submit this application? You won’t be able to edit it afterwards.')) return;
+    $('#studentForm').on('submit', function (e) {
+        e.preventDefault();
+
+        if (!confirm(
+            'Are you sure you want to submit this application? You won’t be able to edit it afterwards.'
+        )) {
+            return;
+        }
 
         validateDateInputs();
-        const step1 = JSON.parse(localStorage.getItem('student_step1'));
-        const step2 = prepareStep2Payload(JSON.parse(localStorage.getItem('student_step2')));
-        const englishTests = prepareEnglishTestsPayload(JSON.parse(localStorage.getItem('student_step2')));
-        const step4 = JSON.parse(localStorage.getItem('selected_programs')) || [];
-        const englishTestList = JSON.parse(localStorage.getItem('english_tests'));
-        const formData = new FormData();
 
-        console.log(`Step 1: ${step1}`)
-        console.log(`Step 1 Country: ${JSON.stringify(step1.country)}`)
-        console.log('Country Type:', typeof step1.country);
-        console.log('Is Array:', Array.isArray(step1.country));
+        const form = this;
+        const formData = new FormData(form);
 
-        // Step1
-        for (const key in step1) {
-            if (Array.isArray(step1[key])) {
-                step1[key].forEach(value => {
-                    formData.append(`step1[${key}][]`, value);
-                });
-            } else {
-                formData.append(`step1[${key}]`, step1[key]);
-            }
-        }
+        console.log($('#countries').val());
 
-        // Step2
-        for (const level in step2) {
-            for (const field in step2[level]) {
-                formData.append(`step2[${level}][${field}]`, step2[level][field]);
-            }
-        }
+        // Selected programs ko direct payload mein add karo
+        selectedPrograms.forEach(function (program, index) {
 
-        // Step4 → backend expects step4
+            Object.entries(program).forEach(function ([key, value]) {
 
-        if (Array.isArray(step4) && step4.length > 0) {
-            step4.forEach((dep, i) => {
-                for (const key in dep) {
-                    formData.append(`step4[${i}][${key}]`, dep[key]);
-                }
+                formData.append(
+                    `programs[${index}][${key}]`,
+                    value ?? ''
+                );
+
             });
-        }
 
-        // English tests
-        englishTestList.forEach((test, i) => {
-            formData.append(`english_test_list[${i}]`, test);
         });
 
-        for (const test in englishTests) {
-            for (const field in englishTests[test]) {
-                let value = englishTests[test][field];
-                if (value === null || value === undefined) value = ''; // ya 0 for numeric fields
-                formData.append(`english_tests[${test}][${field}]`, value);
-            }
+        // Agar English test list form mein separate hidden inputs se nahi aa rahi
+        const englishTestList = [];
+
+        englishTestList.forEach(function (test, index) {
+            formData.append(`english_test_list[${index}]`, test);
+        });
+
+        // CSRF token
+        if (!formData.has('_token')) {
+            formData.append(
+                '_token',
+                $('meta[name="csrf-token"]').attr('content')
+            );
         }
 
+        // Existing multiple-document file inputs
         const multipleStep3Files = [
             'cnic[]',
             'passport[]',
@@ -1628,72 +1647,73 @@ $(document).ready(function () {
             'other-certificates[]'
         ];
 
-        multipleStep3Files.forEach(name => {
+        multipleStep3Files.forEach(function (name) {
 
-            const input = document.querySelector(`input[name="${name}"]`);
+            const input = form.querySelector(`input[name="${name}"]`);
 
             if (input && input.files.length > 0) {
 
                 const fieldName = name.replace('[]', '');
 
-                Array.from(input.files).forEach(file => {
+                Array.from(input.files).forEach(function (file) {
                     formData.append(`step3[${fieldName}][]`, file);
                 });
             }
         });
 
-        // CSRF token
-        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-
-        console.log(step2);
-        console.log(step4);
-
-        // AJAX call
         $.ajax({
             url: '/student/register',
             method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
+
             beforeSend: function () {
-                $('#submitBtn').prop('disabled', true);
-                $('#submitBtn').html(`<i class="fa fa-spinner fa-spin"></i> Saving...`);
+                $('#submitBtn')
+                    .prop('disabled', true)
+                    .html('<i class="fa fa-spinner fa-spin"></i> Saving...');
             },
+
             success: function (res) {
-                $('.form-wrapper').addClass('d-none');
+
+                $('.form-wrapper').hide();
 
                 $('body').append(`
-                    <div class="success-message" id="successMessage">
-                        <div class="success-icon">
-                            <img src="/website/success-check-2.gif" alt="">
-                        </div>
-                        <h3>Registration Successful!</h3>
-                        <p>You can review and download documents from your dashboard. Thank You!
-                        </p>
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">
+                        <img src="/website/success-check-2.gif" alt="">
                     </div>
-                `)
-                localStorage.clear();
+                    <h3>Registration Successful!</h3>
+                    <p>
+                        You can review and download documents from your dashboard.
+                        Thank you!
+                    </p>
+                </div>
+            `);
+
+                localStorage.removeItem('selected_programs');
+                localStorage.removeItem('english_tests');
             },
+
             error: function (err) {
 
-                console.log(err.responseJSON)
+                console.error(err.responseJSON || err.responseText);
 
-                $('#submitBtn').prop('disabled', false);
-                $('#submitBtn').html(`<i class="ri-send-plane-fill"></i> Submit Form`);
-                let message = 'Something went wrong';
+                $('#submitBtn')
+                    .prop('disabled', false)
+                    .html('<i class="ri-send-plane-fill"></i> Submit Form');
 
-                // Laravel validation errors (422)
+                let message = 'Something went wrong. Please try again.';
+
                 if (err.status === 422 && err.responseJSON?.errors) {
                     message = Object.values(err.responseJSON.errors)
-                        .map(e => e[0])
+                        .map(function (errors) {
+                            return errors[0];
+                        })
                         .join('<br>');
-                }
-                // Normal error message
-                else if (err.responseJSON?.message) {
+                } else if (err.responseJSON?.message) {
                     message = err.responseJSON.message;
-                }
-                // Fallback
-                else if (err.statusText) {
+                } else if (err.statusText) {
                     message = err.statusText;
                 }
 
@@ -1703,9 +1723,9 @@ $(document).ready(function () {
                     position: 'topRight'
                 });
             }
-
         });
     });
+
 
 
 });

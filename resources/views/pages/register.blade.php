@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Student Profile</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -178,6 +180,333 @@
             border-top: 1px solid #e0e0e0;
             padding-top: 6px;
         }
+
+
+        /* Search wrapper */
+        .program-search-wrapper {
+            width: 100%;
+            max-width: 100%;
+            margin: 18px 0 24px;
+            position: relative;
+        }
+
+        /* Label */
+        .program-search-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Search field container */
+        .program-search-box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 8px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Search icon */
+        .program-search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 14px;
+            color: #7a8491;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Input */
+        .program-search-box input {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            height: 36px;
+            padding: 0 8px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #252525;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .program-search-box input::placeholder {
+            color: #9aa1aa;
+        }
+
+        /* Clear button */
+        #clearProgramSearch {
+            display: none;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: #737b86;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        #clearProgramSearch:hover {
+            background: #f1f3f5;
+            color: #222;
+        }
+
+        /* Hint */
+        .program-search-hint {
+            margin-top: 7px;
+            color: #7a8491;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Results container */
+        .program-results {
+            width: 100%;
+            max-height: 360px;
+            margin-top: 12px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Each result item */
+        .program-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid #e4e8ed;
+            border-radius: 8px;
+            background: #fff;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .program-result-item:hover {
+            border-color: #b6e6ce;
+            background: #fcfffd;
+        }
+
+        .program-result-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .program-result-title {
+            margin-bottom: 5px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .program-result-meta {
+            color: #737b86;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        /* Add button */
+        .add-program-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 36px;
+            min-height: 36px;
+            padding: 7px 12px;
+            flex-shrink: 0;
+            border: 1px solid #2BB673;
+            border-radius: 6px;
+            background: #2BB673;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .add-program-btn:hover:not(:disabled) {
+            background: #22965e;
+            border-color: #22965e;
+        }
+
+        .add-program-btn:disabled {
+            background: #e8f6ee;
+            border-color: #bce7ce;
+            color: #248653;
+            cursor: not-allowed;
+        }
+
+        /* Search status messages */
+        .program-results-message {
+            padding: 14px;
+            border: 1px solid #e4e8ed;
+            border-radius: 8px;
+            color: #697381;
+            background: #fff;
+            font-size: 13px;
+        }
+
+        .program-results-message.error {
+            color: #b42318;
+            border-color: #f2c7c3;
+            background: #fff8f7;
+        }
+
+        .program-results-message.warning {
+            color: #805b10;
+            border-color: #f0dfb3;
+            background: #fffaf0;
+        }
+
+
+        /* New Program Form */
+        .new-program-form {
+            width: auto;
+            margin-block: 18px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        /* Responsive 4-column layout */
+        .new-program-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .new-program-field {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .new-program-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #343a40;
+            margin: 0;
+        }
+
+        .new-program-field input {
+            width: 100%;
+            min-width: 0;
+            height: 42px;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            color: #333;
+            background: #fff;
+            border: 1px solid #d9dee5;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .new-program-field input::placeholder {
+            color: #9ca3af;
+        }
+
+        .new-program-field input:focus {
+            border-color: #2BB673;
+            box-shadow: 0 0 0 3px rgba(43, 182, 115, 0.12);
+        }
+
+        .new-program-field input:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Form buttons */
+        .new-program-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .new-program-save,
+        .new-program-cancel {
+            min-height: 38px;
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .new-program-save {
+            color: #fff;
+            background: #2BB673;
+            border: 1px solid #2BB673;
+        }
+
+        .new-program-save:hover {
+            background: #22965e;
+            border-color: #22965e;
+        }
+
+        .new-program-save:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .new-program-cancel {
+            color: #555;
+            background: #fff;
+            border: 1px solid #d9dee5;
+        }
+
+        .new-program-cancel:hover {
+            background: #f3f4f6;
+            border-color: #c5cbd3;
+        }
+
+        /* Tablet */
+        @media (max-width: 992px) {
+            .new-program-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 576px) {
+            .new-program-form {
+                padding: 14px;
+            }
+
+            .new-program-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .new-program-actions {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
 
@@ -194,7 +523,7 @@
                         <td>
                             <img src="{{ asset('website/logo.png') }}" class="logo">
                         </td>
-                        
+
                         <td class="title">
                             <h2>Student Profile</h2>
                             <p>Academic & Personal Information</p>
@@ -208,34 +537,34 @@
                 <table>
                     <tr>
                         <td class="label">First Name</td>
-                        <td><input type="text" name="first_name" style="width: stretch"></td>
+                        <td><input type="text" name="first_name" style="width: stretch" required></td>
                         <td class="label">Last Name</td>
-                        <td><input type="text" name="last_name" style="width: stretch"></td>
+                        <td><input type="text" name="last_name" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">Father Name</td>
-                        <td><input type="text" name="father_name" style="width: stretch"></td>
+                        <td><input type="text" name="father_name" style="width: stretch" required></td>
                         <td class="label">Mother Name</td>
-                        <td><input type="text" name="mother_name" style="width: stretch"></td>
+                        <td><input type="text" name="mother_name" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">Date of Birth</td>
-                        <td><input type="date" name="dob" style="width: stretch"></td>
+                        <td><input type="date" name="dob" style="width: stretch" required></td>
                         <td class="label">City</td>
-                        <td><input type="text" name="city" style="width: stretch"></td>
+                        <td><input type="text" name="city" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" style="width: stretch"></td>
+                        <td><input type="text" name="cnic" style="width: stretch" required></td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" style="width: stretch"></td>
+                        <td><input type="text" name="passport_number" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">Passport Valid From</td>
-                        <td><input type="date" name="passport_valid_from" style="width: stretch">
+                        <td><input type="date" name="passport_valid_from" style="width: stretch" required>
                         </td>
                         <td class="label">Passport Valid Thru</td>
-                        <td><input type="date" name="passport_valid_thru" style="width: stretch">
+                        <td><input type="date" name="passport_valid_thru" style="width: stretch" required>
                         </td>
                     </tr>
                 </table>
@@ -246,15 +575,15 @@
                 <table>
                     <tr>
                         <td class="label">Address</td>
-                        <td><input type="text" name="address" style="width: stretch"></td>
+                        <td><input type="text" name="address" style="width: stretch" required></td>
                         <td class="label">Postal Code</td>
                         <td><input type="text" name="postal_code" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="text" name="email" style="width: stretch"></td>
+                        <td><input type="text" name="email" style="width: stretch" required></td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" style="width: stretch"></td>
+                        <td><input type="text" name="phone" style="width: stretch" required></td>
                     </tr>
                 </table>
             </div>
@@ -288,7 +617,7 @@
                         </td>
                         <td class="label">Interested Program</td>
                         <td>
-                            <select style="width: stretch;" name="program_level_id" id="applying" required>
+                            <select style="width: stretch;" name="program_level_id" id="program_level" required>
                                 <option value="" disabled selected>
                                     Select Program..
                                 </option>
@@ -330,22 +659,26 @@
                         <td>
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <div class="form-check">
-                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="IELTS" id="ielts">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]"value="IELTS" id="ielts">
                                     <label class="form-check-label" for="ielts">IELTS</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="PTE" id="pte">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]"value="PTE" id="pte">
                                     <label class="form-check-label" for="pte">PTE</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="TOEFL" id="toefl">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]"value="TOEFL" id="toefl">
                                     <label class="form-check-label" for="toefl">TOEFL</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input english-test" type="checkbox" name="english_test[]"value="None" id="none" checked>
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]"value="None" id="none" checked>
                                     <label class="form-check-label" for="none">None</label>
                                 </div>
                             </div>
@@ -360,11 +693,14 @@
         <div class="page">
 
             <div class="section">
-                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="section-title"
+                    style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Educational Details</span>
                     <div>
-                        <button type="button" id="removeEducation" style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
-                        <button type="button" id="addEducation" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                        <button type="button" id="removeEducation"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addEducation"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
                     </div>
                 </div>
 
@@ -383,7 +719,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -393,7 +729,6 @@
                 <div class="section-title">
                     <span>English Test Details</span>
                 </div>
-
                 <div class="table-responsive">
                     <table class="table" id="englishTestTable">
                         <thead>
@@ -408,42 +743,135 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div class="section">
-                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="section-title"
+                    style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Programs Applying For</span>
                     <div>
-                        <button type="button" id="removeProgram" style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
-                        <button type="button" id="addProgram" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                        <button type="button" id="cancelNewProgram"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 12px;">Cancel</button>
+                        <button type="button" id="addNewProgramBtn"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 12px;">Add
+                            New Program</button>
                     </div>
                 </div>
-                
+                <div class="program-search-wrapper" id="programWrapper">
+
+                    <label for="programSearch" class="program-search-label">
+                        Search Programs
+                    </label>
+
+                    <div class="program-search-box">
+                        <span class="program-search-icon">
+                            <i class="ri-search-line"></i>
+                        </span>
+
+                        <input type="text" id="programSearch"
+                            placeholder="Search course, department or university..." autocomplete="off">
+
+                        <button type="button" id="clearProgramSearch" aria-label="Clear search">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div class="program-search-hint">
+                        Search by course, department or university name.
+                        Results will depend on your selected countries and program level.
+                    </div>
+
+                    <div id="programResults" class="program-results" style="display: none;"></div>
+
+                </div>
+
+
+                <div id="newProgramForm" class="new-program-form" style="display: none;">
+
+                    <div class="new-program-grid">
+
+                        <div class="new-program-field">
+                            <label for="countryName">Country</label>
+
+                            <input type="text" id="countryName" list="countryList" placeholder="Select country"
+                                autocomplete="off">
+
+                            <datalist id="countryList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="universityName">University Name</label>
+
+                            <input type="text" id="universityName" name="university_name" list="universityList"
+                                placeholder="Select or enter university" autocomplete="off" disabled>
+
+                            <datalist id="universityList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="departmentName">Department Name</label>
+
+                            <input type="text" id="departmentName" name="department_name" list="departmentList"
+                                placeholder="Select or enter department" autocomplete="off" disabled>
+
+                            <datalist id="departmentList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="courseName">Program Name</label>
+
+                            <input type="text" id="courseName" name="course_name" placeholder="Enter course name"
+                                autocomplete="off" disabled>
+                        </div>
+
+                    </div>
+
+                    <div class="new-program-actions">
+                        <button type="button" id="saveNewProgram" class="new-program-save">
+                            Add Program
+                        </button>
+                    </div>
+
+                </div>
+
+
                 <div class="table-responsive">
-                    <table class="table" id="programsTable">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Country</th>
                                 <th>Program</th>
+                                <th>Course</th>
                                 <th>Department</th>
                                 <th>University</th>
-                                <th>Intake</th>
+                                <th width="60">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+
+                        <tbody id="departmentTable">
+
+                            <tr class="text-muted text-center" id="noDataRow">
+                                <td colspan="7">
+                                    No programs added yet
+                                </td>
+                            </tr>
 
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
 
         <div style="display: flex; justify-content: end;">
-            <button type="submit" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">Create Profile</button>
+            <button type="submit"
+                style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">Create
+                Profile</button>
         </div>
     </form>
 
@@ -451,10 +879,12 @@
 
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('website/register_form.js') }}"></script>
+<script src="{{ asset('js/student-validation.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    $(document).ready(function () {
-        
+    $(document).ready(function() {
+
         $('#countries').select2({
             placeholder: 'Select countries',
             width: '100%',
@@ -462,7 +892,7 @@
         });
 
         // ENGLISH TEST CHECKBOX LOGIC
-        $('.english-test').on('change', function () {
+        $('.english-test').on('change', function() {
 
             let test = $(this).val();
 
@@ -507,7 +937,7 @@
                                 <input type="text" name="english_tests[${index}][score]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][test_date]">
+                                <input type="text" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
                             </td>
                         </tr>
                     `;
@@ -525,7 +955,7 @@
 
 
         // NEW EDUCATION ROW LOGIC
-        $('#addEducation').on('click', function () {
+        $('#addEducation').on('click', function() {
 
             let index = $('#educationTable tbody tr').length;
 
@@ -568,7 +998,7 @@
 
         });
 
-        $('#removeEducation').on('click', function () {
+        $('#removeEducation').on('click', function() {
             let rows = $('#educationTable tbody tr');
 
             // Kam az kam ek row rehne do

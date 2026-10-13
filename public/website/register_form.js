@@ -1,183 +1,340 @@
-document.getElementById('addNewProgramBtn').addEventListener('click', function () {
-    $("#universityName").val("Select Country").prop("disabled", true)
-    $("#departmentName").val("Select University").prop("disabled", true)
-    $("#courseName").val("Select Department").prop("disabled", true)
-    const step1 = JSON.parse(localStorage.getItem('student_step1'));
 
-    if (!step1 || !step1.country || !step1.country.length) {
-        return;
-    }
-    const countryIds = step1.country;
-
-    $.ajax({
-        url: '/get-countries',
-        method: 'GET',
-        data: {
-            country_ids: countryIds
-        },
-
-        beforeSend: function () {
-            $('#countryList')
-                .val('Loading...')
-                .prop('disabled', true);
-        },
-
-        success: function (data) {
-
-            $('#countryList')
-                .val('')
-                .prop('disabled', false);
-
-            $('#countryList').empty();
-
-            $.each(data, function (index, country) {
-
-                $("#countryList").append(`<option value="${country.name}">`)
-
-            });
-        },
-
-        error: function (xhr) {
-
-            console.log(xhr.responseJSON);
-
-            $('#countryList')
-                .val('')
-                .prop('disabled', false);
-        }
-    });
-
-    $('#countryName').on('input', function () {
-        $.ajax({
-            url: '/get-universities',
-            method: 'GET',
-            data: {
-                country_name: $('#countryName').val()
-            },
-            beforeSend: function () {
-                $("#universityList").empty()
-                $("#universityName").val("Loading...").prop("disabled", true);
-            },
-            success: function (data) {
-                $.each(data, function (index, university) {
-                    $("#universityList").append(`<option value="${university.name}">`)
-                })
-                $("#universityName").val("").prop("disabled", false);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseJSON);
-            },
-
-        })
-    })
-
-    $("#universityName").on('input', function () {
-        $.ajax({
-            url: '/get-departments',
-            method: 'GET',
-            data: {
-                university_name: $('#universityName').val(),
-                program_level_id: step1.applying,
-            },
-            beforeSend: function () {
-                $("#departmentList").empty()
-                $("#departmentName").val("").prop("disabled", true);
-            },
-            success: function (data) {
-                $.each(data, function (index, department) {
-                    $("#departmentList").append(`<option value="${department.name}">`)
-                });
-                $("#courseName").val("Select Department").prop("disabled", true);
-                $("#departmentName").val("").prop("disabled", false);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseJSON)
-            },
-        })
-    })
-
-    $("#departmentName").on("input", function () {
-        $("#courseName").val("").prop("disabled", false)
-    })
-
-    document.getElementById('newProgramForm').classList.remove('d-none');
-    this.classList.add('d-none');
-});
-document.getElementById('cancelNewProgram').addEventListener('click', function () {
-    document.getElementById('newProgramForm').classList.add('d-none');
-    document.getElementById('addNewProgramBtn').classList.remove('d-none');
-});
-$("#saveNewProgram").on("click", function () {
-    const step1 = JSON.parse(localStorage.getItem('student_step1'));
-    let universityName = $("#universityName").val();
-    let departmentName = $("#departmentName").val();
-    let courseName = $("#courseName").val();
-    let countryName = $("#countryName").val();
-    let programLevelId = step1.applying;
-
-    $.ajax({
-        url: '/save-new-university-department-course',
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: {
-            university_name: universityName,
-            department_name: departmentName,
-            course_name: courseName,
-            country_name: countryName,
-            program_level_id: programLevelId,
-        },
-        beforeSend: function () {
-            $("#saveNewProgram").text("Saving...").prop("disabled", true)
-            $("#countryName").prop("disabled", true);
-            $("#universityName").prop("disabled", true);
-            $("#departmentName").prop("disabled", true);
-            $("#courseName").prop("disabled", true)
-        },
-        success: function (response) {
-            console.log(response.message);
-
-            $("#saveNewProgram").text(response.message);
-
-            setTimeout(function () {
-                $("#saveNewProgram")
-                    .text("Add Program")
-                    .prop("disabled", false);
-
-                $("#countryName").val("").prop("disabled", false);
-                $("#universityName").val("");
-                $("#departmentName").val("");
-                $("#courseName").val("");
-
-            }, 1000);
-        },
-        error: function (xhr) {
-
-            console.log(xhr.responseJSON);
-
-            setTimeout(function () {
-                $("#saveNewProgram")
-                    .text("Error");
-            }, 2000)
-
-            $("#saveNewProgram").text("Add Program").prop("disabled", false);
-            $("#countryName").prop("disabled", false);
-            $("#universityName").prop("disabled", false);
-            $("#departmentName").prop("disabled", false);
-            $("#courseName").prop("disabled", false);
-
-        },
-
-    })
-})
 $(document).ready(function () {
     initStudentValidation();
-    
+
     $('#country').select2({
         placeholder: 'Select countries',
         width: '100%'
     })
+
+
+    // Add New Program form show
+    $('#addNewProgramBtn').on('click', function () {
+
+        const countryIds = $('#countries').val() || [];
+
+        if (!countryIds.length) {
+            alert('Please select at least one country first.');
+            return;
+        }
+
+        if (!getSelectedProgramLevel()) {
+            alert('Please select Program Level first.');
+            return;
+        }
+
+        $('#universityName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#departmentName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#courseName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#countryName').val('');
+        $('#countryList').empty();
+        $('#universityList').empty();
+        $('#departmentList').empty();
+
+        $('#countryList').prop('disabled', true);
+
+        $.ajax({
+            url: '/get-countries',
+            method: 'GET',
+            data: {
+                country_ids: countryIds
+            },
+
+            beforeSend: function () {
+                $('#countryName')
+                    .val('Loading...')
+                    .prop('disabled', true);
+            },
+
+            success: function (data) {
+
+                $('#countryList').empty();
+
+                $.each(data, function (index, country) {
+                    $('#countryList').append(
+                        $('<option>', {
+                            value: country.name
+                        })
+                    );
+                });
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                alert('Unable to load countries. Please try again.');
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            }
+        });
+
+        $('#newProgramForm').show();
+        $('#cancelNewProgram').show();
+        $('#programWrapper').hide()
+        $('#addNewProgramBtn').hide();
+    });
+
+
+    // Country select/input -> universities
+    $('#countryName').on('change', function () {
+
+        const countryName = $(this).val();
+
+        $('#universityList').empty();
+        $('#departmentList').empty();
+
+        $('#universityName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#departmentName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#courseName')
+            .val('')
+            .prop('disabled', true);
+
+        if (!countryName) {
+            return;
+        }
+
+        $.ajax({
+            url: '/get-universities',
+            method: 'GET',
+            data: {
+                country_name: countryName
+            },
+
+            beforeSend: function () {
+                $('#universityName').val('Loading...');
+            },
+
+            success: function (data) {
+
+                $('#universityList').empty();
+
+                $.each(data, function (index, university) {
+                    $('#universityList').append(
+                        $('<option>', {
+                            value: university.name
+                        })
+                    );
+                });
+
+                $('#universityName')
+                    .val('')
+                    .prop('disabled', false);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                $('#universityName')
+                    .val('')
+                    .prop('disabled', false);
+            }
+        });
+    });
+
+
+    // University -> departments
+    $('#universityName').on('change', function () {
+
+        const universityName = $(this).val();
+        const programLevelId = getSelectedProgramLevel();
+
+        $('#departmentList').empty();
+
+        $('#departmentName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#courseName')
+            .val('')
+            .prop('disabled', true);
+
+        if (!universityName || !programLevelId) {
+            return;
+        }
+
+        $.ajax({
+            url: '/get-departments',
+            method: 'GET',
+            data: {
+                university_name: universityName,
+                program_level_id: programLevelId
+            },
+
+            beforeSend: function () {
+                $('#departmentName').val('Loading...');
+            },
+
+            success: function (data) {
+
+                $('#departmentList').empty();
+
+                $.each(data, function (index, department) {
+                    $('#departmentList').append(
+                        $('<option>', {
+                            value: department.name
+                        })
+                    );
+                });
+
+                $('#departmentName')
+                    .val('')
+                    .prop('disabled', false);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                $('#departmentName')
+                    .val('')
+                    .prop('disabled', false);
+            }
+        });
+    });
+
+
+    // Department select -> enable course field
+    $('#departmentName').on('change', function () {
+
+        $('#courseName')
+            .val('')
+            .prop('disabled', !$(this).val());
+    });
+
+
+    // Cancel new program
+    $('#cancelNewProgram').on('click', function () {
+
+        $('#newProgramForm').hide();
+        $('#cancelNewProgram').hide();
+        $('#programWrapper').show()
+        $('#addNewProgramBtn').show();
+
+        $('#countryName, #universityName, #departmentName, #courseName')
+            .val('');
+
+        $('#universityName, #departmentName, #courseName')
+            .prop('disabled', true);
+
+        $('#countryList, #universityList, #departmentList').empty();
+    });
+
+
+    // Save new program
+    $('#saveNewProgram').on('click', function () {
+
+        const countryName = $('#countryName').val();
+        const universityName = $('#universityName').val();
+        const departmentName = $('#departmentName').val();
+        const courseName = $('#courseName').val();
+        const programLevelId = getSelectedProgramLevel();
+
+        if (!countryName || !universityName || !departmentName || !programLevelId) {
+            alert('Please complete Country, University, Department and Program Level.');
+            return;
+        }
+
+        const button = $('#saveNewProgram');
+
+        $.ajax({
+            url: '/save-new-university-department-course',
+            method: 'POST',
+
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+
+            data: {
+                university_name: universityName,
+                department_name: departmentName,
+                course_name: courseName,
+                country_name: countryName,
+                program_level_id: programLevelId
+            },
+
+            beforeSend: function () {
+                button.text('Saving...').prop('disabled', true);
+
+                $('#countryName, #universityName, #departmentName, #courseName')
+                    .prop('disabled', true);
+            },
+
+            success: function (response) {
+
+                button.text(response.message || 'Program added successfully');
+
+                setTimeout(function () {
+
+                    button.text('Add Program').prop('disabled', false);
+
+                    $('#countryName').val('').prop('disabled', false);
+
+                    $('#universityName')
+                        .val('')
+                        .prop('disabled', true);
+
+                    $('#departmentName')
+                        .val('')
+                        .prop('disabled', true);
+
+                    $('#courseName')
+                        .val('')
+                        .prop('disabled', true);
+
+                    $('#countryList, #universityList, #departmentList').empty();
+
+                }, 1200);
+            },
+
+            error: function (xhr) {
+
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                const message = xhr.responseJSON?.message
+                    || 'Unable to add program. Please try again.';
+
+                button.text(message);
+
+                setTimeout(function () {
+                    button.text('Add Program');
+                }, 2000);
+            },
+
+            complete: function () {
+                button.prop('disabled', false);
+
+                $('#countryName').prop('disabled', false);
+
+                // In fields ko selection hone tak disabled rakhna hai.
+                $('#universityName').prop('disabled', !$('#countryName').val());
+                $('#departmentName').prop('disabled', !$('#universityName').val());
+                $('#courseName').prop('disabled', !$('#departmentName').val());
+            }
+        });
+    });
+
+
+
     function validateDateInputs() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -281,45 +438,54 @@ $(document).ready(function () {
 
     let searchTimeout = null;
 
+    $('#clearProgramSearch').on('click', function () {
+        $('#programSearch').val('');
+        $(this).hide();
+        $('#programResults').empty().hide();
+    });
+
+
     $('#programSearch').on('input', function () {
-        $('#programResults').removeClass("d-none")
+        $('#clearProgramSearch').toggle($(this).val().length > 0);
 
         const search = $(this).val().trim();
-        const step1 = JSON.parse(localStorage.getItem('student_step1'));
 
         clearTimeout(searchTimeout);
 
-        // 2 characters se kam par results hide
-        if (search.length == 0) {
-            $('#programResults').addClass('d-none');
+        if (search.length === 0) {
+            $('#programResults').hide().empty();
             return;
         }
 
         if (search.length < 2) {
-            $('#programResults').html('');
+            $('#programResults').empty().hide();
             return;
         }
 
         searchTimeout = setTimeout(function () {
 
+            const countryIds = getSelectedCountries();
+            const programLevelId = getSelectedProgramLevel();
 
-            const countryIds = step1.country;
-            const programLevelId = step1.applying;
-
-            if (!countryIds || !countryIds.length || !programLevelId) {
-                $('#programResults').html(`
-                    <div class="alert alert-warning">
+            if (!countryIds.length || !programLevelId) {
+                $('#programResults')
+                    .html(`
+                    <div class="program-results-message warning">
                         Please select Country and Program Level first.
                     </div>
-                `);
+                `)
+                    .show();
+
                 return;
             }
 
-            $('#programResults').html(`
-                <div class="text-muted p-3">
+            $('#programResults')
+                .html(`
+                <div class="program-results-message">
                     Searching...
                 </div>
-            `);
+            `)
+                .show();
 
             $.ajax({
                 url: '/get-programs',
@@ -333,11 +499,14 @@ $(document).ready(function () {
                 success: function (data) {
 
                     if (!data.length) {
-                        $('#programResults').html(`
-                            <div class="text-muted p-3 border rounded">
+                        $('#programResults')
+                            .html(`
+                            <div class="program-results-message">
                                 No matching program, course, department or university found.
                             </div>
-                        `);
+                        `)
+                            .show();
+
                         return;
                     }
 
@@ -354,6 +523,7 @@ $(document).ready(function () {
                             : '';
 
                         const countryName = program.university?.country?.name || '';
+                        const countryId = program.university?.country_id || '';
 
                         program.departments.forEach(function (department) {
 
@@ -361,144 +531,154 @@ $(document).ready(function () {
 
                                 department.courses.forEach(function (course) {
 
-                                    const alreadySelected =
-                                        selectedPrograms.some(function (item) {
-                                            return item.program_id == program.id &&
-                                                item.department_id == department.id &&
-                                                item.course_id == course.id;
-                                        });
+                                    const alreadySelected = selectedPrograms.some(function (item) {
+                                        return item.program_id == program.id &&
+                                            item.department_id == department.id &&
+                                            item.course_id == course.id;
+                                    });
 
                                     html += `
-                                                        <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                    <div class="program-result-item">
 
-                                                            <div>
-                                                                <div class="fw-semibold">
-                                                                    ${escapeHtml(course.name)}
-                                                                </div>
+                                        <div class="program-result-info">
+                                            <div class="program-result-title">
+                                                ${escapeHtml(course.name)}
+                                            </div>
 
-                                                                <div class="small text-muted">
-                                                                    ${escapeHtml(department.name)}
-                                                                    &nbsp; • &nbsp;
-                                                                    ${escapeHtml(universityName)}
-                                                                    &nbsp; • &nbsp;
-                                                                    ${escapeHtml(levelName)}
-                                                                    &nbsp; • &nbsp;
-                                                                    ${escapeHtml(countryName)}
-                                                                </div>
-                                                            </div>
+                                            <div class="program-result-meta">
+                                                ${escapeHtml(department.name)}
+                                                &nbsp; • &nbsp;
+                                                ${escapeHtml(universityName)}
+                                                &nbsp; • &nbsp;
+                                                ${escapeHtml(levelName)}
+                                                &nbsp; • &nbsp;
+                                                ${escapeHtml(countryName)}
+                                            </div>
+                                        </div>
 
-                                                            <button
-                                                                type="button"
-                                                                class="btn btn-success btn-sm add-program-btn"
-                                                                data-program-id="${program.id}"
-                                                                data-program-level-id="${program.program_level_id}"
-                                                                data-program-level="${escapeHtml(levelName)}"
-                                                                data-department-id="${department.id}"
-                                                                data-department="${escapeHtml(department.name)}"
-                                                                data-course-id="${course.id}"
-                                                                data-course="${escapeHtml(course.name)}"
-                                                                data-country="${escapeHtml(countryName)}"
-                                                                data-country-id="${program.university.country_id}"
-                                                                data-university-id="${program.university_id}"
-                                                                data-university="${escapeHtml(universityName)}"
-                                                                ${alreadySelected ? 'disabled' : ''}
-                                                            >
-                                                                <i class="ri-add-line"></i>
-                                                            </button>
+                                        <button
+                                            type="button"
+                                            class="add-program-btn"
+                                            data-program-id="${program.id}"
+                                            data-program-level-id="${program.program_level_id}"
+                                            data-program-level="${escapeHtml(levelName)}"
+                                            data-department-id="${department.id}"
+                                            data-department="${escapeHtml(department.name)}"
+                                            data-course-id="${course.id}"
+                                            data-course="${escapeHtml(course.name)}"
+                                            data-country="${escapeHtml(countryName)}"
+                                            data-country-id="${countryId}"
+                                            data-university-id="${program.university_id}"
+                                            data-university="${escapeHtml(universityName)}"
+                                            ${alreadySelected ? 'disabled' : ''}
+                                            aria-label="Add ${escapeHtml(course.name)}"
+                                        >
+                                            <i class="ri-add-line"></i>
+                                        </button>
 
-                                                        </div>
-                                                    `;
+                                    </div>
+                                `;
                                 });
 
                             } else {
 
-                                // Department ke courses nahi hain
-                                const alreadySelected =
-                                    selectedPrograms.some(function (item) {
-                                        return item.program_id == program.id &&
-                                            item.department_id == department.id &&
-                                            !item.course_id;
-                                    });
+                                const alreadySelected = selectedPrograms.some(function (item) {
+                                    return item.program_id == program.id &&
+                                        item.department_id == department.id &&
+                                        !item.course_id;
+                                });
 
                                 html += `
-                                                    <div class="program-result-item d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                                <div class="program-result-item">
 
-                                                        <div>
-                                                            <div class="fw-semibold">
-                                                                ${escapeHtml(department.name)}
-                                                            </div>
+                                    <div class="program-result-info">
+                                        <div class="program-result-title">
+                                            ${escapeHtml(department.name)}
+                                        </div>
 
-                                                            <div class="small text-muted">
-                                                                ${escapeHtml(universityName)}
-                                                                &nbsp; • &nbsp;
-                                                                ${escapeHtml(levelName)}
-                                                            </div>
-                                                        </div>
+                                        <div class="program-result-meta">
+                                            ${escapeHtml(universityName)}
+                                            &nbsp; • &nbsp;
+                                            ${escapeHtml(levelName)}
+                                            &nbsp; • &nbsp;
+                                            ${escapeHtml(countryName)}
+                                        </div>
+                                    </div>
 
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-success btn-sm add-program-btn"
-                                                            data-program-id="${program.id}"
-                                                            data-program-level-id="${program.program_level_id}"
-                                                            data-program-level="${escapeHtml(levelName)}"
-                                                            data-department-id="${department.id}"
-                                                            data-department="${escapeHtml(department.name)}"
-                                                            data-country="${escapeHtml(countryName)}"
-                                                            data-country-id="${program.university.country_id}"
-                                                            data-course-id=""
-                                                            data-course=""
-                                                            data-university-id="${program.university_id}"
-                                                            data-university="${escapeHtml(universityName)}"
-                                                            ${alreadySelected ? 'disabled' : ''}
-                                                        >
-                                                            <i class="ri-add-line"></i>
-                                                        </button>
+                                    <button
+                                        type="button"
+                                        class="add-program-btn"
+                                        data-program-id="${program.id}"
+                                        data-program-level-id="${program.program_level_id}"
+                                        data-program-level="${escapeHtml(levelName)}"
+                                        data-department-id="${department.id}"
+                                        data-department="${escapeHtml(department.name)}"
+                                        data-course-id=""
+                                        data-course=""
+                                        data-country="${escapeHtml(countryName)}"
+                                        data-country-id="${countryId}"
+                                        data-university-id="${program.university_id}"
+                                        data-university="${escapeHtml(universityName)}"
+                                        ${alreadySelected ? 'disabled' : ''}
+                                        aria-label="Add ${escapeHtml(department.name)}"
+                                    >
+                                        <i class="ri-add-line"></i>
+                                    </button>
 
-                                                    </div>
-                                                `;
+                                </div>
+                            `;
                             }
-
                         });
-
                     });
 
-                    $('#programResults').html(html);
+                    if (!html) {
+                        html = `
+                        <div class="program-results-message">
+                            No courses or departments are available for these programs.
+                        </div>
+                    `;
+                    }
+
+                    $('#programResults').html(html).show();
                 },
 
                 error: function (xhr) {
 
                     console.error(xhr);
 
-                    $('#programResults').html(`
-                                        <div class="alert alert-danger">
-                                            Unable to search programs. Please try again.
-                                        </div>
-                                    `);
+                    $('#programResults')
+                        .html(`
+                        <div class="program-results-message error">
+                            Unable to search programs. Please try again.
+                        </div>
+                    `)
+                        .show();
                 }
             });
 
         }, 300);
     });
 
+
+    // Add program
     $(document).on('click', '.add-program-btn', function () {
 
         const button = $(this);
 
         const item = {
-            program_id: button.data('program-id'),
-            program_level_id: button.data('program-level-id'),
-            program_level: button.data('program-level'),
-            department_id: button.data('department-id'),
-            department: button.data('department'),
-            course_id: button.data('course-id') || null,
-            course: button.data('course') || '',
-            university_id: button.data('university-id'),
-            university: button.data('university'),
-            country: button.data('country'),
-            country_id: button.data('country-id'),
+            program_id: button.attr('data-program-id'),
+            program_level_id: button.attr('data-program-level-id'),
+            program_level: button.attr('data-program-level'),
+            department_id: button.attr('data-department-id'),
+            department: button.attr('data-department'),
+            course_id: button.attr('data-course-id') || null,
+            course: button.attr('data-course') || '',
+            university_id: button.attr('data-university-id'),
+            university: button.attr('data-university'),
+            country: button.attr('data-country'),
+            country_id: button.attr('data-country-id')
         };
 
-        // Duplicate check
         const exists = selectedPrograms.some(function (selected) {
             return selected.program_id == item.program_id &&
                 selected.department_id == item.department_id &&
@@ -513,13 +693,15 @@ $(document).ready(function () {
 
         renderSelectedPrograms();
 
-        // Button disable
         button.prop('disabled', true);
 
         $('#programSearch').val('').trigger('input');
+
         saveSelectedPrograms();
     });
 
+
+    // Render selected programs
     function renderSelectedPrograms() {
 
         const tbody = $('#departmentTable');
@@ -529,12 +711,12 @@ $(document).ready(function () {
         if (!selectedPrograms.length) {
 
             tbody.html(`
-                                <tr class="text-muted text-center" id="noDataRow">
-                                    <td colspan="7">
-                                        No programs added yet
-                                    </td>
-                                </tr>
-                            `);
+            <tr id="noDataRow">
+                <td colspan="7" class="no-programs-message">
+                    No programs added yet
+                </td>
+            </tr>
+        `);
 
             return;
         }
@@ -542,68 +724,65 @@ $(document).ready(function () {
         selectedPrograms.forEach(function (item, index) {
 
             tbody.append(`
-                                <tr>
+            <tr>
+                <td>${index + 1}</td>
+                <td>${escapeHtml(item.country)}</td>
+                <td>${escapeHtml(item.program_level)}</td>
+                <td>${escapeHtml(item.course || '-')}</td>
+                <td>${escapeHtml(item.department)}</td>
+                <td>${escapeHtml(item.university)}</td>
 
-                                    <td>
-                                        ${index + 1}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(item.country)}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(item.program_level)}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(item.course || '-')}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(item.department)}
-                                    </td>
-
-                                    <td>
-                                        ${escapeHtml(item.university)}
-                                    </td>
-
-                                    <td class="text-center">
-                                        <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-danger remove-program-btn"
-                                            data-index="${index}">
-                                            <i class="ri-delete-bin-line"></i>
-                                        </button>
-                                    </td>
-
-                                </tr>
-                            `);
+                <td class="program-action-cell">
+                    <button
+                        type="button"
+                        class="remove-program-btn"
+                        data-index="${index}"
+                        aria-label="Remove program"
+                    >
+                        <i class="ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            </tr>
+        `);
         });
     }
 
+
+    // Remove program
     $(document).on('click', '.remove-program-btn', function () {
 
-        const index = $(this).data('index');
+        const index = Number($(this).attr('data-index'));
 
         selectedPrograms.splice(index, 1);
 
         renderSelectedPrograms();
 
-        // Search results ke buttons dobara enable karna
+        saveSelectedPrograms();
+
         refreshSearchResults();
     });
+
 
     function refreshSearchResults() {
         $('#programSearch').trigger('input');
     }
 
-    function escapeHtml(value) {
 
-        return $('<div>')
-            .text(value ?? '')
-            .html();
+    // HTML escaping
+    function escapeHtml(value) {
+        return $('<div>').text(value ?? '').html();
     }
+
+
+    // Current form values
+    function getSelectedCountries() {
+        return $('#countries').val() || [];
+    }
+
+    function getSelectedProgramLevel() {
+        return $('#program_level').val() || '';
+    }
+
 
     const STEP1_KEY = 'student_step1';
     const STEP2_KEY = 'student_step2';
@@ -719,7 +898,7 @@ $(document).ready(function () {
             '.doc-intermediate-marksheet, .doc-intermediate-certificate,' +
             '.doc-bachelors-transcript, .doc-bachelors-degree,' +
             '.doc-masters-transcript, .doc-masters-degree,' +
-            '.doc-ielts, .doc-toefl, .doc-pte', 
+            '.doc-ielts, .doc-toefl, .doc-pte',
         );
 
         allDocs
@@ -1425,7 +1604,7 @@ $(document).ready(function () {
                 formData.append(`english_tests[${test}][${field}]`, value);
             }
         }
-        
+
         const multipleStep3Files = [
             'cnic[]',
             'passport[]',

@@ -34,7 +34,8 @@ class HomeController extends Controller
 
     public function about()
     {
-        return view('web.about');
+        $countries = country::all();
+        return view('web.about', compact('countries'));
     }
 
     public function faqs()
@@ -45,14 +46,15 @@ class HomeController extends Controller
 
     public function showContactForm()
     {
+        $countries = country::all();
         $sim_codes = sim_codes::all();
         $offices = Office::where('status', '1')->get();
-        return view('web.contact', compact('sim_codes', 'offices'));
+        return view('web.contact', compact('sim_codes', 'offices', 'countries'));
     }
 
     public function contact(Request $request)
     {
-
+        
         // RateLimiter key: IP-based
         $key = 'contact-form:'.$request->ip();
         if (RateLimiter::tooManyAttempts($key, 1)) {
@@ -88,7 +90,7 @@ class HomeController extends Controller
 
     public function detailsShow($slug)
     {
-
+        $countries = country::all();
         // return $name;
         $details = countrydetails::join('countries', 'countrydetails.country_id', '=', 'countries.id')
             ->where('countries.slug', $slug)
@@ -101,7 +103,7 @@ class HomeController extends Controller
         $countryName = $details->name;
         $country_id = $details->country_id;
 
-        return view('web.details', compact('details', 'countryName'));
+        return view('web.details', compact('details', 'countryName', 'countries'));
     }
 
     public function store(Request $request)
@@ -214,7 +216,7 @@ class HomeController extends Controller
 
     public function getUniversities($slug)
     {
-
+        $countries = country::all();
         $country = country::where('slug', '=', $slug)->select('id', 'name')->first();
         $countryName = $country->name;
         $universities = university::where('universities.country_id', '=', $country->id)
@@ -229,11 +231,12 @@ class HomeController extends Controller
         //     ->get();
 
         // return $universities;
-        return view('web.uni_list', compact('universities', 'countryName'));
+        return view('web.uni_list', compact('universities', 'countries', 'countryName'));
     }
 
     public function uniDetails($countryslug, $slug)
     {
+        $countries = country::all();
         $countryId = country::where('slug', '=', $countryslug)->value('id');
 
         $university = university::with(['programs.departments.courses', 'programs.level'])
@@ -269,7 +272,8 @@ class HomeController extends Controller
             'programsByLevel',
             'description',
             'meta_title',
-            'meta_description'
+            'meta_description',
+            'countries'
         ));
     }
 

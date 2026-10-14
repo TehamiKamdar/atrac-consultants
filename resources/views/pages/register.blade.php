@@ -5,11 +5,16 @@
     <meta charset="UTF-8">
     <title>Student Profile</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="{{ asset('assets/remixicons/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/iziToast/iziToast.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <style>
         body {
-            font-family: DejaVu Sans, sans-serif;
+            font-family: "Google Sans", sans-serif;
             font-size: 12px;
             color: #212529;
             /* --dark */
@@ -485,6 +490,21 @@
             border-color: #c5cbd3;
         }
 
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .is-invalid {
+            border: 1px solid #dc3545 !important;
+        }
+
+        .is-valid {
+            border: 1px solid #000 !important;
+        }
+
         /* Tablet */
         @media (max-width: 992px) {
             .new-program-grid {
@@ -524,7 +544,7 @@
                         </td>
 
                         <td class="title">
-                            <h2>Student Profile</h2>
+                            <h2>Create Student Profile</h2>
                             <p>Academic & Personal Information</p>
                         </td>
                     </tr>
@@ -554,9 +574,9 @@
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" required></td>
+                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" required><span class="error-message" id="cnic-error"></span></td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" maxlength="9" required></td>
+                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" maxlength="9" required><span class="error-message" id="passport-error"></span></td>
                     </tr>
                     <tr>
                         <td class="label">Passport Valid From</td>
@@ -580,9 +600,9 @@
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="email" name="email" id="email" style="width: stretch" required></td>
+                        <td><input type="email" name="email" id="email" style="width: stretch" required><span class="error-message" id="email-error"></span></td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" id="phone" style="width: stretch" required></td>
+                        <td><input type="text" name="phone" id="phone" style="width: stretch" required><span class="error-message" id="phone-error"></span></td>
                     </tr>
                 </table>
             </div>
@@ -602,7 +622,7 @@
                             </select>
                         </td>
                         <td class="label">Percentage / GPA</td>
-                        <td><input type="number" step="0.01" name="percentage" style="width: stretch"></td>
+                        <td><input type="number" step="any" name="percentage" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Interested Country </td>
@@ -658,25 +678,25 @@
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <div class="form-check">
                                     <input class="form-check-input english-test" type="checkbox"
-                                        name="english_test[]"value="IELTS" id="ielts">
+                                        name="english_test[]" value="IELTS" id="ielts">
                                     <label class="form-check-label" for="ielts">IELTS</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input english-test" type="checkbox"
-                                        name="english_test[]"value="PTE" id="pte">
+                                        name="english_test[]" value="PTE" id="pte">
                                     <label class="form-check-label" for="pte">PTE</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input english-test" type="checkbox"
-                                        name="english_test[]"value="TOEFL" id="toefl">
+                                        name="english_test[]" value="TOEFL" id="toefl">
                                     <label class="form-check-label" for="toefl">TOEFL</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input english-test" type="checkbox"
-                                        name="english_test[]"value="None" id="none" checked>
+                                        name="english_test[]" value="None" id="none" checked>
                                     <label class="form-check-label" for="none">None</label>
                                 </div>
                             </div>
@@ -875,9 +895,9 @@
         </div>
 
         <div style="display: flex; justify-content: end;">
-            <button type="submit"
-                style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">Create
-                Profile</button>
+            <button type="submit" id="submitBtn" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">
+                Create Profile
+            </button>
         </div>
     </form>
 
@@ -885,17 +905,12 @@
 
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/student-form.js') }}"></script>
 <script src="{{ asset('website/register_form.js') }}"></script>
-<script src="{{ asset('js/student-validation.js') }}"></script>
+<script src="{{ asset('assets/iziToast/iziToast.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
-
-        $('#countries').select2({
-            placeholder: 'Select countries',
-            width: '100%',
-            allowClear: true
-        });
 
         // ENGLISH TEST CHECKBOX LOGIC
         $('.english-test').on('change', function() {
@@ -928,22 +943,22 @@
                                 <input type="hidden" name="english_tests[${index}][id]" value="">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][listening]" placeholder="Enter score">
+                                <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][reading]" placeholder="Enter score">
+                                <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                                <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][writing]" placeholder="Enter score">
+                                <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][score]" placeholder="Enter score">
+                                <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
+                                <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
                             </td>
                         </tr>
                     `;
@@ -986,16 +1001,16 @@
                         <input type="text" name="education[${index}][subject]" placeholder="Subject" required>
                     </td>
                     <td>
-                        <input type="number" name="education[${index}][passing_year]" placeholder="Passing Year" required>
+                        <input type="number" step="any" name="education[${index}][passing_year]" placeholder="Passing Year" required>
                     </td>
                     <td>
-                        <input type="number" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks" step="any">
+                        <input type="number" step="any" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks">
                     </td>
                     <td>
-                        <input type="number" class="total-marks" name="education[${index}][total_marks]" placeholder="Total Marks" step="any">
+                        <input type="number" step="any" class="total-marks" name="education[${index}][total_marks]" placeholder="Total Marks" >
                     </td>
                     <td>
-                        <input type="number" class="percentage-field" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
+                        <input type="number" step="any" class="percentage-field" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
                     </td>
                 </tr>
             `;

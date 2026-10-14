@@ -473,7 +473,7 @@ class RegisterController extends Controller
             return response()->json([
                 'success' => true,
                 'id' => $student->id,
-                'message' => 'Student Registered'
+                'message' => 'Profile Created'
             ]);
 
         } catch (\Throwable $e) {

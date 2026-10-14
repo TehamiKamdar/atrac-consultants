@@ -408,22 +408,22 @@
                                         <input type="hidden" name="english_tests[${index}][id]" value="">
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score">
+                                        <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score">
+                                        <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                                        <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score">
+                                        <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score">
+                                        <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
+                                        <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year" required>
                                     </td>
                                 </tr>
                             `;

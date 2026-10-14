@@ -430,66 +430,66 @@
         });
 
         // ENGLISH TEST CHECKBOX LOGIC
-        $('.english-test').on('change', function() {
+            $('.english-test').on('change', function () {
 
-            let test = $(this).val();
+                let test = $(this).val();
 
-            if (test === 'None' && $(this).is(':checked')) {
-                $('.english-test').not(this).prop('checked', false);
-                $('#englishTestTable tbody').empty();
-                return;
-            }
-
-            if (test !== 'None' && $(this).is(':checked')) {
-                $('#none').prop('checked', false);
-            }
-
-            if ($(this).is(':checked')) {
-
-                let existingRow = $('#englishTestTable tbody tr[data-test="' + test + '"]');
-
-                if (existingRow.length === 0) {
-
-                    let index = $('#englishTestTable tbody tr').length;
-
-                    let row = `
-                        <tr data-test="${test}" data-index="${index}">
-                            <td>
-                                ${test}
-                                <input type="hidden" name="english_tests[${index}][test_name]" value="${test}">
-                                <input type="hidden" name="english_tests[${index}][id]" value="">
-                            </td>
-                            <td>
-                                <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score">
-                            </td>
-                            <td>
-                                <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score">
-                            </td>
-                            <td>
-                                <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score">
-                            </td>
-                            <td>
-                                <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score">
-                            </td>
-                            <td>
-                                <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score">
-                            </td>
-                            <td>
-                                <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
-                            </td>
-                        </tr>
-                    `;
-
-                    $('#englishTestTable tbody').append(row);
+                if (test === 'None' && $(this).is(':checked')) {
+                    $('.english-test').not(this).prop('checked', false);
+                    $('#englishTestTable tbody').empty();
+                    return;
                 }
 
-            } else {
+                if (test !== 'None' && $(this).is(':checked')) {
+                    $('#none').prop('checked', false);
+                }
 
-                $('#englishTestTable tbody tr[data-test="' + test + '"]').remove();
+                if ($(this).is(':checked')) {
 
-            }
+                    let existingRow = $('#englishTestTable tbody tr[data-test="' + test + '"]');
 
-        });
+                    if (existingRow.length === 0) {
+
+                        let index = $('#englishTestTable tbody tr').length;
+
+                        let row = `
+                                <tr data-test="${test}" data-index="${index}">
+                                    <td>
+                                        ${test}
+                                        <input type="hidden" name="english_tests[${index}][test_name]" value="${test}">
+                                        <input type="hidden" name="english_tests[${index}][id]" value="">
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year" required>
+                                    </td>
+                                </tr>
+                            `;
+
+                        $('#englishTestTable tbody').append(row);
+                    }
+
+                } else {
+
+                    $('#englishTestTable tbody tr[data-test="' + test + '"]').remove();
+
+                }
+
+            });
 
 
         // NEW EDUCATION ROW LOGIC

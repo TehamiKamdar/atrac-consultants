@@ -35,7 +35,8 @@ class AuthController extends Controller
         // No remember flag
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // Prevent session fixation
-            return redirect()->intended('admin/dashboard');
+            $request->session()->forget('url.intended');
+            return redirect()->route('admin-home');
         }
 
         return back()->with(

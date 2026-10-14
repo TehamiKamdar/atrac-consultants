@@ -574,7 +574,7 @@
 
         $(document).on('click', '#downloadProfileBtn', function () {
             let id = $(this).data('id');
-            let url = `/generate/student/profile/${id}`;
+            let url = `/admin/generate/student/profile/${id}`;
             window.open(url, '_blank');
         });
 

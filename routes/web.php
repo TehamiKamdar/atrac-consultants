@@ -72,8 +72,7 @@ Route::get('/check-student-phone/{studentId?}', [RegisterController::class, 'che
 Route::get('create/student/profile', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::post('save-new-university-department-course', [RegisterController::class , 'storeNewUniversityDepartmentCourse'])->name('student.new.university.department.course');
-Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
-Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
+
 Route::put('/profile/update', [PdfController::class, 'update'])->name('profile.update');
 Route::get('download/student/documents/{folder}', [DocumentController::class , 'downloadDocuments']);
 

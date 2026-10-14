@@ -1,6 +1,4 @@
 <?php
-use App\Http\Controllers\Admin\LinkController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\ContactController;
@@ -8,10 +6,13 @@ use App\Http\Controllers\Admin\CountryDetailsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\UniversityController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PdfController;
+use Illuminate\Support\Facades\Route;
 
 //Admin Routes
 
@@ -137,6 +138,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::prefix('links')->group(function(){
         Route::get('create', [LinkController::class , 'create'])->name('admin-links-create');
     });
+    Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);
+    Route::get('view/student/profile/{id}', [PdfController::class , 'viewPdf']);
 });
 
 Route::get('/admin/stop-impersonation', [StudentController::class , 'stopImpersonation'])->name('admin.students.stop-impersonation');

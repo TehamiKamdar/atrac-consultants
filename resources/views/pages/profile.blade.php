@@ -289,12 +289,12 @@
                                         <input type="hidden" name="english_tests[{{ $index }}][test_name]" value="{{ $test->test_name }}">
                                         {{ $test->test_name }}
                                     </td>
-                                    <td><input type="number" step="any" class="listening" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}"></td>
-                                    <td><input type="number" step="any" class="reading" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}"></td>
-                                    <td><input type="number" step="any" class="speaking" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}"></td>
-                                    <td><input type="number" step="any" class="writing" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}"></td>
-                                    <td><input type="number" step="any" class="score" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}"></td>
-                                    <td><input type="number" step="any" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}">
+                                    <td><input type="number" step="any" class="listening" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}" required></td>
+                                    <td><input type="number" step="any" class="reading" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}" required></td>
+                                    <td><input type="number" step="any" class="speaking" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}" required></td>
+                                    <td><input type="number" step="any" class="writing" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}" required></td>
+                                    <td><input type="number" step="any" class="score" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}" required></td>
+                                    <td><input type="number" step="any" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}" required>
                                 </tr>
                             @endforeach
                         @else

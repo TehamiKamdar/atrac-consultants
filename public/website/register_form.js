@@ -101,7 +101,7 @@ $(document).ready(function () {
                     position: 'topRight'
                 }, 3000);
 
-                form.reset();
+                window.location.reload()
             },
 
             error: function (err) {
@@ -110,7 +110,7 @@ $(document).ready(function () {
 
                 $('#submitBtn')
                     .prop('disabled', false)
-                    .html('<i class="ri-send-plane-fill"></i> Submit Form');
+                    .html('Create Profile');
 
                 let message = 'Something went wrong. Please try again.';
 

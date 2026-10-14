@@ -281,7 +281,7 @@ class RegisterController extends Controller
                 'english_tests.*.speaking' => 'nullable|numeric',
                 'english_tests.*.writing' => 'nullable|numeric',
                 'english_tests.*.score' => 'nullable|numeric',
-                'english_tests.*.test_date' => 'nullable|date',
+                'english_tests.*.test_date' => 'nullable|integer|min:1900|max:' . (date('Y') + 10),
 
                 'programs' => 'nullable|array',
                 'programs.*.program_level_id' => 'required_with:programs|integer',
@@ -443,12 +443,14 @@ class RegisterController extends Controller
 
             foreach ($applications as $apps) {
                 $firstApp = $apps->first();
-
-                $courseNames = $apps
-                    ->pluck('course')
+                $courseIds = $apps
+                    ->pluck('course_id')
                     ->filter()
                     ->unique()
-                    ->values()
+                    ->values();
+
+                $courseNames = course::whereIn('id', $courseIds)
+                    ->pluck('name')
                     ->toArray();
 
                 $departmentIds = $apps

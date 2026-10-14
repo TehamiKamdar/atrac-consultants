@@ -365,7 +365,12 @@
             <div class="section">
                 <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Educational Details</span>
-                    <button type="button" id="addEducation" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 10px; font-size: 20px;">+</button>
+                    <div>
+                        <button type="button" id="removeEducation"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addEducation"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                    </div>
                 </div>
 
                 <table class="table" id="educationTable">
@@ -644,10 +649,9 @@
             let index = $('#educationTable tbody tr').length;
 
             let newRow = `
-                <tr data-index="${index}">
+                <tr data-index="${index}" class="extra-education-row">
                     <td>
                         <input type="hidden" name="education[${index}][id]" value="">
-
                         <input type="text" name="education[${index}][level]" placeholder="Education Level" required>
                     </td>
                     <td>
@@ -660,7 +664,7 @@
                         <input type="text" name="education[${index}][subject]" placeholder="Subject" required>
                     </td>
                     <td>
-                        <input type="number" step="any" name="education[${index}][passing_year]" placeholder="Passing Year" required>
+                        <input type="number" name="education[${index}][passing_year]" placeholder="Passing Year" required>
                     </td>
                     <td>
                         <input type="number" step="any" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks">
@@ -676,6 +680,23 @@
 
             $('#educationTable tbody').append(newRow);
 
+            $('#removeEducation').show();
+        });
+
+
+        // Sirf newly added rows remove hongi
+        $(document).on('click', '#removeEducation', function () {
+
+            let rows = $('#educationTable tbody tr.extra-education-row');
+
+            // Kam az kam ek row rehne do
+            if (rows.length >= 1) {
+                rows.last().remove();
+            }
+
+            if ($('#educationTable tbody tr.extra-education-row').length <= 1) {
+                $('#removeEducation').hide();
+            }
         });
 
         $('form').on('submit', function () {

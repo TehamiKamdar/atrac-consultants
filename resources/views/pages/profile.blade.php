@@ -579,7 +579,7 @@
         });
 
         // ENGLISH TEST CHECKBOX LOGIC
-        $('.english-test').on('change', function () {
+        $('.english-test').on('change', function() {
 
             let test = $(this).val();
 
@@ -598,7 +598,6 @@
                 let existingRow = $('#englishTestTable tbody tr[data-test="' + test + '"]');
 
                 if (existingRow.length === 0) {
-                    $('#englishTestTable tbody tr').remove();
 
                     let index = $('#englishTestTable tbody tr').length;
 
@@ -610,22 +609,22 @@
                                 <input type="hidden" name="english_tests[${index}][id]" value="">
                             </td>
                             <td>
-                                <input type="number" step="any" name="english_tests[${index}][listening]" placeholder="Enter score">
+                                <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" step="any" name="english_tests[${index}][reading]" placeholder="Enter score">
+                                <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" step="any" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                                <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" step="any" name="english_tests[${index}][writing]" placeholder="Enter score">
+                                <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="number" step="any" name="english_tests[${index}][score]" placeholder="Enter score">
+                                <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][test_date]">
+                                <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
                             </td>
                         </tr>
                     `;

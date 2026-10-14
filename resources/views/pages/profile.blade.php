@@ -5,9 +5,13 @@
     <meta charset="UTF-8">
     <title>Student Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <style>
         body {
-            font-family: DejaVu Sans, sans-serif;
+            font-family: "Google Sans", sans-serif;
             font-size: 12px;
             color: #212529;
             /* --dark */
@@ -122,6 +126,22 @@
             border-top: 1px solid #e0e0e0;
             padding-top: 6px;
         }
+        
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .is-invalid {
+            border: 1px solid #dc3545 !important;
+        }
+
+        .is-valid {
+            border: 1px solid #000 !important;
+        }
     </style>
 </head>
 
@@ -143,7 +163,7 @@
                             <a id="downloadProfileBtn" data-id="{{ $student->id }}" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">Download Profile</a>
                         </td>
                         <td class="title">
-                            <h2>Student Profile</h2>
+                            <h2>Edit Student Profile</h2>
                             <p>Academic & Personal Information</p>
                         </td>
                     </tr>
@@ -175,9 +195,9 @@
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" style="width: stretch" value="{{ $student->cnic ?? '-' }}"></td>
+                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" value="{{ $student->cnic ?? '-' }}"><span class="error-message" id="cnic-error"></span></td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" style="width: stretch" value="{{ $student->passport_number ?? '-' }}"></td>
+                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" value="{{ $student->passport_number ?? '-' }}"><span class="error-message" id="passport-error"></span></td>
                     </tr>
                     <tr>
                         <td class="label">Passport Valid From</td>
@@ -203,9 +223,9 @@
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="text" name="email" style="width: stretch" value="{{ $student->email ?? '-' }}"></td>
+                        <td><input type="text" name="email" id="email" style="width: stretch" value="{{ $student->email ?? '-' }}"><span class="error-message" id="email-error"></span></td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" style="width: stretch" value="{{ $student->phone ?? '-' }}"></td>
+                        <td><input type="text" name="phone" id="phone" style="width: stretch" value="{{ $student->phone ?? '-' }}"><span class="error-message" id="phone-error"></span></td>
                     </tr>
                 </table>
             </div>
@@ -228,7 +248,7 @@
                             </select>
                         </td>
                         <td class="label">Percentage / GPA</td>
-                        <td><input type="text" name="percentage" style="width: stretch" value="{{ $student->percentage ?? '-' }}"></td>
+                        <td><input type="number" step="any" name="percentage" style="width: stretch" value="{{ $student->percentage ?? '-' }}"></td>
                     </tr>
                     <tr>
                         <td class="label">Interested Country </td>
@@ -324,6 +344,16 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="label">English Proficiency Letter Available?</td>
+                        <td>
+                            <input type="radio" name="english_proficiency" value="1"
+                                {{ old('english_proficiency', $student->english_proficiency ?? '') == '1' ? 'checked' : '' }}> Yes
+
+                            <input type="radio" name="english_proficiency" value="0"
+                                {{ old('english_proficiency', $student->english_proficiency ?? '') == '0' ? 'checked' : '' }}> No
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -335,7 +365,12 @@
             <div class="section">
                 <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Educational Details</span>
-                    <button type="button" id="addEducation" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 10px; font-size: 20px;">+</button>
+                    <div>
+                        <button type="button" id="removeEducation"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addEducation"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                    </div>
                 </div>
 
                 <table class="table" id="educationTable">
@@ -363,10 +398,10 @@
                                 <td><input type="text" style="width: stretch;" name="education[{{ $index }}][institute]" value="{{ ucfirst($edu->institute) ?? '-' }}"></td>
                                 <td><input type="text" style="width: stretch;" name="education[{{ $index }}][board]" value="{{ ucfirst($edu->board) ?? '-' }}"></td>
                                 <td><input type="text" style="width: stretch;" name="education[{{ $index }}][subject]" value="{{ ucfirst($edu->subject) ?? '-' }}"></td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][passing_year]" value="{{ $edu->passing_year ?? '-' }}"></td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][obtained_marks]" value="{{ floor($edu->obtained_marks) ?? '-' }}">
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][total_marks]" value="{{ floor($edu->total_marks) ?? '-' }}"></td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][grade_or_cgpa]" value="{{ $edu->grade_or_cgpa ?? '-' }}"></td>
+                                <td><input type="number" step="any" style="width: stretch;" name="education[{{ $index }}][passing_year]" value="{{ $edu->passing_year ?? '-' }}"></td>
+                                <td><input type="number" step="any" class="obtained-marks" style="width: stretch;" name="education[{{ $index }}][obtained_marks]" value="{{ floor($edu->obtained_marks) ?? '-' }}">
+                                <td><input type="number" step="any" class="total-marks" style="width: stretch;" name="education[{{ $index }}][total_marks]" value="{{ floor($edu->total_marks) ?? '-' }}"></td>
+                                <td><input type="number" step="any" class="percentage-field" style="width: stretch;" name="education[{{ $index }}][grade_or_cgpa]" value="{{ $edu->grade_or_cgpa ?? '-' }}"></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -393,32 +428,26 @@
                     <tbody>
                         @if (count($english_test_details) > 0)
                             @foreach ($english_test_details as $index => $test)
-                                <tr>
+                                <tr data-test="{{ $test->test_name }}">
                                     <td>
                                         <input type="hidden" name="english_tests[{{ $index }}][id]" value="{{ $test->id }}">
                                         <input type="hidden" name="english_tests[{{ $index }}][test_name]" value="{{ $test->test_name }}">
                                         {{ $test->test_name }}
                                     </td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}"></td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}"></td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}"></td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}"></td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}"></td>
-                                    <td><input type="text" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}">
+                                    <td><input type="number" step="any" class="listening" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}"></td>
+                                    <td><input type="number" step="any" class="reading" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}"></td>
+                                    <td><input type="number" step="any" class="speaking" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}"></td>
+                                    <td><input type="number" step="any" class="writing" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}"></td>
+                                    <td><input type="number" step="any" class="score" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}"></td>
+                                    <td><input type="number" step="any" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}">
                                 </tr>
                             @endforeach
                         @else
-                            @for ($i = 0; $i < 3; $i++)
+                            
                                 <tr>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
-                                    <td style="height: 14px;">-</td>
+                                    <td style="height: 14px;" colspan="7">No English test details available</td>
                                 </tr>
-                            @endfor
+                            
                         @endif
                     </tbody>
                 </table>
@@ -473,16 +502,9 @@
                             @endforeach
 
                         @else
-
-                            @for ($i = 0; $i < 8; $i++)
-                                <tr>
-                                    <td style="height: 14px;"></td>
-                                    <td style="height: 14px;"></td>
-                                    <td style="height: 14px;"></td>
-                                    <td style="height: 14px;"></td>
-                                    <td style="height: 14px;"></td>
-                                </tr>
-                            @endfor
+                            <tr>
+                                <td style="height: 14px;" colspan="5">No programs added yet</td>
+                            </tr>
 
                         @endif
                     </tbody>
@@ -499,9 +521,11 @@
 
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/student-form.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
+
         const form = document.getElementById('studentProfileForm');
         const downloadBtn = $('#downloadProfileTD');
 
@@ -553,12 +577,6 @@
             let url = `/generate/student/profile/${id}`;
             window.open(url, '_blank');
         });
-        
-        $('#countries').select2({
-            placeholder: 'Select countries',
-            width: '100%',
-            allowClear: true
-        });
 
         // ENGLISH TEST CHECKBOX LOGIC
         $('.english-test').on('change', function () {
@@ -580,6 +598,7 @@
                 let existingRow = $('#englishTestTable tbody tr[data-test="' + test + '"]');
 
                 if (existingRow.length === 0) {
+                    $('#englishTestTable tbody tr').remove();
 
                     let index = $('#englishTestTable tbody tr').length;
 
@@ -591,19 +610,19 @@
                                 <input type="hidden" name="english_tests[${index}][id]" value="">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][listening]" placeholder="Enter score">
+                                <input type="number" step="any" name="english_tests[${index}][listening]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][reading]" placeholder="Enter score">
+                                <input type="number" step="any" name="english_tests[${index}][reading]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                                <input type="number" step="any" name="english_tests[${index}][speaking]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][writing]" placeholder="Enter score">
+                                <input type="number" step="any" name="english_tests[${index}][writing]" placeholder="Enter score">
                             </td>
                             <td>
-                                <input type="text" name="english_tests[${index}][score]" placeholder="Enter score">
+                                <input type="number" step="any" name="english_tests[${index}][score]" placeholder="Enter score">
                             </td>
                             <td>
                                 <input type="text" name="english_tests[${index}][test_date]">
@@ -630,10 +649,9 @@
             let index = $('#educationTable tbody tr').length;
 
             let newRow = `
-                <tr data-index="${index}">
+                <tr data-index="${index}" class="extra-education-row">
                     <td>
                         <input type="hidden" name="education[${index}][id]" value="">
-
                         <input type="text" name="education[${index}][level]" placeholder="Education Level" required>
                     </td>
                     <td>
@@ -649,19 +667,36 @@
                         <input type="number" name="education[${index}][passing_year]" placeholder="Passing Year" required>
                     </td>
                     <td>
-                        <input type="number" name="education[${index}][obtained_marks]" placeholder="Obtained Marks" step="any">
+                        <input type="number" step="any" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks">
                     </td>
                     <td>
-                        <input type="number" name="education[${index}][total_marks]" placeholder="Total Marks" step="any">
+                        <input type="number" step="any" class="total-marks" name="education[${index}][total_marks]" placeholder="Total Marks">
                     </td>
                     <td>
-                        <input type="text" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
+                        <input type="number" step="any" class="percentage-field" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
                     </td>
                 </tr>
             `;
 
             $('#educationTable tbody').append(newRow);
 
+            $('#removeEducation').show();
+        });
+
+
+        // Sirf newly added rows remove hongi
+        $(document).on('click', '#removeEducation', function () {
+
+            let rows = $('#educationTable tbody tr.extra-education-row');
+
+            // Kam az kam ek row rehne do
+            if (rows.length >= 1) {
+                rows.last().remove();
+            }
+
+            if ($('#educationTable tbody tr.extra-education-row').length <= 1) {
+                $('#removeEducation').hide();
+            }
         });
 
         $('form').on('submit', function () {

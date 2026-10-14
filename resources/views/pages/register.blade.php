@@ -1,1336 +1,1036 @@
-@extends('layouts.assets')
+<!DOCTYPE html>
+<html>
 
-@push('title')
-    Registeration Form
-@endpush
-
-@section('styles')
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('website/register_form.css') }}">
-@endsection
-
-@section('content')
-    <div class="form-wrapper">
-        <div class="form-container">
-            <!-- Form Header -->
-            <div class="form-header">
-                <h2><i class="ri-user-follow-line"></i> Registration Form</h2>
-                <p>Please fill in all the required information</p>
-                <p><i class="ri-information-line"></i> Please note: We collect information for our purpose only.</p>
-            </div>
-
-            <!-- Progress Steps -->
-            <div class="progress-container">
-                <div class="progress-steps">
-                    <div class="progress-bar" id="progressBar"></div>
-
-                    <div class="step-container">
-                        <div class="step-circle active" id="step1">
-                            <span class="span">1</span>
-                            <span class="step-label">Basic Information</span>
-                        </div>
-                    </div>
-
-                    <div class="step-container">
-                        <div class="step-circle" id="step2">
-                            <span class="span">2</span>
-                            <span class="step-label">Educational Details</span>
-                        </div>
-                    </div>
-
-                    <div class="step-container">
-                        <div class="step-circle" id="step3">
-                            <span class="span">3</span>
-                            <span class="step-label">Educational Documents</span>
-                        </div>
-                    </div>
-
-                    <div class="step-container">
-                        <div class="step-circle" id="step4">
-                            <span class="span">4</span>
-                            <span class="step-label">Program Selection</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Form Body -->
-            <form id="studentForm" class="needs-validation" novalidate enctype="multipart/form-data" method="POST">
-                <!-- Step 1 -->
-                <div class="form-step active" id="step1Form">
-                    <div class="form-body">
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="firstName" class="form-label">First Name <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name"
-                                    required>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="lastName" class="form-label">Last Name <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Enter your last name"
-                                    required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="fatherName" class="form-label">Father Name <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="fatherName" placeholder="Enter your father name"
-                                    required>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="motherName" class="form-label">Mother Name <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="motherName" placeholder="Enter your mother name"
-                                    required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="cob" class="form-label">City of Birth <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="city" placeholder="Karachi, Lahore" required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="dob" required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="cnic" class="form-label">CNIC # <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="cnic" pattern="\d{5}-d{7}-d{1}\"
-                                    placeholder="01234-0123456-0" required>
-                                <div class="invalid-feedback" id="cnic-error">
-                                    CNIC Number Already Exists.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="passport" class="form-label">Passport # <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="passport" placeholder="PK1234567" maxlength="9"
-                                    required>
-                                <div id="passport-error" class="invalid-feedback"></div>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="passportValidFrom" class="form-label">Passport Valid From # <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="passportValidFrom" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="passportValidThru" class="form-label">Passport Valid Thru # <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="passportValidThru" required>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="phone" class="form-label">Phone # <span class="text-danger">*</span></label>
-                                <input type="text" id="phoneNumber" class="form-control"  placeholder="03331234567" required>
-                                <div id="phone-error" class="invalid-feedback"></div>
-                            </div>
-
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="test@example.com" required>
-                                <div id="email-error" class="invalid-feedback">
-                                    Email Already Exists.
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3 mb-sm-2">
-                                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="address"
-                                    placeholder="House Number, Street, Area, City" required>
-                            </div>
-                            <div class="col-12 col-md-6 mb-3 mb-sm-2">
-                                <label for="postalCode" class="form-label">Postal Code </label>
-                                <input type="text" class="form-control" id="postalCode" maxlength="5" placeholder="00000">
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="qualification" class="form-label">Latest Qualification <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="qualification" required>
-                                    <option value="" selected disabled>Select qualification</option>
-                                    <option value="Matriculation">Matriculation</option>
-                                    <option value="Intermediate">Intermediate</option>
-                                    <option value="Bachelors">Bachelors</option>
-                                    <option value="Masters">Masters</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="percentage" class="form-label">Percentage / CGPA <span
-                                        class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="percentage" max="100"
-                                    placeholder="79% / 3.2 GPA " required>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="intake" class="form-label">Which intake? <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="intake" required>
-                                    <option value="" selected disabled>Select Intake</option>
-                                    <option value="Fall 26'">Fall 26'</option>
-                                    <option value="Spring 27'">Spring 27'</option>
-                                    <option value="Summer 27'">Summer 27'</option>
-                                    <option value="Fall 27'">Fall 27'</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="country" class="form-label">Country to Apply for <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="country" required multiple>
-                                    @foreach ($activeCountries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="country" class="form-label">Applying For? <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="applying" required>
-                                    <option value="" selected disabled>Select Program..</option>
-                                    @foreach ($program_levels as $applying)
-                                        <option value="{{ $applying->id }}">{{ $applying->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3 mb-sm-2" id="englishTestGroup">
-                                <label class="form-label">Any English Test Attempted? <span
-                                        class="text-danger">*</span></label>
-                                <div class="d-flex gap-3 align-items-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="IELTS" id="testIELTS"
-                                            name="english_test[]">
-                                        <label class="form-check-label" for="testIELTS">IELTS</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="TOEFL" id="testTOEFL"
-                                            name="english_test[]">
-                                        <label class="form-check-label" for="testTOEFL">TOEFL</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="PTE" id="testPTE"
-                                            name="english_test[]">
-                                        <label class="form-check-label" for="testPTE">PTE</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="None" id="testNone"
-                                            name="english_test[]">
-                                        <label class="form-check-label" for="testNone">None</label>
-                                    </div>
-                                </div>
-                                <div class="invalid-feedback" id="englishTestError">
-                                    Please select at least one option
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-sm-2">
-                                <label for="proficiency" class="form-label">English Proficiency Letter <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-select" id="proficiency" required>
-                                    <option value="0" selected>No</option>
-                                    <option value="1">Yes</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="form-step" id="step2Form">
-                    <div class="form-body">
-
-                        <div class="card mb-3" id="MatricForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">Matric</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-4">
-                                            <label for="">School</label>
-                                            <input type="text" id="schoolName" class="form-control"
-                                                placeholder="School Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Board</label>
-                                            <input type="text" id="boardMatric" class="form-control"
-                                                placeholder="Board Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Subject</label>
-                                            <input type="text" id="subjectMatric" class="form-control"
-                                                placeholder="Subject Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Obtained Marks</label>
-                                        <input type="number" id="obtainedMarksMatric" class="form-control"
-                                            placeholder="899">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksMatric" class="form-control" placeholder="1099">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Percentage</label>
-                                        <input type="number" id="percentageMatric" max="100" class="form-control"
-                                            placeholder="Percentage" readonly>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Passing Year</label>
-                                        <input type="month" class="form-control" id="passingYearMatric">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="IntermediateForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">Intermediate</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-4">
-                                            <label for="">College / Institute</label>
-                                            <input type="text" id="collegeName" class="form-control"
-                                                placeholder="College / Institute">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Board</label>
-                                            <input type="text" id="boardIntermediate" class="form-control"
-                                                placeholder="Board Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Subject</label>
-                                            <input type="text" id="subjectIntermediate" class="form-control"
-                                                placeholder="Subject Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Obtained Marks</label>
-                                        <input type="number" id="obtainedMarksIntermediate" class="form-control"
-                                            placeholder="899">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksIntermediate" class="form-control"
-                                            placeholder="1099">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Percentage</label>
-                                        <input type="number" id="percentageIntermediate" max="100" class="form-control"
-                                            placeholder="Percentage" readonly>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Passing Year</label>
-                                        <input type="month" class="form-control" id="passingYearIntermediate">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="BachelorsForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">Bachelors</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-4">
-                                            <label for="">University</label>
-                                            <input type="text" id="universityBachelors" class="form-control"
-                                                placeholder="University Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Department</label>
-                                            <input type="text" id="boardBachelors" class="form-control"
-                                                placeholder="Department Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Subject</label>
-                                            <input type="text" id="subjectBachelors" class="form-control"
-                                                placeholder="Subject Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Obtained Marks</label>
-                                        <input type="number" id="obtainedMarksBachelors" class="form-control"
-                                            placeholder="899">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksBachelors" class="form-control"
-                                            placeholder="1099">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">GPA / Percentage</label>
-                                        <input type="number" id="percentageBachelors" step="0.1" class="form-control"
-                                            placeholder="GPA">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Passing Year</label>
-                                        <input type="month" class="form-control" id="passingYearBachelors">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="MastersForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">Masters</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-4">
-                                            <label for="">University</label>
-                                            <input type="text" id="universityMasters" class="form-control"
-                                                placeholder="University Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Department</label>
-                                            <input type="text" id="boardMasters" class="form-control"
-                                                placeholder="Department Name">
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label for="">Subject</label>
-                                            <input type="text" id="subjectMasters" class="form-control"
-                                                placeholder="Subject Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Obtained Marks</label>
-                                        <input type="number" id="obtainedMarksMasters" class="form-control"
-                                            placeholder="899">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Total Marks</label>
-                                        <input type="number" id="totalMarksMasters" class="form-control" placeholder="1099">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">GPA / Percentage</label>
-                                        <input type="number" id="percentageMasters" step="0.1" class="form-control"
-                                            placeholder="GPA">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Passing Year</label>
-                                        <input type="month" class="form-control" id="passingYearMasters">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="ieltsForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">IELTS</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Listening</label>
-                                        <input type="number" min="0" max="10" step="0.1" id="listeningIELTS"
-                                            class="form-control" placeholder="6.5">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Reading</label>
-                                        <input type="number" min="0" max="10" step="0.1" id="readingIELTS"
-                                            class="form-control" placeholder="6.5">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Speaking</label>
-                                        <input type="number" min="0" max="10" step="0.1" id="speakingIELTS"
-                                            class="form-control" placeholder="6.5">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Writing</label>
-                                        <input type="number" min="0" max="10" step="0.1" id="writingIELTS"
-                                            class="form-control" placeholder="6.5">
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Overall Bands</label>
-                                            <input type="number" id="overallIELTS" class="form-control" placeholder="Bands">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Passing Year</label>
-                                            <input type="month" id="passingYearIELTS" class="form-control"
-                                                placeholder="Department Name">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="toeflForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">TOEFL</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Listening</label>
-                                        <input type="number" min="0" max="30" step="1" id="listeningTOEFL"
-                                            class="form-control" placeholder="26">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Reading</label>
-                                        <input type="number" min="0" max="30" step="1" id="readingTOEFL"
-                                            class="form-control" placeholder="21">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Speaking</label>
-                                        <input type="number" min="0" max="30" step="1" id="speakingTOEFL" max="4"
-                                            class="form-control" placeholder="23">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Writing</label>
-                                        <input type="number" min="0" max="30" step="1" id="writingTOEFL"
-                                            class="form-control" placeholder="22">
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Overall Score</label>
-                                            <input type="number" id="overallTOEFL" class="form-control" placeholder="Score">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Passing Year</label>
-                                            <input type="month" id="passingYearTOEFL" class="form-control"
-                                                placeholder="Department Name">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-3" id="pteForm">
-                            <div class="card-header">
-                                <h4 class="mb-0 md-text-sm">PTE</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Listening</label>
-                                        <input type="number" min="0" max="120" step="1" id="listeningPTE"
-                                            class="form-control" placeholder="26">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Reading</label>
-                                        <input type="number" min="0" max="120" step="1" id="readingPTE" class="form-control"
-                                            placeholder="21">
-                                    </div>
-                                    {{-- To be updated by JS --}}
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Speaking</label>
-                                        <input type="number" min="0" max="120" step="1" id="speakingPTE" max="4"
-                                            class="form-control" placeholder="23">
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <label for="">Writing</label>
-                                        <input type="number" min="0" max="120" step="1" id="writingPTE" class="form-control"
-                                            placeholder="22">
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Overall Score</label>
-                                            <input type="number" id="overallPTE" class="form-control" placeholder="Score">
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <label for="">Passing Year</label>
-                                            <input type="month" id="passingYearPTE" class="form-control"
-                                                placeholder="Department Name">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="form-step" id="step3Form">
-                    <div class="form-body">
-                        <div class="alert alert-warning d-flex align-items-start">
-                            <i class="ri-alert-line me-2 fs-5"></i>
-                            <div>
-                                <strong>Important:</strong>
-                                Please upload all required documents in one session.
-                                For security reasons, uploaded files are not saved if you refresh or leave this page.
-                            </div>
-                        </div>
-
-                        <p>Required documents are marked with <span class="text-danger">*</span></p>
-
-                        <div class="row g-3">
-
-                            <!-- CNIC Front -->
-                            <div class="col-md-6 doc-cnic">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> CNIC <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png;" name="cnic[]"
-                                            id="cnic" hidden multiple >
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Passport -->
-                            <div class="col-md-6 doc-passport">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Passport <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="passport[]"
-                                            id="passport" hidden multiple >
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Photograph -->
-                            <div class="col-md-6 doc-photograph">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Passport Size Photo <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo must be in white background and well scnaned from printer
-                                                scanner</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="photograph[]"
-                                            id="photograph" hidden multiple >
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- CV / Resume -->
-                            <div class="col-md-6 doc-cv-resume">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> CV / Resume <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>CV / Resume must be uploaded in PDF, you can prepare it from any online
-                                                tool</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf" name="cv-resume[]"
-                                            id="cv-resume" hidden multiple >
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Experience Letter -->
-                            <div class="col-md-6 doc-experience">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Experience Letters (if any)
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png" name="experience-letters[]" id="experience-letter" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Recommendation Letters -->
-                            <div class="col-md-6 doc-recommendation-letter">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Recommendation Letters (if any)
-                                                <span class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="recommendation-letters[]" id="recommendation-letter" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- English Proficiency Letter -->
-                            <div class="col-md-6 doc-proficiency-letter">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> English Proficiency Letter
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="proficiency-letter[]" id="proficiency-letter" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Motivation Letter -->
-                            <div class="col-md-6 doc-motivation-letter">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-image-line"></i> Motivation Letter
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="motivation-letter[]" id="motivation-letter" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Matric Marksheet Front -->
-                            <div class="col-md-6 doc-matric-marksheet">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Marksheet
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="matric-marksheet[]" id="matric-marksheet" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Matric Marksheet Back -->
-                            <div class="col-md-6 doc-matric-certificate">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Matric Certificate
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="matric-certificate[]" id="matric-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Intermediate Marksheet Front -->
-                            <div class="col-md-6 doc-intermediate-marksheet">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Intermediate Marksheet
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="intermediate-marksheet[]" id="intermediate-marksheet" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Intermediate Marksheet Back -->
-                            <div class="col-md-6 doc-intermediate-certificate">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Intermediate Certificate
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="intermediate-certificate[]" id="intermediate-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Bachelors Transcript Front -->
-                            <div class="col-md-6 doc-bachelors-transcript">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Transcript
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="bachelors-transcript[]" id="bachelors-transcript" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Bachelors Transcript Back -->
-                            <div class="col-md-6 doc-bachelors-degree">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Bachelors Degree
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="bachelors-degree[]" id="bachelors-degree" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Front -->
-                            <div class="col-md-6 doc-masters-transcript">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Transcript
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="masters-transcript[]" id="masters-transcript" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-masters-degree">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Masters Degree
-                                                <span class="text-danger">*</span>
-                                            </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="masters-degree[]" id="masters-degree" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-ielts">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> IELTS Certificate <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="ielts-certificate[]" id="ielts-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-toefl">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> TOEFL Certificate <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="toefl-certificate[]" id="toefl-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-pte">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> PTE Certificate <span
-                                                    class="text-danger">*</span></h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="pte-certificate[]" id="pte-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Masters Transcript Back -->
-                            <div class="col-md-6 doc-other">
-                                <div class="upload-card">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="card-head-images">
-                                            <h6 class="mb-0"><i class="ri-file-text-line"></i> Additional Documents </h6>
-                                            <small>Photo/PDF must be well scanned from printer scanner (CAMSCANNER or others
-                                                aren't allowed)</small>
-                                        </div>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    </div>
-
-                                    <label class="upload-box">
-                                        <input type="file" class="document-upload" accept=".pdf,.jpg,.png"
-                                            name="other-certificates[]" id="other-certificate" hidden multiple>
-                                        <div class="upload-placeholder">
-                                            <i class="ri-upload-cloud-line"></i>
-                                            <span>Click or drop file here</span>
-                                            <small>PDF / JPG / PNG | Max 5MB</small>
-                                        </div>
-                                        <div class="uploaded-files"></div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="form-step" id="step4Form">
-                    <div class="form-body">
-                        <div class="alert alert-warning d-flex align-items-start">
-                            <i class="ri-alert-line me-2 fs-5"></i>
-                            <div>
-                                <strong>Important:</strong> Please fill all the fields in one sit. For security reasons,
-                                uploaded files are not saved if you refresh or leave this page.
-                            </div>
-                        </div>
-                        <!-- Step 4 : Program Selection -->
-                        <div class="mb-4">
-
-                            <div class="program-search">
-                                <i class="ri-search-line"></i>
-
-                                <input type="text" class="form-control" id="programSearch"
-                                    placeholder="Search for a program..." autocomplete="off">
-
-
-                                <!-- Search Results -->
-                                <div id="programResults" class="program-results d-none"></div>
-                            </div>
-
-                            <div class="mt-3">
-                                <button type="button" class="btn btn-link p-0" id="addNewProgramBtn"> <i
-                                        class="ri-add-line"></i> Add New Program </button>
-                            </div> <!-- New Program Form -->
-                            <div id="newProgramForm" class="mt-3 d-none">
-                                <div class="row g-3">
-                                    <!-- Country -->
-                                    <div class="col-md-3">
-                                        <label for="country" class="form-label">
-                                            Country
-                                        </label>
-
-                                        <input type="text" class="form-control" id="countryName"
-                                            list="countryList" placeholder="Select country" 
-                                            autocomplete="off">
-
-                                        <datalist id="countryList">
-                                            
-                                        </datalist>
-                                    </div>
-                                    <!-- University -->
-                                    <div class="col-md-3">
-                                        <label for="universityName" class="form-label"> University Name </label>
-                                        <input type="text" class="form-control" id="universityName" name="university_name"
-                                            list="universityList" placeholder="Select or enter university"
-                                            autocomplete="off">
-                                        <datalist id="universityList">
-
-                                        </datalist>
-                                    </div>
-                                    <!-- Department -->
-                                    <div class="col-md-3">
-                                        <label for="departmentName" class="form-label"> Department Name </label>
-                                        <input type="text" class="form-control" id="departmentName" name="department_name"
-                                            list="departmentList" placeholder="Select or enter department"
-                                            autocomplete="off">
-                                        <datalist id="departmentList">
-
-                                        </datalist>
-                                    </div>
-                                    <!-- Course -->
-                                    <div class="col-md-3">
-                                        <label for="courseName" class="form-label"> Program Name </label>
-                                        <input type="text" class="form-control" id="courseName" name="course_name"
-                                            placeholder="Enter course name" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <button type="button" class="btn btn-primary" id="saveNewProgram"> Add Program </button>
-                                    <button type="button" class="btn btn-light ms-2" id="cancelNewProgram"> Cancel </button>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- Selected Programs -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered align-middle">
-
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Country</th>
-                                        <th>Program</th>
-                                        <th>Course</th>
-                                        <th>Department</th>
-                                        <th>University</th>
-                                        <th width="60">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="departmentTable">
-
-                                    <tr class="text-muted text-center" id="noDataRow">
-                                        <td colspan="5">
-                                            No programs added yet
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Success Message -->
-
-                <!-- Form Footer with Navigation Buttons -->
-                <div class="form-footer" id="formFooter">
-                    <div>
-                        <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
-                            <i class="ri-arrow-left-line"></i> Previous
-                        </button>
-                    </div>
-
-                    <div class="step-indicator" id="currentStepIndicator">Step 1 of 4</div>
-
-                    <div>
-                        <button type="button" class="btn btn-primary" id="nextBtn">
-                            Next <i class="ri-arrow-right-line"></i>
-                        </button>
-                        <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
-                            <i class="ri-send-plane-fill"></i> Submit Form
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-@endsection
-
-@section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ asset('js/student-validation.js') }}"></script>
-    <script src="{{ asset('website/register_form.js') }}"></script>
-    <script>
-        let documentFiles = new WeakMap();
-
-        $(document).on('change', '.document-upload', function () {
-
-            let input = this;
-
-            let files = Array.from(input.files);
-
-            documentFiles.set(input, files);
-
-            renderUploadedFiles(input);
-        });
-
-
-        function renderUploadedFiles(input) {
-
-            let files = documentFiles.get(input) || [];
-
-            let uploadBox = $(input).closest('.upload-box');
-
-            let placeholder = uploadBox.find('.upload-placeholder');
-
-            let container = uploadBox.find('.uploaded-files');
-
-            let html = '';
-
-            files.forEach(function (file, index) {
-
-                html += `
-                <div class="uploaded-file d-flex align-items-center justify-content-between">
-
-                    <span>
-                        ${file.name}
-                    </span>
-
-                    <button
-                        type="button"
-                        class="btn remove-file"
-                        data-index="${index}">
-
-                        <i class="ri-delete-bin-line"></i>
-
-                    </button>
-
-                </div>
-            `;
-            });
-
-            container.html(html);
-
-            // Files selected hain to placeholder hide
-            placeholder.toggle(files.length === 0);
+    <link href="{{ asset('assets/remixicons/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/iziToast/iziToast.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Google Sans", sans-serif;
+            font-size: 12px;
+            color: #212529;
+            /* --dark */
+            background: #ffffff;
+        }
+
+        .page {
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            border-bottom: 4px solid #2BB673;
+            /* primary-green */
+            padding-bottom: 12px;
+            margin-bottom: 22px;
+        }
+
+        .header table {
+            width: 100%;
+        }
+
+        .logo {
+            width: 100px;
+        }
+
+        .title {
+            text-align: right;
+        }
+
+        .title h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #1E8449;
+            /* dark-green */
+        }
+
+        .title p {
+            margin: 4px 0 0;
+            font-size: 11px;
+            color: #6c757d;
+            /* gray */
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            background: #e8f5ee;
+            /* primary-light */
+            color: #1e9d5f;
+            /* primary-dark */
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 13px;
+            border-left: 6px solid #2BB673;
+            margin-bottom: 10px;
+        }
+
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f8f9fa;
+            /* light-gray */
+            font-weight: bold;
+            color: #212529;
+        }
+
+        td.label {
+            width: 25%;
+            font-weight: bold;
+            background: #f8f9fa;
+            color: #495057;
+            /* text-color */
+        }
+
+        .table td {
+            text-align: center;
+        }
+
+        .table.notes tr td {
+            border: 1px solid #4b4a4a;
+            padding: 20px;
+        }
+
+        /* Responsive table wrapper */
+        .table-responsive {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        /* Table layout */
+        .table-responsive table {
+            width: 100%;
+            min-width: 900px;
+            margin: 0;
+            border-collapse: collapse;
+        }
+
+        /* Cells */
+        .table-responsive th,
+        .table-responsive td {
+            padding: 10px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        /* Inputs should not force the page wider */
+        .table-responsive input,
+        .table-responsive select,
+        .table-responsive textarea {
+            box-sizing: border-box;
+            width: 165px;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        /* Focus on usability for smaller screens */
+        @media (max-width: 768px) {
+            .table-responsive table {
+                min-width: 850px;
+            }
+
+            .table-responsive th,
+            .table-responsive td {
+                padding: 8px;
+            }
+
+            .table-responsive input,
+            .table-responsive select,
+            .table-responsive textarea {
+                width: 120px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            position: fixed;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #6c757d;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 6px;
         }
 
 
-        $(document).on('click', '.remove-file', function (e) {
+        /* Search wrapper */
+        .program-search-wrapper {
+            width: 100%;
+            max-width: 100%;
+            margin: 18px 0 24px;
+            position: relative;
+        }
 
-            e.preventDefault();
-            e.stopPropagation();
+        /* Label */
+        .program-search-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-            let button = $(this);
+        /* Search field container */
+        .program-search-box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 8px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
 
-            let uploadBox = button.closest('.upload-box');
+        /* Search icon */
+        .program-search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 14px;
+            color: #7a8491;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
 
-            let input = uploadBox.find('.document-upload')[0];
+        /* Input */
+        .program-search-box input {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            height: 36px;
+            padding: 0 8px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #252525;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
 
-            let index = parseInt(button.data('index'));
+        .program-search-box input::placeholder {
+            color: #9aa1aa;
+        }
 
-            let files = documentFiles.get(input) || [];
+        /* Clear button */
+        #clearProgramSearch {
+            display: none;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: #737b86;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+        }
 
-            // Remove selected file
-            files.splice(index, 1);
+        #clearProgramSearch:hover {
+            background: #f1f3f5;
+            color: #222;
+        }
 
-            // Update actual input
-            let dataTransfer = new DataTransfer();
+        /* Hint */
+        .program-search-hint {
+            margin-top: 7px;
+            color: #7a8491;
+            font-size: 12px;
+            line-height: 1.5;
+        }
 
-            files.forEach(function (file) {
-                dataTransfer.items.add(file);
-            });
+        /* Results container */
+        .program-results {
+            width: 100%;
+            max-height: 360px;
+            margin-top: 12px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
 
-            input.files = dataTransfer.files;
+        /* Each result item */
+        .program-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid #e4e8ed;
+            border-radius: 8px;
+            background: #fff;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
 
-            // Save updated list
-            documentFiles.set(input, files);
+        .program-result-item:hover {
+            border-color: #b6e6ce;
+            background: #fcfffd;
+        }
 
-            // Re-render
-            renderUploadedFiles(input);
+        .program-result-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .program-result-title {
+            margin-bottom: 5px;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .program-result-meta {
+            color: #737b86;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        /* Add button */
+        .add-program-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 36px;
+            min-height: 36px;
+            padding: 7px 12px;
+            flex-shrink: 0;
+            border: 1px solid #2BB673;
+            border-radius: 6px;
+            background: #2BB673;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .add-program-btn:hover:not(:disabled) {
+            background: #22965e;
+            border-color: #22965e;
+        }
+
+        .add-program-btn:disabled {
+            background: #e8f6ee;
+            border-color: #bce7ce;
+            color: #248653;
+            cursor: not-allowed;
+        }
+
+        /* Search status messages */
+        .program-results-message {
+            padding: 14px;
+            border: 1px solid #e4e8ed;
+            border-radius: 8px;
+            color: #697381;
+            background: #fff;
+            font-size: 13px;
+        }
+
+        .program-results-message.error {
+            color: #b42318;
+            border-color: #f2c7c3;
+            background: #fff8f7;
+        }
+
+        .program-results-message.warning {
+            color: #805b10;
+            border-color: #f0dfb3;
+            background: #fffaf0;
+        }
+
+
+        /* New Program Form */
+        .new-program-form {
+            width: auto;
+            margin-block: 18px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        /* Responsive 4-column layout */
+        .new-program-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .new-program-field {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .new-program-field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #343a40;
+            margin: 0;
+        }
+
+        .new-program-field input {
+            width: 100%;
+            min-width: 0;
+            height: 42px;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            color: #333;
+            background: #fff;
+            border: 1px solid #d9dee5;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .new-program-field input::placeholder {
+            color: #9ca3af;
+        }
+
+        .new-program-field input:focus {
+            border-color: #2BB673;
+            box-shadow: 0 0 0 3px rgba(43, 182, 115, 0.12);
+        }
+
+        .new-program-field input:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Form buttons */
+        .new-program-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .new-program-save,
+        .new-program-cancel {
+            min-height: 38px;
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .new-program-save {
+            color: #fff;
+            background: #2BB673;
+            border: 1px solid #2BB673;
+        }
+
+        .new-program-save:hover {
+            background: #22965e;
+            border-color: #22965e;
+        }
+
+        .new-program-save:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .new-program-cancel {
+            color: #555;
+            background: #fff;
+            border: 1px solid #d9dee5;
+        }
+
+        .new-program-cancel:hover {
+            background: #f3f4f6;
+            border-color: #c5cbd3;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .is-invalid {
+            border: 1px solid #dc3545 !important;
+        }
+
+        .is-valid {
+            border: 1px solid #000 !important;
+        }
+
+        /* Tablet */
+        @media (max-width: 992px) {
+            .new-program-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 576px) {
+            .new-program-form {
+                padding: 14px;
+            }
+
+            .new-program-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .new-program-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="post" id="studentForm">
+        <!-- ================= PAGE 1 ================= -->
+        <div class="page">
+
+            <div class="header">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="{{ asset('website/logo.png') }}" class="logo">
+                        </td>
+
+                        <td class="title">
+                            <h2>Create Student Profile</h2>
+                            <p>Academic & Personal Information</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Personal Information</div>
+                <table>
+                    <tr>
+                        <td class="label">First Name</td>
+                        <td><input type="text" name="first_name" style="width: stretch" required></td>
+                        <td class="label">Last Name</td>
+                        <td><input type="text" name="last_name" style="width: stretch" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Father Name</td>
+                        <td><input type="text" name="father_name" style="width: stretch" required></td>
+                        <td class="label">Mother Name</td>
+                        <td><input type="text" name="mother_name" style="width: stretch" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Date of Birth</td>
+                        <td><input type="date" name="dob" style="width: stretch" required></td>
+                        <td class="label">City</td>
+                        <td><input type="text" name="city" style="width: stretch" required></td>
+                    </tr>
+                    <tr>
+                        <td class="label">CNIC</td>
+                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" required><span class="error-message" id="cnic-error"></span></td>
+                        <td class="label">Passport #</td>
+                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" maxlength="9" required><span class="error-message" id="passport-error"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Passport Valid From</td>
+                        <td><input type="date" name="passport_valid_from" style="width: stretch" required>
+                        </td>
+                        <td class="label">Passport Valid Thru</td>
+                        <td><input type="date" name="passport_valid_thru" style="width: stretch" required>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Contact Details</div>
+                <table>
+                    <tr>
+                        <td class="label">Address</td>
+                        <td><input type="text" name="address" style="width: stretch" required></td>
+                        <td class="label">Postal Code</td>
+                        <td><input type="text" name="postal_code" style="width: stretch"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Email</td>
+                        <td><input type="email" name="email" id="email" style="width: stretch" required><span class="error-message" id="email-error"></span></td>
+                        <td class="label">Phone</td>
+                        <td><input type="text" name="phone" id="phone" style="width: stretch" required><span class="error-message" id="phone-error"></span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Academic Summary</div>
+                <table>
+                    <tr>
+                        <td class="label">Qualification</td>
+                        <td>
+                            <select style="width: stretch;" name="qualification" id="qualification" required>
+                                <option value="" selected disabled>Select qualification</option>
+                                <option value="Matriculation">Matriculation</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Bachelors">Bachelors</option>
+                                <option value="Masters">Masters</option>
+                            </select>
+                        </td>
+                        <td class="label">Percentage / GPA</td>
+                        <td><input type="number" step="any" name="percentage" style="width: stretch"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Interested Country </td>
+                        <td>
+                            <select id="countries" name="countries[]" class="form-select" multiple>
+                                @foreach ($activeCountries as $country)
+                                    <option value="{{ $country->id }}"> {{ $country->name }} </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td class="label">Interested Program</td>
+                        <td>
+                            <select style="width: stretch;" name="program_level" id="program_level" required>
+                                <option value="" disabled selected>
+                                    Select Program..
+                                </option>
+
+                                @foreach ($program_levels as $applying)
+                                    <option value="{{ $applying->id }}">
+                                        {{ $applying->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Intake</td>
+                        <td>
+                            <select style="width: stretch;" id="intake" name="intake" required>
+                                <option value="" disabled selected>
+                                    Select Intake
+                                </option>
+
+                                <option value="Fall 26'">
+                                    Fall 26'
+                                </option>
+
+                                <option value="Spring 27'">
+                                    Spring 27'
+                                </option>
+
+                                <option value="Summer 27'">
+                                    Summer 27'
+                                </option>
+
+                                <option value="Fall 27'">
+                                    Fall 27'
+                                </option>
+                            </select>
+                        </td>
+                        <td class="label">English Test Given</td>
+                        <td>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <div class="form-check">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]" value="IELTS" id="ielts">
+                                    <label class="form-check-label" for="ielts">IELTS</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]" value="PTE" id="pte">
+                                    <label class="form-check-label" for="pte">PTE</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]" value="TOEFL" id="toefl">
+                                    <label class="form-check-label" for="toefl">TOEFL</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input english-test" type="checkbox"
+                                        name="english_test[]" value="None" id="none" checked>
+                                    <label class="form-check-label" for="none">None</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">English Proficiency Letter Available?</td>
+                        <td>
+                            <input type="radio" name="english_proficiency" value="1">Yes
+                            <input type="radio" name="english_proficiency" value="0">No
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- ================= PAGE 2 ================= -->
+        <div class="page">
+
+            <div class="section">
+                <div class="section-title"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Educational Details</span>
+                    <div>
+                        <button type="button" id="removeEducation"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">−</button>
+                        <button type="button" id="addEducation"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 20px;">+</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table" id="educationTable">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Institute</th>
+                                <th>Board / University</th>
+                                <th>Subject</th>
+                                <th>Year</th>
+                                <th>Obtained Marks</th>
+                                <th>Total Marks</th>
+                                <th>Percentage / GPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span>English Test Details</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="englishTestTable">
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Listening</th>
+                                <th>Reading</th>
+                                <th>Speaking</th>
+                                <th>Writing</th>
+                                <th>Score / Bands</th>
+                                <th>Cleared On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Programs Applying For</span>
+                    <div>
+                        <button type="button" id="cancelNewProgram"
+                            style="display:none; background-color: #dc3545; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 12px;">Cancel</button>
+                        <button type="button" id="addNewProgramBtn"
+                            style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 2px 12px; font-size: 12px;">Add
+                            New Program</button>
+                    </div>
+                </div>
+                <div class="program-search-wrapper" id="programWrapper">
+
+                    <label for="programSearch" class="program-search-label">
+                        Search Programs
+                    </label>
+
+                    <div class="program-search-box">
+                        <span class="program-search-icon">
+                            <i class="ri-search-line"></i>
+                        </span>
+
+                        <input type="text" id="programSearch"
+                            placeholder="Search course..." autocomplete="off">
+
+                        <button type="button" id="clearProgramSearch" aria-label="Clear search">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div class="program-search-hint">
+                        Search by course, department or university name.
+                        Results will depend on your selected countries and program level.
+                    </div>
+
+                    <div id="programResults" class="program-results" style="display: none;"></div>
+
+                </div>
+
+
+                <div id="newProgramForm" class="new-program-form" style="display: none;">
+
+                    <div class="new-program-grid">
+
+                        <div class="new-program-field">
+                            <label for="countryName">Country</label>
+
+                            <input type="text" id="countryName" list="countryList" placeholder="Select country"
+                                autocomplete="off">
+
+                            <datalist id="countryList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="universityName">University Name</label>
+
+                            <input type="text" id="universityName" name="university_name" list="universityList"
+                                placeholder="Select or enter university" autocomplete="off" disabled>
+
+                            <datalist id="universityList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="departmentName">Department Name</label>
+
+                            <input type="text" id="departmentName" name="department_name" list="departmentList"
+                                placeholder="Select or enter department" autocomplete="off" disabled>
+
+                            <datalist id="departmentList"></datalist>
+                        </div>
+
+                        <div class="new-program-field">
+                            <label for="courseName">Program Name</label>
+
+                            <input type="text" id="courseName" name="course_name" placeholder="Enter course name"
+                                autocomplete="off" disabled>
+                        </div>
+
+                    </div>
+
+                    <div class="new-program-actions">
+                        <button type="button" id="saveNewProgram" class="new-program-save">
+                            Add Program
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Country</th>
+                                <th>Program</th>
+                                <th>Course</th>
+                                <th>Department</th>
+                                <th>University</th>
+                                <th width="60">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="departmentTable">
+
+                            <tr class="text-muted text-center" id="noDataRow">
+                                <td colspan="7">
+                                    No programs added yet
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                    <div id="selectedProgramsInputs"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: end;">
+            <button type="submit" id="submitBtn" style="background-color: #2BB673; color: white; border: none; cursor: pointer; padding: 8px 16px; font-size: 14px;">
+                Create Profile
+            </button>
+        </div>
+    </form>
+
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/student-form.js') }}"></script>
+<script src="{{ asset('website/register_form.js') }}"></script>
+<script src="{{ asset('assets/iziToast/iziToast.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        // ENGLISH TEST CHECKBOX LOGIC
+        $('.english-test').on('change', function() {
+
+            let test = $(this).val();
+
+            if (test === 'None' && $(this).is(':checked')) {
+                $('.english-test').not(this).prop('checked', false);
+                $('#englishTestTable tbody').empty();
+                return;
+            }
+
+            if (test !== 'None' && $(this).is(':checked')) {
+                $('#none').prop('checked', false);
+            }
+
+            if ($(this).is(':checked')) {
+
+                let existingRow = $('#englishTestTable tbody tr[data-test="' + test + '"]');
+
+                if (existingRow.length === 0) {
+
+                    let index = $('#englishTestTable tbody tr').length;
+
+                    let row = `
+                        <tr data-test="${test}" data-index="${index}">
+                            <td>
+                                ${test}
+                                <input type="hidden" name="english_tests[${index}][test_name]" value="${test}">
+                                <input type="hidden" name="english_tests[${index}][id]" value="">
+                            </td>
+                            <td>
+                                <input type="number" step="any" class="listening" name="english_tests[${index}][listening]" placeholder="Enter score">
+                            </td>
+                            <td>
+                                <input type="number" step="any" class="reading" name="english_tests[${index}][reading]" placeholder="Enter score">
+                            </td>
+                            <td>
+                                <input type="number" step="any" class="speaking" name="english_tests[${index}][speaking]" placeholder="Enter score">
+                            </td>
+                            <td>
+                                <input type="number" step="any" class="writing" name="english_tests[${index}][writing]" placeholder="Enter score">
+                            </td>
+                            <td>
+                                <input type="number" step="any" class="score" name="english_tests[${index}][score]" placeholder="Enter score">
+                            </td>
+                            <td>
+                                <input type="number" step="any" name="english_tests[${index}][test_date]" placeholder="Passing Year  ">
+                            </td>
+                        </tr>
+                    `;
+
+                    $('#englishTestTable tbody').append(row);
+                }
+
+            } else {
+
+                $('#englishTestTable tbody tr[data-test="' + test + '"]').remove();
+
+            }
+
         });
-    </script>
-@endsection
+
+
+        // NEW EDUCATION ROW LOGIC
+        $('#addEducation').on('click', function() {
+
+            let index = $('#educationTable tbody tr').length;
+
+            if (index >= 1) {
+                $('#removeEducation').show();
+            }
+
+            let newRow = `
+                <tr data-index="${index}">
+                    <td>
+                        <input type="hidden" name="education[${index}][id]" value="">
+
+                        <input type="text" name="education[${index}][level]" placeholder="Education Level" required>
+                    </td>
+                    <td>
+                        <input type="text" name="education[${index}][institute]" placeholder="Institute Name" required>
+                    </td>
+                    <td>
+                        <input type="text" name="education[${index}][board]" placeholder="Board Name" required>
+                    </td>
+                    <td>
+                        <input type="text" name="education[${index}][subject]" placeholder="Subject" required>
+                    </td>
+                    <td>
+                        <input type="number" step="any" name="education[${index}][passing_year]" placeholder="Passing Year" required>
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="obtained-marks" name="education[${index}][obtained_marks]" placeholder="Obtained Marks">
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="total-marks" name="education[${index}][total_marks]" placeholder="Total Marks" >
+                    </td>
+                    <td>
+                        <input type="number" step="any" class="percentage-field" name="education[${index}][grade_or_cgpa]" placeholder="Grade or CGPA">
+                    </td>
+                </tr>
+            `;
+
+            $('#educationTable tbody').append(newRow);
+
+        });
+
+        $('#removeEducation').on('click', function() {
+            let rows = $('#educationTable tbody tr');
+
+            // Kam az kam ek row rehne do
+            if (rows.length > 1) {
+                rows.last().remove();
+            }
+
+            if ($('#educationTable tbody tr').length <= 1) {
+                $('#removeEducation').hide();
+            }
+        });
+
+    });
+</script>

@@ -69,7 +69,7 @@ Route::get('/check-student-email/{studentId?}', [RegisterController::class , 'ch
 Route::get('/check-student-cnic/{studentId?}', [RegisterController::class , 'checkCNIC'])->name('student-cnic-check');
 Route::get('/check-student-passport/{studentId?}', [RegisterController::class , 'checkPassport'])->name('student-passport-check');
 Route::get('/check-student-phone/{studentId?}', [RegisterController::class, 'checkPhone'])->name('student-phone-check');
-Route::get('student/form/ajax', [RegisterController::class , 'index'])->name('register');
+Route::get('create/student/profile', [RegisterController::class , 'index'])->name('register');
 Route::post('student/register', [RegisterController::class , 'store'])->name('student.register');
 Route::post('save-new-university-department-course', [RegisterController::class , 'storeNewUniversityDepartmentCourse'])->name('student.new.university.department.course');
 Route::get('generate/student/profile/{id}', [PdfController::class , 'downloadPdf']);

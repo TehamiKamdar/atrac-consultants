@@ -1,152 +1,7 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.profile_layout')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Student Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-    <style>
-        body {
-            font-family: "Google Sans", sans-serif;
-            font-size: 12px;
-            color: #212529;
-            /* --dark */
-            background: #ffffff;
-        }
 
-        .page {
-            page-break-after: always;
-        }
-
-        .page:last-child {
-            page-break-after: auto;
-        }
-
-        /* ===== HEADER ===== */
-        .header {
-            border-bottom: 4px solid #2BB673;
-            /* primary-green */
-            padding-bottom: 12px;
-            margin-bottom: 22px;
-        }
-
-        .header table {
-            width: 100%;
-        }
-
-        .logo {
-            width: 100px;
-        }
-
-        .title {
-            text-align: right;
-        }
-
-        .title h2 {
-            margin: 0;
-            font-size: 22px;
-            color: #1E8449;
-            /* dark-green */
-        }
-
-        .title p {
-            margin: 4px 0 0;
-            font-size: 11px;
-            color: #6c757d;
-            /* gray */
-        }
-
-        /* ===== SECTIONS ===== */
-        .section {
-            margin-bottom: 22px;
-        }
-
-        .section-title {
-            background: #e8f5ee;
-            /* primary-light */
-            color: #1e9d5f;
-            /* primary-dark */
-            padding: 8px 12px;
-            font-weight: bold;
-            font-size: 13px;
-            border-left: 6px solid #2BB673;
-            margin-bottom: 10px;
-        }
-
-        /* ===== TABLE ===== */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-            vertical-align: top;
-        }
-
-        th {
-            background: #f8f9fa;
-            /* light-gray */
-            font-weight: bold;
-            color: #212529;
-        }
-
-        td.label {
-            width: 25%;
-            font-weight: bold;
-            background: #f8f9fa;
-            color: #495057;
-            /* text-color */
-        }
-
-        .table td {
-            text-align: center;
-        }
-
-        .table.notes tr td {
-            border: 1px solid #4b4a4a;
-            padding: 20px;
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            position: fixed;
-            bottom: 12px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            color: #6c757d;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 6px;
-        }
-        
-
-        .error-message {
-            color: #dc3545;
-            font-size: 12px;
-            display: block;
-            margin-top: 4px;
-        }
-
-        .is-invalid {
-            border: 1px solid #dc3545 !important;
-        }
-
-        .is-valid {
-            border: 1px solid #000 !important;
-        }
-    </style>
-</head>
-
-<body>
-
+@section('content')
     <form action="{{ route('profile.update') }}" method="post" id="studentProfileForm">
         @csrf
         @method('PUT')
@@ -517,12 +372,8 @@
         </div>
     </form>
 
-</body>
-
-</html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('js/student-form.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@endsection
+@section('scripts')
 <script>
     $(document).ready(function () {
 
@@ -703,3 +554,5 @@
         });
     });
 </script>
+
+@endsection

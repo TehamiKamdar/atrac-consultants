@@ -1,7 +1,7 @@
 @extends('layouts.profile_layout')
 
 @section('content')
-    <form method="post" id="studentForm">
+    <form method="post" id="studentForm" class="studentForm">
         <!-- ================= PAGE 1 ================= -->
         <div class="page">
 

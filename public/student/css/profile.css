@@ -15,14 +15,14 @@ body {
     margin: 0;
 }
 
-#studentForm {
+.studentForm {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
 }
 
-#studentForm .page,
-#studentForm .section {
+.studentForm .page,
+.studentForm .section {
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -139,15 +139,15 @@ td.label {
    FORM FIELDS
 ========================================= */
 
-#studentForm input,
-#studentForm select,
-#studentForm textarea {
+.studentForm input,
+.studentForm select,
+.studentForm textarea {
     max-width: 100%;
 }
 
-#studentForm input:not([type="checkbox"]):not([type="radio"]),
-#studentForm select,
-#studentForm textarea {
+.studentForm input:not([type="checkbox"]):not([type="radio"]),
+.studentForm select,
+.studentForm textarea {
     box-sizing: border-box;
 }
 
@@ -554,7 +554,7 @@ td.label {
 
 @media (max-width: 768px) {
 
-    #studentForm {
+    .studentForm {
         padding: 0 10px;
     }
 
@@ -568,26 +568,26 @@ td.label {
     }
 
     /* Personal information tables */
-    #studentForm .section > table:not(.table) {
+    .studentForm .section > table:not(.table) {
         width: 100%;
         table-layout: fixed;
     }
 
-    #studentForm .section > table:not(.table) td {
+    .studentForm .section > table:not(.table) td {
         overflow-wrap: anywhere;
     }
 
-    #studentForm .section > table:not(.table) td.label {
+    .studentForm .section > table:not(.table) td.label {
         width: 25%;
         font-size: 11px;
     }
 
-    #studentForm .section > table:not(.table) td:not(.label) {
+    .studentForm .section > table:not(.table) td:not(.label) {
         width: 25%;
     }
 
-    #studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
-    #studentForm .section > table:not(.table) select {
+    .studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
+    .studentForm .section > table:not(.table) select {
         width: 100% !important;
         min-width: 0;
         font-size: 13px;
@@ -627,7 +627,7 @@ td.label {
 
 @media (max-width: 576px) {
 
-    #studentForm {
+    .studentForm {
         padding: 0 8px;
     }
 
@@ -666,40 +666,40 @@ td.label {
     }
 
     /* Personal information becomes one column */
-    #studentForm .section > table:not(.table),
-    #studentForm .section > table:not(.table) tbody {
+    .studentForm .section > table:not(.table),
+    .studentForm .section > table:not(.table) tbody {
         display: block;
         width: 100%;
     }
 
-    #studentForm .section > table:not(.table) tr {
+    .studentForm .section > table:not(.table) tr {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
         width: 100%;
     }
 
-    #studentForm .section > table:not(.table) td,
-    #studentForm .section > table:not(.table) td.label,
-    #studentForm .section > table:not(.table) td:not(.label) {
+    .studentForm .section > table:not(.table) td,
+    .studentForm .section > table:not(.table) td.label,
+    .studentForm .section > table:not(.table) td:not(.label) {
         display: block;
         width: 100%;
         padding: 5px 7px;
         border-bottom: 0;
     }
 
-    #studentForm .section > table:not(.table) td.label {
+    .studentForm .section > table:not(.table) td.label {
         padding-top: 10px;
         padding-bottom: 2px;
         font-size: 12px;
     }
 
-    #studentForm .section > table:not(.table) td:not(.label) {
+    .studentForm .section > table:not(.table) td:not(.label) {
         padding-top: 8px;
         padding-bottom: 8px;
     }
 
-    #studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
-    #studentForm .section > table:not(.table) select {
+    .studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
+    .studentForm .section > table:not(.table) select {
         display: block;
         width: 100% !important;
         min-width: 0;
@@ -708,14 +708,14 @@ td.label {
     }
 
     /* English test checkboxes */
-    #studentForm .form-check {
+    .studentForm .form-check {
         display: inline-flex;
         align-items: center;
         gap: 4px;
         margin: 3px 6px 3px 0;
     }
 
-    #studentForm .form-check-label {
+    .studentForm .form-check-label {
         font-size: 12px;
     }
 
@@ -772,7 +772,7 @@ td.label {
     }
 
     /* Main submit button */
-    #studentForm #submitBtn {
+    .studentForm #submitBtn {
         width: 100%;
         min-height: 44px;
         margin: 12px 0;
@@ -786,7 +786,7 @@ td.label {
 
 @media (max-width: 360px) {
 
-    #studentForm {
+    .studentForm {
         padding: 0 5px;
     }
 

@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <form action="{{ route('profile.update') }}" method="post" id="studentProfileForm">
+    <form action="{{ route('profile.update') }}" method="post" id="studentProfileForm" class="studentForm">
         @csrf
         @method('PUT')
         <!-- ================= PAGE 1 ================= -->

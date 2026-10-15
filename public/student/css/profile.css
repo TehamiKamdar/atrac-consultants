@@ -694,7 +694,7 @@ td.label {
     }
 
     #studentForm .section > table:not(.table) td:not(.label) {
-        padding-top: 2px;
+        padding-top: 8px;
         padding-bottom: 8px;
     }
 

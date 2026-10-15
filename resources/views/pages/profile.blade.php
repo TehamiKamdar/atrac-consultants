@@ -603,6 +603,7 @@
                         message: response.message,
                         position: 'topRight'
                     });
+                    window.location.reload();
                 },
 
                 error: function (xhr) {

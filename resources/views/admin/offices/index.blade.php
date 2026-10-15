@@ -24,15 +24,6 @@
                     Add New
                 </button>
             </div>
-
-            <div style="max-width: 500px;">
-                <div class="input-group" data-bs-theme="dark">
-                    <input type="text" id="studentSearch" class="form-control form-control-sm py-0 bg-dark" placeholder="Search office...">
-                    <button class="btn btn-sm btn-outline-secondary" type="button">
-                        <i class="ri-search-line"></i>
-                    </button>
-                </div>
-            </div>
         </div>
 
         <div class="table-responsive">

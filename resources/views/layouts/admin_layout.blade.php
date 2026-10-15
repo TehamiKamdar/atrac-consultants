@@ -120,6 +120,12 @@
                     <span class="nav-link-text">Users</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::is(patterns: 'admin-intakes-index') ? 'active' : '' }}" href="{{route('admin-intakes-index')}}">
+                    <i class="ri-group-line"></i>
+                    <span class="nav-link-text">Intakes</span>
+                </a>
+            </li>
         </ul>
     </div>
 

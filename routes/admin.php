@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CountryDetailsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\LinkController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\StudentController;
@@ -134,6 +135,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         // Route::get('edit', [OfficeController::class , "edit"])->name('admin-offices-edit');
         // Route::post('update', [OfficeController::class , "update"])->name('admin-offices-update');
         // Route::post('destroy', [OfficeController::class , "destroy"])->name('admin-offices-destroy');
+    });
+    Route::prefix('intakes')->group(function(){
+        Route::get('', [IntakeController::class , "index"])->name('admin-intakes-index');
+        Route::post('status', [IntakeController::class , "status"])->name('admin-intakes-status');
+        Route::post('store', [IntakeController::class , "store"])->name('admin-intakes-store');
     });
     Route::prefix('links')->group(function(){
         Route::get('create', [LinkController::class , 'create'])->name('admin-links-create');

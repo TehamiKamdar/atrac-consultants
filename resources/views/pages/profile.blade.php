@@ -583,6 +583,40 @@
         $('form').on('submit', function () {
             $('.english-test:disabled:checked').prop('disabled', false);
         });
+
+        $('#studentProfileForm').on('submit', function (e) {
+            e.preventDefault();
+
+            let form = this;
+            let formData = new FormData(form);
+
+            $.ajax({
+                url: $(form).attr('action'),
+                type: $(form).attr('method') || 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (response) {
+                    iziToast.success({
+                        title: 'Success',
+                        message: response.message,
+                        position: 'topRight'
+                    });
+                },
+
+                error: function (xhr) {
+                    let message = xhr.responseJSON?.message
+                        || 'Unable to update student profile.';
+
+                    iziToast.error({
+                        title: 'Error',
+                        message: message,
+                        position: 'topRight'
+                    });
+                }
+            });
+        });
     });
 </script>
 

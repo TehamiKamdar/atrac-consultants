@@ -451,9 +451,9 @@ class PdfController extends Controller
             }
         });
 
-        return back()->with(
-            'success',
-            'Student profile updated successfully.'
-        );
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Student profile updated successfully.'
+        ]);
     }
 }

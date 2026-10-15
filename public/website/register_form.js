@@ -99,7 +99,7 @@ $(document).ready(function () {
                     title: 'Success',
                     message: res.message,
                     position: 'topRight'
-                }, 3000);
+                });
 
                 window.location.reload()
             },

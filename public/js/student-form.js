@@ -1,5 +1,6 @@
 $(document).ready(function(){
     const studentId = $("#studentForm").attr('data-student-id') || null ;
+    let countryIds;
 
     initStudentValidation(studentId);
     
@@ -86,36 +87,7 @@ $(document).ready(function(){
     // Add New Program form show
     $('#addNewProgramBtn').on('click', function () {
 
-        const countryIds = $('#countries').val() || [];
-
-        if (!countryIds.length) {
-            alert('Please select at least one country first.');
-            return;
-        }
-
-        if (!getSelectedProgramLevel()) {
-            alert('Please select Program Level first.');
-            return;
-        }
-
-        $('#universityName')
-            .val('')
-            .prop('disabled', true);
-
-        $('#departmentName')
-            .val('')
-            .prop('disabled', true);
-
-        $('#courseName')
-            .val('')
-            .prop('disabled', true);
-
-        $('#countryName').val('');
-        $('#countryList').empty();
-        $('#universityList').empty();
-        $('#departmentList').empty();
-
-        $('#countryList').prop('disabled', true);
+        countryIds = getSelectedCountries();
 
         $.ajax({
             url: '/get-countries',
@@ -158,15 +130,91 @@ $(document).ready(function(){
             }
         });
 
+        console.log(countryIds)
+
+        if (!countryIds.length) {
+            alert('Please select at least one country first.');
+            return;
+        }
+
+        if (!getSelectedProgramLevel()) {
+            alert('Please select Program Level first.');
+            return;
+        }
+
+        $('#universityName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#departmentName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#courseName')
+            .val('')
+            .prop('disabled', true);
+
+        $('#countryName').val('');
+        $('#countryList').empty();
+        $('#universityList').empty();
+        $('#departmentList').empty();
+
+        $('#countryList').prop('disabled', true);
+
         $('#newProgramForm').show();
         $('#cancelNewProgram').show();
         $('#programWrapper').hide()
         $('#addNewProgramBtn').hide();
     });
 
+    $('#countries').on('change', function(){
+        
+        $.ajax({
+            url: '/get-countries',
+            method: 'GET',
+            data: {
+                country_ids: getSelectedCountries()
+            },
+
+            beforeSend: function () {
+                $('#countryName')
+                    .val('Loading...')
+                    .prop('disabled', true);
+            },
+
+            success: function (data) {
+
+                $('#countryList').empty();
+
+                $.each(data, function (index, country) {
+                    $('#countryList').append(
+                        $('<option>', {
+                            value: country.name
+                        })
+                    );
+                });
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                alert('Unable to load countries. Please try again.');
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            }
+        });
+    })
+
 
     // Country select/input -> universities
     $('#countryName').on('change', function () {
+
 
         const countryName = $(this).val();
 
@@ -447,8 +495,6 @@ $(document).ready(function(){
         }
 
         searchTimeout = setTimeout(function () {
-
-            const countryIds = getSelectedCountries();
             const programLevelId = getSelectedProgramLevel();
 
             if (!countryIds.length || !programLevelId) {

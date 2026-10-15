@@ -36,7 +36,7 @@
                         </td>
                         <td class="label">Last Name</td>
                         <td>
-                            <input type="text" name="last_name" style="width: stretch" value="{{ $student->last_name ?? '-' }}">
+                            <input type="text" name="last_name" style="width: stretch" value="{{ $student->last_name ?? '' }}">
                         </td>
                     </tr>
                     <tr>

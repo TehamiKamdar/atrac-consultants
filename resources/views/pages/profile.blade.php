@@ -174,21 +174,11 @@
                                     Select Intake
                                 </option>
 
-                                <option value="Fall 26'" {{ $student->intake == "Fall 26'" ? 'selected' : '' }}>
-                                    Fall 26'
-                                </option>
-
-                                <option value="Spring 27'" {{ $student->intake == "Spring 27'" ? 'selected' : '' }}>
-                                    Spring 27'
-                                </option>
-
-                                <option value="Summer 27'" {{ $student->intake == "Summer 27'" ? 'selected' : '' }}>
-                                    Summer 27'
-                                </option>
-
-                                <option value="Fall 27'" {{ $student->intake == "Fall 27'" ? 'selected' : '' }}>
-                                    Fall 27'
-                                </option>
+                                @foreach ($intakes as $intake)
+                                    <option value="{{ $intake->name }}" {{ $student->intake == $intake->name ? 'selected' : '' }}>
+                                        {{ $intake->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </td>
                         <td class="label">English Test Given</td>

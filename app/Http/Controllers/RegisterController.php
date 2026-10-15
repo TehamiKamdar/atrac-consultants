@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\country;
 use App\Models\course;
 use App\Models\departments;
+use App\Models\Intake;
 use App\Models\program_level;
 use App\Models\program;
 use App\Models\sim_codes;
@@ -26,8 +27,8 @@ class RegisterController extends Controller
     {
         $activeCountries = country::where('status', 'active')->orderBy('name', 'ASC')->get();
         $program_levels = program_level::all();
-        $sim_codes = sim_codes::all();
-        return view('pages.register', compact('activeCountries', 'sim_codes', 'program_levels'));
+        $intakes = Intake::where('is_active', 1)->get();
+        return view('pages.register', compact('activeCountries', 'intakes', 'program_levels'));
     }
 
     public function getCountryPrograms($country_id)

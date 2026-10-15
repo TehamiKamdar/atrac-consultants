@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\country;
 use App\Models\departments;
+use App\Models\Intake;
 use App\Models\program_level;
 use App\Models\studentapplication;
 use App\Models\studenteducation;
@@ -118,6 +119,8 @@ class PdfController extends Controller
 
         $country = country::where('id', $student->country_id)->value('name');
 
+        $intakes = Intake::where('is_active', 1)->get();
+
         $activeCountries = country::where('status', 'active')->pluck('name', 'id');
 
         $program_levels = program_level::all();
@@ -194,7 +197,7 @@ class PdfController extends Controller
                     'courses' => $courseDetails,
                 ];
             });
-        return view('pages.profile', compact('student', 'country', 'activeCountries', 'program_levels', 'education_details', 'english_test_details', 'application_details'));
+        return view('pages.profile', compact('student', 'country', 'intakes', 'activeCountries', 'program_levels', 'education_details', 'english_test_details', 'application_details'));
     }
 
     public function update(Request $request)

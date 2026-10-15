@@ -107,7 +107,7 @@
 
         .table.notes tr td {
             border: 1px solid #4b4a4a;
-            padding: 20px;
+            padding: 18px;
         }
 
         /* ===== FOOTER ===== */
@@ -381,6 +381,24 @@
             <div class="section-title">Information / Notes</div>
 
             <table class="table notes">
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
                 <tr>
                     <td></td>
                 </tr>

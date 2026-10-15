@@ -33,7 +33,7 @@ class StudentController extends Controller
 
     public function index()
     {
-        $students = students::all();
+        $students = students::orderBy('first_name')->get();
 
         $studentsWithoutAccounts = $students->whereNull('user_id')->count();
 

@@ -27,7 +27,7 @@
                         <td class="label">First Name</td>
                         <td><input type="text" name="first_name" style="width: stretch" required></td>
                         <td class="label">Last Name</td>
-                        <td><input type="text" name="last_name" style="width: stretch" required></td>
+                        <td><input type="text" name="last_name" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Father Name</td>

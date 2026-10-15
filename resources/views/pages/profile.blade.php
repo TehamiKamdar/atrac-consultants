@@ -31,37 +31,52 @@
                 <table>
                     <tr>
                         <td class="label">First Name</td>
-                        <td><input type="text" name="first_name" style="width: stretch" value="{{ $student->first_name ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="first_name" style="width: stretch" value="{{ $student->first_name ?? '-' }}" required>
+                        </td>
                         <td class="label">Last Name</td>
-                        <td><input type="text" name="last_name" style="width: stretch" value="{{ $student->last_name ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="last_name" style="width: stretch" value="{{ $student->last_name ?? '-' }}">
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Father Name</td>
-                        <td><input type="text" name="father_name" style="width: stretch" value="{{ $student->father_name ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="father_name" style="width: stretch" value="{{ $student->father_name ?? '-' }}" required>
+                        </td>
                         <td class="label">Mother Name</td>
-                        <td><input type="text" name="mother_name" style="width: stretch" value="{{ $student->mother_name ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="mother_name" style="width: stretch" value="{{ $student->mother_name ?? '-' }}" required>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Date of Birth</td>
-                        <td><input type="date" name="dob" style="width: stretch"
-                                value="{{ \Carbon\Carbon::parse($student->dob)->format('Y-m-d') ?? '-' }}"></td>
+                        <td>
+                            <input type="date" name="dob" style="width: stretch" value="{{ \Carbon\Carbon::parse($student->dob)->format('Y-m-d') ?? '-' }}" required>
+                        </td>
                         <td class="label">City</td>
-                        <td><input type="text" name="city" style="width: stretch" value="{{ $student->city ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="city" style="width: stretch" value="{{ $student->city ?? '-' }}" required>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" value="{{ $student->cnic ?? '-' }}"><span class="error-message" id="cnic-error"></span></td>
+                        <td>
+                            <input type="text" name="cnic" id="cnic" style="width: stretch" value="{{ $student->cnic ?? '-' }}" required><span class="error-message" id="cnic-error"></span>
+                        </td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" value="{{ $student->passport_number ?? '-' }}"><span class="error-message" id="passport-error"></span></td>
+                        <td>
+                            <input type="text" name="passport_number" id="passport" style="width: stretch" value="{{ $student->passport_number ?? '-' }}" required><span class="error-message" id="passport-error"></span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Passport Valid From</td>
-                        <td><input type="date" name="passport_valid_from" style="width: stretch"
-                                value="{{ \Carbon\Carbon::parse($student->passport_valid_from)->format('Y-m-d') ?? '-' }}">
+                        <td>
+                            <input type="date" name="passport_valid_from" style="width: stretch" value="{{ \Carbon\Carbon::parse($student->passport_valid_from)->format('Y-m-d') ?? '-' }}" required>
                         </td>
                         <td class="label">Passport Valid Thru</td>
-                        <td><input type="date" name="passport_valid_thru" style="width: stretch"
-                                value="{{ \Carbon\Carbon::parse($student->passport_valid_thru)->format('Y-m-d') ?? '-' }}">
+                        <td>
+                            <input type="date" name="passport_valid_thru" style="width: stretch" value="{{ \Carbon\Carbon::parse($student->passport_valid_thru)->format('Y-m-d') ?? '-' }}" required>
                         </td>
                     </tr>
                 </table>
@@ -72,15 +87,23 @@
                 <table>
                     <tr>
                         <td class="label">Address</td>
-                        <td><input type="text" name="address" style="width: stretch" value="{{ $student->address ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="address" style="width: stretch" value="{{ $student->address ?? '-' }}" required>
+                        </td>
                         <td class="label">Postal Code</td>
-                        <td><input type="text" name="postal_code" style="width: stretch" value="{{ $student->postal_code ?? '-' }}"></td>
+                        <td>
+                            <input type="text" name="postal_code" style="width: stretch" value="{{ $student->postal_code ?? '-' }}" required>
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="text" name="email" id="email" style="width: stretch" value="{{ $student->email ?? '-' }}"><span class="error-message" id="email-error"></span></td>
+                        <td>
+                            <input type="text" name="email" id="email" style="width: stretch" value="{{ $student->email ?? '-' }}" required><span class="error-message" id="email-error"></span>
+                        </td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" id="phone" style="width: stretch" value="{{ $student->phone ?? '-' }}"><span class="error-message" id="phone-error"></span></td>
+                        <td>
+                            <input type="text" name="phone" id="phone" style="width: stretch" value="{{ $student->phone ?? '-' }}" required><span class="error-message" id="phone-error"></span>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -103,7 +126,9 @@
                             </select>
                         </td>
                         <td class="label">Percentage / GPA</td>
-                        <td><input type="number" step="any" name="percentage" style="width: stretch" value="{{ $student->percentage ?? '-' }}"></td>
+                        <td>
+                            <input type="number" step="any" name="percentage" style="width: stretch" value="{{ $student->percentage ?? '-' }}">
+                        </td>
                     </tr>
                     <tr>
                         <td class="label">Interested Country </td>

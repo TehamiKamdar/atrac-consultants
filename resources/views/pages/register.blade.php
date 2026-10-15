@@ -25,28 +25,28 @@
                 <table>
                     <tr>
                         <td class="label">First Name</td>
-                        <td><input type="text" name="first_name" style="width: stretch" required></td>
+                        <td><input type="text" name="first_name" placeholder="First Name" style="width: stretch" required></td>
                         <td class="label">Last Name</td>
-                        <td><input type="text" name="last_name" style="width: stretch"></td>
+                        <td><input type="text" name="last_name" placeholder="Last Name" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Father Name</td>
-                        <td><input type="text" name="father_name" style="width: stretch" required></td>
+                        <td><input type="text" name="father_name" placeholder="Father Name" style="width: stretch" required></td>
                         <td class="label">Mother Name</td>
-                        <td><input type="text" name="mother_name" style="width: stretch" required></td>
+                        <td><input type="text" name="mother_name" placeholder="Mother Name" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">Date of Birth</td>
                         <td><input type="date" name="dob" style="width: stretch" required></td>
                         <td class="label">City</td>
-                        <td><input type="text" name="city" style="width: stretch" required></td>
+                        <td><input type="text" name="city" placeholder="City" style="width: stretch" required></td>
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
-                        <td><input type="text" name="cnic" id="cnic" style="width: stretch" required><span
+                        <td><input type="text" name="cnic" id="cnic" placeholder="CNIC" style="width: stretch" required><span
                                 class="error-message" id="cnic-error"></span></td>
                         <td class="label">Passport #</td>
-                        <td><input type="text" name="passport_number" id="passport" style="width: stretch" maxlength="9"
+                        <td><input type="text" name="passport_number" id="passport" placeholder="Passport #" style="width: stretch" maxlength="9"
                                 required><span class="error-message" id="passport-error"></span></td>
                     </tr>
                     <tr>
@@ -65,16 +65,16 @@
                 <table>
                     <tr>
                         <td class="label">Address</td>
-                        <td><input type="text" name="address" style="width: stretch" required></td>
+                        <td><input type="text" name="address" placeholder="Address" style="width: stretch" required></td>
                         <td class="label">Postal Code</td>
-                        <td><input type="text" name="postal_code" style="width: stretch"></td>
+                        <td><input type="text" name="postal_code" placeholder="Postal Code" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Email</td>
-                        <td><input type="email" name="email" id="email" style="width: stretch" required><span
+                        <td><input type="email" name="email" id="email" placeholder="Email" style="width: stretch" required><span
                                 class="error-message" id="email-error"></span></td>
                         <td class="label">Phone</td>
-                        <td><input type="text" name="phone" id="phone" style="width: stretch" required><span
+                        <td><input type="text" name="phone" id="phone" placeholder="Phone" style="width: stretch" required><span
                                 class="error-message" id="phone-error"></span></td>
                     </tr>
                 </table>
@@ -95,7 +95,7 @@
                             </select>
                         </td>
                         <td class="label">Percentage / GPA</td>
-                        <td><input type="number" step="any" name="percentage" style="width: stretch"></td>
+                        <td><input type="number" step="any" name="percentage" placeholder="Percentage or GPA" style="width: stretch"></td>
                     </tr>
                     <tr>
                         <td class="label">Interested Country </td>

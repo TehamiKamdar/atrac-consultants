@@ -32,21 +32,21 @@
                     <tr>
                         <td class="label">First Name</td>
                         <td>
-                            <input type="text" name="first_name" style="width: stretch" value="{{ $student->first_name ?? '-' }}" required>
+                            <input type="text" name="first_name" style="width: stretch" placeholder="First Name" value="{{ $student->first_name ?? '-' }}" required>
                         </td>
                         <td class="label">Last Name</td>
                         <td>
-                            <input type="text" name="last_name" style="width: stretch" value="{{ $student->last_name ?? '' }}">
+                            <input type="text" name="last_name" style="width: stretch" placeholder="Last Name" value="{{ $student->last_name ?? '' }}">
                         </td>
                     </tr>
                     <tr>
                         <td class="label">Father Name</td>
                         <td>
-                            <input type="text" name="father_name" style="width: stretch" value="{{ $student->father_name ?? '-' }}" required>
+                            <input type="text" name="father_name" style="width: stretch" placeholder="Father Name" value="{{ $student->father_name ?? '-' }}" required>
                         </td>
                         <td class="label">Mother Name</td>
                         <td>
-                            <input type="text" name="mother_name" style="width: stretch" value="{{ $student->mother_name ?? '-' }}" required>
+                            <input type="text" name="mother_name" style="width: stretch" placeholder="Mother Name" value="{{ $student->mother_name ?? '-' }}" required>
                         </td>
                     </tr>
                     <tr>
@@ -56,17 +56,17 @@
                         </td>
                         <td class="label">City</td>
                         <td>
-                            <input type="text" name="city" style="width: stretch" value="{{ $student->city ?? '-' }}" required>
+                            <input type="text" name="city" style="width: stretch" placeholder="City" value="{{ $student->city ?? '-' }}" required>
                         </td>
                     </tr>
                     <tr>
                         <td class="label">CNIC</td>
                         <td>
-                            <input type="text" name="cnic" id="cnic" style="width: stretch" value="{{ $student->cnic ?? '-' }}" required><span class="error-message" id="cnic-error"></span>
+                            <input type="text" name="cnic" id="cnic" style="width: stretch" placeholder="CNIC" value="{{ $student->cnic ?? '-' }}" required><span class="error-message" id="cnic-error"></span>
                         </td>
                         <td class="label">Passport #</td>
                         <td>
-                            <input type="text" name="passport_number" id="passport" style="width: stretch" value="{{ $student->passport_number ?? '-' }}" required><span class="error-message" id="passport-error"></span>
+                            <input type="text" name="passport_number" id="passport" style="width: stretch" placeholder="Passport #" value="{{ $student->passport_number ?? '-' }}" required><span class="error-message" id="passport-error"></span>
                         </td>
                     </tr>
                     <tr>
@@ -88,21 +88,21 @@
                     <tr>
                         <td class="label">Address</td>
                         <td>
-                            <input type="text" name="address" style="width: stretch" value="{{ $student->address ?? '-' }}" required>
+                            <input type="text" name="address" style="width: stretch" placeholder="Address" value="{{ $student->address ?? '-' }}" required>
                         </td>
                         <td class="label">Postal Code</td>
                         <td>
-                            <input type="text" name="postal_code" style="width: stretch" value="{{ $student->postal_code ?? '-' }}" required>
+                            <input type="text" name="postal_code" style="width: stretch" placeholder="Postal Code" value="{{ $student->postal_code ?? '-' }}" required>
                         </td>
                     </tr>
                     <tr>
                         <td class="label">Email</td>
                         <td>
-                            <input type="text" name="email" id="email" style="width: stretch" value="{{ $student->email ?? '-' }}" required><span class="error-message" id="email-error"></span>
+                            <input type="text" name="email" id="email" style="width: stretch" placeholder="Email" value="{{ $student->email ?? '-' }}" required><span class="error-message" id="email-error"></span>
                         </td>
                         <td class="label">Phone</td>
                         <td>
-                            <input type="text" name="phone" id="phone" style="width: stretch" value="{{ $student->phone ?? '-' }}" required><span class="error-message" id="phone-error"></span>
+                            <input type="text" name="phone" id="phone" style="width: stretch" placeholder="Phone" value="{{ $student->phone ?? '-' }}" required><span class="error-message" id="phone-error"></span>
                         </td>
                     </tr>
                 </table>
@@ -127,7 +127,7 @@
                         </td>
                         <td class="label">Percentage / GPA</td>
                         <td>
-                            <input type="number" step="any" name="percentage" style="width: stretch" value="{{ $student->percentage ?? '-' }}">
+                            <input type="number" step="any" name="percentage" style="width: stretch" placeholder='Percentage or GPA' value="{{ $student->percentage ?? '-' }}">
                         </td>
                     </tr>
                     <tr>

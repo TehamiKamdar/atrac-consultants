@@ -43,12 +43,19 @@ class StudentController extends Controller
     public function search(Request $request)
     {
         $query = $request->get('q', '');
-        $students = students::query()->when($query, function ($q) use ($query) {
-            $q->where('first_name', 'like', "%{$query}%")
-                ->orWhere('last_name', 'like', "%{$query}%")
-                ->orWhere('email', 'like', "%{$query}%")
-                ->orWhere('city', 'like', "%{$query}%");
-        })->orderBy('first_name')->get();
+        $students = students::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('first_name', 'like', "%{$query}%")
+                        ->orWhere('last_name', 'like', "%{$query}%")
+                        ->orWhere('email', 'like', "%{$query}%")
+                        ->orWhereHas('country_id', function ($countryQuery) use ($query) {
+                            $countryQuery->where('name', 'like', "%{$query}%");
+                        });
+                });
+            })
+            ->orderBy('first_name')
+            ->get();
 
         return view('admin.students.partials.table', compact('students'));
     }

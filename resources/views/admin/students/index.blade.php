@@ -922,7 +922,7 @@
                 let programLevelId = applying;
 
                 $.ajax({
-                    url: '/admin/save-new-university-department-course',
+                    url: '/save-new-university-department-course',
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

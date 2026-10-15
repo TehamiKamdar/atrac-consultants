@@ -46,7 +46,8 @@ class StudentController extends Controller
         $students = students::query()->when($query, function ($q) use ($query) {
             $q->where('first_name', 'like', "%{$query}%")
                 ->orWhere('last_name', 'like', "%{$query}%")
-                ->orWhere('email', 'like', "%{$query}%");
+                ->orWhere('email', 'like', "%{$query}%")
+                ->orWhere('city', 'like', "%{$query}%");
         })->orderBy('first_name')->get();
 
         return view('admin.students.partials.table', compact('students'));

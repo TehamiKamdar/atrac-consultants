@@ -495,6 +495,7 @@ $(document).ready(function(){
         }
 
         searchTimeout = setTimeout(function () {
+            countryIds = getSelectedCountries();
             const programLevelId = getSelectedProgramLevel();
 
             if (!countryIds.length || !programLevelId) {

@@ -347,11 +347,9 @@ $(document).ready(function(){
                         .val('')
                         .prop('disabled', true);
 
-                    $('#countryList, #universityList, #departmentList').empty();
+                    $('#universityList, #departmentList').empty();
 
                 }, 1200);
-
-                loadCountries();
             },
 
             error: function (xhr) {

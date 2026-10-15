@@ -67,7 +67,7 @@
                         </li>
 
                         <li>
-                            <a type="button" class="dropdown-item detailsBtn" href="{{ route('admin-students-get-documents', $student->id) }}">
+                            <a type="button" class="dropdown-item" href="{{ route('admin-students-get-documents', $student->id) }}">
                                 <i class="ri-file-zip-line me-2"></i>
                                 View Documents
                             </a>
@@ -89,7 +89,7 @@
 
                         @if (!empty($student->user_id))
                             <li>
-                                <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item detailsBtn">
+                                <a href="{{ route('admin.students.login-as', $student->id) }}" class="dropdown-item">
                                     <i class="ri-login-box-line me-2"></i>
                                     Login as Student
                                 </a>
@@ -100,7 +100,7 @@
                             <form action="{{ route('admin.students.send-login-details', $student->id) }}" method="POST" style="display:inline;">
                                 @csrf
 
-                                <button type="submit" class="dropdown-item detailsBtn" onclick="return confirm('Send login details to this student?')">
+                                <button type="submit" class="dropdown-item" onclick="return confirm('Send login details to this student?')">
                                     <i class="ri-mail-send-line me-1"></i>
                                     Send Login Details
                                 </button>

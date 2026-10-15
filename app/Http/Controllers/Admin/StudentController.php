@@ -45,13 +45,22 @@ class StudentController extends Controller
         $query = $request->get('q', '');
         $students = students::query()
             ->when($query, function ($q) use ($query) {
-                $q->where(function ($subQuery) use ($query) {
+
+                $countryIds = DB::table('countries')
+                    ->where('name', 'like', "%{$query}%")
+                    ->pluck('id')
+                    ->map(fn ($id) => (string) $id)
+                    ->toArray();
+
+                $q->where(function ($subQuery) use ($query, $countryIds) {
+
                     $subQuery->where('first_name', 'like', "%{$query}%")
                         ->orWhere('last_name', 'like', "%{$query}%")
-                        ->orWhere('email', 'like', "%{$query}%")
-                        ->orWhereHas('country_id', function ($countryQuery) use ($query) {
-                            $countryQuery->where('name', 'like', "%{$query}%");
-                        });
+                        ->orWhere('email', 'like', "%{$query}%");
+
+                    foreach ($countryIds as $countryId) {
+                        $subQuery->orWhereJsonContains('country_id', $countryId);
+                    }
                 });
             })
             ->orderBy('first_name')

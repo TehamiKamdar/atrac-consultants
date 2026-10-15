@@ -905,7 +905,12 @@
             });
 
             document.getElementById('cancelNewProgram').addEventListener('click', function () {
+
                 document.getElementById('newProgramForm').classList.add('d-none');
+                $("#countryName").val('');
+                $("#universityName").val('');
+                $("#departmentName").val('');
+                $("#courseName").val('');
                 document.getElementById('searchBar').classList.remove('d-none');
             });
 

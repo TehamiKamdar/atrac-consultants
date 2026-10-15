@@ -89,46 +89,7 @@ $(document).ready(function(){
 
         countryIds = getSelectedCountries();
 
-        $.ajax({
-            url: '/get-countries',
-            method: 'GET',
-            data: {
-                country_ids: countryIds
-            },
-
-            beforeSend: function () {
-                $('#countryName')
-                    .val('Loading...')
-                    .prop('disabled', true);
-            },
-
-            success: function (data) {
-
-                $('#countryList').empty();
-
-                $.each(data, function (index, country) {
-                    $('#countryList').append(
-                        $('<option>', {
-                            value: country.name
-                        })
-                    );
-                });
-
-                $('#countryName')
-                    .val('')
-                    .prop('disabled', false);
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseJSON || xhr.responseText);
-
-                alert('Unable to load countries. Please try again.');
-
-                $('#countryName')
-                    .val('')
-                    .prop('disabled', false);
-            }
-        });
+        loadCountries();
 
         console.log(countryIds)
 
@@ -169,46 +130,8 @@ $(document).ready(function(){
 
     $('#countries').on('change', function(){
         
-        $.ajax({
-            url: '/get-countries',
-            method: 'GET',
-            data: {
-                country_ids: getSelectedCountries()
-            },
-
-            beforeSend: function () {
-                $('#countryName')
-                    .val('Loading...')
-                    .prop('disabled', true);
-            },
-
-            success: function (data) {
-
-                $('#countryList').empty();
-
-                $.each(data, function (index, country) {
-                    $('#countryList').append(
-                        $('<option>', {
-                            value: country.name
-                        })
-                    );
-                });
-
-                $('#countryName')
-                    .val('')
-                    .prop('disabled', false);
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseJSON || xhr.responseText);
-
-                alert('Unable to load countries. Please try again.');
-
-                $('#countryName')
-                    .val('')
-                    .prop('disabled', false);
-            }
-        });
+        loadCountries();
+        
     })
 
 
@@ -427,6 +350,8 @@ $(document).ready(function(){
                     $('#countryList, #universityList, #departmentList').empty();
 
                 }, 1200);
+
+                loadCountries();
             },
 
             error: function (xhr) {
@@ -825,6 +750,48 @@ $(document).ready(function(){
         return $('<div>').text(value ?? '').html();
     }
 
+    function loadCountries(){
+        $.ajax({
+            url: '/get-countries',
+            method: 'GET',
+            data: {
+                country_ids: getSelectedCountries()
+            },
+
+            beforeSend: function () {
+                $('#countryName')
+                    .val('Loading...')
+                    .prop('disabled', true);
+            },
+
+            success: function (data) {
+
+                $('#countryList').empty();
+
+                $.each(data, function (index, country) {
+                    $('#countryList').append(
+                        $('<option>', {
+                            value: country.name
+                        })
+                    );
+                });
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseJSON || xhr.responseText);
+
+                alert('Unable to load countries. Please try again.');
+
+                $('#countryName')
+                    .val('')
+                    .prop('disabled', false);
+            }
+        });
+    }
 
     // Current form values
     function getSelectedCountries() {

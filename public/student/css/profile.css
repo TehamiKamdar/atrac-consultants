@@ -1,9 +1,31 @@
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Google Sans", sans-serif;
     font-size: 12px;
     color: #212529;
-    /* --dark */
     background: #ffffff;
+    margin: 0;
+}
+
+#studentForm {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+#studentForm .page,
+#studentForm .section {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .page {
@@ -14,20 +36,25 @@ body {
     page-break-after: auto;
 }
 
-/* ===== HEADER ===== */
+/* =========================================
+   HEADER
+========================================= */
+
 .header {
     border-bottom: 4px solid #2BB673;
-    /* primary-green */
     padding-bottom: 12px;
     margin-bottom: 22px;
 }
 
 .header table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 .logo {
     width: 100px;
+    max-width: 100%;
+    height: auto;
 }
 
 .title {
@@ -38,26 +65,31 @@ body {
     margin: 0;
     font-size: 22px;
     color: #1E8449;
-    /* dark-green */
 }
 
 .title p {
     margin: 4px 0 0;
     font-size: 11px;
     color: #6c757d;
-    /* gray */
 }
 
-/* ===== SECTIONS ===== */
+/* =========================================
+   SECTIONS
+========================================= */
+
 .section {
     margin-bottom: 22px;
+    min-width: 0;
 }
 
 .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
     background: #e8f5ee;
-    /* primary-light */
     color: #1e9d5f;
-    /* primary-dark */
     padding: 8px 12px;
     font-weight: bold;
     font-size: 13px;
@@ -65,7 +97,10 @@ body {
     margin-bottom: 10px;
 }
 
-/* ===== TABLE ===== */
+/* =========================================
+   GENERAL TABLES
+========================================= */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -80,7 +115,6 @@ td {
 
 th {
     background: #f8f9fa;
-    /* light-gray */
     font-weight: bold;
     color: #212529;
 }
@@ -90,7 +124,6 @@ td.label {
     font-weight: bold;
     background: #f8f9fa;
     color: #495057;
-    /* text-color */
 }
 
 .table td {
@@ -102,8 +135,43 @@ td.label {
     padding: 20px;
 }
 
-/* Responsive table wrapper */
+/* =========================================
+   FORM FIELDS
+========================================= */
+
+#studentForm input,
+#studentForm select,
+#studentForm textarea {
+    max-width: 100%;
+}
+
+#studentForm input:not([type="checkbox"]):not([type="radio"]),
+#studentForm select,
+#studentForm textarea {
+    box-sizing: border-box;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+}
+
+.is-invalid {
+    border: 1px solid #dc3545 !important;
+}
+
+.is-valid {
+    border: 1px solid #000 !important;
+}
+
+/* =========================================
+   RESPONSIVE TABLE WRAPPER
+========================================= */
+
 .table-responsive {
+    display: block;
     width: 100%;
     max-width: 100%;
     min-width: 0;
@@ -114,7 +182,6 @@ td.label {
     border-radius: 8px;
 }
 
-/* Table layout */
 .table-responsive table {
     width: 100%;
     min-width: 900px;
@@ -122,7 +189,6 @@ td.label {
     border-collapse: collapse;
 }
 
-/* Cells */
 .table-responsive th,
 .table-responsive td {
     padding: 10px;
@@ -130,7 +196,6 @@ td.label {
     white-space: nowrap;
 }
 
-/* Inputs should not force the page wider */
 .table-responsive input,
 .table-responsive select,
 .table-responsive textarea {
@@ -140,47 +205,18 @@ td.label {
     min-width: 0;
 }
 
-/* Focus on usability for smaller screens */
-@media (max-width: 768px) {
-    .table-responsive table {
-        min-width: 850px;
-    }
+/* =========================================
+   PROGRAM SEARCH
+========================================= */
 
-    .table-responsive th,
-    .table-responsive td {
-        padding: 8px;
-    }
-
-    .table-responsive input,
-    .table-responsive select,
-    .table-responsive textarea {
-        width: 120px;
-    }
-}
-
-/* ===== FOOTER ===== */
-.footer {
-    position: fixed;
-    bottom: 12px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 10px;
-    color: #6c757d;
-    border-top: 1px solid #e0e0e0;
-    padding-top: 6px;
-}
-
-
-/* Search wrapper */
 .program-search-wrapper {
+    position: relative;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     margin: 18px 0 24px;
-    position: relative;
 }
 
-/* Label */
 .program-search-label {
     display: block;
     margin-bottom: 8px;
@@ -189,20 +225,18 @@ td.label {
     font-weight: 600;
 }
 
-/* Search field container */
 .program-search-box {
     display: flex;
     align-items: center;
     width: 100%;
+    min-width: 0;
     background: #fff;
     border: 1px solid #000;
     border-radius: 8px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
-    box-sizing: border-box;
 }
 
-/* Search icon */
 .program-search-icon {
     display: flex;
     align-items: center;
@@ -213,7 +247,6 @@ td.label {
     flex-shrink: 0;
 }
 
-/* Input */
 .program-search-box input {
     flex: 1;
     width: 100%;
@@ -225,14 +258,12 @@ td.label {
     background: transparent;
     color: #252525;
     font-size: 14px;
-    box-sizing: border-box;
 }
 
 .program-search-box input::placeholder {
     color: #9aa1aa;
 }
 
-/* Clear button */
 #clearProgramSearch {
     display: none;
     flex-shrink: 0;
@@ -253,7 +284,6 @@ td.label {
     color: #222;
 }
 
-/* Hint */
 .program-search-hint {
     margin-top: 7px;
     color: #7a8491;
@@ -261,17 +291,20 @@ td.label {
     line-height: 1.5;
 }
 
-/* Results container */
 .program-results {
     width: 100%;
+    max-width: 100%;
     max-height: 360px;
     margin-top: 12px;
     overflow-y: auto;
     overflow-x: hidden;
-    box-sizing: border-box;
+    overflow-wrap: anywhere;
 }
 
-/* Each result item */
+/* =========================================
+   PROGRAM SEARCH RESULTS
+========================================= */
+
 .program-result-item {
     display: flex;
     align-items: center;
@@ -282,7 +315,6 @@ td.label {
     border: 1px solid #e4e8ed;
     border-radius: 8px;
     background: #fff;
-    box-sizing: border-box;
     transition: border-color 0.2s ease, background 0.2s ease;
 }
 
@@ -311,7 +343,6 @@ td.label {
     overflow-wrap: anywhere;
 }
 
-/* Add button */
 .add-program-btn {
     display: inline-flex;
     align-items: center;
@@ -343,7 +374,6 @@ td.label {
     cursor: not-allowed;
 }
 
-/* Search status messages */
 .program-results-message {
     padding: 14px;
     border: 1px solid #e4e8ed;
@@ -365,18 +395,20 @@ td.label {
     background: #fffaf0;
 }
 
+/* =========================================
+   ADD NEW PROGRAM FORM
+========================================= */
 
-/* New Program Form */
 .new-program-form {
-    width: auto;
-    margin-block: 18px;
+    width: 100%;
+    min-width: 0;
+    margin: 18px 0;
     padding: 20px;
     background: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
 }
 
-/* Responsive 4-column layout */
 .new-program-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -384,17 +416,17 @@ td.label {
 }
 
 .new-program-field {
-    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    min-width: 0;
 }
 
 .new-program-field label {
+    margin: 0;
+    color: #343a40;
     font-size: 13px;
     font-weight: 600;
-    color: #343a40;
-    margin: 0;
 }
 
 .new-program-field input {
@@ -402,14 +434,13 @@ td.label {
     min-width: 0;
     height: 42px;
     padding: 10px 12px;
-    font-size: 13px;
     font-family: inherit;
+    font-size: 13px;
     color: #333;
     background: #fff;
     border: 1px solid #d9dee5;
     border-radius: 8px;
     outline: none;
-    box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -428,10 +459,10 @@ td.label {
     cursor: not-allowed;
 }
 
-/* Form buttons */
 .new-program-actions {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: 22px;
 }
@@ -475,40 +506,299 @@ td.label {
     border-color: #c5cbd3;
 }
 
-.error-message {
-    color: #dc3545;
-    font-size: 12px;
-    display: block;
-    margin-top: 4px;
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    position: fixed;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    color: #6c757d;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 6px;
 }
 
-.is-invalid {
-    border: 1px solid #dc3545 !important;
-}
+/* =========================================
+   TABLET RESPONSIVENESS
+========================================= */
 
-.is-valid {
-    border: 1px solid #000 !important;
-}
-
-/* Tablet */
 @media (max-width: 992px) {
+
+    .new-program-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .table-responsive table {
+        min-width: 850px;
+    }
+
+    .table-responsive th,
+    .table-responsive td {
+        padding: 8px;
+    }
+
+    .table-responsive input,
+    .table-responsive select,
+    .table-responsive textarea {
+        width: 140px;
+    }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 768px) {
+
+    #studentForm {
+        padding: 0 10px;
+    }
+
+    /* Header */
+    .logo {
+        width: 80px;
+    }
+
+    .title h2 {
+        font-size: 20px;
+    }
+
+    /* Personal information tables */
+    #studentForm .section > table:not(.table) {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    #studentForm .section > table:not(.table) td {
+        overflow-wrap: anywhere;
+    }
+
+    #studentForm .section > table:not(.table) td.label {
+        width: 25%;
+        font-size: 11px;
+    }
+
+    #studentForm .section > table:not(.table) td:not(.label) {
+        width: 25%;
+    }
+
+    #studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
+    #studentForm .section > table:not(.table) select {
+        width: 100% !important;
+        min-width: 0;
+        font-size: 13px;
+    }
+
+    /* Wide tables scroll inside their wrapper */
+    .table-responsive {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table-responsive table {
+        min-width: 850px;
+    }
+
+    .table-responsive input,
+    .table-responsive select,
+    .table-responsive textarea {
+        width: 120px;
+    }
+
+    /* Search results */
+    .program-result-item {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    /* New program form */
     .new-program-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-/* Mobile */
+/* =========================================
+   SMALL MOBILE PHONES
+========================================= */
+
 @media (max-width: 576px) {
+
+    #studentForm {
+        padding: 0 8px;
+    }
+
+    /* Header becomes stacked */
+    .header table,
+    .header tbody,
+    .header tr,
+    .header td {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .header .logo {
+        width: 80px;
+        margin-bottom: 8px;
+    }
+
+    .title {
+        text-align: center;
+    }
+
+    .title h2 {
+        font-size: 19px;
+    }
+
+    .title p {
+        font-size: 12px;
+    }
+
+    /* Section headings */
+    .section-title {
+        padding: 9px;
+        font-size: 13px;
+        gap: 8px;
+    }
+
+    /* Personal information becomes one column */
+    #studentForm .section > table:not(.table),
+    #studentForm .section > table:not(.table) tbody {
+        display: block;
+        width: 100%;
+    }
+
+    #studentForm .section > table:not(.table) tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+    }
+
+    #studentForm .section > table:not(.table) td,
+    #studentForm .section > table:not(.table) td.label,
+    #studentForm .section > table:not(.table) td:not(.label) {
+        display: block;
+        width: 100%;
+        padding: 5px 7px;
+        border-bottom: 0;
+    }
+
+    #studentForm .section > table:not(.table) td.label {
+        padding-top: 10px;
+        padding-bottom: 2px;
+        font-size: 12px;
+    }
+
+    #studentForm .section > table:not(.table) td:not(.label) {
+        padding-top: 2px;
+        padding-bottom: 8px;
+    }
+
+    #studentForm .section > table:not(.table) input:not([type="checkbox"]):not([type="radio"]),
+    #studentForm .section > table:not(.table) select {
+        display: block;
+        width: 100% !important;
+        min-width: 0;
+        min-height: 30px;
+        font-size: 12px;
+    }
+
+    /* English test checkboxes */
+    #studentForm .form-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin: 3px 6px 3px 0;
+    }
+
+    #studentForm .form-check-label {
+        font-size: 12px;
+    }
+
+    /* Horizontal scrolling for wide tables */
+    .table-responsive table {
+        min-width: 800px;
+    }
+
+    .table-responsive th,
+    .table-responsive td {
+        padding: 7px;
+        font-size: 12px;
+    }
+
+    .table-responsive input,
+    .table-responsive select,
+    .table-responsive textarea {
+        width: 120px;
+        min-height: 36px;
+        font-size: 14px;
+    }
+
+    /* New program form */
     .new-program-form {
-        padding: 14px;
+        padding: 12px;
     }
 
     .new-program-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 14px;
     }
 
-    .new-program-actions {
-        flex-wrap: wrap;
+    .new-program-field input {
+        width: 100%;
+        min-height: 42px;
+        font-size: 16px;
+    }
+
+    .new-program-actions > button {
+        min-height: 42px;
+    }
+
+    /* Search result layout */
+    .program-result-item {
+        align-items: flex-start;
+    }
+
+    .program-result-title {
+        font-size: 13px;
+    }
+
+    .program-result-meta {
+        font-size: 11px;
+    }
+
+    /* Main submit button */
+    #studentForm #submitBtn {
+        width: 100%;
+        min-height: 44px;
+        margin: 12px 0;
+        font-size: 15px !important;
+    }
+}
+
+/* =========================================
+   EXTRA SMALL PHONES
+========================================= */
+
+@media (max-width: 360px) {
+
+    #studentForm {
+        padding: 0 5px;
+    }
+
+    .title h2 {
+        font-size: 17px;
+    }
+
+    .section-title {
+        font-size: 12px;
+    }
+
+    .new-program-form {
+        padding: 10px;
     }
 }

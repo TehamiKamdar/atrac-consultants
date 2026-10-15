@@ -253,39 +253,41 @@
                     </div>
                 </div>
 
-                <table class="table" id="educationTable">
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Institute</th>
-                            <th>Board / University</th>
-                            <th>Subject</th>
-                            <th>Year</th>
-                            <th>Obtained Marks</th>
-                            <th>Total Marks</th>
-                            <th>Percentage / GPA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($education_details as $index => $edu)
+                <div class="table-responsive">
+                    <table class="table" id="educationTable">
+                        <thead>
                             <tr>
-                                <td>
-                                    <input type="hidden" name="education[{{ $index }}][id]" value="{{ $edu->id }}">
-
-                                    <input type="hidden" name="education[{{ $index }}][level]" value="{{ $edu->level }}">
-                                    {{ ucfirst($edu->level) ?? '-' }}
-                                </td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][institute]" value="{{ ucfirst($edu->institute) ?? '-' }}"></td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][board]" value="{{ ucfirst($edu->board) ?? '-' }}"></td>
-                                <td><input type="text" style="width: stretch;" name="education[{{ $index }}][subject]" value="{{ ucfirst($edu->subject) ?? '-' }}"></td>
-                                <td><input type="number" step="any" style="width: stretch;" name="education[{{ $index }}][passing_year]" value="{{ $edu->passing_year ?? '-' }}"></td>
-                                <td><input type="number" step="any" class="obtained-marks" style="width: stretch;" name="education[{{ $index }}][obtained_marks]" value="{{ floor($edu->obtained_marks) ?? '-' }}">
-                                <td><input type="number" step="any" class="total-marks" style="width: stretch;" name="education[{{ $index }}][total_marks]" value="{{ floor($edu->total_marks) ?? '-' }}"></td>
-                                <td><input type="number" step="any" class="percentage-field" style="width: stretch;" name="education[{{ $index }}][grade_or_cgpa]" value="{{ $edu->grade_or_cgpa ?? '-' }}"></td>
+                                <th>Level</th>
+                                <th>Institute</th>
+                                <th>Board / University</th>
+                                <th>Subject</th>
+                                <th>Year</th>
+                                <th>Obtained Marks</th>
+                                <th>Total Marks</th>
+                                <th>Percentage / GPA</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($education_details as $index => $edu)
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="education[{{ $index }}][id]" value="{{ $edu->id }}">
+
+                                        <input type="hidden" name="education[{{ $index }}][level]" value="{{ $edu->level }}">
+                                        {{ ucfirst($edu->level) ?? '-' }}
+                                    </td>
+                                    <td><input type="text" style="width: stretch;" name="education[{{ $index }}][institute]" value="{{ ucfirst($edu->institute) ?? '-' }}"></td>
+                                    <td><input type="text" style="width: stretch;" name="education[{{ $index }}][board]" value="{{ ucfirst($edu->board) ?? '-' }}"></td>
+                                    <td><input type="text" style="width: stretch;" name="education[{{ $index }}][subject]" value="{{ ucfirst($edu->subject) ?? '-' }}"></td>
+                                    <td><input type="number" step="any" style="width: stretch;" name="education[{{ $index }}][passing_year]" value="{{ $edu->passing_year ?? '-' }}"></td>
+                                    <td><input type="number" step="any" class="obtained-marks" style="width: stretch;" name="education[{{ $index }}][obtained_marks]" value="{{ floor($edu->obtained_marks) ?? '-' }}">
+                                    <td><input type="number" step="any" class="total-marks" style="width: stretch;" name="education[{{ $index }}][total_marks]" value="{{ floor($edu->total_marks) ?? '-' }}"></td>
+                                    <td><input type="number" step="any" class="percentage-field" style="width: stretch;" name="education[{{ $index }}][grade_or_cgpa]" value="{{ $edu->grade_or_cgpa ?? '-' }}"></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
@@ -293,102 +295,106 @@
                     <span>English Test Details</span>
                 </div>
 
-                <table class="table" id="englishTestTable">
-                    <thead>
-                        <tr>
-                            <th>Test</th>
-                            <th>Listening</th>
-                            <th>Reading</th>
-                            <th>Speaking</th>
-                            <th>Writing</th>
-                            <th>Score / Bands</th>
-                            <th>Cleared On</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (count($english_test_details) > 0)
-                            @foreach ($english_test_details as $index => $test)
-                                <tr data-test="{{ $test->test_name }}">
-                                    <td>
-                                        <input type="hidden" name="english_tests[{{ $index }}][id]" value="{{ $test->id }}">
-                                        <input type="hidden" name="english_tests[{{ $index }}][test_name]" value="{{ $test->test_name }}">
-                                        {{ $test->test_name }}
-                                    </td>
-                                    <td><input type="number" step="any" class="listening" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}" required></td>
-                                    <td><input type="number" step="any" class="reading" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}" required></td>
-                                    <td><input type="number" step="any" class="speaking" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}" required></td>
-                                    <td><input type="number" step="any" class="writing" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}" required></td>
-                                    <td><input type="number" step="any" class="score" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}" required></td>
-                                    <td><input type="number" step="any" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}" required>
-                                </tr>
-                            @endforeach
-                        @else
-                            
-                                <tr>
-                                    <td style="height: 14px;" colspan="7">No English test details available</td>
-                                </tr>
-                            
-                        @endif
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" id="englishTestTable">
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Listening</th>
+                                <th>Reading</th>
+                                <th>Speaking</th>
+                                <th>Writing</th>
+                                <th>Score / Bands</th>
+                                <th>Cleared On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($english_test_details) > 0)
+                                @foreach ($english_test_details as $index => $test)
+                                    <tr data-test="{{ $test->test_name }}">
+                                        <td>
+                                            <input type="hidden" name="english_tests[{{ $index }}][id]" value="{{ $test->id }}">
+                                            <input type="hidden" name="english_tests[{{ $index }}][test_name]" value="{{ $test->test_name }}">
+                                            {{ $test->test_name }}
+                                        </td>
+                                        <td><input type="number" step="any" class="listening" name="english_tests[{{ $index }}][listening]" value="{{ $test->listening }}" required></td>
+                                        <td><input type="number" step="any" class="reading" name="english_tests[{{ $index }}][reading]" value="{{ $test->reading }}" required></td>
+                                        <td><input type="number" step="any" class="speaking" name="english_tests[{{ $index }}][speaking]" value="{{ $test->speaking }}" required></td>
+                                        <td><input type="number" step="any" class="writing" name="english_tests[{{ $index }}][writing]" value="{{ $test->writing }}" required></td>
+                                        <td><input type="number" step="any" class="score" name="english_tests[{{ $index }}][score]" value="{{ $test->score }}" required></td>
+                                        <td><input type="number" step="any" name="english_tests[{{ $index }}][test_date]" value="{{ $test->test_date }}" required>
+                                    </tr>
+                                @endforeach
+                            @else
+                                
+                                    <tr>
+                                        <td style="height: 14px;" colspan="7">No English test details available</td>
+                                    </tr>
+                                
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
                 <div class="section-title">Programs Applying for</div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Program</th>
-                            <th>Department</th>
-                            <th>University</th>
-                            <th>Intake</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $courseCounter = 1;
-                        @endphp
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Program</th>
+                                <th>Department</th>
+                                <th>University</th>
+                                <th>Intake</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $courseCounter = 1;
+                            @endphp
 
-                        @if (count($application_details) > 0)
+                            @if (count($application_details) > 0)
 
-                            @foreach ($application_details as $app)
+                                @foreach ($application_details as $app)
 
-                                @foreach ($app['courses'] as $course)
+                                    @foreach ($app['courses'] as $course)
 
-                                    <tr>
-                                        <td>{{ $courseCounter++ }}</td>
+                                        <tr>
+                                            <td>{{ $courseCounter++ }}</td>
 
-                                        <td>
-                                            {{ $course['course'] }}
-                                        </td>
+                                            <td>
+                                                {{ $course['course'] }}
+                                            </td>
 
-                                        <td>
-                                            {{ $course['department'] }}
-                                        </td>
+                                            <td>
+                                                {{ $course['department'] }}
+                                            </td>
 
-                                        <td>
-                                            {{ $app['university'] }}
-                                        </td>
+                                            <td>
+                                                {{ $app['university'] }}
+                                            </td>
 
-                                        <td>
-                                            {{ $app['intake'] }}
-                                        </td>
-                                    </tr>
+                                            <td>
+                                                {{ $app['intake'] }}
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
 
                                 @endforeach
 
-                            @endforeach
+                            @else
+                                <tr>
+                                    <td style="height: 14px;" colspan="5">No programs added yet</td>
+                                </tr>
 
-                        @else
-                            <tr>
-                                <td style="height: 14px;" colspan="5">No programs added yet</td>
-                            </tr>
-
-                        @endif
-                    </tbody>
-                </table>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

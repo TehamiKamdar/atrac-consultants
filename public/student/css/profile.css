@@ -734,8 +734,8 @@ td.label {
     .table-responsive select,
     .table-responsive textarea {
         width: 120px;
-        min-height: 36px;
-        font-size: 14px;
+        min-height: 30px;
+        font-size: 12px;
     }
 
     /* New program form */

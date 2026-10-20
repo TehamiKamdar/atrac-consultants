@@ -607,7 +607,7 @@
             const modalDetails = new bootstrap.Modal(modalDetailsEl[0]);
 
             // Outer scope state (pehle andar declared thay, isliye scope bug tha)
-            let studentId, selectedCountries = [], selectedPrograms = [], applying;
+            let studentId, selectedCountries = [], selectedPrograms = [], deletedPrograms = [], applying;
             let searchTimeout = null;
 
             function escapeHtml(value) {
@@ -632,7 +632,7 @@
                     <td>${escapeHtml(item.department)}</td>
                     <td>${escapeHtml(item.university)}</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-sm btn-outline-danger remove-program-btn" data-index="${i}">
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-program-btn" data-application-id=${item.application_id} data-index="${i}">
                             <i class="ri-delete-bin-line"></i>
                         </button>
                     </td>
@@ -663,7 +663,8 @@
                                 university_id: app.university_id,
                                 university: app.university?.name ?? '',
                                 country_id: app.country_id,
-                                country: app.country?.name ?? ''
+                                country: app.country?.name ?? '',
+                                application_id: app.id
                             }))
                         );
                         renderSelectedPrograms();
@@ -1021,7 +1022,8 @@
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         student_id: studentId,
                         selectedPrograms: selectedPrograms,
-                        selectedCountries: selectedCountries
+                        selectedCountries: selectedCountries,
+                        deletedPrograms: deletedPrograms
                     },
                     success: function(response) {
                         iziToast.success({
@@ -1042,9 +1044,19 @@
             }
 
             $(document).on('click', '.remove-program-btn', function () {
-                selectedPrograms.splice($(this).data('index'), 1);
+                const index = Number($(this).data('index'));
+                const applicationId = $(this).data('application-id');
+
+                if (applicationId && !deletedPrograms.includes(applicationId)) {
+                    deletedPrograms.push(applicationId);
+                }
+
+                selectedPrograms.splice(index, 1);
+
                 renderSelectedPrograms();
                 refreshSearchResults();
+
+                console.log('Deleted Application IDs:', deletedPrograms);
             });
 
             /* ===============================

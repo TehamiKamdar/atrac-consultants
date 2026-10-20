@@ -132,6 +132,14 @@ class StudentController extends Controller
 
         $selectedPrograms = $request->selectedPrograms;
 
+        $deletedPrograms = $request->input('deletedPrograms', []);
+
+        if (!empty($deletedPrograms)) {
+            studentapplication::where('student_id', $student->id)
+                ->whereIn('id', $deletedPrograms)
+                ->delete();
+        }
+
         $groupedPrograms = collect($selectedPrograms)->groupBy('university_id');
 
         foreach ($groupedPrograms as $universityId => $programs) {

@@ -34,7 +34,7 @@ class HomeController extends Controller
 
     public function about()
     {
-        $countries = country::all();
+        $countries = country::where('status', 'active')->get();
         return view('web.about', compact('countries'));
     }
 
@@ -46,7 +46,7 @@ class HomeController extends Controller
 
     public function showContactForm()
     {
-        $countries = country::all();
+        $countries = country::where('status', 'active')->get();
         $sim_codes = sim_codes::all();
         $offices = Office::where('status', '1')->get();
         return view('web.contact', compact('sim_codes', 'offices', 'countries'));
@@ -90,7 +90,7 @@ class HomeController extends Controller
 
     public function detailsShow($slug)
     {
-        $countries = country::all();
+        $countries = country::where('status', 'active')->get();
         // return $name;
         $details = countrydetails::join('countries', 'countrydetails.country_id', '=', 'countries.id')
             ->where('countries.slug', $slug)
@@ -216,7 +216,7 @@ class HomeController extends Controller
 
     public function getUniversities($slug)
     {
-        $countries = country::all();
+        $countries = country::where('status', 'active')->get();
         $country = country::where('slug', '=', $slug)->select('id', 'name')->first();
         $countryName = $country->name;
         $universities = university::where('universities.country_id', '=', $country->id)
@@ -236,7 +236,7 @@ class HomeController extends Controller
 
     public function uniDetails($countryslug, $slug)
     {
-        $countries = country::all();
+        $countries = country::where('status', 'active')->get();
         $countryId = country::where('slug', '=', $countryslug)->value('id');
 
         $university = university::with(['programs.departments.courses', 'programs.level'])

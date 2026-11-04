@@ -1,6 +1,6 @@
 @extends('layouts.web_layout')
 @push('title')
-    {{ $university->meta_title }}
+    {{ $details->meta_title }}
 @endpush
 <style>
     body {
@@ -62,13 +62,13 @@
                 <!-- University Header -->
                 <div class="university-header bg-white p-4 rounded-3 shadow-sm mb-4">
                     <h1 class="display-5 fw-bold text-primary mb-3">
-                        <i class="ri-building-2-line me-2"></i>About {{$university->name}}
+                        <i class="ri-building-2-line me-2"></i>About {{$details->name}}
                     </h1>
                     <div class="university-description fs-5 text-muted">
-                        {!! $university->meta_description !!}
+                        {!! $details->meta_description !!}
                         <br>
                         <br>
-                        {!! $university->description !!}
+                        {!! $details->description !!}
                     </div>
                 </div>
 
@@ -164,15 +164,15 @@
                                 <i class="ri-map-pin-line fs-5 text-primary me-3"></i>
                                 <div>
                                     <strong>Location:</strong>
-                                    <span class="d-block">{{ ucfirst($university->city) ?? '' }}</span>
+                                    <span class="d-block">{{ ucfirst($details->city) ?? '' }}</span>
                                 </div>
                             </li>
                             <li class="list-group-item d-flex align-items-center">
                                 <i class="ri-global-line fs-5 text-primary me-3"></i>
                                 <div>
                                     <strong>Website:</strong>
-                                    <a href="{{ $university->website ?? '#' }}" target="_blank"
-                                        class="d-block">{{ $university->website ?? 'N/A' }}</a>
+                                    <a href="{{ $details->website ?? '#' }}" target="_blank"
+                                        class="d-block">{{ $details->website ?? 'N/A' }}</a>
                                 </div>
                             </li>
                         </ul>
@@ -193,7 +193,7 @@
                                 <div>
                                     <strong>Email:</strong>
                                     <span class="d-block"><a
-                                            href="https://mail.google.com/mail/?view=cm&to=apply@atracconsultants.com&su=Inquiry%20About%20{{$university->name}}&body={{ urlencode("Hey there!, I want some details about {$university->name}. I would like to here from you ASAP.") }}"
+                                            href="https://mail.google.com/mail/?view=cm&to=apply@atracconsultants.com&su=Inquiry%20About%20{{$details->name}}&body={{ urlencode("Hey there!, I want some details about {$details->name}. I would like to here from you ASAP.") }}"
                                             target="_blank">apply@atracconsultants.com</a></span>
                                 </div>
                             </li>

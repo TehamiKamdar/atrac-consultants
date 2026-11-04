@@ -91,19 +91,35 @@ class HomeController extends Controller
     public function detailsShow($slug)
     {
         $countries = country::where('status', 'active')->get();
-        // return $name;
+
+        $country = country::where('slug', $slug)->first();
+
+        if (!$country || $country->status != 'active') {
+            abort(404);
+        }
+
         $details = countrydetails::join('countries', 'countrydetails.country_id', '=', 'countries.id')
             ->where('countries.slug', $slug)
-            ->select('countrydetails.*', 'countries.*', 'countries.id as country_id')
+            ->where('countries.status', 'active')
+            ->select(
+                'countrydetails.*',
+                'countries.*',
+                'countries.id as country_id'
+            )
             ->first();
-        if (! $details) {
+
+        if (!$details) {
             return view('coming_soon');
         }
 
         $countryName = $details->name;
         $country_id = $details->country_id;
 
-        return view('web.details', compact('details', 'countryName', 'countries'));
+        return view('web.details', compact(
+            'details',
+            'countryName',
+            'countries'
+        ));
     }
 
     public function store(Request $request)
@@ -237,38 +253,41 @@ class HomeController extends Controller
     public function uniDetails($countryslug, $slug)
     {
         $countries = country::where('status', 'active')->get();
-        $countryId = country::where('slug', '=', $countryslug)->value('id');
 
-        $university = university::with(['programs.departments.courses', 'programs.level'])
+        // Check country existence and status
+        $country = country::where('slug', $countryslug)
+            ->where('status', 'active')
+            ->first();
+
+        if (!$country) {
+            abort(404);
+        }
+
+        $countryId = $country->id;
+
+        $details = university::with([
+                'programs.departments.courses',
+                'programs.level'
+            ])
             ->where('slug', $slug)
             ->where('country_id', $countryId)
             ->first();
 
-        // Agar university hi nahi mili toh direct return karo
-        if (! $university) {
-            return view('coming_soon');
+        // University not found
+        if (!$details) {
+            abort(404);
         }
 
-        // Safe queries for state & city
-        // $state = DB::table('states')
-        //     ->where('id', $university->state_id)
-        //     ->value('name'); // direct string return karega
+        $description = $details->description;
+        $meta_title = $details->meta_title;
+        $meta_description = $details->meta_description;
 
-        // $city = DB::table('cities')
-        //     ->where('id', $university->city_id)
-        //     ->value('name');
-        // return $city;
-
-        $description = $university->description;
-        $meta_title = $university->meta_title;
-        $meta_description = $university->meta_description;
-
-        $programsByLevel = $university->programs->groupBy(function ($program) {
-            return strtolower(str_replace(' ', '_', $program->level->name)); // e.g. "Associate Degree" -> "associate_degree"
+        $programsByLevel = $details->programs->groupBy(function ($program) {
+            return strtolower(str_replace(' ', '_', $program->level->name));
         });
 
         return view('web.uni_details', compact(
-            'university',
+            'details',
             'programsByLevel',
             'description',
             'meta_title',

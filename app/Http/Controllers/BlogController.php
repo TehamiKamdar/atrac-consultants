@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\country;
 use App\Models\Post;
 use App\Models\PostFaq;
 use Illuminate\Http\Request;
@@ -11,11 +12,13 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Post::where('is_published', '1')->get();
-        return view('web.blog', compact('blogs'));
+        $countries = country::where('status', 'active')->get();
+        return view('web.blog', compact('blogs', 'countries'));
     }
 
     public function show($slug)
     {
+        $countries = country::where('status', 'active')->get();
         $details = Post::where('slug', $slug)->first();
         if($details && $details->is_published)
         {
@@ -37,7 +40,7 @@ class BlogController extends Controller
                 session()->put($viewKey, true);
             }
 
-            return view('web.blog_details', compact('details', 'relatedPosts', 'tags'));
+            return view('web.blog_details', compact('details', 'relatedPosts', 'tags', 'countries'));
         } else {
             return redirect()->route('error-404');
         }

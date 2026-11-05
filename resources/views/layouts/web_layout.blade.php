@@ -248,7 +248,7 @@
             }
         });
     </script> --}}
-    @production
+    {{-- @production
         <script>
             document.addEventListener("keydown", function (e) {
                 if (e.key === "F12") e.preventDefault();
@@ -266,7 +266,7 @@
                 e.preventDefault();
             });
         </script>
-    @endproduction
+    @endproduction --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

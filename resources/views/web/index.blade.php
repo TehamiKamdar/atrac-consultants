@@ -1,8 +1,10 @@
 @extends('layouts.web_layout')
 
 @push('meta_title', 'Study Abroad Consultants in Karachi | Atrac Consultants')
+@push('og_title', 'Study Abroad Consultants in Karachi | Atrac Consultants')
 
 @push('meta_description', 'Looking for study abroad consultants in Karachi? Atrac Consultants helps students explore international university admissions, study options, scholarships and student visa guidance.')
+@push('og_description', 'Looking for study abroad consultants in Karachi? Atrac Consultants helps students explore international university admissions, study options, scholarships and student visa guidance.')
 
 @push('meta_keywords', 'study abroad consultants Karachi, overseas education consultants Pakistan, study abroad Pakistan, international university admissions, student visa guidance Karachi, scholarships for Pakistani students, study in Canada from Pakistan, study in UK from Pakistan, study in Australia from Pakistan, study in Germany from Pakistan, study in Cyprus from Pakistan, Atrac Consultants')
 

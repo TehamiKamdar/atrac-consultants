@@ -13,12 +13,12 @@
 
     <meta name="robots" content="index, follow">
 
-    <meta property="og:title" content="{{ $details->meta_title ?? "Atrac Consultants | Study Abroad Experts in Pakistan" }}">
-    <meta property="og:description"content="{{ $details->meta_description ?? "Explore study options in the UK, Canada, Australia, Germany and Cyprus with Atrac Consultants. Book your free consultation today." }}">
+    <meta property="og:title" content="@stack('og_title')">
+    <meta property="og:description"content="@stack('og_description')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.atracconsultants.com">
     <meta property="og:locale" content="en_PK">
-    <meta property="og:image" content="{{ asset('website/logo.svg') }}">
+    <meta property="og:image" content="{{ asset('website/logo.png') }}">
     <meta property="og:image:alt" content="Atrac Consultants | Study Abroad Experts in Pakistan">
     <!-- Font Awesome -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" as="style"

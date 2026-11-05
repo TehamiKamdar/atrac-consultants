@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\blog;
 use App\Models\country;
 use App\Models\universities;
 use App\Models\university;
@@ -48,6 +49,11 @@ class GenerateSitemap extends Command
                     'slug' => $university->slug,
                 ]))->setLastModificationDate($university->updated_at ?? now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(0.8));
             }
+        }
+
+        $blogs = blog::where('status', 'published')->get();
+        foreach ($blogs as $blog) {
+            $sitemap->add(Url::create(route('blog.show', $blog->slug))->setLastModificationDate($blog->updated_at ?? now())->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)->setPriority(0.6));
         }
 
         $sitemap->writeToFile(public_path('sitemap.xml'));

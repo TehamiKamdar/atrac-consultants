@@ -10,6 +10,149 @@
             font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif;
         }
 
+        .country-hero {
+            position: relative;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            padding: 70px 8%;
+            overflow: hidden;
+            background-color: var(--primary-green);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .country-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(43, 182, 115, 0.82) 0%,
+                rgba(10, 20, 25, 0.75) 25%,
+                rgba(10, 20, 25, 0.5) 50%,
+                rgba(10, 20, 25, 0.25) 100%
+            );
+        }
+
+        .country-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 750px;
+            color: #fff;
+        }
+
+        .country-hero-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .country-hero-breadcrumb a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .country-hero-breadcrumb a:hover {
+            color: rgb(43, 182, 115);
+        }
+
+        .country-hero-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(43, 182, 115, 0.6);
+            border-radius: 30px;
+            color: #fff;
+            background: rgba(43, 182, 115, 0.15);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .country-hero h1 {
+            font-size: clamp(32px, 4vw, 52px);
+            line-height: 1.2;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .country-hero p {
+            max-width: 650px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.88);
+            margin-bottom: 28px;
+        }
+
+        .country-hero-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .country-hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 6px;
+            background: #2BB673;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .country-hero-btn:hover {
+            background: #21965e;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .country-hero-link {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        .country-hero-link:hover {
+            color: #2BB673;
+        }
+
+        @media (max-width: 767px) {
+            .country-hero {
+                min-height: 420px;
+                padding: 45px 25px;
+                border-radius: 10px;
+                background-position: center;
+            }
+
+            .country-hero-overlay {
+                background: rgba(10, 20, 25, 0.78);
+            }
+
+            .country-hero h1 {
+                font-size: 32px;
+            }
+
+            .country-hero p {
+                font-size: 14px;
+            }
+
+            .country-hero-actions {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 18px;
+            }
+        }
+
         .country-details-section {
             background-color: #f8fafc;
         }
@@ -265,13 +408,52 @@
 @endsection
 
 @section('content')
+
+    <section class="country-hero" style="background-image: url('{{ asset($details->image) }}')">
+        <div class="country-hero-overlay"></div>
+
+        <div class="country-hero-content">
+            <div class="country-hero-breadcrumb">
+                <a href="{{ route('home') }}">Home</a>
+                <i class="ri-arrow-right-s-line"></i>
+                <span>{{ $countryName }}</span>
+            </div>
+
+            <span class="country-hero-tag">
+                Explore Study Opportunities
+            </span>
+
+            <h1>
+                Study in {{ $countryName }} for International Students
+            </h1>
+
+            <p>
+                Explore universities, admission requirements, tuition fees,
+                scholarships and student visa opportunities in {{ $countryName }}.
+                Get expert guidance from Atrac Consultants to plan your study abroad journey.
+            </p>
+
+            <div class="country-hero-actions">
+                <a href="#university" class="country-hero-btn">
+                    Explore Universities
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+
+                <a href="#book-a-meeting" class="country-hero-link">
+                    Book Free Consultation
+                </a>
+            </div>
+        </div>
+    </section>
+
+
     <div class="country-details-section py-5">
         <div class="container">
             <div class="row g-4">
                 <!-- Left Column - Content -->
                 <div class="col-lg-8">
                     <!-- Table of Contents -->
-                    <div class="card border-0 shadow-sm mb-5">
+                    <div class="card border-0 shadow-sm mb-5 d-none d-lg-block">
                         <div class="card-body p-4 p-md-5">
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-list-check-2 text-primary me-3" style="color: #2BB673;"></i>
@@ -281,42 +463,42 @@
                                 <a href="#desc"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    About {{$countryName}}
+                                    About Studying in {{$countryName}}
                                 </a>
                                 <a href="#environment"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Life in {{$countryName}} (Climate & Language)
+                                    Student Life, Climate and Languages in {{$countryName}}
                                 </a>
                                 <a href="#requirement"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Admission & English Proficiency Requirements
+                                    Admission Requirements and English Language Tests
                                 </a>
                                 <a href="#cost-of-studying"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Cost of Studying for International Students
+                                    Tuition Fees and Cost of Living in {{$countryName}}
                                 </a>
                                 <a href="#visa-requirement"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Student visa requirements
+                                    {{ $countryName }} Student Visa Requirements
                                 </a>
                                 <a href="#work-opportunity"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Part-Time & Post-Study Work Opportunities
+                                    Part-Time Jobs and Post-Graduation Work Opportunities
                                 </a>
                                 <a href="#book-a-meeting"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Book a Meeting with expert
+                                    Book a Free Study Abroad Consultation
                                 </a>
                                 <a href="#university"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
-                                    Explore the range of universities in {{ $countryName }}
+                                    Universities in {{ $countryName }} for International Students
                                 </a>
                             </div>
                         </div>
@@ -327,26 +509,24 @@
                         <div class="card-body p-4 p-md-5">
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-information-line text-primary me-3" style="color: #2BB673;"></i>
-                                About {{$countryName}}
+                                About Studying in {{$countryName}}
                             </h2>
                             <div class="content-text">
-                                {!!$details->meta_description!!}
-                                <br>
-                                <br>
                                 {!!$details->country_description!!}
                             </div>
                         </div>
                     </div>
 
                     <!-- Cost of Living -->
-                    <div class="card border-0 shadow-sm mb-5" id="scholarship">
+                    <div class="card border-0 shadow-sm mb-5" id="cost-of-living">
                         <div class="card-body p-4 p-md-5">
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-money-dollar-circle-line text-primary me-3" style="color: #2BB673;"></i>
-                                Cost of Living
+                                Cost of Living in {{ $countryName }} for International Students
                             </h2>
+
                             <div class="content-text">
-                                {!!$details->cost_of_living!!}
+                                {!! $details->cost_of_living !!}
                             </div>
                         </div>
                     </div>
@@ -354,118 +534,108 @@
                     <!-- Climate & Language -->
                     <div class="card border-0 shadow-sm mb-5" id="environment">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-globe-line text-primary me-3" style="color: #2BB673;"></i>
-                                Climate & Language of {{$countryName}}
+                                Student Life, Climate and Languages in {{ $countryName }}
                             </h2>
+
                             <div class="content-text">
-                                {!!$details->climate!!}
+                                {!! $details->climate !!}
                             </div>
+
                             <div class="content-text mt-3">
-                                {!!$details->language!!}
+                                {!! $details->language !!}
                             </div>
+
                         </div>
                     </div>
 
                     <!-- Admission Requirements -->
                     <div class="card border-0 shadow-sm mb-5" id="requirement">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-file-list-3-line text-primary me-3" style="color: #2BB673;"></i>
-                                Admission requirements in {{$countryName}}
+                                Admission Requirements in {{ $countryName }}
                             </h2>
-                            <ul class="list-group list-group-flush">
-                                @if (!empty($details->admission_requirements))
+
+                            @if (!empty($details->admission_requirements) && count($details->admission_requirements))
+                                <ul class="list-group list-group-flush">
                                     @foreach ($details->admission_requirements as $areq)
                                         <li class="list-group-item border-0 ps-0 d-flex align-items-start">
                                             <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
                                             <span>{{ $areq }}</span>
                                         </li>
                                     @endforeach
-                                @else
-                                    <div class="insights-container">
-                                        <!-- Animated background shapes -->
-                                        <div class="shape shape-1"></div>
-                                        <div class="shape shape-2"></div>
-                                        <div class="shape shape-3"></div>
-                                        <div class="shape shape-4"></div>
+                                </ul>
+                            @else
+                                <p>
+                                    Admission requirements vary depending on the university, academic program and applicant's previous qualifications. Contact Atrac Consultants for guidance about studying in {{ $countryName }}.
+                                </p>
+                            @endif
 
-                                        <!-- Blob effects -->
-                                        <div class="blob blob-1"></div>
-                                        <div class="blob blob-2"></div>
-
-                                        <!-- Message content -->
-                                        <div class="insights-message">
-                                            We are gathering our insights on the admission requirements based in <span
-                                                id="country-name">{{$countryName}}! Stay Tuned.</span>
-                                        </div>
-                                    </div>
-                                @endif
-                            </ul>
                         </div>
                     </div>
 
                     <!-- Cost of Studying -->
-                    <div class="card border-0 shadow-sm mb-5" id="cost-of-studying">
+                    <div class="card border-0 shadow-sm mb-5" id="scholarship">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
-                                <i class="ri-money-dollar-box-line text-primary me-3" style="color: #2BB673;"></i>
-                                Cost of studying in {{$countryName}} for international students
+                                <i class="ri-graduation-cap-line text-primary me-3" style="color: #2BB673;"></i>
+                                Scholarships for International Students in {{ $countryName }}
                             </h2>
+
                             <div class="content-text">
-                                {!!$details->scholarships!!}
+                                {!! $details->scholarships !!}
                             </div>
+
                         </div>
                     </div>
 
                     <!-- Visa Requirements -->
                     <div class="card border-0 shadow-sm mb-5" id="visa-requirement">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-passport-line text-primary me-3" style="color: #2BB673;"></i>
-                                Student visa requirements in {{$countryName}}
+                                Student Visa Requirements for {{ $countryName }}
                             </h2>
-                            <ul class="list-group list-group-flush">
-                                @if (!empty($details->visa_requirements))
+
+                            @if (!empty($details->visa_requirements) && count($details->visa_requirements))
+                                <ul class="list-group list-group-flush">
                                     @foreach ($details->visa_requirements as $vreq)
                                         <li class="list-group-item border-0 ps-0 d-flex align-items-start">
                                             <i class="ri-check-line text-primary mt-1 me-2" style="color: #2BB673;"></i>
                                             <span>{{ $vreq }}</span>
                                         </li>
                                     @endforeach
-                                @else
-                                    <div class="insights-container">
-                                        <!-- Animated background shapes -->
-                                        <div class="shape shape-1"></div>
-                                        <div class="shape shape-2"></div>
-                                        <div class="shape shape-3"></div>
-                                        <div class="shape shape-4"></div>
+                                </ul>
+                            @else
+                                <p>
+                                    Student visa requirements vary depending on the country,
+                                    applicant's nationality and chosen institution. Contact
+                                    Atrac Consultants for guidance on studying in {{ $countryName }}.
+                                </p>
+                            @endif
 
-                                        <!-- Blob effects -->
-                                        <div class="blob blob-1"></div>
-                                        <div class="blob blob-2"></div>
-
-                                        <!-- Message content -->
-                                        <div class="insights-message">
-                                            We are gathering our insights on the visa requirements based in <span
-                                                id="country-name">{{$countryName}}! Stay Tuned.</span>
-                                        </div>
-                                    </div>
-                                @endif
-                            </ul>
                         </div>
                     </div>
 
                     <!-- Work Opportunities -->
                     <div class="card border-0 shadow-sm mb-5" id="work-opportunity">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-briefcase-4-line text-primary me-3" style="color: #2BB673;"></i>
-                                Post-Study Work Opportunities
+                                Part-Time Jobs and Post-Study Work Opportunities in {{ $countryName }}
                             </h2>
+
                             <div class="content-text">
-                                {!!$details->workOpp!!}
+                                {!! $details->workOpp !!}
                             </div>
+
                         </div>
                     </div>
 
@@ -474,18 +644,16 @@
                         <div class="card-body p-4 p-md-5">
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-calendar-check-line text-primary me-3" style="color: #2BB673;"></i>
-                                Book a Meeting with expert
+                                Get Expert Study Abroad Guidance for {{ $countryName }}
                             </h2>
                             <div class="content-text">
                                 <p class="mt-3">
-                                    Whether you choose to study in {{ $countryName }}, our team will guide you from
-                                    selecting the right university to securing scholarships and visas, making your journey
-                                    smooth and stress-free.
+                                    Planning to study in {{ $countryName }}? Atrac Consultants can guide you through university selection, admission applications, scholarship opportunities and student visa guidance. Get in touch with our team to discuss your study plans.
                                 </p>
 
                                 <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
                                     data-bs-target="#applyNowModal">
-                                    Apply Now
+                                    Book Your Free Consultation 
                                 </button>
                                 <div class="modal fade" id="applyNowModal" tabindex="-1"
                                     aria-labelledby="applyNowModalLabel" aria-hidden="true">
@@ -509,27 +677,34 @@
                     <!-- Universities -->
                     <div class="card border-0 shadow-sm mb-5" id="university">
                         <div class="card-body p-4 p-md-5">
+
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
-                                <i class="ri-calendar-check-line text-primary me-3" style="color: #2BB673;"></i>
-                                Explore Study Opportunities in {{ $countryName }}
+                                <i class="ri-building-2-line text-primary me-3" style="color: #2BB673;"></i>
+                                Top Universities in {{ $countryName }} for International Students
                             </h2>
+
                             <div class="content-text">
+
                                 <p class="mt-3">
-                                    Discover the best universities and educational programs in {{ $countryName }}.
-                                    Our comprehensive guide will help you find the perfect institution that matches
-                                    your academic goals and career aspirations.
+                                    Explore universities in {{ $countryName }} offering
+                                    a range of academic programs for international students.
+                                    Compare institutions, explore available courses and find
+                                    options that align with your academic background and career goals.
                                 </p>
 
                                 <p>
-                                    Learn about admission requirements, tuition fees, scholarships, and student life
-                                    to make an informed decision about your international education journey.
+                                    Review university admission criteria, tuition fees and
+                                    available scholarships before choosing your preferred institution.
                                 </p>
 
                                 <div class="d-flex gap-3 mt-4">
-                                    <a href="{{ route('university.list', $details->slug) }}" class="btn btn-primary">
-                                        <i class="ri-building-2-line me-2"></i> Explore Universities of {{ $countryName }}
+                                    <a href="{{ route('university.list', $details->slug) }}"
+                                        class="btn btn-primary">
+                                        <i class="ri-building-2-line me-2"></i>
+                                        Explore Universities in {{ $countryName }}
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>

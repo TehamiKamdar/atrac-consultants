@@ -117,6 +117,7 @@ class HomeController extends Controller
 
         return view('web.details', compact(
             'details',
+            'country',
             'countryName',
             'countries'
         ));

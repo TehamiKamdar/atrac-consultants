@@ -61,27 +61,54 @@ class CountryDetailsController extends Controller
             $validated = $request->validate([
                 'meta_title' => 'nullable|string',
                 'meta_description' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
+                
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+
                 'country_description' => 'nullable|string',
                 'cost_of_living' => 'nullable|string',
                 'climate' => 'nullable|string',
                 'language' => 'nullable|string',
                 'scholarships' => 'nullable|string',
                 'workOpp' => 'nullable|string',
-                'admission_requirements'   => 'nullable|array',
+
+                'admission_requirements' => 'nullable|array',
                 'admission_requirements.*' => 'nullable|string|max:255',
-                'visa_requirements'        => 'nullable|array',
-                'visa_requirements.*'      => 'nullable|string|max:255',
+
+                'visa_requirements' => 'nullable|array',
+                'visa_requirements.*' => 'nullable|string|max:255',
             ]);
 
-            countrydetails::updateOrCreate(
-                ['country_id' => $request->_id],
-                $validated
-            );
+            $details = countrydetails::firstOrNew([
+                'country_id' => $request->_id
+            ]);
 
-            return response()->json(['success' => 'Details Updated!']);
+            // Featured Image Upload
+            if ($request->hasFile('image')) {
+
+                if ($details->image && file_exists(public_path($details->image))) {
+                    unlink(public_path($details->image));
+                }
+
+                $featuredImage = $request->file('image');
+                $featuredImageName = time() . '_' . uniqid() . '.' . $featuredImage->getClientOriginalExtension();
+
+                $featuredImage->move(public_path('uploads/countries'), $featuredImageName);
+
+                $validated['image'] = 'uploads/countries/' . $featuredImageName;
+            }
+
+            $details->fill($validated);
+            $details->save();
+
+            return response()->json([
+                'success' => 'Details Updated!'
+            ]);
+
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

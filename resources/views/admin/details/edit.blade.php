@@ -33,7 +33,7 @@
 
     <div class="card border-0 shadow-sm mb-4" data-bs-theme="dark">
         <div class="card-body">
-            <form id="editForm" data-bs-theme="dark" class="needs-validation">
+            <form id="editForm" data-bs-theme="dark" class="needs-validation" enctype="multipart/form-data">
                 <!-- Country Selection -->
                 <div class="mb-4">
                     <input class="form-control" id="country" name="country_id" value="{{ $detail->name }}" required
@@ -67,6 +67,43 @@
                             <textarea class="form-control ck-editor" id="country_description" name="country_description" rows="5"
                                 placeholder="Description for Page" required>{!! $detail->country_description !!}</textarea>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-dark-header text-white">
+                        <h3 class="fw-bold mb-0 d-flex align-items-center">
+                            <i class="ri-image-line me-3" style="color: var(--primary-color);"></i>
+                            Country Hero Image
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Upload Country Image</label>
+
+                            <input type="file"
+                                name="image"
+                                id="image"
+                                class="form-control"
+                                accept="image/jpeg,image/png,image/webp">
+
+                            <small class="text-muted">
+                                Recommended size: 1920 × 700 pixels. JPG, PNG or WebP.
+                            </small>
+                        </div>
+
+                        @if (!empty($country->image))
+                            <div class="mt-3">
+                                <label class="form-label fw-semibold">Current Image</label>
+                                <img src="{{ asset($country->image) }}"
+                                    alt="Country hero image"
+                                    style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px;">
+                            </div>
+                        @endif
+
                     </div>
                 </div>
 
@@ -297,12 +334,16 @@
         $('#editForm').on('submit', function(e) {
             e.preventDefault();
 
-            let formData = $(this).serialize();
+            let formData = new FormData(this);
 
             $.ajax({
                 url: '/admin/details/update',
                 method: 'POST',
                 data: formData,
+
+                processData: false,
+                contentType: false,
+
                 success: function(response) {
                     iziToast.success({
                         title: 'Updated',
@@ -310,11 +351,21 @@
                         position: 'topRight'
                     });
                 },
+
                 error: function(response) {
+                    let message = 'Something went wrong!';
+
+                    if (response.responseJSON?.errors) {
+                        message = Object.values(response.responseJSON.errors)
+                            .flat()
+                            .join('<br>');
+                    } else if (response.responseJSON?.error) {
+                        message = response.responseJSON.error;
+                    }
+
                     iziToast.error({
                         title: 'Error',
-                        message: response.responseJSON?.error ||
-                            'Something went wrong!',
+                        message: message,
                         position: 'topRight'
                     });
                 }

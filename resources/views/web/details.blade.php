@@ -1,7 +1,9 @@
 @extends('layouts.web_layout')
-@push('title')
-    {{$details->meta_title}}
-@endpush
+@push('title', $details->meta_title)
+@push('meta_title', $details->meta_title)
+@push('meta_description', $details->meta_description)
+@push('og_title', $details->meta_title)
+@push('og_description', $details->meta_description)
 
 @section('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />

@@ -1,8 +1,11 @@
 @extends('layouts.web_layout')
 
-@push('title')
-{{ $details->title }}
-@endpush
+@push('title', $details->meta_title)
+@push('meta_title', $details->meta_title)
+@push('meta_description', $details->meta_description)
+@push('meta_keywords', $details->keywords)
+@push('og_title', $details->meta_title)
+@push('og_description', $details->meta_description)
 
 @section('styles')
 <style>

@@ -26,8 +26,11 @@
         @section('title')
             {{ $detail->name }} Details
         @endsection
-        <a href="{{ route('admin-country-details') }}" class="btn btn-secondary">
+        <a href="{{ route('admin-country-details') }}" class="btn btn-secondary me-2">
             <i class="ri-arrow-left-line me-1"></i> Back to Countries
+        </a>
+        <a href="{{ route('country-details', $detail->slug) }}" class="btn btn-primary">
+            <i class="ri-links-line me-1"></i> Visit Page
         </a>
     </div>
 

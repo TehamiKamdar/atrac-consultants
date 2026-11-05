@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="title" content="{{ $details->meta_title ?? "Atrac Consultants is your trusted partner in education and career advancement. Established with a commitment to excellence" }}">
+    <meta name="title" content="@stack('meta_title')">
 
-    <meta name="description" content="{{ $details->meta_description ?? "Atrac Consultants Karachi helps Pakistani students study in Canada, UK, Australia, Germany & Cyprus. Expert guidance on university admissions, student visas & scholarships. Book a free consultation today!" }}">
+    <meta name="description" content="@stack('meta_description')">
 
-    <meta name="keywords" content="{{ $details->meta_keywords ?? "study abroad consultants Karachi, overseas education consultants Pakistan, study in Canada from Pakistan, study in UK from Karachi, study in Australia consultants, study in Germany from Pakistan, study in Cyprus from Pakistan, student visa consultants Karachi, university admissions consultants Pakistan, scholarships for Pakistani students, Atrac Consultants Karachi" }}">
+    <meta name="keywords" content="@stack('meta_keywords')">
 
     <meta name="robots" content="index, follow">
 
@@ -52,7 +52,7 @@
 
     <script src="{{ asset('assets/iziToast/iziToast.min.js') }}" defer></script>
 
-    <title>Atrac Consultants | @stack('title')</title>
+    <title>@stack('title')</title>
     <style>
         /* Disable text selection */
         body {

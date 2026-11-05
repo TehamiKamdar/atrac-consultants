@@ -77,22 +77,6 @@
         font-size: 1.25rem !important;
         font-weight: bold;
     }
-
-    .section-title {
-        position: relative;
-        padding-bottom: 12px;
-        margin-bottom: 2.5rem;
-    }
-
-    .section-title:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 60px;
-        height: 3px;
-        background: var(--primary);
-    }
 </style>
 <div class="container py-5 my-4">
     <div class="text-center mb-5">

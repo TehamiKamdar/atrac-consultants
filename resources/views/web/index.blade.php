@@ -1,8 +1,13 @@
 @extends('layouts.web_layout')
 
+@push('meta_title', 'Study Abroad Consultants in Karachi | Atrac Consultants')
+
+@push('meta_description', 'Looking for study abroad consultants in Karachi? Atrac Consultants helps students explore international university admissions, study options, scholarships and student visa guidance.')
+
+@push('meta_keywords', 'study abroad consultants Karachi, overseas education consultants Pakistan, study abroad Pakistan, international university admissions, student visa guidance Karachi, scholarships for Pakistani students, study in Canada from Pakistan, study in UK from Pakistan, study in Australia from Pakistan, study in Germany from Pakistan, study in Cyprus from Pakistan, Atrac Consultants')
 
 @push('title')
-    Home
+    Study Abroad Consultants in Karachi | Atrac Consultants
 @endpush
 
 @section('content')
@@ -55,14 +60,14 @@
         <div class="container">
             <div class="hero-content">
                 <h2 class="hero-subtitle" id="previewShortHeading">
-                    Spring 2026 Intake Open
+                    Spring 2027 Intake Open
                 </h2>
-                <h1 class="hero-title text-white" id="element"></h1>
+                <h1 class="hero-title text-white" id="element">Study Abroad Consultants in Karachi</h1>
                 <p class="hero-description" id="previewParagraph">
-                    Explore the realm of opportunity with free access to individual consultation and apply for scholarships in top universities worldwide
+                    Explore international study opportunities with expert guidance on university admissions, scholarships and student visa applications. Book your free consultation with Atrac Consultants.
                 </p>
                 <a href="#form" class="hero-btn" id="previewButtonText">
-                    APPLY NOW <i class="fas fa-arrow-right"></i>
+                    BOOK FREE CONSULTATION <i class="fas fa-arrow-right"></i>
                 </a>
                 <div class="country-tags">
                     @foreach ($countries as $country)
@@ -84,12 +89,15 @@
 
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Why Atrac Consultants?</h2>
+                <h2 class="section-title">Study Abroad Consultants in Karachi</h2>
+
                 <p class="section-subtitle">
-                    Atrac Consultants is your trusted partner in education and career advancement.
-                    Established with a commitment to excellence, we specialize in providing comprehensive
-                    education consultancy services to students aspiring to study abroad in renowned
-                    educational destinations worldwide.
+                    Atrac Consultants is a trusted education consultancy in Karachi,
+                    helping students pursue higher education at renowned universities
+                    worldwide. We provide guidance on international university admissions,
+                    student visa applications, scholarships and study opportunities in
+                    popular destinations, including the UK, Canada, Australia, Germany
+                    and Cyprus.
                 </p>
             </div>
 
@@ -105,78 +113,122 @@
     </section>
 
     <!-- Countries Section -->
-    <section id="country" class="countries-section" role="main">
+    <section id="country" class="countries-section" aria-labelledby="countries-heading">
         <div class="container">
+
             <!-- Section Header -->
             <div class="section-header row align-items-center">
+
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h1 class="section-heading display-5">Choose from the top study destinations</h1>
+                    <h2 id="countries-heading" class="section-title display-5">
+                        Explore Top Study Destinations
+                    </h2>
                 </div>
+
                 <div class="col-lg-6">
                     <p class="section-description">
-                        When it comes to studying abroad, there are several countries offering international students
-                        great opportunities for higher education and becoming part of their international community.
-                        See which country suits you best.
+                        Explore popular study destinations for international education. Atrac Consultants helps students from Pakistan understand university admission requirements, study opportunities and visa guidance for countries around the world. Choose your preferred destination to learn more.
                     </p>
                 </div>
+
             </div>
 
             <!-- Countries Slider -->
             <div class="country-slider">
+
                 @foreach ($countries as $country)
-                    <!-- Country 1 -->
+
                     <div class="px-2">
                         <div class="country-card">
+
                             <div class="img">
+
                                 @if ($country->name == "North Cyprus")
-                                    <img src="{{ asset('images/country/north_cyprus.png') }}"
-                                    alt="{{ $country->iso2 }}" class="country-img">
+                                    <img
+                                        src="{{ asset('images/country/north_cyprus.png') }}"
+                                        alt="Flag of North Cyprus"
+                                        class="country-img"
+                                        loading="lazy"
+                                    >
                                 @else
-                                    <img src="https://flagcdn.com/w320/{{ strtolower($country->iso2) }}.png"
-                                    alt="{{ $country->iso2 }}" class="country-img">
+                                    <img
+                                        src="https://flagcdn.com/w320/{{ strtolower($country->iso2) }}.png"
+                                        alt="Flag of {{ $country->name }}"
+                                        class="country-img"
+                                        loading="lazy"
+                                    >
                                 @endif
+
                             </div>
-                            <a href="{{route('country-details', strtolower($country->slug))}}" class="country-btn">{{ $country->name }}</a>
+
+                            <a
+                                href="{{ route('country-details', strtolower($country->slug)) }}"
+                                class="country-btn"
+                            >
+                                {{ $country->name }}
+                            </a>
+
                         </div>
                     </div>
+
                 @endforeach
+
             </div>
+
         </div>
     </section>
 
 
     <!-- Why Choose Us Section -->
-    <section id="whychooseus" class="why-choose-section" role="contentinfo">
+    <section id="whychooseus" class="why-choose-section">
+
         <!-- Visual Section -->
         <div class="visual-section">
             <div class="visual-content">
-                <h2 class="visual-title">Your Trusted Education Partner</h2>
+
+                <h2 class="visual-title">
+                    Your Trusted Study Abroad Partner in Karachi
+                </h2>
+
                 <p class="visual-description">
-                    With nearly five years of experience, we've helped numerous students achieve their academic dreams
-                    across the globe. Our proven track record speaks for itself.
+                    Since 2020, Atrac Consultants has been helping students
+                    explore international education opportunities. Our team
+                    provides guidance throughout the university admission
+                    process, helping students make informed decisions about
+                    their academic future.
                 </p>
-                {{--<button class="btn btn-outline-light btn-lg px-4 py-2">Learn More</button>--}}
+
             </div>
         </div>
 
         <!-- Content Section -->
         <div class="content-section">
+
             <div class="section-header">
-                <span class="section-subtitle">Why choose Us</span>
-                <h2 class="section-title">Reasons For Trusting Atrac Consultant</h2>
+                <span class="section-subtitle">Why Choose Us</span>
+
+                <h2 class="section-title">
+                    Why Students Trust Atrac Consultants
+                </h2>
             </div>
 
             <div class="features-list">
+
                 <!-- Feature 1 -->
                 <div class="feature-item">
                     <div class="feature-icon">
                         <i class="fa-solid fa-handshake"></i>
                     </div>
+
                     <div class="feature-content">
-                        <h3>Partner with Top Universities</h3>
+                        <h3>International University Partnerships</h3>
+
                         <p>
-                            We represent numerous foreign institutes from Cyprus, Canada, UK, USA, and Europe,
-                            providing free counselling for admissions, scholarships, and visa .
+                            Explore study opportunities at universities and
+                            educational institutions across destinations such
+                            as the UK, Canada, USA, Australia, Cyprus and Europe.
+                            We guide students through admission requirements
+                            and available study options.
                         </p>
                     </div>
                 </div>
@@ -186,11 +238,15 @@
                     <div class="feature-icon">
                         <i class="fa-solid fa-user-tie"></i>
                     </div>
+
                     <div class="feature-content">
-                        <h3>Experienced Professional Team</h3>
+                        <h3>Experienced Education Consultants</h3>
+
                         <p>
-                            Working since 2020, we have vast experience helping numerous students from
-                            various backgrounds gain admissions to their ideal universities with a proven success record.
+                            Our team has been supporting students since 2020
+                            with university selection, application preparation
+                            and admission guidance, helping them navigate
+                            different stages of their international education journey.
                         </p>
                     </div>
                 </div>
@@ -200,34 +256,54 @@
                     <div class="feature-icon">
                         <i class="ri-lightbulb-fill"></i>
                     </div>
+
                     <div class="feature-content">
-                        <h3>Free Counselling</h3>
+                        <h3>Free Study Abroad Counselling</h3>
+
                         <p>
-                            Get expert guidance at no cost — our professional staff is here to support you with free counselling.
-                            Your well-being matters to us; let our qualified team help you through every step.
+                            Get free initial counselling to explore suitable
+                            universities, study destinations, admission
+                            requirements and scholarship opportunities.
+                            Our team helps you understand your options
+                            before taking the next step.
                         </p>
                     </div>
                 </div>
+
             </div>
         </div>
+
     </section>
 
     <!-- Options Section -->
-    <section class="options-section d-flex align-items-center" role="complementary">
+    <section class="options-section d-flex align-items-center" aria-labelledby="options-title">
+
         <div class="container">
             <div class="row align-items-center">
+
                 <div class="col-lg-8 options-content">
-                    <h2 class="options-headline">An impressive amount of options await</h2>
-                    <h1 class="options-title">Search for your desired study program through <span class="text-primary">Atrac Consultants</span></h1>
+
+                    <h2 class="options-headline">
+                        Explore a Wide Range of Study Opportunities
+                    </h2>
+
+                    <h3 class="options-title" id="options-title">
+                        Find Your Ideal Study Program with
+                        <span class="text-primary">Atrac Consultants</span>
+                    </h3>
+
                     <a href="#form" class="options-btn">
-                        Book Free Consultation
+                        Book Your Free Consultation
                     </a>
+
                 </div>
+
                 <div class="col-lg-4 d-none d-lg-flex justify-content-center">
                     <div class="decorative-icons">
                         <i class="decorative-icon far fa-star"></i>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -237,6 +313,7 @@
                 <i class="decorative-icon far fa-star"></i>
             </div>
         </div>
+
     </section>
 
     <section id="stats-section" class="stats-section" role="complementary">
@@ -245,7 +322,7 @@
 
             <div class="row g-4">
                 <!-- Visa Approval Ratio (flies from left) -->
-                <div class="col-md-6 col-lg-4 stat-item">
+                <div class="col-4 col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-pass-valid-line"></i>
                     </div>
@@ -254,7 +331,7 @@
                 </div>
 
                 <!-- Student Visa Ratio (flies from top) -->
-                <div class="col-md-6 col-lg-4 stat-item">
+                <div class="col-4 col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-graduation-cap-line"></i>
                     </div>
@@ -272,7 +349,7 @@
                 <!--</div>-->
 
                 <!-- Client Satisfaction (flies from right) -->
-                <div class="col-md-6 col-lg-4 stat-item">
+                <div class="col-4 col-md-6 col-lg-4 stat-item">
                     <div class="stat-icon">
                         <i class="ri-emotion-happy-line"></i>
                     </div>

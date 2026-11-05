@@ -315,24 +315,28 @@ li {
 }
 
 .section-title {
-    color: var(--primary-green);
-    font-weight: 700;
     font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark-text);
     font-family: 'Bambino-Bold', sans-serif;
+    line-height: 1.2;
+    padding-bottom: 15px;
     margin-bottom: 1.5rem;
     position: relative;
-    display: inline-block;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
 }
 
-.section-title::after {
+.section-title:after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 80px;
-    height: 3px;
-    background-color: var(--primary-green);
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 2px;
 }
 
 .section-subtitle {
@@ -492,12 +496,6 @@ li {
     margin-bottom: 3rem;
 }
 
-.section-title {
-    color: var(--primary-green);
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-}
-
 .section-heading {
     font-weight: 700;
     font-family: 'Bambino-Bold', sans-serif;
@@ -643,14 +641,6 @@ li {
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--dark-text);
-    font-family: 'Bambino-Bold', sans-serif;
-    line-height: 1.2;
 }
 
 .feature-item {
@@ -958,15 +948,6 @@ li {
     margin-bottom: 1rem;
 }
 
-.section-title {
-    position: relative;
-    padding-bottom: 15px;
-    margin-bottom: 3rem;
-    text-align: center;
-    color: var(--dark);
-    animation: fadeIn 1s ease-out;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -975,18 +956,6 @@ li {
     to {
         opacity: 1;
     }
-}
-
-.section-title:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary);
-    border-radius: 2px;
 }
 
 /* Stats Styles */
@@ -1010,13 +979,6 @@ li {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--dark-color);
-    line-height: 1.2;
 }
 
 .news-card {
@@ -1646,6 +1608,65 @@ p.text-muted {
 
     .footer-decoration {
         display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .why-atrac-section, .visual-section, .content-section, .options-section, .countries-section, .stats-section {
+        padding: 2rem 1rem;
+    }
+
+    .visual-section {
+        min-height: auto;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .section-title, .visual-title, .options-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .section-subtitle, .section-description, .visual-description, .options-headline {
+        font-size: 0.8rem;
+    }
+
+    .mission-statement {
+        padding: 1rem;
+    }
+
+    .mission-statement::before {
+        top: -32px;
+        left: 0px;
+        opacity: 0.1;
+    }
+    
+    .mission-text {
+        font-size: 0.6rem;
+        margin-bottom: 0;
+    }
+
+    .options-btn {
+        padding: 0.6rem 0.9rem;
+        font-size: 0.75rem;
+    }
+
+    .stat-icon {
+        font-size: 1.8rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    .stat-item {
+        padding: 0.8rem 0rem;
     }
 }
 

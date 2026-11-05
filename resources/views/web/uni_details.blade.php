@@ -1,7 +1,13 @@
 @extends('layouts.web_layout')
-@push('title')
-    {{ $details->meta_title }}
-@endpush
+
+@push('title', $details->meta_title)
+
+@push('meta_title', $details->meta_title)
+
+@push('meta_description', $details->meta_description)
+
+@push('meta_keywords', $details->meta_keywords)
+
 <style>
     body {
         font-family: 'Bambino-Regular', Arial, Helvetica, sans-serif !important;

@@ -426,13 +426,11 @@
             </span>
 
             <h1>
-                Study in {{ $countryName }} for International Students
+                {{ $details->hero_title ?? "Study in $countryName for International Students" }}
             </h1>
 
             <p>
-                Explore universities, admission requirements, tuition fees,
-                scholarships and student visa opportunities in {{ $countryName }}.
-                Get expert guidance from Atrac Consultants to plan your study abroad journey.
+                {{ $details->hero_description ?? "Explore universities, admission requirements, tuition fees, scholarships and student visa opportunities in $countryName. Get expert guidance from Atrac Consultants to plan your study abroad journey."}}
             </p>
 
             <div class="country-hero-actions">
@@ -467,7 +465,7 @@
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     About Studying in {{$countryName}}
                                 </a>
-                                <a href="#environment"
+                                <a href="#cost-of-living"
                                     class="list-group-item list-group-item-action border-0 py-3 d-flex align-items-center">
                                     <i class="ri-arrow-right-s-line text-primary me-2" style="color: #2BB673;"></i>
                                     Student Life, Climate and Languages in {{$countryName}}
@@ -581,12 +579,12 @@
                     </div>
 
                     <!-- Cost of Studying -->
-                    <div class="card border-0 shadow-sm mb-5" id="scholarship">
+                    <div class="card border-0 shadow-sm mb-5" id="cost-of-studying">
                         <div class="card-body p-4 p-md-5">
 
                             <h2 class="fw-bold mb-4 d-flex align-items-center">
                                 <i class="ri-graduation-cap-line text-primary me-3" style="color: #2BB673;"></i>
-                                Scholarships for International Students in {{ $countryName }}
+                                Tuition Fees and Cost of Living in {{ $countryName }}
                             </h2>
 
                             <div class="content-text">

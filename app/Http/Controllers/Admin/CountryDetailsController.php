@@ -61,6 +61,9 @@ class CountryDetailsController extends Controller
             $validated = $request->validate([
                 'meta_title' => 'nullable|string',
                 'meta_description' => 'nullable|string',
+
+                'hero_title' => 'required|string',
+                'hero_description' => 'required|string',
                 
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
 

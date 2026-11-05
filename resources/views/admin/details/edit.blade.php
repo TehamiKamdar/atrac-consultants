@@ -47,7 +47,7 @@
                     <div class="card-header bg-dark-header text-white">
                         <h3 class="fw-bold mb-0 d-flex align-items-center">
                             <i class="ri-information-line me-3" style="color: var(--primary-color);"></i>
-                            About {{ $detail->country_name }}
+                            About {{ $detail->name }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -67,6 +67,46 @@
                             <textarea class="form-control ck-editor" id="country_description" name="country_description" rows="5"
                                 placeholder="Description for Page" required>{!! $detail->country_description !!}</textarea>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-dark-header text-white">
+                        <h3 class="fw-bold mb-0 d-flex align-items-center">
+                            <i class="ri-image-line me-3" style="color: var(--primary-color);"></i>
+                            Country Hero Title
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <input type="text" id="hero_title" name="hero_title" value="{{ $detail->hero_title }}" class="form-control" placeholder="for e.g: Study in {{ $detail->name }} for International Students">
+                            
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-dark-header text-white">
+                        <h3 class="fw-bold mb-0 d-flex align-items-center">
+                            <i class="ri-image-line me-3" style="color: var(--primary-color);"></i>
+                            Country Hero Description
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            <textarea rows="5" id="hero_description" name="hero_description" class="form-control" placeholder="for e.g: Explore universities, admission requirements, tuition fees, scholarships and student visa opportunities in {{ $detail->name }}. Get expert guidance from Atrac Consultants to plan your study abroad journey.">{{ $detail->hero_description }}</textarea>
+                            
+                        </div>
+
                     </div>
                 </div>
 

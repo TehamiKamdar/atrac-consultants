@@ -13,6 +13,8 @@ class countrydetails extends Model
         'country_id',
         'meta_title',
         'meta_description',
+        'hero_title',
+        'hero_description',
         'image',
         'country_description',
         'cost_of_living',

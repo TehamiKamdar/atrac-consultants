@@ -13,7 +13,9 @@
 
     <meta name="robots" content="index, follow">
 
-    <link rel="canonical" href="{{ url()->current() }}">
+    @if (!request()->is('404') && !request()->is('errors/*'))
+        <link rel="canonical" href="{{ url()->current() }}">
+    @endif
 
     <meta property="og:title" content="@stack('og_title')">
     <meta property="og:description"content="@stack('og_description')">

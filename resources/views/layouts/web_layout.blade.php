@@ -13,6 +13,8 @@
 
     <meta name="robots" content="index, follow">
 
+    <link rel="canonical" href="{{ url()->current() }}">
+
     <meta property="og:title" content="@stack('og_title')">
     <meta property="og:description"content="@stack('og_description')">
     <meta property="og:type" content="website">
